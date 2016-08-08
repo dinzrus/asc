@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Borrower */
 
-$this->title = $model->borrower_id;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Borrower', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -22,57 +22,49 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
 <?php 
     $gridColumn = [
-        'borrower_id',
-        'principal_profile_pic',
-        'principal_first_name',
-        'principal_last_name',
-        'principal_middle_name',
-        'principal__suffix',
-        'principal_birthdate',
-        'principal_age',
-        'principal_birthplace',
-        'principal_address_street_house',
-        'principal_address_barangay',
-        'principal_address_province',
-        'principal_civil_status',
-        'principal_contact_no',
-        'principal_ci_date',
-        'principal_canvass_date',
-        'principal_tin_no',
-        'principal_sss_no',
-        'principal_ctc_no',
-        'principal_license_no',
-        'principal_spouse_name',
-        'principal_spouse_occupation',
-        'principal_spouse_age',
-        'principal_spouse_birthdate',
-        'principal_no_children',
-        'principal_child1_name',
-        'principal_child2_name',
-        'principal_child1_birthdate',
-        'principal_child2_birthdate',
-        'principal_child1_age',
-        'principal_child2_age',
-        'comaker_profile_pic',
-        'comaker_name',
-        'comaker_address',
-        'comaker_alias',
-        'comaker_contact',
-        'comaker_occupation',
-        'comaker_birthdate',
-        'comaker_age',
-        'comaker_relation',
-        'business_name',
-        'business_address',
+                'profile_pic',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'suffix',
+        'birthdate',
+        'age',
+        'birthplace',
         [
-                'attribute' => 'businessType.business_id',
-                'label' => 'Business Type'
+                'attribute' => 'addressProvince.province',
+                'label' => 'Address Province'
             ],
-        'business_years',
-        'business_income',
+        [
+                'attribute' => 'addressCityMunicipality.municipality_city',
+                'label' => 'Address City Municipality'
+            ],
+        [
+                'attribute' => 'addressBarangay.barangay',
+                'label' => 'Address Barangay'
+            ],
+        'address_street_house_no',
+        'civil_status',
+        'contact_no',
+        'ci_date',
+        'canvass_date',
+        'tin_no',
+        'sss_no',
+        'ctc_no',
+        'license_no',
+        'spouse_name',
+        'spouse_occupation',
+        'spouse_age',
+        'spouse_birthdate',
+        'no_dependent',
         'collaterals:ntext',
-        'status',
-        'branch',
+        [
+                'attribute' => 'status0.status',
+                'label' => 'Status'
+            ],
+        'branch_id',
+        'attachment:ntext',
+        'relation_to_applicant',
+        'acount_type',
     ];
     echo DetailView::widget([
         'model' => $model,

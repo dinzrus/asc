@@ -7,56 +7,43 @@ use Yii;
 /**
  * This is the base model class for table "borrower".
  *
- * @property integer $borrower_id
- * @property string $principal_profile_pic
- * @property string $principal_first_name
- * @property string $principal_last_name
- * @property string $principal_middle_name
- * @property string $principal__suffix
- * @property string $principal_birthdate
- * @property integer $principal_age
- * @property string $principal_birthplace
- * @property string $principal_address_street_house
- * @property string $principal_address_barangay
- * @property string $principal_address_province
- * @property string $principal_civil_status
- * @property string $principal_contact_no
- * @property string $principal_ci_date
- * @property string $principal_canvass_date
- * @property string $principal_tin_no
- * @property string $principal_sss_no
- * @property string $principal_ctc_no
- * @property string $principal_license_no
- * @property string $principal_spouse_name
- * @property string $principal_spouse_occupation
- * @property integer $principal_spouse_age
- * @property string $principal_spouse_birthdate
- * @property integer $principal_no_children
- * @property string $principal_child1_name
- * @property string $principal_child2_name
- * @property string $principal_child1_birthdate
- * @property string $principal_child2_birthdate
- * @property integer $principal_child1_age
- * @property integer $principal_child2_age
- * @property string $comaker_profile_pic
- * @property string $comaker_name
- * @property string $comaker_address
- * @property string $comaker_alias
- * @property string $comaker_contact
- * @property string $comaker_occupation
- * @property string $comaker_birthdate
- * @property integer $comaker_age
- * @property string $comaker_relation
- * @property string $business_name
- * @property string $business_address
- * @property integer $business_type
- * @property integer $business_years
- * @property double $business_income
+ * @property integer $id
+ * @property string $profile_pic
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $middle_name
+ * @property string $suffix
+ * @property string $birthdate
+ * @property integer $age
+ * @property string $birthplace
+ * @property integer $address_province_id
+ * @property integer $address_city_municipality_id
+ * @property integer $address_barangay_id
+ * @property string $address_street_house_no
+ * @property string $civil_status
+ * @property string $contact_no
+ * @property string $ci_date
+ * @property string $canvass_date
+ * @property string $tin_no
+ * @property string $sss_no
+ * @property string $ctc_no
+ * @property string $license_no
+ * @property string $spouse_name
+ * @property string $spouse_occupation
+ * @property integer $spouse_age
+ * @property string $spouse_birthdate
+ * @property integer $no_dependent
  * @property string $collaterals
- * @property integer $status
- * @property integer $branch
+ * @property string $status
+ * @property integer $branch_id
+ * @property string $attachment
+ * @property string $relation_to_applicant
+ * @property string $acount_type
  *
- * @property \app\models\BusinessType $businessType
+ * @property \app\models\Province $addressProvince
+ * @property \app\models\Status $status0
+ * @property \app\models\Barangay $addressBarangay
+ * @property \app\models\MunicipalityCity $addressCityMunicipality
  */
 class Borrower extends \yii\db\ActiveRecord
 {
@@ -68,12 +55,11 @@ class Borrower extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['principal_first_name', 'principal_middle_name', 'principal_last_name', 'principal_birthdate', 'principal_age', 'principal_birthplace', 'principal_address_street_house', 'principal_address_barangay', 'principal_address_province', 'principal_civil_status', 'principal_contact_no', 'principal_ci_date', 'principal_canvass_date', 'principal_spouse_name', 'principal_spouse_occupation', 'principal_spouse_age', 'principal_spouse_birthdate', 'principal_no_children', 'comaker_name', 'comaker_address', 'comaker_contact', 'comaker_occupation', 'comaker_birthdate', 'comaker_age', 'comaker_relation', 'business_name', 'business_address', 'business_type', 'business_years', 'business_income', 'collaterals', 'status', 'branch'], 'required'],
-            [['principal_birthdate', 'principal_ci_date', 'principal_canvass_date', 'principal_spouse_birthdate', 'principal_child1_birthdate', 'principal_child2_birthdate', 'comaker_birthdate'], 'safe'],
-            [['principal_age', 'principal_spouse_age', 'principal_no_children', 'principal_child1_age', 'principal_child2_age', 'comaker_age', 'business_type', 'business_years', 'status', 'branch'], 'integer'],
-            [['business_income'], 'number'],
-            [['collaterals'], 'string'],
-            [['principal_profile_pic', 'principal_first_name', 'principal_last_name', 'principal_middle_name', 'principal__suffix', 'principal_birthplace', 'principal_address_street_house', 'principal_address_barangay', 'principal_address_province', 'principal_civil_status', 'principal_contact_no', 'principal_tin_no', 'principal_sss_no', 'principal_ctc_no', 'principal_license_no', 'principal_spouse_name', 'principal_spouse_occupation', 'principal_child1_name', 'principal_child2_name', 'comaker_profile_pic', 'comaker_name', 'comaker_address', 'comaker_alias', 'comaker_contact', 'comaker_occupation', 'comaker_relation', 'business_name', 'business_address'], 'string', 'max' => 255]
+            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
+            [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate'], 'safe'],
+            [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
+            [['collaterals', 'attachment'], 'string'],
+            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'relation_to_applicant', 'acount_type'], 'string', 'max' => 255]
         ];
     }
     
@@ -91,68 +77,71 @@ class Borrower extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'borrower_id' => 'Borrower ID',
-            'principal_profile_pic' => 'Profile Picture',
-            'principal_first_name' => 'First Name',
-            'principal_last_name' => 'Last Name',
-            'principal_middle_name' => 'Middle Name',
-            'principal__suffix' => 'Suffix',
-            'principal_birthdate' => 'Birthdate',
-            'principal_age' => 'Age',
-            'principal_birthplace' => 'Place of Birth',
-            'principal_address_street_house' => 'Street/House',
-            'principal_address_barangay' => 'Barangay',
-            'principal_address_province' => 'Province',
-            'principal_civil_status' => 'Civil Status',
-            'principal_contact_no' => 'Contact No',
-            'principal_ci_date' => 'CI Date',
-            'principal_canvass_date' => 'Canvass Date',
-            'principal_tin_no' => 'TIN No',
-            'principal_sss_no' => 'SSS No',
-            'principal_ctc_no' => 'CTC No',
-            'principal_license_no' => 'Driver License No',
-            'principal_spouse_name' => 'Spouse Name',
-            'principal_spouse_occupation' => 'Occupation',
-            'principal_spouse_age' => 'Age',
-            'principal_spouse_birthdate' => 'Date of Birth',
-            'principal_no_children' => 'No. Children',
-            'principal_child1_name' => 'Name',
-            'principal_child2_name' => 'Name',
-            'principal_child1_birthdate' => 'Date of Birth',
-            'principal_child2_birthdate' => 'Date of Birth',
-            'principal_child1_age' => 'Age',
-            'principal_child2_age' => 'Age',
-            'comaker_profile_pic' => 'Profile Picture',
-            'comaker_name' => 'Name',
-            'comaker_address' => 'Address',
-            'comaker_alias' => 'Alias',
-            'comaker_contact' => 'Contact No.',
-            'comaker_occupation' => 'Occupation',
-            'comaker_birthdate' => 'Date of Birth',
-            'comaker_age' => 'Age',
-            'comaker_relation' => 'Relation',
-            'business_name' => 'Business Name',
-            'business_address' => 'Business Address',
-            'business_type' => 'Business Type',
-            'business_years' => 'Business Years',
-            'business_income' => 'Business Income',
+            'id' => 'ID',
+            'profile_pic' => 'Profile Pic',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'middle_name' => 'Middle Name',
+            'suffix' => 'Suffix',
+            'birthdate' => 'Birthdate',
+            'age' => 'Age',
+            'birthplace' => 'Birthplace',
+            'address_province_id' => 'Address Province ID',
+            'address_city_municipality_id' => 'Address City Municipality ID',
+            'address_barangay_id' => 'Address Barangay ID',
+            'address_street_house_no' => 'Address Street House No',
+            'civil_status' => 'Civil Status',
+            'contact_no' => 'Contact No',
+            'ci_date' => 'Ci Date',
+            'canvass_date' => 'Canvass Date',
+            'tin_no' => 'Tin No',
+            'sss_no' => 'Sss No',
+            'ctc_no' => 'Ctc No',
+            'license_no' => 'License No',
+            'spouse_name' => 'Spouse Name',
+            'spouse_occupation' => 'Spouse Occupation',
+            'spouse_age' => 'Spouse Age',
+            'spouse_birthdate' => 'Spouse Birthdate',
+            'no_dependent' => 'No Dependent',
             'collaterals' => 'Collaterals',
-            'attachments' => '',
-            'status' => '',
-            'branch' => 'Branch',
+            'status' => 'Status',
+            'branch_id' => 'Branch ID',
+            'attachment' => 'Attachment',
+            'relation_to_applicant' => 'Relation To Applicant',
+            'acount_type' => 'Acount Type',
         ];
     }
     
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinessType()
+    public function getAddressProvince()
     {
-        return $this->hasOne(\app\models\BusinessType::className(), ['business_id' => 'business_type']);
+        return $this->hasOne(\app\models\Province::className(), ['id' => 'address_province_id']);
     }
-    
-    public function getBranch0(){
-        return $this->hasOne(\app\models\Branch::className(), ['branch_id' => 'branch']);
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus0()
+    {
+        return $this->hasOne(\app\models\Status::className(), ['code' => 'status']);
+    }
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddressBarangay()
+    {
+        return $this->hasOne(\app\models\Barangay::className(), ['id' => 'address_barangay_id']);
+    }
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddressCityMunicipality()
+    {
+        return $this->hasOne(\app\models\MunicipalityCity::className(), ['id' => 'address_city_municipality_id']);
     }
     
     /**
@@ -163,4 +152,6 @@ class Borrower extends \yii\db\ActiveRecord
     {
         return new \app\models\BorrowerQuery(get_called_class());
     }
+    
+     
 }

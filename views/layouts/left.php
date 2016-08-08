@@ -32,6 +32,16 @@
                                 ['label' => 'Employee', 'icon' => 'fa fa-circle-o', 'url' => ['/employee'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'User', 'icon' => 'fa fa-circle-o', 'url' => ['/user'], 'visible' => Yii::$app->user->can('IT')],
                                 [
+                                    'label' => 'Addresses',
+                                    'icon' => 'fa fa-circle-o',
+                                    'url' => '#',
+                                    'visible' => Yii::$app->user->can('IT'),
+                                    'items' => [
+                                        ['label' => 'Provinces', 'icon' => 'fa fa-circle-o', 'url' => ['/province'],],
+                                        ['label' => 'City/Municipality', 'icon' => 'fa fa-circle-o', 'url' => ['/municipalitycity'],],
+                                    ],
+                                ],
+                                [
                                     'label' => 'User Permission',
                                     'icon' => 'fa fa-circle-o',
                                     'url' => '#',

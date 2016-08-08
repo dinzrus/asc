@@ -3,10 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Borrower */
+/* @var $borrower app\models\Borrower */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -14,25 +13,277 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->errorSummary($model);   ?>
-    <div class="box box-primary"> <!-- start of principal applicant form  -->
-        <div class="box-header with-border">
-            <h3 class="box-title"><strong>Principal Applicant</strong></h3>
-        </div>
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-3">
+    <?= $form->errorSummary($borrower); ?>
+
+    <!-- start your form here -->
+
+    <!------------------------------- tabs start here ------------------------------>     
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#principal" data-toggle="tab">Principal Applicant</a></li>
+                    <li><a href="#second" data-toggle="tab">Second Signatory</a></li>
+                    <li><a href="#attachment" data-toggle="tab">Attachments</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="principal">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <?= $form->field($borrower, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+                                <?php
+                                echo $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
+                                    'pluginOptions' => [
+                                        'initialPreview' => [
+                                            $borrower->profile_pic
+                                        ],
+                                        'initialPreviewAsData' => true,
+                                        'overwriteInitial' => true,
+                                        'showCaption' => false,
+                                        'showRemove' => false,
+                                        'showUpload' => false,
+                                        'browseClass' => 'btn btn-primary btn-block',
+                                        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                                        'browseLabel' => 'Select Photo'
+                                    ],
+                                    'options' => ['accept' => 'image/*']
+                                ]);
+                                ?>
+
+                            </div>
+                            <div class="col-md-4">
+
+                                <?= $form->field($borrower, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
+
+                                <?= $form->field($borrower, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
+
+                                <?= $form->field($borrower, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
+
+                                <?= $form->field($borrower, 'suffix')->textInput(['maxlength' => true, 'placeholder' => 'Suffix']) ?>
+
+                                <?=
+                                $form->field($borrower, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                    'saveFormat' => 'php:Y-m-d',
+                                    'ajaxConversion' => true,
+                                    'options' => [
+                                        'pluginOptions' => [
+                                            'placeholder' => 'Choose Birthdate',
+                                            'autoclose' => true
+                                        ]
+                                    ],
+                                ]);
+                                ?>
+
+                                <?= $form->field($borrower, 'age')->textInput(['placeholder' => 'Age']) ?>
+
+                                <?= $form->field($borrower, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
+
+                                <?=
+                                $form->field($borrower, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
+                                    'options' => ['placeholder' => 'Choose Province'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
+
+                                <?=
+                                $form->field($borrower, 'address_city_municipality_id')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\MunicipalityCity::find()->orderBy('id')->asArray()->all(), 'id', 'municipality_city'),
+                                    'options' => ['placeholder' => 'Choose Municipality city'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
+
+                                <?=
+                                $form->field($borrower, 'address_barangay_id')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Barangay::find()->orderBy('id')->asArray()->all(), 'id', 'barangay'),
+                                    'options' => ['placeholder' => 'Choose Barangay'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
+
+                                <?= $form->field($borrower, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
+
+                            </div>
+                            <div class="col-md-4">
+                                <?= $form->field($borrower, 'civil_status')->textInput(['maxlength' => true, 'placeholder' => 'Civil Status']) ?>
+
+                                <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
+
+                                <?=
+                                $form->field($borrower, 'ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                    'saveFormat' => 'php:Y-m-d',
+                                    'ajaxConversion' => true,
+                                    'options' => [
+                                        'pluginOptions' => [
+                                            'placeholder' => 'Choose Ci Date',
+                                            'autoclose' => true
+                                        ]
+                                    ],
+                                ]);
+                                ?>
+
+                                <?=
+                                $form->field($borrower, 'canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                    'saveFormat' => 'php:Y-m-d',
+                                    'ajaxConversion' => true,
+                                    'options' => [
+                                        'pluginOptions' => [
+                                            'placeholder' => 'Choose Canvass Date',
+                                            'autoclose' => true
+                                        ]
+                                    ],
+                                ]);
+                                ?>
+
+                                <?= $form->field($borrower, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
+
+                                <?= $form->field($borrower, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) ?>
+
+                                <?= $form->field($borrower, 'ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Ctc No']) ?>
+
+                                <?= $form->field($borrower, 'license_no')->textInput(['maxlength' => true, 'placeholder' => 'License No']) ?>
+
+                                <?= $form->field($borrower, 'spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Name']) ?>
+
+                                <?= $form->field($borrower, 'spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Occupation']) ?>
+
+                                <?= $form->field($borrower, 'spouse_age')->textInput(['placeholder' => 'Spouse Age']) ?>
+
+                                <?=
+                                $form->field($borrower, 'spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                    'saveFormat' => 'php:Y-m-d',
+                                    'ajaxConversion' => true,
+                                    'options' => [
+                                        'pluginOptions' => [
+                                            'placeholder' => 'Choose Spouse Birthdate',
+                                            'autoclose' => true
+                                        ]
+                                    ],
+                                ]);
+                                ?>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-4">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <?= $form->field($borrower, 'no_dependent')->textInput(['placeholder' => 'No Dependent']) ?> 
+                                    </div>                  
+                                </div>
+                                <!-- dependent start -->
+                                <?php if ($update): ?>
+                                    <?php foreach ($dependents as $i => $dependent): ?>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <?php
+                                                echo \yii\helpers\Html::activeHiddenInput($dependent, "[$i]id");
+                                                ?>
+                                                <?= $form->field($dependent, "[$i]name")->textInput() ?>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <?=
+                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                    'saveFormat' => 'php:Y-m-d',
+                                                    'ajaxConversion' => true,
+                                                    'options' => [
+                                                        'pluginOptions' => [
+                                                            'placeholder' => 'Birthdate',
+                                                            'autoclose' => true
+                                                        ]
+                                                    ],
+                                                ]);
+                                                ?>
+                                            </div>
+
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php for ($i = 0; $i < 3; $i++): ?>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <?= $form->field($dependent, "[$i]name")->textInput() ?>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <?=
+                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                    'saveFormat' => 'php:Y-m-d',
+                                                    'ajaxConversion' => true,
+                                                    'options' => [
+                                                        'pluginOptions' => [
+                                                            'placeholder' => 'Birthdate',
+                                                            'autoclose' => true
+                                                        ]
+                                                    ],
+                                                ]);
+                                                ?>
+                                            </div>
+
+                                        </div>
+                                    <?php endfor; ?>
+                                <?php endif; ?>
+                                <!-- dependent end -->
+                                <hr>
+                                <?= $form->field($borrower, 'collaterals')->textarea(['rows' => 6]) ?>
+
+                                <?=
+                                $form->field($borrower, 'status')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Status::find()->orderBy('code')->asArray()->all(), 'code', 'status'),
+                                    'options' => ['placeholder' => 'Choose Status'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
+
+                                <?= $form->field($borrower, 'branch_id')->textInput(['placeholder' => 'Branch']) ?>
+
+                                <?= $form->field($borrower, 'acount_type')->textInput(['maxlength' => true, 'placeholder' => 'Acount Type']) ?>
+
+                            </div>
+                        </div>
+                    </div> <!-- principal tab end here -->
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="second">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <?= $form->field($comaker, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+                                
                     <?php
-                    echo $form->field($model, 'principal_pic')->widget(FileInput::classname(), [
+                    echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
                         'pluginOptions' => [
                             'initialPreview' => [
-                                $model->principal_profile_pic
+                                $comaker->profile_pic
                             ],
-                            'initialPreviewAsData' => true,
-                            'overwriteInitial' => true,
                             'showCaption' => false,
                             'showRemove' => false,
                             'showUpload' => false,
+                            'initialPreviewAsData' => true,
+                            'overwriteInitial' => true,
                             'browseClass' => 'btn btn-primary btn-block',
                             'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                             'browseLabel' => 'Select Photo'
@@ -40,306 +291,133 @@ use yii\helpers\Url;
                         'options' => ['accept' => 'image/*']
                     ]);
                     ?>
+                            </div>
+                            <div class="col-md-4">
 
-                </div>
-                <div class="col-md-4">
+                                <?= $form->field($comaker, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
 
-                    <?php
-                    if (Yii::$app->user->identity->branch_id == 9) {
-                        echo $form->field($model, 'branch')->widget(\kartik\widgets\Select2::classname(), [
-                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->orderBy('branch_id')->asArray()->all(), 'branch_id', 'branch_description'),
-                            'options' => ['placeholder' => 'Choose branch'],
-                            'pluginOptions' => [
-                                'allowClear' => true
-                            ],
-                        ]);
-                    }
-                    ?>
+                                <?= $form->field($comaker, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
 
-                    <?= $form->field($model, 'principal_first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
+                                <?= $form->field($comaker, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
 
-                    <?= $form->field($model, 'principal_last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
+                                <?= $form->field($comaker, 'suffix')->textInput(['maxlength' => true, 'placeholder' => 'Suffix']) ?>
 
-                    <?= $form->field($model, 'principal_middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
+                                <?=
+                                $form->field($comaker, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                    'saveFormat' => 'php:Y-m-d',
+                                    'ajaxConversion' => true,
+                                    'options' => [
+                                        'pluginOptions' => [
+                                            'placeholder' => 'Choose Birthdate',
+                                            'autoclose' => true
+                                        ]
+                                    ],
+                                ]);
+                                ?>
 
-                    <?= $form->field($model, 'principal__suffix')->textInput(['maxlength' => true, 'placeholder' => 'Suffix']) ?>
+                                <?= $form->field($comaker, 'age')->textInput(['placeholder' => 'Age']) ?>
 
-                    <?=
-                    $form->field($model, 'principal_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                        'saveFormat' => 'php:Y-m-d',
-                        'ajaxConversion' => true,
-                        'options' => [
-                            'pluginOptions' => [
-                                'placeholder' => 'Choose Date of Birth',
-                                'autoclose' => true
-                            ]
-                        ],
-                    ]);
-                    ?>
+                                <?= $form->field($comaker, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
 
-                    <?= $form->field($model, 'principal_age')->textInput(['placeholder' => 'Age']) ?>
-
-                    <?= $form->field($model, 'principal_birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birth of place']) ?>
-
-                    <?= $form->field($model, 'principal_address_street_house')->textInput(['maxlength' => true, 'placeholder' => 'Street/House no.']) ?>
-
-                    <?= $form->field($model, 'principal_address_barangay')->textInput(['maxlength' => true, 'placeholder' => 'Barangay']) ?>
-
-                    <?= $form->field($model, 'principal_address_province')->textInput(['maxlength' => true, 'placeholder' => 'Province']) ?>
-
-                    <?= $form->field($model, 'principal_civil_status')->dropDownList(['Single' => 'Single', 'Married' => 'Married', 'Widowed' => 'Widowed', 'Common law' => 'Common law', 'Separated' => 'Separated'], ['prompt' => 'Select Status']) ?>
-
-                    <?= $form->field($model, 'principal_contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
-
-                </div>
-                <div class="col-md-4">
-                    <?=
-                    $form->field($model, 'principal_ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
-                        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                        'saveFormat' => 'php:Y-m-d',
-                        'ajaxConversion' => true,
-                        'options' => [
-                            'pluginOptions' => [
-                                'placeholder' => 'Choose CI Date',
-                                'autoclose' => true
-                            ]
-                        ],
-                    ]);
-                    ?>
-
-                    <?=
-                    $form->field($model, 'principal_canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
-                        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                        'saveFormat' => 'php:Y-m-d',
-                        'ajaxConversion' => true,
-                        'options' => [
-                            'pluginOptions' => [
-                                'placeholder' => 'Choose Canvass Date',
-                                'autoclose' => true
-                            ]
-                        ],
-                    ]);
-                    ?>
-                    <?= $form->field($model, 'principal_tin_no')->textInput(['maxlength' => true, 'placeholder' => 'TIN No']) ?>
-
-                    <?= $form->field($model, 'principal_sss_no')->textInput(['maxlength' => true, 'placeholder' => 'SSS No']) ?>
-
-                    <?= $form->field($model, 'principal_ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'CTC No']) ?>
-
-                    <?= $form->field($model, 'principal_license_no')->textInput(['maxlength' => true, 'placeholder' => 'Driver License No']) ?>
-
-                    <?= $form->field($model, 'principal_spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
-
-                    <?= $form->field($model, 'principal_spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Occupation']) ?>
-
-                    <?=
-                    $form->field($model, 'principal_spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                        'saveFormat' => 'php:Y-m-d',
-                        'ajaxConversion' => true,
-                        'options' => [
-                            'pluginOptions' => [
-                                'placeholder' => 'Choose Date of Birth',
-                                'autoclose' => true
-                            ]
-                        ],
-                    ]);
-                    ?>
-                    <?= $form->field($model, 'principal_spouse_age')->textInput(['placeholder' => 'Age']) ?>
-                </div> 
-            </div>
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-8"> 
-                    <?= $form->field($model, 'principal_no_children')->textInput(['placeholder' => 'No. Children']) ?>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <?= $form->field($model, 'principal_child1_name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
-
-                            <?= $form->field($model, 'principal_child2_name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?=
-                            $form->field($model, 'principal_child1_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                'saveFormat' => 'php:Y-m-d',
-                                'ajaxConversion' => true,
-                                'options' => [
+                                <?=
+                                $form->field($comaker, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
+                                    'options' => ['placeholder' => 'Choose Province'],
                                     'pluginOptions' => [
-                                        'placeholder' => 'Choose date of birth',
-                                        'autoclose' => true
-                                    ]
-                                ],
-                            ]);
-                            ?>
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
 
-                            <?=
-                            $form->field($model, 'principal_child2_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                'saveFormat' => 'php:Y-m-d',
-                                'ajaxConversion' => true,
-                                'options' => [
+                                <?=
+                                $form->field($comaker, 'address_city_municipality_id')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\MunicipalityCity::find()->orderBy('id')->asArray()->all(), 'id', 'municipality_city'),
+                                    'options' => ['placeholder' => 'Choose Municipality city'],
                                     'pluginOptions' => [
-                                        'placeholder' => 'Choose date of birth',
-                                        'autoclose' => true
-                                    ]
-                                ],
-                            ]);
-                            ?>
-                        </div>
-                        <div class="col-md-3">
-                            <?= $form->field($model, 'principal_child1_age')->textInput(['placeholder' => 'Age']) ?>
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
 
-                            <?= $form->field($model, 'principal_child2_age')->textInput(['placeholder' => 'Age']) ?>
+                                <?=
+                                $form->field($comaker, 'address_barangay_id')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Barangay::find()->orderBy('id')->asArray()->all(), 'id', 'barangay'),
+                                    'options' => ['placeholder' => 'Choose Barangay'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
+
+                                <?= $form->field($comaker, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
+
+                            </div>
+                            <div class="col-md-4">
+                                <?= $form->field($comaker, 'civil_status')->textInput(['maxlength' => true, 'placeholder' => 'Civil Status']) ?>
+
+                                <?= $form->field($comaker, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
+
+                                <?= $form->field($comaker, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
+
+                                <?= $form->field($comaker, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) ?>
+
+                                <?= $form->field($comaker, 'ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Ctc No']) ?>
+
+                                <?= $form->field($comaker, 'license_no')->textInput(['maxlength' => true, 'placeholder' => 'License No']) ?>
+
+                                <?= $form->field($comaker, 'spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Name']) ?>
+
+                                <?= $form->field($comaker, 'spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Occupation']) ?>
+
+                                <?= $form->field($comaker, 'spouse_age')->textInput(['placeholder' => 'Spouse Age']) ?>
+
+                                <?=
+                                $form->field($comaker, 'spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                    'saveFormat' => 'php:Y-m-d',
+                                    'ajaxConversion' => true,
+                                    'options' => [
+                                        'pluginOptions' => [
+                                            'placeholder' => 'Choose Spouse Birthdate',
+                                            'autoclose' => true
+                                        ]
+                                    ],
+                                ]);
+                                ?>
+
+                                <?= $form->field($comaker, 'relation_to_applicant')->textInput(['maxlength' => true, 'placeholder' => 'Relation To Applicant']) ?>
+
+                                <?= $form->field($comaker, 'acount_type')->textInput(['maxlength' => true, 'placeholder' => 'Acount Type']) ?>
+
+                            </div>
                         </div>
                     </div>
-                </div> 
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="attachment">
+                        <?= $form->field($borrower, 'attachment')->textarea(['rows' => 6]) ?>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
             </div>
-        </div>
-    </div> <!-- end of principal applicant form  -->
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title"><strong>Second Signatory</strong></h3>
-        </div>
-        <div class="box-body">
-            <!-- row2 ---------------------------------------------------------------------------------------------------- -->
-            <div class="row">
-                <div class="col-md-3">
+            <!-- /.nav-tabs-custom -->
 
-                    <?php
-                    echo $form->field($model, 'second_signatory_pic')->widget(FileInput::classname(), [
-                        'pluginOptions' => [
-                            'initialPreview' => [
-                                $model->comaker_profile_pic
-                            ],
-                            'showCaption' => false,
-                            'showRemove' => false,
-                            'showUpload' => false,
-                            'initialPreviewAsData' => true,
-                            'overwriteInitial' => true,
-                            'browseClass' => 'btn btn-primary btn-block',
-                            'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                            'browseLabel' => 'Select Photo'
-                        ],
-                        'options' => ['accept' => 'image/*']
-                    ]);
-                    ?>
-                </div>
-                <div class="col-md-4">
-                    <?= $form->field($model, 'comaker_name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
-
-                    <?= $form->field($model, 'comaker_address')->textInput(['maxlength' => true, 'placeholder' => 'Address']) ?>
-
-                    <?= $form->field($model, 'comaker_alias')->textInput(['maxlength' => true, 'placeholder' => 'Alias']) ?>
-
-                    <?= $form->field($model, 'comaker_contact')->textInput(['maxlength' => true, 'placeholder' => 'Contact']) ?>
-
-                    <?= $form->field($model, 'comaker_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Occupation']) ?>
-
-                    <?=
-                    $form->field($model, 'comaker_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                        'saveFormat' => 'php:Y-m-d',
-                        'ajaxConversion' => true,
-                        'options' => [
-                            'pluginOptions' => [
-                                'placeholder' => 'Choose date of birth',
-                                'autoclose' => true
-                            ]
-                        ],
-                    ]);
-                    ?>
-                </div>
-                <div class="col-md-4">
-                    <?= $form->field($model, 'comaker_age')->textInput(['placeholder' => 'Age']) ?>
-
-                    <?= $form->field($model, 'comaker_relation')->dropDownList(['Brother' => 'Brother', 'Sister' => 'Sister', 'Friend' => 'Friend'], ['prompt' => 'Select Status']) ?>
-
-                </div>
-            </div>
         </div>
     </div>
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title"><strong>Business</strong></h3>
-        </div>
-        <div class="box-body">
-            <!-- row3 --------------------------------------------------------------------------------------------------- -->
-            <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($model, 'business_name')->textInput(['maxlength' => true, 'placeholder' => 'Business Name']) ?>
+    <!-----------------------------  tabs end here -------------------------------->    
 
-                    <?= $form->field($model, 'business_address')->textInput(['maxlength' => true, 'placeholder' => 'Business Address']) ?>
-
-                    <?=
-                    $form->field($model, 'business_type')->widget(\kartik\widgets\Select2::classname(), [
-                        'data' => \yii\helpers\ArrayHelper::map(\app\models\BusinessType::find()->orderBy('business_id')->asArray()->all(), 'business_id', 'business_description'),
-                        'options' => ['placeholder' => 'Choose Business type'],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                    ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, 'business_years')->textInput(['placeholder' => 'Business Years']) ?>
-
-                    <?= $form->field($model, 'business_income')->textInput(['placeholder' => 'Business Income']) ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- collateral -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><strong>Collaterals</strong></h3>
-                </div>
-                <div class="box-body">
-                    <?= $form->field($model, 'collaterals')->textarea(['rows' => 6]) ?>
-                </div>
-            </div>
-        </div>
-    </div> <!-- collateral's end -->
-    <?= $form->field($model, 'status')->hiddenInput(['value' => 0]) ?>
-
-    <!-- attachment's -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><strong>Attachments (201/VALID ID)</strong></h3>
-                    <small style='color: red'>Please select at the same time all your attachments</small>
-                </div>
-                <div class="box-body">
-                    <?php
-                    echo FileInput::widget([
-                        'model' => $model,
-                        'attribute' => 'attachfiles[]',
-                        'pluginOptions' => [
-                            'showCaption' => false,
-                            'showRemove' => true,
-                            'showPreview' => true,
-                            'showUpload' => false,
-                            'browseLabel' => 'Select Attachment',
-                            'removeLabel' => ' ',
-                            'maxFileCount' => 3,
-                        ],
-                        'options' => [
-                            'accept' => 'image/*',
-                            'multiple' => true,
-                        ]
-                    ]);
-                    ?>
-                </div>
-            </div>
-        </div>
-    </div> <!-- attachment's end -->
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php if (Yii::$app->controller->action->id != 'save-as-new'): ?>
+            <?= Html::submitButton($borrower->isNewRecord ? 'Create' : 'Update', ['class' => $borrower->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php endif; ?>
+        <?php if (Yii::$app->controller->action->id != 'create'): ?>
+            <?= Html::submitButton('Save As New', ['class' => 'btn btn-info', 'value' => '1', 'name' => '_asnew']) ?>
+        <?php endif; ?>
     </div>
+
+    <!-- end your form here -->
+
     <?php ActiveForm::end(); ?>
+
 </div>

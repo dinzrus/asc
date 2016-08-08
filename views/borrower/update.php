@@ -3,17 +3,22 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Borrower */
+/* @var $borrower app\models\Borrower */
 
-$this->title = 'Update Borrower: ' . ' ' .$model->principal_last_name.', '.$model->principal_first_name;;
+$this->title = 'Update Borrower: ' . ' ' . $borrower->id;
 $this->params['breadcrumbs'][] = ['label' => 'Borrower', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->borrower_id, 'url' => ['view', 'id' => $model->borrower_id]];
+$this->params['breadcrumbs'][] = ['label' => $borrower->id, 'url' => ['view', 'id' => $borrower->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="borrower-update">
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?=
+    $this->render('_form', [
+        'borrower' => $borrower,
+        'comaker' => $comaker,
+        'dependents' => $dependents,
+        'update' => $update,
+    ])
+    ?>
 
 </div>

@@ -2,20 +2,12 @@
 /* @var $this yii\web\View */
 
 use yii\bootstrap\Modal;
+$this->title = 'Reports';
+
+$this->params['breadcrumbs'][] = 'Reports';
 ?>
-<h1>report/index</h1>
-
-<p>
-    You may change the content of this page by modifying
-    the file <code><?= __FILE__; ?></code>.
-</p>
-<?php
-Modal::begin([
-    'header' => '<h2>Hello world</h2>',
-    'toggleButton' => ['label' => 'click me', 'class' => 'btn btn-primary'],
-]);
-
-echo 'Say hello...';
-
-Modal::end();
-?>
+<div class="box box-primary">
+     <div class="box-body">
+         
+     </div>
+</div>

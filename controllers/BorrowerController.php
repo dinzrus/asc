@@ -3,7 +3,11 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Model;
 use app\models\Borrower;
+use app\models\Comaker;
+use app\models\BorrowerComaker;
+use app\models\Dependent;
 use app\models\BorrowerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -23,6 +27,19 @@ class BorrowerController extends Controller {
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 
@@ -31,17 +48,13 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        if (Yii::$app->user->can('organizer')) {
-            $searchModel = new BorrowerSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new BorrowerSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-            return $this->render('index', [
-                        'searchModel' => $searchModel,
-                        'dataProvider' => $dataProvider,
-            ]);
-        } else {
-            throw new \yii\web\UnauthorizedHttpException("You are not allowed to do this action!");
-        }
+        return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -50,14 +63,10 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-        if (Yii::$app->user->can('organizer')) {
-            $model = $this->findModel($id);
-            return $this->render('view', [
-                        'model' => $this->findModel($id),
-            ]);
-        } else {
-            throw new \yii\web\UnauthorizedHttpException("You are not allowed to do this action!");
-        }
+        $model = $this->findModel($id);
+        return $this->render('view', [
+                    'model' => $this->findModel($id),
+        ]);
     }
 
     /**
@@ -66,82 +75,47 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        if (Yii::$app->user->can('organizer')) {
-            $model = new Borrower();
 
-            // if user branch is main the value of branch will be based on the form values
-            if (!(Yii::$app->user->identity->branch_id == 9)) {
-                $model->branch = Yii::$app->user->identity->branch_id;
-            }
+        $borrower = new Borrower();
+        $comaker = new Comaker();
+        $update = false;
+        $dependent = new Dependent;
+        $borrowwer_comaker_ids = new BorrowerComaker();
 
-            if ($model->loadAll(Yii::$app->request->post())) {
+        if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post())) {
 
-                // get the instances of the two profile pic
-                $model->principal_pic = UploadedFile::getInstance($model, 'principal_pic');
-                $model->second_signatory_pic = UploadedFile::getInstance($model, 'second_signatory_pic');
+            //get the instance of borrower_pic and comaker_pic
+            $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
+            $comaker->comaker_pic = UploadedFile::getInstance($borrower, 'comaker_pic');
 
-                //get the instances of the attachfile
-                $model->attachfiles = UploadedFile::getInstances($model, 'attachfiles');
-                $attachnames = "";
+            // set the url of the picture for saving
+            $borrower->setPicUrl();
+            $comaker->setPicUrl();
 
-                $attachcount = count($model->attachfiles);
-                if ($attachcount > 0) {
-                    for ($i = 0; $i < $attachcount; $i++) {
-                        $attachmentobject = $model->attachfiles[$i];
-                        $tpname = $model->principal_last_name . '-' . $model->principal_first_name . $model->borrower_id . '-attachment' . $i . '.' . $attachmentobject->extension;
-                        $attachnames = $attachnames . ' ' . 'fileupload/' . $tpname;
-                    }
-                    $model->attachments = trim($attachnames);
-                }
+            if ($borrower->saveAll() && $comaker->saveAll()) {
+                //save the id of borrower and comaker to borrower_comaker table
+                $borrowwer_comaker_ids->borrower_id = $borrower->id;
+                $borrowwer_comaker_ids->comaker_id = $comaker->id;
+                $borrowwer_comaker_ids->saveAll();
 
-                //get the instances of the attachfile
-                $model->attachfiles = UploadedFile::getInstances($model, 'attachfiles');
-
-                //$model->attachments = $model->attachfiles->name; // temp lang ni.. for testing
-                //check if principal_pic is not empty and save photo url
-                if (!empty($model->principal_pic)) {
-                    $principal_name = $model->principal_first_name . $model->principal_last_name; // get the first and last name of principal applicant
-                    $model->principal_profile_pic = 'fileupload/' . $principal_name . '.' . $model->principal_pic->extension;
-                }
-
-                //check if second_signatory_pic is not empty and save photo url
-                if (!empty($model->second_signatory_pic)) {
-                    $secondsig_name = $model->comaker_name; // get name of the second signatory
-                    $model->comaker_profile_pic = 'fileupload/' . $secondsig_name . '.' . $model->second_signatory_pic->extension;
-                }
-
-                if ($model->saveAll()) {
-                    //upload pic if principal photo is not empty
-                    if (!empty($model->principal_pic)) {
-                        $model->principal_pic->saveAs('fileupload/' . $principal_name . '.' . $model->principal_pic->extension);
-                    }
-                    //upload pic if second signatory photo is not empty
-                    if (!empty($model->second_signatory_pic)) {
-                        $model->second_signatory_pic->saveAs('fileupload/' . $secondsig_name . '.' . $model->second_signatory_pic->extension);
-                    }
-
-                    // upload attachments if not empty
-                    if ($attachcount > 0) {
-                        for ($i = 0; $i < $attachcount; $i++) {
-                            $attachmentobject = $model->attachfiles[$i];
-                            $tpname = 'fileupload/' . $model->principal_last_name . '-' . $model->principal_first_name . $model->borrower_id . '-attachment' . $i . '.' . $attachmentobject->extension;
-                            $attachmentobject->saveAs($tpname);
+                $dependents = Model::createMultiple(Dependent::classname());
+                if (Model::loadMultiple($dependents, Yii::$app->request->post()) && Model::validateMultiple($dependents)) {
+                    foreach ($dependents as $dependent) {
+                        $dependent->borrower_id = $borrower->id;
+                        if (!empty($dependent->name)) {
+                            $dependent->save(false);
                         }
                     }
-
-                    return $this->redirect(['view', 'id' => $model->borrower_id]);
-                } else {
-                    return $this->render('create', [
-                                'model' => $model,
-                    ]);
                 }
-            } else {
-                return $this->render('create', [
-                            'model' => $model,
-                ]);
+                return $this->redirect(['view', 'id' => $borrower->id]);
             }
         } else {
-            throw new \yii\web\UnauthorizedHttpException("You are not allowed to do this action!");
+            return $this->render('create', [
+                        'borrower' => $borrower,
+                        'comaker' => $comaker,
+                        'dependent' => $dependent,
+                        'update' => $update,
+            ]);
         }
     }
 
@@ -152,72 +126,36 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionUpdate($id) {
-        if (Yii::$app->user->can('admin')) {
-            $model = $this->findModel($id);
-
-            if ($model->loadAll(Yii::$app->request->post())) {
-
-                // get the instances of the two profile pic
-                $model->principal_pic = UploadedFile::getInstance($model, 'principal_pic');
-                $model->second_signatory_pic = UploadedFile::getInstance($model, 'second_signatory_pic');
-
-                //get the instances of the attachfile
-                $model->attachfiles = UploadedFile::getInstances($model, 'attachfiles');
-                $attachnames = "";
-
-                $attachcount = count($model->attachfiles);
-                if ($attachcount > 0) {
-                    for ($i = 0; $i < $attachcount; $i++) {
-                        $attachmentobject = $model->attachfiles[$i];
-                        $tpname = $model->principal_last_name . '-' . $model->principal_first_name . $model->borrower_id . '-attachment' . $i . '.' . $attachmentobject->extension;
-                        $attachnames = $attachnames . ' ' . 'fileupload/' . $tpname;
-                    }
-                    $model->attachments = trim($attachnames);
-                }
-
-                //check if principal_pic is not empty and save photo url
-                if (!empty($model->principal_pic)) {
-                    $principal_name = $model->principal_first_name . $model->principal_last_name; // get the first and last name of principal applicant
-                    $model->principal_profile_pic = 'fileupload/' . $principal_name . '.' . $model->principal_pic->extension;
-                }
-
-                //check if second_signatory_pic is not empty and save photo url
-                if (!empty($model->second_signatory_pic)) {
-                    $secondsig_name = $model->comaker_name; // get name of the second signatory
-                    $model->comaker_profile_pic = 'fileupload/' . $secondsig_name . '.' . $model->second_signatory_pic->extension;
-                }
-
-                if ($model->saveAll()) {
-                    //upload pic if principal photo is not empty
-                    if (!empty($model->principal_pic)) {
-                        $model->principal_pic->saveAs('fileupload/' . $principal_name . '.' . $model->principal_pic->extension);
-                    }
-                    //upload pic if second signatory photo is not empty
-                    if (!empty($model->second_signatory_pic)) {
-                        $model->second_signatory_pic->saveAs('fileupload/' . $secondsig_name . '.' . $model->second_signatory_pic->extension);
-                    }
-                    // upload attachments if not empty
-                    if ($attachcount > 0) {
-                        for ($i = 0; $i < $attachcount; $i++) {
-                            $attachmentobject = $model->attachfiles[$i];
-                            $tpname = 'fileupload/' . $model->principal_last_name . '-' . $model->principal_first_name . $model->borrower_id . '-attachment' . $i . '.' . $attachmentobject->extension;
-                            $attachmentobject->saveAs($tpname);
-                        }
-                    }
-
-                    return $this->redirect(['view', 'id' => $model->borrower_id]);
-                } else {
-                    return $this->render('update', [
-                                'model' => $model,
-                    ]);
-                }
-            } else {
-                return $this->render('update', [
-                            'model' => $model,
-                ]);
-            }
+        $update = true;
+        if (Yii::$app->request->post('_asnew') == '1') {
+            $borrower = new Borrower();
         } else {
-            throw new \yii\web\UnauthorizedHttpException("You are not allowed to this action!");
+            $borrower = $this->findModel($id);
+            $comaker_id = BorrowerComaker::findOne(['borrower_id' => $id]);
+            $comaker = Comaker::findOne(['id' => $comaker_id->comaker_id]);
+            $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
+        }
+
+        if ($borrower->load(Yii::$app->request->post()) && $comaker->load(Yii::$app->request->post()) && $borrower->save() && $comaker->save()) {
+
+            //$dependents = Model::createMultiple(Dependent::classname());
+            if (Model::loadMultiple($dependents, Yii::$app->request->post()) && Model::validateMultiple($dependents)) {
+                //save all
+                foreach ($dependents as $dependent) {
+                    $dependent->borrower_id = $borrower->id;
+                    if (!empty($dependent->name)) {
+                        $dependent->save(false);
+                    }
+                }
+            }
+            return $this->redirect(['view', 'id' => $borrower->id]);
+        } else {
+            return $this->render('update', [
+                        'borrower' => $borrower,
+                        'comaker' => $comaker,
+                        'dependents' => (empty($dependents)) ? [new Dependent] : $dependents,
+                        'update' => $update,
+            ]);
         }
     }
 
@@ -228,13 +166,9 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        if (Yii::$app->user->can('IT')) {
-            $this->findModel($id)->deleteWithRelated();
+        $this->findModel($id)->deleteWithRelated();
 
-            return $this->redirect(['index']);
-        } else {
-            throw new \yii\web\UnauthorizedHttpException("You are not allowed to do this action!");
-        }
+        return $this->redirect(['index']);
     }
 
     /**
@@ -269,6 +203,30 @@ class BorrowerController extends Controller {
     }
 
     /**
+     * Creates a new Borrower model by another data,
+     * so user don't need to input all field from scratch.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param type $id
+     * @return type
+     */
+    public function actionSaveAsNew($id) {
+        $model = new Borrower();
+
+        if (Yii::$app->request->post('_asnew') != '1') {
+            $model = $this->findModel($id);
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('saveAsNew', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+    /**
      * Finds the Borrower model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -279,7 +237,7 @@ class BorrowerController extends Controller {
         if (($model = Borrower::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new UnauthorizedHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 

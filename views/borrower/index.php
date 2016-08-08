@@ -17,7 +17,8 @@ $search = "$('.search-button').click(function(){
 $this->registerJs($search);
 ?>
 <div class="borrower-index">
-    
+
+    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -30,77 +31,94 @@ $this->registerJs($search);
     <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
-        //'borrower_id',
-        //'principal_profile_pic',
-        'principal_first_name',
-        'principal_last_name',
-        'principal_middle_name',
-//        'principal__suffix',
-//        'principal_birthdate',
-//        'principal_age',
-//        'principal_birthplace',
-//        'principal_address_street_house',
-//        'principal_address_barangay',
-//        'principal_address_province',
-//        'principal_civil_status',
-//        'principal_contact_no',
-        'principal_ci_date',
-        'principal_canvass_date',
-//        'principal_tin_no',
-//        'principal_sss_no',
-//        'principal_ctc_no',
-//        'principal_license_no',
-//        'principal_spouse_name',
-//        'principal_spouse_occupation',
-//        'principal_spouse_age',
-//        'principal_spouse_birthdate',
-//        'principal_no_children',
-//        'principal_child1_name',
-//        'principal_child2_name',
-//        'principal_child1_birthdate',
-//        'principal_child2_birthdate',
-//        'principal_child1_age',
-//        'principal_child2_age',
-//        'comaker_profile_pic',
-    [
-        'attribute' => 'comaker_name',
-        'label' => 'Comaker',
-    ],
-//        'comaker_address',
-//        'comaker_alias',
-//        'comaker_contact',
-//        'comaker_occupation',
-//        'comaker_birthdate',
-//        'comaker_age',
-//        'comaker_relation',
-//        'business_name',
-//        'business_address',
+        ['attribute' => 'id', 'hidden' => true],
+        //'profile_pic',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'suffix',
+        //'birthdate',
+        //'age',
+        //'birthplace',
 //        [
-//                'attribute' => 'business_type',
-//                'label' => 'Business Type',
+//                'attribute' => 'address_province_id',
+//                'label' => 'Address Province',
 //                'value' => function($model){
-//                    return $model->businessType->business_id;
+//                    return $model->addressProvince->province;
 //                },
 //                'filterType' => GridView::FILTER_SELECT2,
-//                'filter' => \yii\helpers\ArrayHelper::map(\app\models\BusinessType::find()->asArray()->all(), 'business_id', 'business_id'),
+//                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->asArray()->all(), 'id', 'province'),
 //                'filterWidgetOptions' => [
 //                    'pluginOptions' => ['allowClear' => true],
 //                ],
-//                'filterInputOptions' => ['placeholder' => 'Business type', 'id' => 'grid-borrower-search-business_type']
+//                'filterInputOptions' => ['placeholder' => 'Province', 'id' => 'grid-borrower-search-address_province_id']
 //            ],
-//        'business_years',
-//        'business_income',
-//        'collaterals:ntext',
-//        'status',
-        [
-            'attribute' => 'branch',
-            'label' => 'Branch',
-            'value' => function($model){
-                            return $model->branch0->branch_description;
-            }
-        ],
+//        [
+//                'attribute' => 'address_city_municipality_id',
+//                'label' => 'Address City Municipality',
+//                'value' => function($model){
+//                    return $model->addressCityMunicipality->municipality_city;
+//                },
+//                'filterType' => GridView::FILTER_SELECT2,
+//                'filter' => \yii\helpers\ArrayHelper::map(\app\models\MunicipalityCity::find()->asArray()->all(), 'id', 'municipality_city'),
+//                'filterWidgetOptions' => [
+//                    'pluginOptions' => ['allowClear' => true],
+//                ],
+//                'filterInputOptions' => ['placeholder' => 'Municipality city', 'id' => 'grid-borrower-search-address_city_municipality_id']
+//            ],
+//        [
+//                'attribute' => 'address_barangay_id',
+//                'label' => 'Address Barangay',
+//                'value' => function($model){
+//                    return $model->addressBarangay->barangay;
+//                },
+//                'filterType' => GridView::FILTER_SELECT2,
+//                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Barangay::find()->asArray()->all(), 'id', 'barangay'),
+//                'filterWidgetOptions' => [
+//                    'pluginOptions' => ['allowClear' => true],
+//                ],
+//                'filterInputOptions' => ['placeholder' => 'Barangay', 'id' => 'grid-borrower-search-address_barangay_id']
+//            ],
+        //'address_street_house_no',
+        //'civil_status',
+        'contact_no',
+        'ci_date',
+        'canvass_date',
+//        'tin_no',
+//        'sss_no',
+//        'ctc_no',
+//        'license_no',
+//        'spouse_name',
+//        'spouse_occupation',
+        //'spouse_age',
+        //'spouse_birthdate',
+        //'no_dependent',
+        //'collaterals:ntext',
+//        [  // I comment this because our comaker has no clients.. we will solve this later.. Russel.
+//                'attribute' => 'status',
+//                'label' => 'Status',
+//                'value' => function($model){
+//                    return $model->status0->status;
+//                },
+//                'filterType' => GridView::FILTER_SELECT2,
+//                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Status::find()->asArray()->all(), 'code', 'status'),
+//                'filterWidgetOptions' => [
+//                    'pluginOptions' => ['allowClear' => true],
+//                ],
+//                'filterInputOptions' => ['placeholder' => 'Status', 'id' => 'grid-borrower-search-status']
+//            ],
+        'branch_id',
+        //'attachment:ntext',
+        //'relation_to_applicant',
+        //'acount_type',
         [
             'class' => 'yii\grid\ActionColumn',
+            'template' => '{save-as-new} {view} {update} {delete}',
+            'buttons' => [
+                'save-as-new' => function ($url) {
+                    return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
+                },
+            ],
         ],
     ]; 
     ?>

@@ -15,179 +15,133 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'borrower_id')->textInput(['placeholder' => 'Borrower']) ?>
+    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'principal_profile_pic')->textInput(['maxlength' => true, 'placeholder' => 'Principal Profile Pic']) ?>
+    <?= $form->field($model, 'profile_pic')->textInput(['maxlength' => true, 'placeholder' => 'Profile Pic']) ?>
 
-    <?= $form->field($model, 'principal_first_name')->textInput(['maxlength' => true, 'placeholder' => 'Principal First Name']) ?>
+    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
 
-    <?= $form->field($model, 'principal_last_name')->textInput(['maxlength' => true, 'placeholder' => 'Principal Last Name']) ?>
+    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
 
-    <?= $form->field($model, 'principal_middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Principal Middle Name']) ?>
+    <?= $form->field($model, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
 
-    <?php /* echo $form->field($model, 'principal__suffix')->textInput(['maxlength' => true, 'placeholder' => 'Principal  Suffix']) */ ?>
+    <?php /* echo $form->field($model, 'suffix')->textInput(['maxlength' => true, 'placeholder' => 'Suffix']) */ ?>
 
-    <?php /* echo $form->field($model, 'principal_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+    <?php /* echo $form->field($model, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
         'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
         'saveFormat' => 'php:Y-m-d',
         'ajaxConversion' => true,
         'options' => [
             'pluginOptions' => [
-                'placeholder' => 'Choose Principal Birthdate',
+                'placeholder' => 'Choose Birthdate',
                 'autoclose' => true
             ]
         ],
     ]); */ ?>
 
-    <?php /* echo $form->field($model, 'principal_age')->textInput(['placeholder' => 'Principal Age']) */ ?>
+    <?php /* echo $form->field($model, 'age')->textInput(['placeholder' => 'Age']) */ ?>
 
-    <?php /* echo $form->field($model, 'principal_birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Principal Birthplace']) */ ?>
+    <?php /* echo $form->field($model, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) */ ?>
 
-    <?php /* echo $form->field($model, 'principal_address_street_house')->textInput(['maxlength' => true, 'placeholder' => 'Principal Address Street House']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_address_barangay')->textInput(['maxlength' => true, 'placeholder' => 'Principal Address Barangay']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_address_province')->textInput(['maxlength' => true, 'placeholder' => 'Principal Address Province']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_civil_status')->textInput(['maxlength' => true, 'placeholder' => 'Principal Civil Status']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Principal Contact No']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_business_type')->textInput(['placeholder' => 'Principal Business Type']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-        'saveFormat' => 'php:Y-m-d',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => 'Choose Principal Ci Date',
-                'autoclose' => true
-            ]
-        ],
-    ]); */ ?>
-
-    <?php /* echo $form->field($model, 'principal_canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-        'saveFormat' => 'php:Y-m-d',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => 'Choose Principal Canvass Date',
-                'autoclose' => true
-            ]
-        ],
-    ]); */ ?>
-
-    <?php /* echo $form->field($model, 'principal_tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Principal Tin No']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Principal Sss No']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Principal Ctc No']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_license_no')->textInput(['maxlength' => true, 'placeholder' => 'Principal License No']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Principal Spouse Name']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Principal Spouse Occupation']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_spouse_age')->textInput(['placeholder' => 'Principal Spouse Age']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-        'saveFormat' => 'php:Y-m-d',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => 'Choose Principal Spouse Birthdate',
-                'autoclose' => true
-            ]
-        ],
-    ]); */ ?>
-
-    <?php /* echo $form->field($model, 'principal_no_children')->textInput(['placeholder' => 'Principal No Children']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_child1_name')->textInput(['maxlength' => true, 'placeholder' => 'Principal Child1 Name']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_child2_name')->textInput(['maxlength' => true, 'placeholder' => 'Principal Child2 Name']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_child1_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-        'saveFormat' => 'php:Y-m-d',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => 'Choose Principal Child1 Birthdate',
-                'autoclose' => true
-            ]
-        ],
-    ]); */ ?>
-
-    <?php /* echo $form->field($model, 'principal_child2_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-        'saveFormat' => 'php:Y-m-d',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => 'Choose Principal Child2 Birthdate',
-                'autoclose' => true
-            ]
-        ],
-    ]); */ ?>
-
-    <?php /* echo $form->field($model, 'principal_child1_age')->textInput(['placeholder' => 'Principal Child1 Age']) */ ?>
-
-    <?php /* echo $form->field($model, 'principal_child2_age')->textInput(['placeholder' => 'Principal Child2 Age']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_profile_pic')->textInput(['maxlength' => true, 'placeholder' => 'Comaker Profile Pic']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_name')->textInput(['maxlength' => true, 'placeholder' => 'Comaker Name']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_address')->textInput(['maxlength' => true, 'placeholder' => 'Comaker Address']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_alias')->textInput(['maxlength' => true, 'placeholder' => 'Comaker Alias']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_contact')->textInput(['maxlength' => true, 'placeholder' => 'Comaker Contact']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Comaker Occupation']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-        'saveFormat' => 'php:Y-m-d',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => 'Choose Comaker Birthdate',
-                'autoclose' => true
-            ]
-        ],
-    ]); */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_age')->textInput(['placeholder' => 'Comaker Age']) */ ?>
-
-    <?php /* echo $form->field($model, 'comaker_relation')->textInput(['maxlength' => true, 'placeholder' => 'Comaker Relation']) */ ?>
-
-    <?php /* echo $form->field($model, 'business_name')->textInput(['maxlength' => true, 'placeholder' => 'Business Name']) */ ?>
-
-    <?php /* echo $form->field($model, 'business_address')->textInput(['maxlength' => true, 'placeholder' => 'Business Address']) */ ?>
-
-    <?php /* echo $form->field($model, 'business_type')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\app\models\BusinessType::find()->orderBy('business_id')->asArray()->all(), 'business_id', 'business_id'),
-        'options' => ['placeholder' => 'Choose Business type'],
+    <?php /* echo $form->field($model, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
+        'options' => ['placeholder' => 'Choose Province'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]); */ ?>
 
-    <?php /* echo $form->field($model, 'business_years')->textInput(['placeholder' => 'Business Years']) */ ?>
+    <?php /* echo $form->field($model, 'address_city_municipality_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\app\models\MunicipalityCity::find()->orderBy('id')->asArray()->all(), 'id', 'municipality_city'),
+        'options' => ['placeholder' => 'Choose Municipality city'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); */ ?>
 
-    <?php /* echo $form->field($model, 'business_income')->textInput(['placeholder' => 'Business Income']) */ ?>
+    <?php /* echo $form->field($model, 'address_barangay_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\app\models\Barangay::find()->orderBy('id')->asArray()->all(), 'id', 'barangay'),
+        'options' => ['placeholder' => 'Choose Barangay'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); */ ?>
+
+    <?php /* echo $form->field($model, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) */ ?>
+
+    <?php /* echo $form->field($model, 'civil_status')->textInput(['maxlength' => true, 'placeholder' => 'Civil Status']) */ ?>
+
+    <?php /* echo $form->field($model, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) */ ?>
+
+    <?php /* echo $form->field($model, 'ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+        'saveFormat' => 'php:Y-m-d',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => 'Choose Ci Date',
+                'autoclose' => true
+            ]
+        ],
+    ]); */ ?>
+
+    <?php /* echo $form->field($model, 'canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+        'saveFormat' => 'php:Y-m-d',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => 'Choose Canvass Date',
+                'autoclose' => true
+            ]
+        ],
+    ]); */ ?>
+
+    <?php /* echo $form->field($model, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) */ ?>
+
+    <?php /* echo $form->field($model, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) */ ?>
+
+    <?php /* echo $form->field($model, 'ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Ctc No']) */ ?>
+
+    <?php /* echo $form->field($model, 'license_no')->textInput(['maxlength' => true, 'placeholder' => 'License No']) */ ?>
+
+    <?php /* echo $form->field($model, 'spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Name']) */ ?>
+
+    <?php /* echo $form->field($model, 'spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Occupation']) */ ?>
+
+    <?php /* echo $form->field($model, 'spouse_age')->textInput(['placeholder' => 'Spouse Age']) */ ?>
+
+    <?php /* echo $form->field($model, 'spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+        'saveFormat' => 'php:Y-m-d',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => 'Choose Spouse Birthdate',
+                'autoclose' => true
+            ]
+        ],
+    ]); */ ?>
+
+    <?php /* echo $form->field($model, 'no_dependent')->textInput(['placeholder' => 'No Dependent']) */ ?>
 
     <?php /* echo $form->field($model, 'collaterals')->textarea(['rows' => 6]) */ ?>
 
-    <?php /* echo $form->field($model, 'status')->textInput(['placeholder' => 'Status']) */ ?>
+    <?php /* echo $form->field($model, 'status')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\app\models\Status::find()->orderBy('code')->asArray()->all(), 'code', 'status'),
+        'options' => ['placeholder' => 'Choose Status'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); */ ?>
 
-    <?php /* echo $form->field($model, 'branch')->textInput(['placeholder' => 'Branch']) */ ?>
+    <?php /* echo $form->field($model, 'branch_id')->textInput(['placeholder' => 'Branch']) */ ?>
+
+    <?php /* echo $form->field($model, 'attachment')->textarea(['rows' => 6]) */ ?>
+
+    <?php /* echo $form->field($model, 'relation_to_applicant')->textInput(['maxlength' => true, 'placeholder' => 'Relation To Applicant']) */ ?>
+
+    <?php /* echo $form->field($model, 'acount_type')->textInput(['maxlength' => true, 'placeholder' => 'Acount Type']) */ ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

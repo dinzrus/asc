@@ -1,35 +1,41 @@
 <?php
 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 namespace app\models;
 
-use Yii;
-use \app\models\base\Borrower as BaseBorrower;
-use yii\base\Exception;
+use app\models\base\Borrower as Base;
+
 /**
- * This is the model class for table "borrower".
+ * Description of Comaker
+ *
+ * @author Russel Dinoy
  */
-class Borrower extends BaseBorrower {
-
-    public $borrower_pic;
-
-    /**
-     * @inheritdoc
-     */
-    public function rules() {
-        return array_replace_recursive(parent::rules(), [
-            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
+class Comaker extends Base{
+    
+    public $comaker_pic;
+    
+    public function rules()
+    {
+        return [
+            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'relation_to_applicant'], 'required'],
             [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
             [['collaterals', 'attachment'], 'string'],
             [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'relation_to_applicant', 'acount_type'], 'string', 'max' => 255],
-            [['borrower_pic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg']
-        ]);
+            [['comaker_pic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg']
+        ];
     }
-
+    
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => 'ID',
             'profile_pic' => 'Profile Pic',
@@ -63,18 +69,17 @@ class Borrower extends BaseBorrower {
             'attachment' => 'Attachment',
             'relation_to_applicant' => 'Relation To Applicant',
             'acount_type' => 'Acount Type',
-            'borrower_pic' => ''
+            'comaker_pic' => '',
         ];
     }
     
     //function to get the url of the file uploaded
      public function setPicUrl() {
         if ($this->validate()) {
-            $this->profile_pic = "fileupload/" . $this->first_name . '-' . $this->last_name . '-' . $this->middle_name . '.' . $borrower_pic->extension;
+            $this->profile_pic = "fileupload/" . $this->first_name . '-' . $this->last_name . '-' . $this->middle_name . '.' . $comaker_pic->extension;
             return true;
         } else {
             return false;
         }
     }
-
 }
