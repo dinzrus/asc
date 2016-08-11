@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Province;
-use yii\data\ActiveDataProvider;
+use app\models\ProvinceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,11 +32,11 @@ class ProvinceController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Province::find(),
-        ]);
+        $searchModel = new ProvinceSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

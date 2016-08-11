@@ -76,7 +76,18 @@ class Comaker extends Base{
     //function to get the url of the file uploaded
      public function setPicUrl() {
         if ($this->validate()) {
-            $this->profile_pic = "fileupload/" . $this->first_name . '-' . $this->last_name . '-' . $this->middle_name . '.' . $comaker_pic->extension;
+            $this->profile_pic = "fileupload/" . $this->first_name . '-' . $this->last_name . '-' . $this->middle_name . '.' . $this->comaker_pic->extension;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    //uploading image file
+     public function upload()
+    {
+        if ($this->validate()) {
+            $this->comaker_pic->saveAs($this->profile_pic);
             return true;
         } else {
             return false;

@@ -5,12 +5,14 @@ namespace app\models;
 use Yii;
 use \app\models\base\Borrower as BaseBorrower;
 use yii\base\Exception;
+
 /**
  * This is the model class for table "borrower".
  */
 class Borrower extends BaseBorrower {
 
     public $borrower_pic;
+    public $attachfiles;
 
     /**
      * @inheritdoc
@@ -22,7 +24,8 @@ class Borrower extends BaseBorrower {
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
             [['collaterals', 'attachment'], 'string'],
             [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'relation_to_applicant', 'acount_type'], 'string', 'max' => 255],
-            [['borrower_pic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg']
+            [['borrower_pic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['attachfiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 3]
         ]);
     }
 
@@ -66,11 +69,51 @@ class Borrower extends BaseBorrower {
             'borrower_pic' => ''
         ];
     }
-    
+
     //function to get the url of the file uploaded
-     public function setPicUrl() {
+    public function setPicUrl() {
         if ($this->validate()) {
-            $this->profile_pic = "fileupload/" . $this->first_name . '-' . $this->last_name . '-' . $this->middle_name . '.' . $borrower_pic->extension;
+            $this->profile_pic = "fileupload/" . $this->first_name . '-' . $this->last_name . '-' . $this->middle_name . '.' . $this->borrower_pic->extension;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //uploading image file
+    public function upload() {
+        if ($this->validate()) {
+            $this->borrower_pic->saveAs($this->profile_pic);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // set the url of the attach files
+    public function setAttachUrls() {
+        $attachcount = count($this->attachfiles);
+        $attachnames = "";
+        if ($this->validate() && ($attachcount > 0)) {
+            for ($i = 0; $i < $attachcount; $i++) {
+                $attachmentobject = $this->attachfiles[$i];
+                $tpname = $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . '.' . $attachmentobject->extension;
+                $attachnames = $attachnames . ' ' . 'fileupload/' . $tpname;
+            }
+            $this->attachment = trim($attachnames);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // upload attachfiles
+    public function uploadAttachFiles() {
+        if ($this->validate()) {
+            foreach ($this->attachfiles as $file) {
+                $tpname = 'fileupload/' . $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . '.' . $file->extension;
+                $file->saveAs($tpname);
+            }
             return true;
         } else {
             return false;

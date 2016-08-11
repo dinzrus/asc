@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\ProvinceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
@@ -18,11 +19,16 @@ $this->registerJs($search);
 <div class="province-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Province', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>
     </p>
-<?php 
+    <div class="search-form" style="display:none">
+        <?=  $this->render('_search', ['model' => $searchModel]); ?>
+    </div>
+    <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         ['attribute' => 'id', 'hidden' => true],
@@ -34,6 +40,7 @@ $this->registerJs($search);
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => $gridColumn,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-province']],

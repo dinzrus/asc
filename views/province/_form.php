@@ -9,6 +9,14 @@ use yii\widgets\ActiveForm;
 
 \mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos'=> \yii\web\View::POS_END, 
     'viewParams' => [
+        'class' => 'Borrower', 
+        'relID' => 'borrower', 
+        'value' => \yii\helpers\Json::encode($model->borrowers),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos'=> \yii\web\View::POS_END, 
+    'viewParams' => [
         'class' => 'MunicipalityCity', 
         'relID' => 'municipality-city', 
         'value' => \yii\helpers\Json::encode($model->municipalityCities),
@@ -30,7 +38,13 @@ use yii\widgets\ActiveForm;
     <?php
     $forms = [
         [
-            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('Municipality/City'),
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('Borrower'),
+            'content' => $this->render('_formBorrower', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->borrowers),
+            ]),
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('MunicipalityCity'),
             'content' => $this->render('_formMunicipalityCity', [
                 'row' => \yii\helpers\ArrayHelper::toArray($model->municipalityCities),
             ]),
