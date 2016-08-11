@@ -32,7 +32,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'addresscitymunicipality'],
                         'roles' => ['@']
                     ],
                     [
@@ -86,17 +86,20 @@ class BorrowerController extends Controller {
 
             //get the instance of borrower_pic and comaker_pic
             $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
-            $comaker->comaker_pic = UploadedFile::getInstance($borrower, 'comaker_pic');
+            $comaker->comaker_pic = UploadedFile::getInstance($comaker, 'comaker_pic');
+            $borrower->attachfiles = UploadedFile::getInstances($borrower, 'attachfiles');
 
             // set the url of the picture for saving
             $borrower->setPicUrl();
             $comaker->setPicUrl();
+            $borrower->setAttachUrls();
 
-            if ($borrower->saveAll() && $comaker->saveAll()) {
+            if ($borrower->saveAll() && $comaker->saveAll() && $borrower->upload() && $comaker->upload()) {
+
                 //save the id of borrower and comaker to borrower_comaker table
                 $borrowwer_comaker_ids->borrower_id = $borrower->id;
                 $borrowwer_comaker_ids->comaker_id = $comaker->id;
-                $borrowwer_comaker_ids->saveAll();
+                $borrowwer_comaker_ids->save(false);
 
                 $dependents = Model::createMultiple(Dependent::classname());
                 if (Model::loadMultiple($dependents, Yii::$app->request->post()) && Model::validateMultiple($dependents)) {
@@ -239,6 +242,27 @@ class BorrowerController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    // dependent address actions
+    public function actionAddresscitymunicipality() {
+        $out = [];
+        if (isset($_POST['Borrower'])) {
+            $province = $_POST['Borrower'];
+            if ($province != null) {
+                $out = self::getAddresscitymunicipality($province['address_province_id']);
+                echo Json::encode(['out' => $out, 'select' => '']);
+                return;
+            }
+        }
+    }
+
+    public static function getAddresscitymunicipality($province_id) {
+        $citymunicipality = \app\models\base\MunicipalityCity::find()
+                ->where(['province_id' => $province_id])
+                ->orderBy('id')
+                ->all();
+        return $citymunicipality;
     }
 
 }

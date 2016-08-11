@@ -15,6 +15,14 @@ use yii\widgets\ActiveForm;
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos'=> \yii\web\View::POS_END, 
+    'viewParams' => [
+        'class' => 'Borrower', 
+        'relID' => 'borrower', 
+        'value' => \yii\helpers\Json::encode($model->borrowers),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
 ?>
 
 <div class="municipality-city-form">
@@ -41,6 +49,12 @@ use yii\widgets\ActiveForm;
             'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('Barangay'),
             'content' => $this->render('_formBarangay', [
                 'row' => \yii\helpers\ArrayHelper::toArray($model->barangays),
+            ]),
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('Borrower'),
+            'content' => $this->render('_formBorrower', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->borrowers),
             ]),
         ],
     ];

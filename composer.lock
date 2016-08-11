@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
-            "version": "v2.3.5",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/almasaeed2010/AdminLTE.git",
-                "reference": "0ab2eb7f382e79810ebf3032ce766a02af2b0f3b"
+                "reference": "be11566d9539370b196ac85f22a6baf9f42c87cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/0ab2eb7f382e79810ebf3032ce766a02af2b0f3b",
-                "reference": "0ab2eb7f382e79810ebf3032ce766a02af2b0f3b",
+                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/be11566d9539370b196ac85f22a6baf9f42c87cb",
+                "reference": "be11566d9539370b196ac85f22a6baf9f42c87cb",
                 "shasum": ""
             },
             "type": "library",
@@ -29,7 +29,7 @@
             "authors": [
                 {
                     "name": "Abdullah Almsaeed",
-                    "email": "support@almsaeedstudio.com"
+                    "email": "abdullah@almsaeedstudio.com"
                 }
             ],
             "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 3",
@@ -45,7 +45,7 @@
                 "theme",
                 "web"
             ],
-            "time": "2016-07-03 15:21:22"
+            "time": "2016-08-04 23:22:06"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -444,16 +444,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.3.3",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "8c14423e41cfe6c6e0c1935a6c31a1136240d5d9"
+                "reference": "abde5a9611d4939b951fdd00f70a9fec935c7b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/8c14423e41cfe6c6e0c1935a6c31a1136240d5d9",
-                "reference": "8c14423e41cfe6c6e0c1935a6c31a1136240d5d9",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/abde5a9611d4939b951fdd00f70a9fec935c7b6b",
+                "reference": "abde5a9611d4939b951fdd00f70a9fec935c7b6b",
                 "shasum": ""
             },
             "type": "library",
@@ -493,7 +493,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-07-09 12:56:05"
+            "time": "2016-08-07 07:50:42"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -2003,12 +2003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mootensai/yii2-enhanced-gii.git",
-                "reference": "eb904632e6c108e1704b1b497f7f0096da6d08e8"
+                "reference": "c4f4d56dafd28da3358b60cc8a10d8329907b72d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mootensai/yii2-enhanced-gii/zipball/eb904632e6c108e1704b1b497f7f0096da6d08e8",
-                "reference": "eb904632e6c108e1704b1b497f7f0096da6d08e8",
+                "url": "https://api.github.com/repos/mootensai/yii2-enhanced-gii/zipball/c4f4d56dafd28da3358b60cc8a10d8329907b72d",
+                "reference": "c4f4d56dafd28da3358b60cc8a10d8329907b72d",
                 "shasum": ""
             },
             "require": {
@@ -2054,7 +2054,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2016-07-16 14:47:30"
+            "time": "2016-08-06 18:15:44"
         },
         {
             "name": "mootensai/yii2-jsblock",

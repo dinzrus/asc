@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\MunicipalityCitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
@@ -18,11 +19,16 @@ $this->registerJs($search);
 <div class="municipality-city-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Municipality City', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>
     </p>
-<?php 
+    <div class="search-form" style="display:none">
+        <?=  $this->render('_search', ['model' => $searchModel]); ?>
+    </div>
+    <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         ['attribute' => 'id', 'hidden' => true],
@@ -38,7 +44,7 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Province', 'id' => 'grid--province_id']
+                'filterInputOptions' => ['placeholder' => 'Province', 'id' => 'grid-municipality-city-search-province_id']
             ],
         [
             'class' => 'yii\grid\ActionColumn',
@@ -47,6 +53,7 @@ $this->registerJs($search);
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => $gridColumn,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-municipality-city']],

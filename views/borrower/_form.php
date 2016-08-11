@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
+use kartik\widgets\DepDrop;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $borrower app\models\Borrower */
@@ -18,7 +20,7 @@ use kartik\widgets\FileInput;
     <!-- start your form here -->
 
     <!------------------------------- tabs start here ------------------------------>     
-    <div class="row">
+    <div class="row">   
         <div class="col-md-12">
 
             <div class="nav-tabs-custom">
@@ -84,7 +86,7 @@ use kartik\widgets\FileInput;
                                 <?=
                                 $form->field($borrower, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
                                     'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
-                                    'options' => ['placeholder' => 'Choose Province'],
+                                    'options' => ['placeholder' => 'Choose Province', 'id' => 'address-province-id'],
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
@@ -92,22 +94,24 @@ use kartik\widgets\FileInput;
                                 ?>
 
                                 <?=
-                                $form->field($borrower, 'address_city_municipality_id')->widget(\kartik\widgets\Select2::classname(), [
-                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\MunicipalityCity::find()->orderBy('id')->asArray()->all(), 'id', 'municipality_city'),
-                                    'options' => ['placeholder' => 'Choose Municipality city'],
+                                $form->field($borrower, 'address_city_municipality_id')->widget(DepDrop::classname(), [
+                                    'options' => ['id' => 'address-city-municipality-id'],
                                     'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
+                                        'depends' => ['address-province-id'],
+                                        'placeholder' => 'Select city/municipality',
+                                        'url' => Url::to(['/borrower/addresscitymunicipality'])
+                                    ]
                                 ]);
                                 ?>
 
                                 <?=
-                                $form->field($borrower, 'address_barangay_id')->widget(\kartik\widgets\Select2::classname(), [
-                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Barangay::find()->orderBy('id')->asArray()->all(), 'id', 'barangay'),
-                                    'options' => ['placeholder' => 'Choose Barangay'],
+                               $form->field($borrower, 'address_barangay_id')->widget(DepDrop::classname(), [
+                                    'options' => ['id' => 'address-barangay-id'],
                                     'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
+                                        'depends' => ['address-city-municipality-id'],
+                                        'placeholder' => 'Select barangay',
+                                        'url' => Url::to(['/site/subcat'])
+                                    ]
                                 ]);
                                 ?>
 
@@ -272,25 +276,25 @@ use kartik\widgets\FileInput;
                             <div class="col-md-4">
                                 <?= $form->field($comaker, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-                                
-                    <?php
-                    echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
-                        'pluginOptions' => [
-                            'initialPreview' => [
-                                $comaker->profile_pic
-                            ],
-                            'showCaption' => false,
-                            'showRemove' => false,
-                            'showUpload' => false,
-                            'initialPreviewAsData' => true,
-                            'overwriteInitial' => true,
-                            'browseClass' => 'btn btn-primary btn-block',
-                            'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                            'browseLabel' => 'Select Photo'
-                        ],
-                        'options' => ['accept' => 'image/*']
-                    ]);
-                    ?>
+
+                                <?php
+                                echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
+                                    'pluginOptions' => [
+                                        'initialPreview' => [
+                                            $comaker->profile_pic
+                                        ],
+                                        'showCaption' => false,
+                                        'showRemove' => false,
+                                        'showUpload' => false,
+                                        'initialPreviewAsData' => true,
+                                        'overwriteInitial' => true,
+                                        'browseClass' => 'btn btn-primary btn-block',
+                                        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                                        'browseLabel' => 'Select Photo'
+                                    ],
+                                    'options' => ['accept' => 'image/*']
+                                ]);
+                                ?>
                             </div>
                             <div class="col-md-4">
 
@@ -395,7 +399,25 @@ use kartik\widgets\FileInput;
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="attachment">
-                        <?= $form->field($borrower, 'attachment')->textarea(['rows' => 6]) ?>
+                        <?php
+                        echo FileInput::widget([
+                            'model' => $borrower,
+                            'attribute' => 'attachfiles[]',
+                            'pluginOptions' => [
+                                'showCaption' => false,
+                                'showRemove' => true,
+                                'showPreview' => true,
+                                'showUpload' => false,
+                                'browseLabel' => 'Select Attachment',
+                                'removeLabel' => ' ',
+                                'maxFileCount' => 3,
+                            ],
+                            'options' => [
+                                'accept' => 'image/*',
+                                'multiple' => true,
+                            ]
+                        ]);
+                        ?>
                     </div>
                     <!-- /.tab-pane -->
                 </div>
