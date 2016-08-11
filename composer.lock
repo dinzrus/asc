@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "55759a19c29eb4f0cc48a9efdd106a23",
+    "hash": "731d901db8683488eb0cf7bcd8e82bf9",
     "content-hash": "56439c4dddfe83a4be55e6ef6be1550d",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
-            "version": "v2.3.5",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/almasaeed2010/AdminLTE.git",
-                "reference": "0ab2eb7f382e79810ebf3032ce766a02af2b0f3b"
+                "reference": "be11566d9539370b196ac85f22a6baf9f42c87cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/0ab2eb7f382e79810ebf3032ce766a02af2b0f3b",
-                "reference": "0ab2eb7f382e79810ebf3032ce766a02af2b0f3b",
+                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/be11566d9539370b196ac85f22a6baf9f42c87cb",
+                "reference": "be11566d9539370b196ac85f22a6baf9f42c87cb",
                 "shasum": ""
             },
             "type": "library",
@@ -29,7 +29,7 @@
             "authors": [
                 {
                     "name": "Abdullah Almsaeed",
-                    "email": "support@almsaeedstudio.com"
+                    "email": "abdullah@almsaeedstudio.com"
                 }
             ],
             "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 3",
@@ -45,7 +45,7 @@
                 "theme",
                 "web"
             ],
-            "time": "2016-07-03 15:21:22"
+            "time": "2016-08-04 23:22:06"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -444,16 +444,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.3.3",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "8c14423e41cfe6c6e0c1935a6c31a1136240d5d9"
+                "reference": "abde5a9611d4939b951fdd00f70a9fec935c7b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/8c14423e41cfe6c6e0c1935a6c31a1136240d5d9",
-                "reference": "8c14423e41cfe6c6e0c1935a6c31a1136240d5d9",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/abde5a9611d4939b951fdd00f70a9fec935c7b6b",
+                "reference": "abde5a9611d4939b951fdd00f70a9fec935c7b6b",
                 "shasum": ""
             },
             "type": "library",
@@ -493,7 +493,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-07-09 12:56:05"
+            "time": "2016-08-07 07:50:42"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -1229,16 +1229,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-datepicker",
-            "version": "v1.4.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "4ccb7262716f405f51720956a453a61a1b48dd53"
+                "reference": "b76e08a432950d658cadc7597178426a47a994ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/4ccb7262716f405f51720956a453a61a1b48dd53",
-                "reference": "4ccb7262716f405f51720956a453a61a1b48dd53",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/b76e08a432950d658cadc7597178426a47a994ac",
+                "reference": "b76e08a432950d658cadc7597178426a47a994ac",
                 "shasum": ""
             },
             "require": {
@@ -1279,7 +1279,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-07-01 11:15:25"
+            "time": "2016-06-28 17:51:26"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
@@ -2003,12 +2003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mootensai/yii2-enhanced-gii.git",
-                "reference": "eb904632e6c108e1704b1b497f7f0096da6d08e8"
+                "reference": "c4f4d56dafd28da3358b60cc8a10d8329907b72d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mootensai/yii2-enhanced-gii/zipball/eb904632e6c108e1704b1b497f7f0096da6d08e8",
-                "reference": "eb904632e6c108e1704b1b497f7f0096da6d08e8",
+                "url": "https://api.github.com/repos/mootensai/yii2-enhanced-gii/zipball/c4f4d56dafd28da3358b60cc8a10d8329907b72d",
+                "reference": "c4f4d56dafd28da3358b60cc8a10d8329907b72d",
                 "shasum": ""
             },
             "require": {
@@ -2054,7 +2054,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2016-07-16 14:47:30"
+            "time": "2016-08-06 18:15:44"
         },
         {
             "name": "mootensai/yii2-jsblock",
