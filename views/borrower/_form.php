@@ -86,7 +86,7 @@ use yii\helpers\Url;
                                 <?=
                                 $form->field($borrower, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
                                     'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
-                                    'options' => ['placeholder' => 'Choose Province', 'id' => 'address-province-id'],
+                                    'options' => ['placeholder' => 'Choose Province'],
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
@@ -96,8 +96,9 @@ use yii\helpers\Url;
                                 <?=
                                 $form->field($borrower, 'address_city_municipality_id')->widget(DepDrop::classname(), [
                                     'options' => ['id' => 'address-city-municipality-id'],
+                                    'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
-                                        'depends' => ['address-province-id'],
+                                        'depends' => [Html::getInputId($borrower, 'address_province_id')],
                                         'placeholder' => 'Select city/municipality',
                                         'url' => Url::to(['/borrower/addresscitymunicipality'])
                                     ]
@@ -107,6 +108,7 @@ use yii\helpers\Url;
                                 <?=
                                $form->field($borrower, 'address_barangay_id')->widget(DepDrop::classname(), [
                                     'options' => ['id' => 'address-barangay-id'],
+                                    'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
                                         'depends' => ['address-city-municipality-id'],
                                         'placeholder' => 'Select barangay',

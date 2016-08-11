@@ -13,6 +13,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\helpers\Json;
+use app\models\MunicipalityCity;
 
 /**
  * BorrowerController implements the CRUD actions for Borrower model.
@@ -249,20 +251,33 @@ class BorrowerController extends Controller {
         $out = [];
         if (isset($_POST['Borrower'])) {
             $province = $_POST['Borrower'];
+            $id = $province['address_province_id'];
             if ($province != null) {
-                $out = self::getAddresscitymunicipality($province['address_province_id']);
-                echo Json::encode(['out' => $out, 'select' => '']);
+                $out = self::getAddresscitymunicipality($id);
+                echo Json::encode(['out' => $out, 'selected' => '']);
                 return;
             }
         }
+        echo Json::encode(['output' => '', 'selected'=>'']);
     }
 
-    public static function getAddresscitymunicipality($province_id) {
-        $citymunicipality = \app\models\base\MunicipalityCity::find()
-                ->where(['province_id' => $province_id])
+    public static function getAddresscitymunicipality($id) {
+
+        $out = [];
+
+        $citymunicipality = MunicipalityCity::find()
+                ->where(['province_id' => $id])
                 ->orderBy('id')
                 ->all();
-        return $citymunicipality;
+
+        if ($id != null && count($citymunicipality) > 0) {
+            $selected = '';
+            foreach ($citymunicipality as $i => $data) {
+                $out[] = ['id' => $data['id'], 'name' => $data['municipality_city']];
+            }
+
+            return $out;
+        }
     }
 
 }
