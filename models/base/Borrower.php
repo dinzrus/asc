@@ -48,6 +48,9 @@ use Yii;
 class Borrower extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
+    
+    const ACCOUNT_TYPE1 = 'B';
+    const ACCOUNT_TYPE2 = 'C';
 
     /**
      * @inheritdoc

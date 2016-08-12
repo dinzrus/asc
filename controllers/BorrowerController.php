@@ -6,6 +6,7 @@ use Yii;
 use app\models\Model;
 use app\models\Borrower;
 use app\models\Comaker;
+use app\models\Barangay;
 use app\models\BorrowerComaker;
 use app\models\Dependent;
 use app\models\BorrowerSearch;
@@ -34,7 +35,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'addresscitymunicipality'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -82,7 +83,7 @@ class BorrowerController extends Controller {
         $comaker = new Comaker();
         $update = false;
         $dependent = new Dependent;
-        $borrowwer_comaker_ids = new BorrowerComaker();
+        $borrower_comaker = new BorrowerComaker();
 
         if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post())) {
 
@@ -95,13 +96,16 @@ class BorrowerController extends Controller {
             $borrower->setPicUrl();
             $comaker->setPicUrl();
             $borrower->setAttachUrls();
+            
+            $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
+            $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
 
-            if ($borrower->saveAll() && $comaker->saveAll() && $borrower->upload() && $comaker->upload()) {
+            if ($borrower->saveAll() && $comaker->saveAll() && $borrower->upload() && $comaker->upload() && $borrower->uploadAttachFiles()) {
 
                 //save the id of borrower and comaker to borrower_comaker table
-                $borrowwer_comaker_ids->borrower_id = $borrower->id;
-                $borrowwer_comaker_ids->comaker_id = $comaker->id;
-                $borrowwer_comaker_ids->save(false);
+                $borrower_comaker->borrower_id = $borrower->id;
+                $borrower_comaker->comaker_id = $comaker->id;
+                $borrower_comaker->save(false);
 
                 $dependents = Model::createMultiple(Dependent::classname());
                 if (Model::loadMultiple($dependents, Yii::$app->request->post()) && Model::validateMultiple($dependents)) {
@@ -246,38 +250,49 @@ class BorrowerController extends Controller {
         }
     }
 
-    // dependent address actions
-    public function actionAddresscitymunicipality() {
+    /**
+     * Dedrop callback functions
+     */
+    public function actionGetmunicipalitycity() {
         $out = [];
-        if (isset($_POST['Borrower'])) {
-            $province = $_POST['Borrower'];
-            $id = $province['address_province_id'];
-            if ($province != null) {
-                $out = self::getAddresscitymunicipality($id);
-                echo Json::encode(['out' => $out, 'selected' => '']);
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                $list = MunicipalityCity::find()->andWhere(['province_id' => $cat_id])->asArray()->all();
+                $selected = null;
+                foreach ($list as $i => $account) {
+                    $out[] = ['id' => $account['id'], 'name' => $account['municipality_city']];
+                    if ($i == 0) {
+                        $selected = $account['id'];
+                    }
+                }
+                echo Json::encode(['output' => $out, 'selected' => '']);
                 return;
             }
         }
-        echo Json::encode(['output' => '', 'selected'=>'']);
+        echo Json::encode(['output' => '', 'selected' => '']);
     }
 
-    public static function getAddresscitymunicipality($id) {
-
-        $out = [];
-
-        $citymunicipality = MunicipalityCity::find()
-                ->where(['province_id' => $id])
-                ->orderBy('id')
-                ->all();
-
-        if ($id != null && count($citymunicipality) > 0) {
-            $selected = '';
-            foreach ($citymunicipality as $i => $data) {
-                $out[] = ['id' => $data['id'], 'name' => $data['municipality_city']];
+    public function actionGetbarangay() {
+       $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                $list = Barangay::find()->andWhere(['municipality_city_id' => $cat_id])->asArray()->all();
+                $selected = null;
+                foreach ($list as $i => $account) {
+                    $out[] = ['id' => $account['id'], 'name' => $account['barangay']];
+                    if ($i == 0) {
+                        $selected = $account['id'];
+                    }
+                }
+                echo Json::encode(['output' => $out, 'selected' => '']);
+                return;
             }
-
-            return $out;
         }
+        echo Json::encode(['output' => '', 'selected' => '']);
     }
 
 }

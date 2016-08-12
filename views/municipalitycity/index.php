@@ -18,7 +18,6 @@ $this->registerJs($search);
 ?>
 <div class="municipality-city-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>

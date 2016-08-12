@@ -39,7 +39,7 @@ use yii\helpers\Url;
                                 echo $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
                                     'pluginOptions' => [
                                         'initialPreview' => [
-                                            $borrower->profile_pic
+                                            empty($borrower->profile_pic) ? 'fileupload/default.jpg' : $borrower->profile_pic
                                         ],
                                         'initialPreviewAsData' => true,
                                         'overwriteInitial' => true,
@@ -95,24 +95,24 @@ use yii\helpers\Url;
 
                                 <?=
                                 $form->field($borrower, 'address_city_municipality_id')->widget(DepDrop::classname(), [
-                                    'options' => ['id' => 'address-city-municipality-id'],
+                                    'options' => ['id' => Html::getInputId($borrower, 'address_city_municipality_id')],
                                     'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
                                         'depends' => [Html::getInputId($borrower, 'address_province_id')],
                                         'placeholder' => 'Select city/municipality',
-                                        'url' => Url::to(['/borrower/addresscitymunicipality'])
+                                        'url' => Url::to(['/borrower/getmunicipalitycity'])
                                     ]
                                 ]);
                                 ?>
 
                                 <?=
                                $form->field($borrower, 'address_barangay_id')->widget(DepDrop::classname(), [
-                                    'options' => ['id' => 'address-barangay-id'],
+                                    //'options' => ['id' => 'address-barangay-id'],
                                     'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
-                                        'depends' => ['address-city-municipality-id'],
+                                        'depends' => [Html::getInputId($borrower, 'address_city_municipality_id')],
                                         'placeholder' => 'Select barangay',
-                                        'url' => Url::to(['/site/subcat'])
+                                        'url' => Url::to(['/borrower/getbarangay'])
                                     ]
                                 ]);
                                 ?>
@@ -264,9 +264,15 @@ use yii\helpers\Url;
                                 ]);
                                 ?>
 
-                                <?= $form->field($borrower, 'branch_id')->textInput(['placeholder' => 'Branch']) ?>
-
-                                <?= $form->field($borrower, 'acount_type')->textInput(['maxlength' => true, 'placeholder' => 'Acount Type']) ?>
+                                <?=
+                                $form->field($borrower, 'branch_id')->widget(\kartik\widgets\Select2::classname(), [
+                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->orderBy('branch_id')->asArray()->all(), 'branch_id', 'branch_description'),
+                                    'options' => ['placeholder' => 'Choose Branch'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ]);
+                                ?>
 
                             </div>
                         </div>
@@ -283,7 +289,7 @@ use yii\helpers\Url;
                                 echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
                                     'pluginOptions' => [
                                         'initialPreview' => [
-                                            $comaker->profile_pic
+                                            empty($comaker->profile_pic)? 'fileupload/default.jpg' : $comaker->profile_pic
                                         ],
                                         'showCaption' => false,
                                         'showRemove' => false,
@@ -326,7 +332,7 @@ use yii\helpers\Url;
 
                                 <?= $form->field($comaker, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
 
-                                <?=
+                               <?=
                                 $form->field($comaker, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
                                     'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
                                     'options' => ['placeholder' => 'Choose Province'],
@@ -337,24 +343,29 @@ use yii\helpers\Url;
                                 ?>
 
                                 <?=
-                                $form->field($comaker, 'address_city_municipality_id')->widget(\kartik\widgets\Select2::classname(), [
-                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\MunicipalityCity::find()->orderBy('id')->asArray()->all(), 'id', 'municipality_city'),
-                                    'options' => ['placeholder' => 'Choose Municipality city'],
+                                $form->field($comaker, 'address_city_municipality_id')->widget(DepDrop::classname(), [
+                                    'options' => ['id' => Html::getInputId($comaker, 'address_city_municipality_id')],
+                                    'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
-                                ]);
+                                        'depends' => [Html::getInputId($comaker, 'address_province_id')],
+                                        'placeholder' => 'Select city/municipality',
+                                        'url' => Url::to(['/borrower/getmunicipalitycity'])
+                                    ]
+                                ]); 
                                 ?>
 
                                 <?=
-                                $form->field($comaker, 'address_barangay_id')->widget(\kartik\widgets\Select2::classname(), [
-                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Barangay::find()->orderBy('id')->asArray()->all(), 'id', 'barangay'),
-                                    'options' => ['placeholder' => 'Choose Barangay'],
+                               $form->field($comaker, 'address_barangay_id')->widget(DepDrop::classname(), [
+                                    //'options' => ['id' => 'address-barangay-id'],
+                                    'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
+                                        'depends' => [Html::getInputId($comaker, 'address_city_municipality_id')],
+                                        'placeholder' => 'Select barangay',
+                                        'url' => Url::to(['/borrower/getbarangay'])
+                                    ]
                                 ]);
                                 ?>
+
 
                                 <?= $form->field($comaker, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
 
@@ -393,8 +404,6 @@ use yii\helpers\Url;
                                 ?>
 
                                 <?= $form->field($comaker, 'relation_to_applicant')->textInput(['maxlength' => true, 'placeholder' => 'Relation To Applicant']) ?>
-
-                                <?= $form->field($comaker, 'acount_type')->textInput(['maxlength' => true, 'placeholder' => 'Acount Type']) ?>
 
                             </div>
                         </div>

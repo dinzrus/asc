@@ -13,7 +13,7 @@ class Borrower extends BaseBorrower {
 
     public $borrower_pic;
     public $attachfiles;
-
+    
     /**
      * @inheritdoc
      */
@@ -70,7 +70,11 @@ class Borrower extends BaseBorrower {
         ];
     }
 
-    //function to get the url of the file uploaded
+    /**
+     * This will set the url of the borrower image for saving into the database, if success this 
+     * will return true else it will return false
+     * @return boolean
+     */
     public function setPicUrl() {
         if ($this->validate()) {
             $this->profile_pic = "fileupload/" . $this->first_name . '-' . $this->last_name . '-' . $this->middle_name . '.' . $this->borrower_pic->extension;
@@ -80,7 +84,11 @@ class Borrower extends BaseBorrower {
         }
     }
 
-    //uploading image file
+    /**
+     * This will upload the profile image, if success this 
+     * will return true else it will return false
+     * @return boolean
+     */
     public function upload() {
         if ($this->validate()) {
             $this->borrower_pic->saveAs($this->profile_pic);
@@ -90,14 +98,18 @@ class Borrower extends BaseBorrower {
         }
     }
 
-    // set the url of the attach files
+    /**
+     * This will set the url of the profile image,if success this 
+     * will return true else it will return false
+     * @return boolean
+     */
     public function setAttachUrls() {
         $attachcount = count($this->attachfiles);
         $attachnames = "";
         if ($this->validate() && ($attachcount > 0)) {
             for ($i = 0; $i < $attachcount; $i++) {
                 $attachmentobject = $this->attachfiles[$i];
-                $tpname = $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . '.' . $attachmentobject->extension;
+                $tpname = $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . $i . '.' . $attachmentobject->extension;
                 $attachnames = $attachnames . ' ' . 'fileupload/' . $tpname;
             }
             $this->attachment = trim($attachnames);
@@ -107,12 +119,18 @@ class Borrower extends BaseBorrower {
         }
     }
 
-    // upload attachfiles
+    /**
+     * This will upload all the attachfiles, if success this 
+     * will return true else it will return false 
+     * @return boolean
+     */
     public function uploadAttachFiles() {
-        if ($this->validate()) {
-            foreach ($this->attachfiles as $file) {
-                $tpname = 'fileupload/' . $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . '.' . $file->extension;
-                $file->saveAs($tpname);
+        $attachcount = count($this->attachfiles);
+        if ($attachcount > 0) {
+            for ($i = 0; $i < $attachcount; $i++) {
+                $attachmentobject = $this->attachfiles[$i];
+                $tpname = 'fileupload/' . $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment'. $i . '.' . $attachmentobject->extension;
+                $attachmentobject->saveAs($tpname);
             }
             return true;
         } else {
