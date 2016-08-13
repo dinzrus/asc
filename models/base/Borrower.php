@@ -59,6 +59,7 @@ class Borrower extends \yii\db\ActiveRecord
     {
         return [
             [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
+            ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
             [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
             [['collaterals', 'attachment'], 'string'],

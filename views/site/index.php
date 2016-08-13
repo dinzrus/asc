@@ -14,6 +14,5 @@ $this->title = '';
 
     <div class="body-content">
 
-
     </div>
 </div>

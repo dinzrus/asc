@@ -13,9 +13,7 @@ use yii\helpers\Url;
 
 <div class="borrower-form">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
-    <?= $form->errorSummary($borrower); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data'], 'enableAjaxValidation' => 'true']); ?>
 
     <!-- start your form here -->
 
@@ -57,9 +55,9 @@ use yii\helpers\Url;
                             </div>
                             <div class="col-md-4">
 
-                                <?= $form->field($borrower, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
-
                                 <?= $form->field($borrower, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
+
+                                <?= $form->field($borrower, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
 
                                 <?= $form->field($borrower, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
 
@@ -106,7 +104,7 @@ use yii\helpers\Url;
                                 ?>
 
                                 <?=
-                               $form->field($borrower, 'address_barangay_id')->widget(DepDrop::classname(), [
+                                $form->field($borrower, 'address_barangay_id')->widget(DepDrop::classname(), [
                                     //'options' => ['id' => 'address-barangay-id'],
                                     'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
@@ -121,7 +119,15 @@ use yii\helpers\Url;
 
                             </div>
                             <div class="col-md-4">
-                                <?= $form->field($borrower, 'civil_status')->textInput(['maxlength' => true, 'placeholder' => 'Civil Status']) ?>
+                                <?=
+                                $form->field($borrower, 'civil_status')->dropDownList([
+                                    'single' => 'Single',
+                                    'married' => 'Married',
+                                    'widowed' => 'Widowed',
+                                    'common_law' => 'Common Law',
+                                    'separated' => 'Separated'
+                                ])
+                                ?>
 
                                 <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
 
@@ -289,7 +295,7 @@ use yii\helpers\Url;
                                 echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
                                     'pluginOptions' => [
                                         'initialPreview' => [
-                                            empty($comaker->profile_pic)? 'fileupload/default.jpg' : $comaker->profile_pic
+                                            empty($comaker->profile_pic) ? 'fileupload/default.jpg' : $comaker->profile_pic
                                         ],
                                         'showCaption' => false,
                                         'showRemove' => false,
@@ -306,9 +312,9 @@ use yii\helpers\Url;
                             </div>
                             <div class="col-md-4">
 
-                                <?= $form->field($comaker, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
-
                                 <?= $form->field($comaker, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
+
+                                <?= $form->field($comaker, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
 
                                 <?= $form->field($comaker, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
 
@@ -332,7 +338,7 @@ use yii\helpers\Url;
 
                                 <?= $form->field($comaker, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
 
-                               <?=
+                                <?=
                                 $form->field($comaker, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
                                     'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
                                     'options' => ['placeholder' => 'Choose Province'],
@@ -351,11 +357,11 @@ use yii\helpers\Url;
                                         'placeholder' => 'Select city/municipality',
                                         'url' => Url::to(['/borrower/getmunicipalitycity'])
                                     ]
-                                ]); 
+                                ]);
                                 ?>
 
                                 <?=
-                               $form->field($comaker, 'address_barangay_id')->widget(DepDrop::classname(), [
+                                $form->field($comaker, 'address_barangay_id')->widget(DepDrop::classname(), [
                                     //'options' => ['id' => 'address-barangay-id'],
                                     'type' => DepDrop::TYPE_SELECT2,
                                     'pluginOptions' => [
@@ -371,7 +377,15 @@ use yii\helpers\Url;
 
                             </div>
                             <div class="col-md-4">
-                                <?= $form->field($comaker, 'civil_status')->textInput(['maxlength' => true, 'placeholder' => 'Civil Status']) ?>
+                                <?=
+                                $form->field($comaker, 'civil_status')->dropDownList([
+                                    'single' => 'Single',
+                                    'married' => 'Married',
+                                    'widowed' => 'Widowed',
+                                    'common_law' => 'Common Law',
+                                    'separated' => 'Separated'
+                                ])
+                                ?>
 
                                 <?= $form->field($comaker, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
 
