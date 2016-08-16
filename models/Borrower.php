@@ -13,18 +13,18 @@ class Borrower extends BaseBorrower {
 
     public $borrower_pic;
     public $attachfiles;
-    
+
     /**
      * @inheritdoc
      */
     public function rules() {
         return array_replace_recursive(parent::rules(), [
-            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
+            [['no_dependent', 'collaterals', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'ci_date', 'canvass_date', 'spouse_name', 'spouse_occupation', 'spouse_age', 'spouse_birthdate'], 'required'],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
             [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
             [['collaterals', 'attachment'], 'string'],
-            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'relation_to_applicant', 'acount_type'], 'string', 'max' => 255],
+            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'acount_type'], 'string', 'max' => 255],
             [['borrower_pic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['attachfiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 3]
         ]);
@@ -65,7 +65,6 @@ class Borrower extends BaseBorrower {
             'status' => 'Status',
             'branch_id' => 'Branch ID',
             'attachment' => 'Attachment',
-            'relation_to_applicant' => 'Relation To Applicant',
             'acount_type' => 'Acount Type',
             'borrower_pic' => ''
         ];
@@ -130,7 +129,7 @@ class Borrower extends BaseBorrower {
         if ($attachcount > 0) {
             for ($i = 0; $i < $attachcount; $i++) {
                 $attachmentobject = $this->attachfiles[$i];
-                $tpname = 'fileupload/' . $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment'. $i . '.' . $attachmentobject->extension;
+                $tpname = 'fileupload/' . $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . $i . '.' . $attachmentobject->extension;
                 $attachmentobject->saveAs($tpname);
             }
             return true;

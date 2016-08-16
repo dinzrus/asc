@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'comaker' => $comaker,
         'dependents' => $dependents,
         'update' => $update,
+        'borrower_comaker' => $borrower_comaker,
     ])
     ?>
 

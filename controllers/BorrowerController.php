@@ -86,7 +86,7 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        if (Yii::$app->user->can('IT')) {
+        if (Yii::$app->user->can('organizer')) {
             $borrower = new Borrower();
             $comaker = new Comaker();
             $update = false;
@@ -98,7 +98,7 @@ class BorrowerController extends Controller {
                 Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return \yii\widgets\ActiveForm::validate($borrower);
             }
-            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post())) {
+            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post())) {
 
                 //get the instance of borrower_pic and comaker_pic
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
@@ -106,7 +106,7 @@ class BorrowerController extends Controller {
                 $borrower->attachfiles = UploadedFile::getInstances($borrower, 'attachfiles');
 
                 // set the url of the picture for saving
-                // set the url of the picture for saving
+                // set the url of the picture for saving    
                 if (!empty($borrower->borrower_pic)) {
                     $borrower->setPicUrl();
                 }
@@ -120,7 +120,7 @@ class BorrowerController extends Controller {
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
                 $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
 
-                if ($borrower->saveAll() && $comaker->saveAll()) {
+                if ($borrower->saveAll() && $comaker->saveAll() && $borrower_comaker->saveAll()) {
 
                     //save the id of borrower and comaker to borrower_comaker table
                     $borrower_comaker->borrower_id = $borrower->id;
@@ -153,6 +153,7 @@ class BorrowerController extends Controller {
                             'comaker' => $comaker,
                             'dependent' => $dependent,
                             'update' => $update,
+                            'borrower_comaker' => $borrower_comaker,
                 ]);
             }
         }
@@ -171,8 +172,8 @@ class BorrowerController extends Controller {
                 $borrower = new Borrower();
             } else {
                 $borrower = $this->findModel($id);
-                $comaker_id = BorrowerComaker::findOne(['borrower_id' => $id]);
-                $comaker = Comaker::findOne(['id' => $comaker_id->comaker_id]);
+                $borrower_comaker = BorrowerComaker::findOne(['borrower_id' => $id]);
+                $comaker = Comaker::findOne(['id' => $borrower_comaker->comaker_id]);
                 $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
             }
 
@@ -182,7 +183,7 @@ class BorrowerController extends Controller {
                 return \yii\widgets\ActiveForm::validate($borrower);
             }
 
-            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post())) {
+            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post())) {
 
                 //get the instance of borrower_pic and comaker_pic
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
@@ -200,10 +201,7 @@ class BorrowerController extends Controller {
                     $borrower->setAttachUrls();
                 }
 
-                $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
-                $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
-
-                if ($borrower->saveAll() && $comaker->saveAll()) {
+                if ($borrower->saveAll() && $comaker->saveAll() && $borrower_comaker->saveAll()) {
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
@@ -231,6 +229,7 @@ class BorrowerController extends Controller {
                             'comaker' => $comaker,
                             'dependents' => (empty($dependents)) ? [new Dependent] : $dependents,
                             'update' => $update,
+                            'borrower_comaker' => $borrower_comaker,
                 ]);
             }
         }

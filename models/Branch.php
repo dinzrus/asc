@@ -17,7 +17,8 @@ class Branch extends BaseBranch
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['branch_description', 'address', 'telephone_no'], 'required'],
+            [['branch_description', 'address', 'telephone_no', 'created_at', 'updated_at'], 'required'],
+            [['created_at', 'updated_at'], 'safe'],
             [['branch_description', 'address', 'telephone_no'], 'string', 'max' => 255]
         ]);
     }

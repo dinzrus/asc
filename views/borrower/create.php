@@ -16,5 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'comaker' => $comaker,
         'dependent' => $dependent,
         'update' => $update,
+        'borrower_comaker' => $borrower_comaker,
     ]) ?>
 </div>

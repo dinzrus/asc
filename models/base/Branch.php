@@ -3,6 +3,9 @@
 namespace app\models\base;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use mootensai\behaviors\UUIDBehavior;
 
 /**
  * This is the base model class for table "branch".
@@ -11,6 +14,8 @@ use Yii;
  * @property string $branch_description
  * @property string $address
  * @property string $telephone_no
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property \app\models\BranchLoanscheme[] $branchLoanschemes
  * @property \app\models\Unit[] $units
@@ -25,7 +30,8 @@ class Branch extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_description', 'address', 'telephone_no'], 'required'],
+            [['branch_description', 'address', 'telephone_no', 'created_at', 'updated_at'], 'required'],
+            [['created_at', 'updated_at'], 'safe'],
             [['branch_description', 'address', 'telephone_no'], 'string', 'max' => 255]
         ];
     }
@@ -67,11 +73,32 @@ class Branch extends \yii\db\ActiveRecord
         return $this->hasMany(\app\models\Unit::className(), ['branch_id' => 'branch_id']);
     }
     
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-   
-    
+/**
+     * @inheritdoc
+     * @return array mixed
+     */ 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_up',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new \yii\db\Expression('Now()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_up',
+                'updatedByAttribute' => 'updated_at',
+                'value' => new \yii\db\Expression('Now()'),
+            ],
+            'uuid' => [
+                'class' => UUIDBehavior::className(),
+                'column' => 'id',
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      * @return \app\models\BranchQuery the active query used by this AR class.

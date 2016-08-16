@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="borrower-view">
     <div class="row">
         <div class="col-sm-8">
-            <h2><?= 'Borrower' . ' ' . Html::encode($this->title) ?></h2>
+            <h2><?= Html::encode($borrower->last_name. ', ' . $borrower->first_name) ?></h2>
         </div>
         <div class="col-sm-4" style="margin-top: 15px">
             <?=

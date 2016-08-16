@@ -29,6 +29,8 @@ $this->registerJs($search);
         'branch_description',
         'address',
         'telephone_no',
+        'created_at',
+        'updated_at',
         [
             'class' => 'yii\grid\ActionColumn',
         ],

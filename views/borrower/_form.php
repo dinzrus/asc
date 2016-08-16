@@ -31,8 +31,9 @@ use yii\helpers\Url;
                     <div class="active tab-pane" id="principal">
                         <div class="row">
                             <div class="col-md-4">
-                                <?= $form->field($borrower, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-
+                                <?php if (!$borrower->isNewRecord) : ?>
+                                    <?= $form->field($borrower, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+                                <?php endif; ?>
                                 <?php
                                 echo $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
                                     'pluginOptions' => [
@@ -126,7 +127,7 @@ use yii\helpers\Url;
                                     'widowed' => 'Widowed',
                                     'common_law' => 'Common Law',
                                     'separated' => 'Separated'
-                                ])
+                                ], ['prompt' => '- Select - '])
                                 ?>
 
                                 <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
@@ -288,9 +289,9 @@ use yii\helpers\Url;
                     <div class="tab-pane" id="second">
                         <div class="row">
                             <div class="col-md-4">
-                                <?= $form->field($comaker, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-
-
+                                <?php if (!$comaker->isNewRecord) : ?>
+                                    <?= $form->field($comaker, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+                                <?php endif; ?>
                                 <?php
                                 echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
                                     'pluginOptions' => [
@@ -338,6 +339,9 @@ use yii\helpers\Url;
 
                                 <?= $form->field($comaker, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
 
+
+                            </div>
+                            <div class="col-md-4">
                                 <?=
                                 $form->field($comaker, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
                                     'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
@@ -372,11 +376,8 @@ use yii\helpers\Url;
                                 ]);
                                 ?>
 
-
                                 <?= $form->field($comaker, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
 
-                            </div>
-                            <div class="col-md-4">
                                 <?=
                                 $form->field($comaker, 'civil_status')->dropDownList([
                                     'single' => 'Single',
@@ -384,41 +385,21 @@ use yii\helpers\Url;
                                     'widowed' => 'Widowed',
                                     'common_law' => 'Common Law',
                                     'separated' => 'Separated'
-                                ])
+                                ], ['prompt' => '- Select -'])
                                 ?>
 
                                 <?= $form->field($comaker, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
 
-                                <?= $form->field($comaker, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
-
-                                <?= $form->field($comaker, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) ?>
-
-                                <?= $form->field($comaker, 'ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Ctc No']) ?>
-
-                                <?= $form->field($comaker, 'license_no')->textInput(['maxlength' => true, 'placeholder' => 'License No']) ?>
-
-                                <?= $form->field($comaker, 'spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Name']) ?>
-
-                                <?= $form->field($comaker, 'spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Occupation']) ?>
-
-                                <?= $form->field($comaker, 'spouse_age')->textInput(['placeholder' => 'Spouse Age']) ?>
-
-                                <?=
-                                $form->field($comaker, 'spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                    'saveFormat' => 'php:Y-m-d',
-                                    'ajaxConversion' => true,
-                                    'options' => [
-                                        'pluginOptions' => [
-                                            'placeholder' => 'Choose Spouse Birthdate',
-                                            'autoclose' => true
-                                        ]
-                                    ],
-                                ]);
-                                ?>
-
-                                <?= $form->field($comaker, 'relation_to_applicant')->textInput(['maxlength' => true, 'placeholder' => 'Relation To Applicant']) ?>
-
+                                <?php if (!$borrower_comaker->isNewRecord) : ?>
+                                    <?= $form->field($borrower_comaker, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+                                <?php endif; ?>
+                                <?= $form->field($borrower_comaker, 'relationship')->dropDownList([
+                                    'brother' => 'Brother',
+                                    'sister' => 'Sister',
+                                    'neighbor' => 'Neighbor',
+                                    'husband' => 'Husband',
+                                    'daughter' => 'Daughter',
+                                ], ['prompt' => '- Select -']) ?>
                             </div>
                         </div>
                     </div>

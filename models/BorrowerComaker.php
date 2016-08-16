@@ -17,8 +17,9 @@ class BorrowerComaker extends BaseBorrowerComaker
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['borrower_id', 'comaker_id'], 'required'],
-            [['borrower_id', 'comaker_id'], 'integer']
+            [['borrower_id', 'comaker_id', 'relationship'], 'required'],
+            [['borrower_id', 'comaker_id'], 'integer'],
+            [['relationship'], 'string', 'max' => 255]
         ]);
     }
 	

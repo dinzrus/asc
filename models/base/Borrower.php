@@ -3,6 +3,8 @@
 namespace app\models\base;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the base model class for table "borrower".
@@ -37,7 +39,6 @@ use Yii;
  * @property string $status
  * @property integer $branch_id
  * @property string $attachment
- * @property string $relation_to_applicant
  * @property string $acount_type
  *
  * @property \app\models\Province $addressProvince
@@ -45,41 +46,38 @@ use Yii;
  * @property \app\models\Barangay $addressBarangay
  * @property \app\models\MunicipalityCity $addressCityMunicipality
  */
-class Borrower extends \yii\db\ActiveRecord
-{
+class Borrower extends \yii\db\ActiveRecord {
+
     use \mootensai\relation\RelationTrait;
-    
+
     const ACCOUNT_TYPE1 = 'B';
     const ACCOUNT_TYPE2 = 'C';
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
+            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'created_at', 'updated_at'], 'required'],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
-            [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate'], 'safe'],
+            [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
             [['collaterals', 'attachment'], 'string'],
-            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'relation_to_applicant', 'acount_type'], 'string', 'max' => 255]
+            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'acount_type'], 'string', 'max' => 255]
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'borrower';
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'profile_pic' => 'Profile Pic',
@@ -111,51 +109,65 @@ class Borrower extends \yii\db\ActiveRecord
             'status' => 'Status',
             'branch_id' => 'Branch ID',
             'attachment' => 'Attachment',
-            'relation_to_applicant' => 'Relation To Applicant',
             'acount_type' => 'Acount Type',
         ];
     }
-    
+
+    /**
+     * @inheritdoc
+     * @return array mixed
+     */
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_up',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new \yii\db\Expression('Now()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_up',
+                'updatedByAttribute' => 'updated_at',
+                'value' => new \yii\db\Expression('Now()'),
+            ],
+        ];
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAddressProvince()
-    {
+    public function getAddressProvince() {
         return $this->hasOne(\app\models\Province::className(), ['id' => 'address_province_id']);
     }
-        
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStatus0()
-    {
+    public function getStatus0() {
         return $this->hasOne(\app\models\Status::className(), ['code' => 'status']);
     }
-        
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAddressBarangay()
-    {
+    public function getAddressBarangay() {
         return $this->hasOne(\app\models\Barangay::className(), ['id' => 'address_barangay_id']);
     }
-        
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAddressCityMunicipality()
-    {
+    public function getAddressCityMunicipality() {
         return $this->hasOne(\app\models\MunicipalityCity::className(), ['id' => 'address_city_municipality_id']);
     }
-    
+
     /**
      * @inheritdoc
      * @return \app\models\BorrowerQuery the active query used by this AR class.
      */
-    public static function find()
-    {
+    public static function find() {
         return new \app\models\BorrowerQuery(get_called_class());
     }
-    
-     
+
 }
