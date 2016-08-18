@@ -21,7 +21,7 @@ class Borrower extends BaseBorrower {
         return array_replace_recursive(parent::rules(), [
             [['no_dependent', 'collaterals', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'ci_date', 'canvass_date', 'spouse_name', 'spouse_occupation', 'spouse_age', 'spouse_birthdate'], 'required'],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
-            [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate'], 'safe'],
+            [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
             [['collaterals', 'attachment'], 'string'],
             [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'acount_type'], 'string', 'max' => 255],
@@ -44,17 +44,17 @@ class Borrower extends BaseBorrower {
             'birthdate' => 'Birthdate',
             'age' => 'Age',
             'birthplace' => 'Birthplace',
-            'address_province_id' => 'Address Province ID',
-            'address_city_municipality_id' => 'Address City Municipality ID',
-            'address_barangay_id' => 'Address Barangay ID',
-            'address_street_house_no' => 'Address Street House No',
+            'address_province_id' => 'Province',
+            'address_city_municipality_id' => 'City/Municipality',
+            'address_barangay_id' => 'Barangay',
+            'address_street_house_no' => 'Street/House No.',
             'civil_status' => 'Civil Status',
             'contact_no' => 'Contact No',
-            'ci_date' => 'Ci Date',
+            'ci_date' => 'C.I. Date',
             'canvass_date' => 'Canvass Date',
-            'tin_no' => 'Tin No',
-            'sss_no' => 'Sss No',
-            'ctc_no' => 'Ctc No',
+            'tin_no' => 'TIN No',
+            'sss_no' => 'SSS No',
+            'ctc_no' => 'CTC No',
             'license_no' => 'License No',
             'spouse_name' => 'Spouse Name',
             'spouse_occupation' => 'Spouse Occupation',
@@ -63,7 +63,7 @@ class Borrower extends BaseBorrower {
             'no_dependent' => 'No Dependent',
             'collaterals' => 'Collaterals',
             'status' => 'Status',
-            'branch_id' => 'Branch ID',
+            'branch_id' => 'Branch',
             'attachment' => 'Attachment',
             'acount_type' => 'Acount Type',
             'borrower_pic' => ''
@@ -110,7 +110,7 @@ class Borrower extends BaseBorrower {
             for ($i = 0; $i < $attachcount; $i++) {
                 $attachmentobject = $this->attachfiles[$i];
                 $tpname = $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . $i . '.' . $attachmentobject->extension;
-                $attachnames = $attachnames . ' ' . 'fileupload/' . $tpname;
+                $attachnames = ($i == 0)? $attachnames . 'fileupload/' . $tpname : $attachnames . ';' . 'fileupload/' . $tpname;
             }
             $this->attachment = trim($attachnames);
             return true;

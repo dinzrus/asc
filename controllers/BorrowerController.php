@@ -51,7 +51,7 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        if (Yii::$app->user->can('IT')) {
+        if (Yii::$app->user->can('organizer')) {
             $searchModel = new BorrowerSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -59,6 +59,8 @@ class BorrowerController extends Controller {
                         'searchModel' => $searchModel,
                         'dataProvider' => $dataProvider,
             ]);
+        } else {
+            throw new \yii\web\UnauthorizedHttpException();
         }
     }
 
@@ -68,15 +70,19 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-        if (Yii::$app->user->can('IT')) {
+        if (Yii::$app->user->can('organizer')) {
             $borrower = $this->findModel($id);
             $comaker_id = BorrowerComaker::findOne(['borrower_id' => $id]);
             $comaker = Comaker::findOne(['id' => $comaker_id->comaker_id]);
             $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
-            
+
             return $this->render('view', [
                         'borrower' => $borrower,
+                        'comaker' => $comaker,
+                        'dependents' => $dependents,
             ]);
+        }else {
+            throw new \yii\web\UnauthorizedHttpException();
         }
     }
 
@@ -98,6 +104,7 @@ class BorrowerController extends Controller {
                 Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return \yii\widgets\ActiveForm::validate($borrower);
             }
+
             if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post())) {
 
                 //get the instance of borrower_pic and comaker_pic
@@ -120,12 +127,12 @@ class BorrowerController extends Controller {
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
                 $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
 
-                if ($borrower->saveAll() && $comaker->saveAll() && $borrower_comaker->saveAll()) {
+                if ($borrower->saveAll() && $comaker->saveAll()) {
 
                     //save the id of borrower and comaker to borrower_comaker table
                     $borrower_comaker->borrower_id = $borrower->id;
                     $borrower_comaker->comaker_id = $comaker->id;
-                    $borrower_comaker->save(false);
+                    $borrower_comaker->saveAll();
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
@@ -146,6 +153,14 @@ class BorrowerController extends Controller {
                         }
                     }
                     return $this->redirect(['view', 'id' => $borrower->id]);
+                } else {
+                    return $this->render('create', [
+                                'borrower' => $borrower,
+                                'comaker' => $comaker,
+                                'dependent' => $dependent,
+                                'update' => $update,
+                                'borrower_comaker' => $borrower_comaker,
+                    ]);
                 }
             } else {
                 return $this->render('create', [
@@ -156,6 +171,8 @@ class BorrowerController extends Controller {
                             'borrower_comaker' => $borrower_comaker,
                 ]);
             }
+        }else {
+            throw new \yii\web\UnauthorizedHttpException();
         }
     }
 
@@ -232,6 +249,8 @@ class BorrowerController extends Controller {
                             'borrower_comaker' => $borrower_comaker,
                 ]);
             }
+        }else {
+            throw new \yii\web\UnauthorizedHttpException();
         }
     }
 
@@ -246,6 +265,8 @@ class BorrowerController extends Controller {
             $this->findModel($id)->deleteWithRelated();
 
             return $this->redirect(['index']);
+        }else {
+            throw new \yii\web\UnauthorizedHttpException();
         }
     }
 

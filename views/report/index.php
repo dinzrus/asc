@@ -8,6 +8,5 @@ $this->params['breadcrumbs'][] = 'Reports';
 ?>
 <div class="box box-primary">
      <div class="box-body">
-         
      </div>
 </div>

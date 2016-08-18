@@ -16,11 +16,9 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data'], 'enableAjaxValidation' => 'true']); ?>
 
     <!-- start your form here -->
-
     <!------------------------------- tabs start here ------------------------------>     
     <div class="row">   
         <div class="col-md-12">
-
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#principal" data-toggle="tab">Principal Applicant</a></li>
@@ -30,10 +28,8 @@ use yii\helpers\Url;
                 <div class="tab-content">
                     <div class="active tab-pane" id="principal">
                         <div class="row">
+                            <?= $form->errorSummary($borrower); ?>
                             <div class="col-md-4">
-                                <?php if (!$borrower->isNewRecord) : ?>
-                                    <?= $form->field($borrower, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-                                <?php endif; ?>
                                 <?php
                                 echo $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
                                     'pluginOptions' => [
@@ -47,7 +43,8 @@ use yii\helpers\Url;
                                         'showUpload' => false,
                                         'browseClass' => 'btn btn-primary btn-block',
                                         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                        'browseLabel' => 'Select Photo'
+                                        'browseLabel' => 'Select Photo',
+                                        'maxFileSize' => 500,
                                     ],
                                     'options' => ['accept' => 'image/*']
                                 ]);
@@ -72,8 +69,8 @@ use yii\helpers\Url;
                                     'options' => [
                                         'pluginOptions' => [
                                             'placeholder' => 'Choose Birthdate',
-                                            'autoclose' => true
-                                        ]
+                                            'autoclose' => true,
+                                        ],
                                     ],
                                 ]);
                                 ?>
@@ -122,12 +119,12 @@ use yii\helpers\Url;
                             <div class="col-md-4">
                                 <?=
                                 $form->field($borrower, 'civil_status')->dropDownList([
-                                    'single' => 'Single',
-                                    'married' => 'Married',
-                                    'widowed' => 'Widowed',
-                                    'common_law' => 'Common Law',
-                                    'separated' => 'Separated'
-                                ], ['prompt' => '- Select - '])
+                                    'Single' => 'Single',
+                                    'Married' => 'Married',
+                                    'Widowed' => 'Widowed',
+                                    'Common_law' => 'Common Law',
+                                    'Separated' => 'Separated'
+                                        ], ['prompt' => '- Select - '])
                                 ?>
 
                                 <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
@@ -172,8 +169,6 @@ use yii\helpers\Url;
 
                                 <?= $form->field($borrower, 'spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Occupation']) ?>
 
-                                <?= $form->field($borrower, 'spouse_age')->textInput(['placeholder' => 'Spouse Age']) ?>
-
                                 <?=
                                 $form->field($borrower, 'spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
                                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
@@ -187,6 +182,8 @@ use yii\helpers\Url;
                                     ],
                                 ]);
                                 ?>
+
+                                <?= $form->field($borrower, 'spouse_age')->textInput(['placeholder' => 'Spouse Age']) ?>
 
                             </div>
                         </div>
@@ -209,9 +206,6 @@ use yii\helpers\Url;
                                                 <?= $form->field($dependent, "[$i]name")->textInput() ?>
                                             </div>
                                             <div class="col-md-4">
-                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
-                                            </div>
-                                            <div class="col-md-4">
                                                 <?=
                                                 $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
                                                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
@@ -226,7 +220,9 @@ use yii\helpers\Url;
                                                 ]);
                                                 ?>
                                             </div>
-
+                                            <div class="col-md-4">
+                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                            </div>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
@@ -236,9 +232,6 @@ use yii\helpers\Url;
                                                 <?= $form->field($dependent, "[$i]name")->textInput() ?>
                                             </div>
                                             <div class="col-md-4">
-                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
-                                            </div>
-                                            <div class="col-md-4">
                                                 <?=
                                                 $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
                                                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
@@ -253,7 +246,9 @@ use yii\helpers\Url;
                                                 ]);
                                                 ?>
                                             </div>
-
+                                            <div class="col-md-4">
+                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                            </div>
                                         </div>
                                     <?php endfor; ?>
                                 <?php endif; ?>
@@ -288,10 +283,8 @@ use yii\helpers\Url;
 
                     <div class="tab-pane" id="second">
                         <div class="row">
+                            <?= $form->errorSummary($comaker); ?>
                             <div class="col-md-4">
-                                <?php if (!$comaker->isNewRecord) : ?>
-                                    <?= $form->field($comaker, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-                                <?php endif; ?>
                                 <?php
                                 echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
                                     'pluginOptions' => [
@@ -305,7 +298,8 @@ use yii\helpers\Url;
                                         'overwriteInitial' => true,
                                         'browseClass' => 'btn btn-primary btn-block',
                                         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                        'browseLabel' => 'Select Photo'
+                                        'browseLabel' => 'Select Photo',
+                                        'maxFileSize' => 500,
                                     ],
                                     'options' => ['accept' => 'image/*']
                                 ]);
@@ -335,10 +329,9 @@ use yii\helpers\Url;
                                 ]);
                                 ?>
 
-                                <?= $form->field($comaker, 'age')->textInput(['placeholder' => 'Age']) ?>
-
                                 <?= $form->field($comaker, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
 
+                                <?= $form->field($comaker, 'age')->textInput(['placeholder' => 'Age']) ?>
 
                             </div>
                             <div class="col-md-4">
@@ -380,26 +373,24 @@ use yii\helpers\Url;
 
                                 <?=
                                 $form->field($comaker, 'civil_status')->dropDownList([
-                                    'single' => 'Single',
-                                    'married' => 'Married',
-                                    'widowed' => 'Widowed',
-                                    'common_law' => 'Common Law',
-                                    'separated' => 'Separated'
-                                ], ['prompt' => '- Select -'])
+                                    'Single' => 'Single',
+                                    'Married' => 'Married',
+                                    'Widowed' => 'Widowed',
+                                    'Common_law' => 'Common Law',
+                                    'Separated' => 'Separated'
+                                        ], ['prompt' => '- Select -'])
                                 ?>
 
                                 <?= $form->field($comaker, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
-
-                                <?php if (!$borrower_comaker->isNewRecord) : ?>
-                                    <?= $form->field($borrower_comaker, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-                                <?php endif; ?>
-                                <?= $form->field($borrower_comaker, 'relationship')->dropDownList([
+                                <?=
+                                $form->field($borrower_comaker, 'relationship')->dropDownList([
                                     'brother' => 'Brother',
                                     'sister' => 'Sister',
                                     'neighbor' => 'Neighbor',
                                     'husband' => 'Husband',
                                     'daughter' => 'Daughter',
-                                ], ['prompt' => '- Select -']) ?>
+                                        ], ['prompt' => '- Select -'])
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -417,6 +408,7 @@ use yii\helpers\Url;
                                 'browseLabel' => 'Select Attachment',
                                 'removeLabel' => ' ',
                                 'maxFileCount' => 3,
+                                'maxFileSize' => 500,
                             ],
                             'options' => [
                                 'accept' => 'image/*',
@@ -443,9 +435,22 @@ use yii\helpers\Url;
             <?= Html::submitButton('Save As New', ['class' => 'btn btn-info', 'value' => '1', 'name' => '_asnew']) ?>
         <?php endif; ?>
     </div>
-
     <!-- end your form here -->
-
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<script type="text/javascript">
+    function calculateAge(birthDate, id) {
+        var birthDate = new Date(birthDate);
+        var currentDate = new Date();
+
+        var years = (otherDate.getFullYear() - birthDate.getFullYear());
+
+        if (currentDate.getMonth() < birthDate.getMonth() ||
+                currentDate.getMonth() == birthDate.getMonth() && currentDate.getDate() < birthDate.getDate()) {
+            years--;
+        }
+        $('#' + id).val(years);
+    }
+</script>
