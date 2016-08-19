@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-08-16 17:29:47
+Date: 2016-08-19 16:58:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -166,15 +166,13 @@ CREATE TABLE `borrower` (
   CONSTRAINT `borrower_ibfk_4` FOREIGN KEY (`status`) REFERENCES `status` (`code`),
   CONSTRAINT `borrower_ibfk_5` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
   CONSTRAINT `borrower_ibfk_6` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('1', 'fileupload/Tamekah-Cannon-Harding Schneider.jpg', 'Tamekah', 'Cannon', 'Harding Schneider', '', '2016-08-10', '23', 'Qui quam qui quasi praesentium dolorem illum ut aut aliqua Deserunt ipsam sint illum nulla architecto ullam est magnam incidunt', '3', '1', '2', 'Enim in voluptatem quasi aute deleniti modi dolore et voluptate', 'married', '094542145754', '2016-08-24', '2016-08-23', 'Possimus et proident quidem consequatur in beatae quo quos ipsum dicta voluptatum ut expedita voluptatem aliqua', 'Laudantium consequatur et corporis ut assumenda pariatur Consequatur Excepteur sequi hic irure qui', 'Debitis eos accusantium sunt ratione et fugiat inventore quia ea', 'Deserunt beatae quos facilis ea sit omnis et dolorem repudiandae labore modi quis quidem ipsa aut dolores', 'Reagan Sykes', 'Rerum ducimus sed amet dolor consequatur Rem sint', '2', '2016-08-23', '2', 'Rerum quia in ea ipsum inventore blanditiis enim temporibus aut aut dolore deserunt velit sed aliquip inventore.', 'C', '9', 'fileupload/2016-08-10-Cannon-Tamekah-Harding Schneider-attachment0.jpg fileupload/2016-08-10-Cannon-Tamekah-Harding Schneider-attachment1.png fileupload/2016-08-10-Cannon-Tamekah-Harding Schneider-attachment2.jpg', 'B', '0000-00-00 00:00:00', '2016-08-16 11:04:48');
-INSERT INTO `borrower` VALUES ('2', 'fileupload/Isadora-Weiss-Solomon Cohen.jpg', 'Isadora', 'Weiss', 'Solomon Cohen', 'Non veniam dolore sit esse do qui maxime', '2016-09-08', '23', 'Corporis voluptas id deleniti rerum corporis dolor repellendus Delectus pariatur Architecto', '4', '6', '5', 'Fugiat quo ea temporibus magni ullam', 'married', '09445451215', null, null, 'Neque impedit veritatis similique doloremque vel pariatur Accusamus fugit dolore dolorum quos laborum atque eiusmod mollit deserunt id consequatur', 'Quis et nulla sapiente sunt eos officia in ipsa', 'Voluptatem Ut elit doloribus ut consequatur Itaque laborum Eligendi maiores et ullamco reprehenderit eiusmod dolor exercitation eum ea', 'Dolorem architecto et reprehenderit neque earum', 'Baker Pratt', 'Doloremque ex voluptatum sit voluptas nisi nisi vel lorem rerum omnis enim cupidatat incididunt aut voluptas provident numquam fugit veniam', '23', '2016-08-08', null, null, null, null, null, 'C', '0000-00-00 00:00:00', '2016-08-16 11:04:48');
-INSERT INTO `borrower` VALUES ('3', 'fileupload/Tamekah-Cannon-Harding Schneider12.jpg', 'Tamekah', 'Cannon', 'Harding Schneider12', '', '2016-08-11', '34', 'Amet dolorem deserunt non nemo veniam consectetur enim', '4', '6', '4', 'Autem cupidatat sed animi aliquam doloremque libero voluptatem Do repudiandae aut tempor cum', 'common_law', '0990909090', '2016-08-21', '2016-08-24', 'Qui mollitia aut corporis quasi earum est odit vero accusamus nisi consectetur eius dolores quas deleniti quaerat eos veniam', 'Ducimus dicta officiis ex fuga Vel amet molestiae blanditiis ea', 'Consequatur voluptas animi perspiciatis est qui cupidatat esse non at sint provident', 'Ut sequi et nostrum ad mollitia dolorum eos cum inventore', 'Selma Blevins', 'Quidem aut eligendi omnis voluptatum sequi autem accusantium ut laborum adipisicing aut ab in dolor et mollit', '23', '2016-08-15', '12', 'Commodo quia ex autem ea in error impedit, ut id, cillum consequuntur ut minima reprehenderit, aliqua. Nihil.', 'C', '1', null, 'B', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `borrower` VALUES ('4', 'fileupload/Alvin-Mercer-Otto Love.jpg', 'Tamekah', 'Cannon', 'Otto Love', 'Quas ut ea irure quia quis', '2016-08-26', '12', 'Velit consectetur pariatur Minim non officia laborum Ducimus sunt ex reprehenderit neque', '3', '1', '1', 'Laboris deserunt voluptas id modi nulla est esse soluta similique fuga Cumque proident ullam tempore consectetur', 'widowed', 'Ad qui quis laboris corrupti est sit hic harum sit consequuntur eu adipisicing debitis voluptatibus nisi libero aliquid illum', null, null, 'Sed id vel quia cillum nihil magnam non', 'Est eum reprehenderit provident et dicta exercitation ea libero asperiores voluptate et cumque', 'Placeat vel nulla qui ullam doloribus quo perferendis ut magni aliquid', 'Reprehenderit rerum molestiae anim ea qui provident', 'Chase Porter', 'Laudantium nihil est temporibus ut aut facilis aspernatur ut accusantium minima cum cillum cillum omnis', '12', '2016-08-23', null, null, null, null, null, 'C', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `borrower` VALUES ('1', null, 'Edan', 'Fernandez', 'Lars Riggs', 'Fugit aute labore in reprehenderit irure cumque non excepteur est sed excepturi quis natus', '2016-08-29', '12', 'Doloribus excepturi eos obcaecati exercitationem ut eos', '3', '1', '1', 'Nulla nisi aut facere esse', 'Common_law', '2323545454', '2016-08-09', '2016-08-17', 'A sapiente voluptate quidem incidunt impedit facere', 'Ut quasi aliquam quibusdam sed eligendi fugiat tempora eos et tempore qui saepe quibusdam temporibus', 'Quia aperiam aut laboris aut non alias vitae voluptas quam proident ipsa', 'Dolorem non voluptas et reprehenderit tempora excepturi facilis', 'Gillian Gonzales', 'Sint minima quo quis magnam corrupti', '23', '2016-08-08', '3', 'Quidem qui sequi maiores tempor et nostrum blanditiis vitae velit.', 'C', '4', null, 'B', '2016-08-19 13:16:46', '2016-08-19 13:16:46');
+INSERT INTO `borrower` VALUES ('2', null, 'Rachel', 'Jacobs', 'Akeem Sloan', 'Cupiditate rerum mollit non vero cillum dolor vitae sed consequatur non', '2016-08-18', '23', 'Velit laborum dolore magnam atque', '3', '1', '2', 'Sed consequatur Fugiat id illum aliqua Unde qui dolorum odio', 'Separated', 'Iusto itaque mollit mollitia delectus tempore reprehenderit dolorem consectetur qui consequuntur delectus corporis dolor id velit duis', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-19 13:16:46', '2016-08-19 13:16:46');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -188,13 +186,12 @@ CREATE TABLE `borrower_comaker` (
   PRIMARY KEY (`id`),
   KEY `borrower_id` (`borrower_id`),
   KEY `comaker_id` (`comaker_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower_comaker
 -- ----------------------------
-INSERT INTO `borrower_comaker` VALUES ('1', '1', '2', 'brothers');
-INSERT INTO `borrower_comaker` VALUES ('2', '3', '4', 'love');
+INSERT INTO `borrower_comaker` VALUES ('1', '1', '2', 'husband');
 
 -- ----------------------------
 -- Table structure for borrower_status
@@ -257,6 +254,40 @@ CREATE TABLE `branch_loanscheme` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for business
+-- ----------------------------
+DROP TABLE IF EXISTS `business`;
+CREATE TABLE `business` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `business_name` varchar(255) NOT NULL,
+  `business_type_id` int(11) NOT NULL,
+  `address_province_id` int(11) NOT NULL,
+  `address_city_municipality_id` int(11) NOT NULL,
+  `address_barangay_id` int(11) NOT NULL,
+  `address_st_bldng_no` varchar(255) NOT NULL,
+  `business_years` int(11) NOT NULL,
+  `permit_no` varchar(255) NOT NULL,
+  `average_weekly_income` double(255,0) NOT NULL,
+  `average_gross_daily_income` double(255,0) NOT NULL,
+  `ownership` varchar(255) NOT NULL,
+  `borrower_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `address_province_id` (`address_province_id`),
+  KEY `address_city_municipality_id` (`address_city_municipality_id`),
+  KEY `address_barangay_id` (`address_barangay_id`),
+  KEY `business_type_id` (`business_type_id`),
+  KEY `business_ibfk_5` (`borrower_id`),
+  CONSTRAINT `business_ibfk_1` FOREIGN KEY (`address_province_id`) REFERENCES `province` (`id`),
+  CONSTRAINT `business_ibfk_2` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`),
+  CONSTRAINT `business_ibfk_3` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
+  CONSTRAINT `business_ibfk_4` FOREIGN KEY (`business_type_id`) REFERENCES `business_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=994 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of business
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for business_type
 -- ----------------------------
 DROP TABLE IF EXISTS `business_type`;
@@ -282,17 +313,14 @@ CREATE TABLE `dependent` (
   `birthdate` date DEFAULT NULL,
   `borrower_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of dependent
 -- ----------------------------
-INSERT INTO `dependent` VALUES ('1', 'Chaney Roberts', '33', '2016-08-23', '1');
-INSERT INTO `dependent` VALUES ('2', 'Avye Noel', '21', '2016-08-23', '1');
-INSERT INTO `dependent` VALUES ('3', 'Alice Burris', '34', '2016-08-09', '1');
-INSERT INTO `dependent` VALUES ('4', 'Desirae Burke', '12', '2016-08-24', '3');
-INSERT INTO `dependent` VALUES ('5', 'Zia Burris', '12', '2016-08-15', '3');
-INSERT INTO `dependent` VALUES ('6', 'Teegan Preston', '12', '2016-08-01', '3');
+INSERT INTO `dependent` VALUES ('1', 'Yetta Conner', '23', '2016-08-03', '1');
+INSERT INTO `dependent` VALUES ('2', 'Haviva England', '34', '2016-08-23', '1');
+INSERT INTO `dependent` VALUES ('3', 'Kyra Howard', '24', '2016-08-09', '1');
 
 -- ----------------------------
 -- Table structure for employee
