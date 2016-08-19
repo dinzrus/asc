@@ -7,6 +7,7 @@ use app\models\Model;
 use app\models\Borrower;
 use app\models\Comaker;
 use app\models\Barangay;
+use app\models\Business;
 use app\models\BorrowerComaker;
 use app\models\Dependent;
 use app\models\BorrowerSearch;
@@ -98,6 +99,7 @@ class BorrowerController extends Controller {
             $update = false;
             $dependent = new Dependent;
             $borrower_comaker = new BorrowerComaker();
+            $business = new Business();
 
             // use for ajax validation
             if (Yii::$app->request->isAjax && $borrower->load(Yii::$app->request->post())) {
@@ -105,7 +107,7 @@ class BorrowerController extends Controller {
                 return \yii\widgets\ActiveForm::validate($borrower);
             }
 
-            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post())) {
+            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post()) && $business->loadAll(Yii::$app->request->post())) {
 
                 //get the instance of borrower_pic and comaker_pic
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
@@ -127,13 +129,18 @@ class BorrowerController extends Controller {
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
                 $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
 
+                $business->borrower_id = $borrower->id;
+                
                 if ($borrower->saveAll() && $comaker->saveAll()) {
 
                     //save the id of borrower and comaker to borrower_comaker table
                     $borrower_comaker->borrower_id = $borrower->id;
                     $borrower_comaker->comaker_id = $comaker->id;
                     $borrower_comaker->saveAll();
-
+                    
+                    $business->borrower_id = $borrower->id;
+                    $business->saveAll();
+                    
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
                     }
@@ -160,6 +167,7 @@ class BorrowerController extends Controller {
                                 'dependent' => $dependent,
                                 'update' => $update,
                                 'borrower_comaker' => $borrower_comaker,
+                                'business' => $business,
                     ]);
                 }
             } else {
@@ -169,6 +177,7 @@ class BorrowerController extends Controller {
                             'dependent' => $dependent,
                             'update' => $update,
                             'borrower_comaker' => $borrower_comaker,
+                            'business' => $business,
                 ]);
             }
         }else {
@@ -192,6 +201,7 @@ class BorrowerController extends Controller {
                 $borrower_comaker = BorrowerComaker::findOne(['borrower_id' => $id]);
                 $comaker = Comaker::findOne(['id' => $borrower_comaker->comaker_id]);
                 $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
+                $business = Business::findOne(['borrower_id' => $id]);
             }
 
             // use for ajax validation
@@ -200,7 +210,7 @@ class BorrowerController extends Controller {
                 return \yii\widgets\ActiveForm::validate($borrower);
             }
 
-            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post())) {
+            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post()) && $business->loadAll(Yii::$app->request->post())) {
 
                 //get the instance of borrower_pic and comaker_pic
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');

@@ -50,24 +50,26 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="active tab-pane" id="principal">
                 <div class="row">
                     <div class="col-md-4">
-                        <br>
-                        <center>
-                            <?= (isset($borrower->profile_pic)) ? Html::img($borrower->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
-                        </center>
-                        <br>
-                        <?php
-                        $gridColumn = [
-                            //['attribute' => 'id', 'hidden' => true],
-                            'first_name',
-                            'last_name',
-                            'middle_name',
-                            'suffix',
-                        ];
-                        echo DetailView::widget([
-                            'model' => $borrower,
-                            'attributes' => $gridColumn
-                        ]);
-                        ?>
+                        <div class="well well-sm">
+                            <br>
+                            <center>
+                                <?= (isset($borrower->profile_pic)) ? Html::img($borrower->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
+                            </center>
+                            <br>
+                            <?php
+                            $gridColumn = [
+                                //['attribute' => 'id', 'hidden' => true],
+                                'first_name',
+                                'last_name',
+                                'middle_name',
+                                'suffix',
+                            ];
+                            echo DetailView::widget([
+                                'model' => $borrower,
+                                'attributes' => $gridColumn
+                            ]);
+                            ?>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <?php
@@ -157,11 +159,13 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="tab-pane" id="comaker">
                 <div class="row">
                     <div class="col-md-4">
-                        <br>
-                        <center>
-                            <?= Html::img($comaker->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) ?>
-                        </center>
-                        <br>
+                        <div class="well well-sm">
+                            <br>
+                            <center>
+                                <?= (isset($comaker->profile_pic)) ? Html::img($comaker->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
+                            </center>
+                            <br>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <?php

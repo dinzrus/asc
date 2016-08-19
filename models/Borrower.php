@@ -59,7 +59,7 @@ class Borrower extends BaseBorrower {
             'spouse_name' => 'Spouse Name',
             'spouse_occupation' => 'Spouse Occupation',
             'spouse_age' => 'Spouse Age',
-            'spouse_birthdate' => 'Spouse Birthdate',
+            'spouse_birthdate' => 'Spouse Date of Birth',
             'no_dependent' => 'No Dependent',
             'collaterals' => 'Collaterals',
             'status' => 'Status',
