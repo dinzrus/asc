@@ -125,7 +125,8 @@ class BorrowerController extends Controller {
                 if (!empty($borrower->attachfiles)) {
                     $borrower->setAttachUrls();
                 }
-
+                
+                // set the account type of borrower and comaker
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
                 $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
 
@@ -138,7 +139,7 @@ class BorrowerController extends Controller {
                     $borrower_comaker->comaker_id = $comaker->id;
                     $borrower_comaker->saveAll();
                     
-                    $business->borrower_id = $borrower->id;
+                    $business->borrower_id = 12;
                     $business->saveAll();
                     
                     if (!empty($borrower->borrower_pic)) {

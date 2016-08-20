@@ -6,16 +6,24 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\AuthAssignment */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="auth-assignment-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'item_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->errorSummary($model); ?>
 
-    <?= $form->field($model, 'user_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'item_name')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\app\models\AuthItem::find()->orderBy('name')->asArray()->all(), 'name', 'name'),
+        'options' => ['placeholder' => 'Choose Auth item'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
+    <?= $form->field($model, 'user_id')->textInput(['maxlength' => true, 'placeholder' => 'User']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

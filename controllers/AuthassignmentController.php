@@ -14,16 +14,13 @@ use yii\filters\VerbFilter;
  */
 class AuthassignmentController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -52,6 +49,7 @@ class AuthassignmentController extends Controller
      */
     public function actionView($item_name, $user_id)
     {
+        $model = $this->findModel($item_name, $user_id);
         return $this->render('view', [
             'model' => $this->findModel($item_name, $user_id),
         ]);
@@ -66,7 +64,7 @@ class AuthassignmentController extends Controller
     {
         $model = new AuthAssignment();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         } else {
             return $this->render('create', [
@@ -86,7 +84,7 @@ class AuthassignmentController extends Controller
     {
         $model = $this->findModel($item_name, $user_id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         } else {
             return $this->render('update', [
@@ -104,11 +102,12 @@ class AuthassignmentController extends Controller
      */
     public function actionDelete($item_name, $user_id)
     {
-        $this->findModel($item_name, $user_id)->delete();
+        $this->findModel($item_name, $user_id)->deleteWithRelated();
 
         return $this->redirect(['index']);
     }
 
+    
     /**
      * Finds the AuthAssignment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -47,12 +47,10 @@
                                     'url' => '#',
                                     'visible' => Yii::$app->user->can('IT'),
                                     'items' => [
-                                        ['label' => 'Auth-Item', 'icon' => 'fa fa-circle-o', 'url' => ['/authitem'],],
-                                        ['label' => 'Auth-Item-Child', 'icon' => 'fa fa-circle-o', 'url' => ['/authitemchild'],],
                                         ['label' => 'Auth-Assignment', 'icon' => 'fa fa-circle-o', 'url' => ['/authassignment'],],
                                     ],
                                 ],
-                                ['label' => 'Borrowers Info.', 'icon' => 'fa fa-circle-o', 'url' => ['/borrower'], 'visible' => Yii::$app->user->can('organizer')],
+                                ['label' => 'Borrowers Info.', 'icon' => 'fa fa-circle-o', 'url' => ['/borrower'], 'visible' => Yii::$app->user->can('ORGANIZER')],
                             ],
                         ],
                         [

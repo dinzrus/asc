@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\controllers\app\controllers;
 
 use Yii;
 use app\models\AuthItem;
@@ -14,16 +14,13 @@ use yii\filters\VerbFilter;
  */
 class AuthitemController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -51,8 +48,17 @@ class AuthitemController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $providerAuthAssignment = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->authAssignments,
+        ]);
+        $providerAuthItemChild = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->authItemChildren,
+        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'providerAuthAssignment' => $providerAuthAssignment,
+            'providerAuthItemChild' => $providerAuthItemChild,
         ]);
     }
 
@@ -65,7 +71,7 @@ class AuthitemController extends Controller
     {
         $model = new AuthItem();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', [
@@ -84,7 +90,7 @@ class AuthitemController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('update', [
@@ -101,11 +107,12 @@ class AuthitemController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id)->deleteWithRelated();
 
         return $this->redirect(['index']);
     }
 
+    
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -117,6 +124,46 @@ class AuthitemController extends Controller
     {
         if (($model = AuthItem::findOne($id)) !== null) {
             return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    
+    /**
+    * Action to load a tabular form grid
+    * for AuthAssignment
+    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+    *
+    * @return mixed
+    */
+    public function actionAddAuthAssignment()
+    {
+        if (Yii::$app->request->isAjax) {
+            $row = Yii::$app->request->post('AuthAssignment');
+            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+                $row[] = [];
+            return $this->renderAjax('_formAuthAssignment', ['row' => $row]);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    
+    /**
+    * Action to load a tabular form grid
+    * for AuthItemChild
+    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+    *
+    * @return mixed
+    */
+    public function actionAddAuthItemChild()
+    {
+        if (Yii::$app->request->isAjax) {
+            $row = Yii::$app->request->post('AuthItemChild');
+            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+                $row[] = [];
+            return $this->renderAjax('_formAuthItemChild', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
