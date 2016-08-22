@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-08-19 16:58:43
+Date: 2016-08-22 17:16:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,9 +31,9 @@ CREATE TABLE `auth_assignment` (
 -- ----------------------------
 -- Records of auth_assignment
 -- ----------------------------
-INSERT INTO `auth_assignment` VALUES ('admin', '12', null);
+INSERT INTO `auth_assignment` VALUES ('ADMIN', '13', null);
 INSERT INTO `auth_assignment` VALUES ('IT', '10', null);
-INSERT INTO `auth_assignment` VALUES ('organizer', '13', null);
+INSERT INTO `auth_assignment` VALUES ('ORGANIZER', '13', null);
 
 -- ----------------------------
 -- Table structure for auth_item
@@ -56,9 +56,9 @@ CREATE TABLE `auth_item` (
 -- ----------------------------
 -- Records of auth_item
 -- ----------------------------
-INSERT INTO `auth_item` VALUES ('admin', '2', 'User is admin', null, null, null, null);
-INSERT INTO `auth_item` VALUES ('IT', '1', 'User is IT', null, null, null, null);
-INSERT INTO `auth_item` VALUES ('organizer', '3', 'User is Organizer', null, null, null, null);
+INSERT INTO `auth_item` VALUES ('ADMIN', '2', 'user as ADMIN', null, null, null, null);
+INSERT INTO `auth_item` VALUES ('IT', '1', 'user as IT', null, null, null, null);
+INSERT INTO `auth_item` VALUES ('ORGANIZER', '3', 'user as ORGANIZER', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for auth_item_child
@@ -76,8 +76,9 @@ CREATE TABLE `auth_item_child` (
 -- ----------------------------
 -- Records of auth_item_child
 -- ----------------------------
-INSERT INTO `auth_item_child` VALUES ('admin', 'organizer');
-INSERT INTO `auth_item_child` VALUES ('IT', 'admin');
+INSERT INTO `auth_item_child` VALUES ('ADMIN', 'ORGANIZER');
+INSERT INTO `auth_item_child` VALUES ('IT', 'ADMIN');
+INSERT INTO `auth_item_child` VALUES ('IT', 'ORGANIZER');
 
 -- ----------------------------
 -- Table structure for auth_rule
@@ -94,6 +95,7 @@ CREATE TABLE `auth_rule` (
 -- ----------------------------
 -- Records of auth_rule
 -- ----------------------------
+INSERT INTO `auth_rule` VALUES ('default', null, null, null);
 
 -- ----------------------------
 -- Table structure for barangay
@@ -166,13 +168,15 @@ CREATE TABLE `borrower` (
   CONSTRAINT `borrower_ibfk_4` FOREIGN KEY (`status`) REFERENCES `status` (`code`),
   CONSTRAINT `borrower_ibfk_5` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
   CONSTRAINT `borrower_ibfk_6` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('1', null, 'Edan', 'Fernandez', 'Lars Riggs', 'Fugit aute labore in reprehenderit irure cumque non excepteur est sed excepturi quis natus', '2016-08-29', '12', 'Doloribus excepturi eos obcaecati exercitationem ut eos', '3', '1', '1', 'Nulla nisi aut facere esse', 'Common_law', '2323545454', '2016-08-09', '2016-08-17', 'A sapiente voluptate quidem incidunt impedit facere', 'Ut quasi aliquam quibusdam sed eligendi fugiat tempora eos et tempore qui saepe quibusdam temporibus', 'Quia aperiam aut laboris aut non alias vitae voluptas quam proident ipsa', 'Dolorem non voluptas et reprehenderit tempora excepturi facilis', 'Gillian Gonzales', 'Sint minima quo quis magnam corrupti', '23', '2016-08-08', '3', 'Quidem qui sequi maiores tempor et nostrum blanditiis vitae velit.', 'C', '4', null, 'B', '2016-08-19 13:16:46', '2016-08-19 13:16:46');
-INSERT INTO `borrower` VALUES ('2', null, 'Rachel', 'Jacobs', 'Akeem Sloan', 'Cupiditate rerum mollit non vero cillum dolor vitae sed consequatur non', '2016-08-18', '23', 'Velit laborum dolore magnam atque', '3', '1', '2', 'Sed consequatur Fugiat id illum aliqua Unde qui dolorum odio', 'Separated', 'Iusto itaque mollit mollitia delectus tempore reprehenderit dolorem consectetur qui consequuntur delectus corporis dolor id velit duis', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-19 13:16:46', '2016-08-19 13:16:46');
+INSERT INTO `borrower` VALUES ('1', 'fileupload/Dinoy-Russel -Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', 'Jr.', '1991-09-15', '24', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '09101737965', '2016-08-19', '2016-08-15', '', '', '', '', 'Mary Joy H. Asis', 'Office Clerk', '23', '1992-10-10', '0', 'Honda RS 150 \r\nTV Samsung 52\"', 'C', '4', 'fileupload/1991-09-15-Dinoy-Russel-Wahing-attachment0.jpg', 'B', '2016-08-22 11:10:33', '2016-08-22 14:10:19');
+INSERT INTO `borrower` VALUES ('2', 'fileupload/Robinson-Gabutan-Gwapo.jpg', 'Robinson', 'Gabutan', 'Gwapo', '', '1985-07-24', '35', 'Cebu City Philippines', '4', '6', '4', 'New york street', 'Married', '099999999', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:10:33', '2016-08-22 14:10:19');
+INSERT INTO `borrower` VALUES ('3', 'fileupload/Joseph-Baldoza-Waju.jpg', 'Joseph', 'Baldoza', 'Waju', 'Sr.', '2016-08-22', '45', 'Apas, Cebu City', '4', '6', '5', 'Lakaw 1', 'Married', '098854522', '2016-08-09', '2016-08-18', '', '', '', '', 'Mary Jane Ompad', 'Teacher', '35', '2016-08-17', '0', 'LG Refrigerator ', 'C', '3', 'fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment0.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment1.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment2.jpg', 'B', '2016-08-22 11:35:35', '2016-08-22 11:37:42');
+INSERT INTO `borrower` VALUES ('4', 'fileupload/Glenn-Casol-Lilyosa.jpg', 'Glenn', 'Casol', 'Lilyosa', '', '2016-08-22', '23', 'Villaflor, Carmen, Bohol', '4', '6', '4', 'UCMA Village, Apas, Cebu City', 'Married', '0995454121', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:35:35', '2016-08-22 11:37:42');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -186,12 +190,13 @@ CREATE TABLE `borrower_comaker` (
   PRIMARY KEY (`id`),
   KEY `borrower_id` (`borrower_id`),
   KEY `comaker_id` (`comaker_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower_comaker
 -- ----------------------------
-INSERT INTO `borrower_comaker` VALUES ('1', '1', '2', 'husband');
+INSERT INTO `borrower_comaker` VALUES ('1', '1', '2', 'neighbor');
+INSERT INTO `borrower_comaker` VALUES ('7', '3', '4', 'brother');
 
 -- ----------------------------
 -- Table structure for borrower_status
@@ -281,11 +286,13 @@ CREATE TABLE `business` (
   CONSTRAINT `business_ibfk_2` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`),
   CONSTRAINT `business_ibfk_3` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
   CONSTRAINT `business_ibfk_4` FOREIGN KEY (`business_type_id`) REFERENCES `business_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=994 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of business
 -- ----------------------------
+INSERT INTO `business` VALUES ('1', 'DinzDev', '1', '3', '1', '1', 'Centro 1', '3', '999999', '10000', '20000', 'Owned', '1');
+INSERT INTO `business` VALUES ('7', 'Baldoza Store', '1', '4', '6', '5', 'Lakaw 1 ', '5', '898589', '10000', '30000', 'Rented', '3');
 
 -- ----------------------------
 -- Table structure for business_type
@@ -313,44 +320,11 @@ CREATE TABLE `dependent` (
   `birthdate` date DEFAULT NULL,
   `borrower_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of dependent
 -- ----------------------------
-INSERT INTO `dependent` VALUES ('1', 'Yetta Conner', '23', '2016-08-03', '1');
-INSERT INTO `dependent` VALUES ('2', 'Haviva England', '34', '2016-08-23', '1');
-INSERT INTO `dependent` VALUES ('3', 'Kyra Howard', '24', '2016-08-09', '1');
-
--- ----------------------------
--- Table structure for employee
--- ----------------------------
-DROP TABLE IF EXISTS `employee`;
-CREATE TABLE `employee` (
-  `employee_id` int(11) NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(255) NOT NULL,
-  `lastname` varchar(255) NOT NULL,
-  `middlename` varchar(255) DEFAULT NULL,
-  `birth_date` date NOT NULL,
-  `gender` varchar(255) NOT NULL,
-  `civil_status` varchar(255) NOT NULL,
-  `home_address` varchar(255) NOT NULL,
-  `sss_no` varchar(255) DEFAULT NULL,
-  `philhealth_no` varchar(255) DEFAULT NULL,
-  `tin_no` varchar(255) DEFAULT NULL,
-  `profile_pic` varchar(255) DEFAULT NULL,
-  `contact_no` varchar(255) NOT NULL,
-  PRIMARY KEY (`employee_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of employee
--- ----------------------------
-INSERT INTO `employee` VALUES ('1', 'Russel', 'dinoy', 'wahing', '2016-07-19', 'Male', 'Married', 'Villaflor, Carmen', '8888', '7777', '8888', 'fileupload/Russeldinoy.jpg', '0');
-INSERT INTO `employee` VALUES ('2', 'Christian', 'Cullen', '', '2016-07-20', '1', '2', 'North town Cebu city', '', '', '', 'fileupload/ChristianCullen.jpg', '0999999999');
-INSERT INTO `employee` VALUES ('3', 'peter', 'cullen', '', '2016-07-20', '1', '2', 'North Town', '', '', '', 'fileupload/petercullen.jpg', '09987665534');
-INSERT INTO `employee` VALUES ('4', 'qqq', 'qq', 'qqq', '2016-07-06', 'Male', 'Married', 'nth', '', '', '', 'fileupload/qqqqq.jpg', '8888888');
-INSERT INTO `employee` VALUES ('5', 'gandhi', 'gan', '', '2016-07-20', 'Female', 'Single', 'cebu city', '', '', '', 'fileupload/gandhigan.jpg', '55555555');
 
 -- ----------------------------
 -- Table structure for jumpdate
@@ -685,23 +659,33 @@ CREATE TABLE `user` (
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` smallint(6) NOT NULL DEFAULT '10',
+  `status` smallint(6) DEFAULT '10',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `employee` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
+  `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `middlename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `birthdate` date NOT NULL,
+  `age` int(11) NOT NULL,
+  `civil_status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `gender` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `home_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `sss_no` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `philhealth_no` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tin_no` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `contact_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `picture` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `user_ibfk_1` (`employee`) USING BTREE,
-  UNIQUE KEY `password_reset_token` (`password_reset_token`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`employee`) REFERENCES `employee` (`employee_id`)
+  UNIQUE KEY `password_reset_token` (`password_reset_token`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('10', 'it', 'Oyi83DzkBkxl3dfgcgG84wceYGFUa9ib', '$2y$13$8GIWbAEEcBdQRnqrYuYBwedoqd3kXVSn59g4QHfhS0vFKHZPe1UkC', null, 'it@gmail.com', '10', '1469146040', '1469597227', '3', '9');
-INSERT INTO `user` VALUES ('12', 'admin', '2sC1B7IVxCJKW34nN_F06E3QxpjVaDSH', '$2y$13$w.ITCfDBx5IncMldGXIyk.a/dOzT.xm96OSDqKMTPNrJgRmx1bTTi', null, 'admin@gmail.com', '10', '1469510625', '1469510625', '2', '9');
-INSERT INTO `user` VALUES ('13', 'organizer', 'sbYwcsCbsE78arBNVmbpe4FLNnYPlthA', '$2y$13$rK6XqpBfgZzfbe5vqLlqA.qsepbNzY8sDYnivlG3WBr59gdl2kEsG', null, 'organizer@gmail.com', '10', '1469585876', '1469585876', '1', '1');
-INSERT INTO `user` VALUES ('14', 'jing', 'SdX7cmfDjj0PhN5lKMPGrkL--af5TYmK', '$2y$13$3y4X3.TqToGV2cxrvpXL8umKiEs4ftzSC5NPhs8ThLCd7wwAM1jxe', null, 'jing@gmail.com', '10', '1469586014', '1469586014', '5', '2');
+INSERT INTO `user` VALUES ('10', 'it', 'Oyi83DzkBkxl3dfgcgG84wceYGFUa9ib', '$2y$13$8GIWbAEEcBdQRnqrYuYBwedoqd3kXVSn59g4QHfhS0vFKHZPe1UkC', null, 'it@gmail.com', '10', '1469146040', '2147483647', '9', 'Russel', 'Dinoy', 'Wahing', '1991-09-15', '24', 'Single', 'Male', 'Villaflor, Carmen, Bohol', '', '', '', '09101737965', '');
+INSERT INTO `user` VALUES ('12', 'admin', '2sC1B7IVxCJKW34nN_F06E3QxpjVaDSH', '$2y$13$w.ITCfDBx5IncMldGXIyk.a/dOzT.xm96OSDqKMTPNrJgRmx1bTTi', null, 'admin@gmail.com', '10', '1469510625', '1469510625', '9', '', '', '', '0000-00-00', '0', '', '', '', null, null, null, '', null);
+INSERT INTO `user` VALUES ('13', 'organizer', 'sbYwcsCbsE78arBNVmbpe4FLNnYPlthA', '$2y$13$rK6XqpBfgZzfbe5vqLlqA.qsepbNzY8sDYnivlG3WBr59gdl2kEsG', null, 'organizer@gmail.com', '10', '1469585876', '1469585876', '1', '', '', '', '0000-00-00', '0', '', '', '', null, null, null, '', null);
+INSERT INTO `user` VALUES ('14', 'jing', 'SdX7cmfDjj0PhN5lKMPGrkL--af5TYmK', '$2y$13$3y4X3.TqToGV2cxrvpXL8umKiEs4ftzSC5NPhs8ThLCd7wwAM1jxe', null, 'jing@gmail.com', '10', '1469586014', '1469586014', '2', '', '', '', '0000-00-00', '0', '', '', '', null, null, null, '', null);
