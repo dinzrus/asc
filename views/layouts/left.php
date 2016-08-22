@@ -29,7 +29,6 @@
                                 ['label' => 'Branches', 'icon' => 'fa fa-circle-o', 'url' => ['/branch'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Jumpdate', 'icon' => 'fa fa-circle-o', 'url' => ['/jumpdate'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Loan Scheme', 'icon' => 'fa fa-circle-o', 'url' => ['/loanscheme'], 'visible' => Yii::$app->user->can('IT')],
-                                ['label' => 'Employee', 'icon' => 'fa fa-circle-o', 'url' => ['/employee'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'User', 'icon' => 'fa fa-circle-o', 'url' => ['/user'], 'visible' => Yii::$app->user->can('IT')],
                                 [
                                     'label' => 'Addresses',

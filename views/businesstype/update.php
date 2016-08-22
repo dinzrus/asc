@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\BusinessType */
 
-$this->title = 'Update Business Type: ' . ' ' . $model->business_id;
+$this->title = 'Update Business Type: ' . ' ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Business Type', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->business_id, 'url' => ['view', 'id' => $model->business_id]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="business-type-update">

@@ -25,7 +25,7 @@ $this->registerJs($search);
 <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
-        'business_id',
+        ['attribute' => 'id', 'visible' => false],
         'business_description',
         [
             'class' => 'yii\grid\ActionColumn',

@@ -49,12 +49,12 @@ class BusinesstypeController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $providerBorrower = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->borrowers,
+        $providerBusiness = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->businesses,
         ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'providerBorrower' => $providerBorrower,
+            'providerBusiness' => $providerBusiness,
         ]);
     }
 
@@ -68,7 +68,7 @@ class BusinesstypeController extends Controller
         $model = new BusinessType();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->business_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -87,7 +87,7 @@ class BusinesstypeController extends Controller
         $model = $this->findModel($id);
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->business_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -127,19 +127,19 @@ class BusinesstypeController extends Controller
     
     /**
     * Action to load a tabular form grid
-    * for Borrower
+    * for Business
     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
     *
     * @return mixed
     */
-    public function actionAddBorrower()
+    public function actionAddBusiness()
     {
         if (Yii::$app->request->isAjax) {
-            $row = Yii::$app->request->post('Borrower');
+            $row = Yii::$app->request->post('Business');
             if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
                 $row[] = [];
-            return $this->renderAjax('_formBorrower', ['row' => $row]);
+            return $this->renderAjax('_formBusiness', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

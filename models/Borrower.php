@@ -69,6 +69,10 @@ class Borrower extends BaseBorrower {
             'borrower_pic' => ''
         ];
     }
+    
+    public function getBranch() {
+        return $this->hasOne(\app\models\Branch::className(), ['branch_id' => 'branch_id']);
+    }
 
     /**
      * This will set the url of the borrower image for saving into the database, if success this 

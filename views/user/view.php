@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = $model->username;
+$this->title = $model->email;
 $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -33,17 +33,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
 <?php 
     $gridColumn = [
-        ['attribute' => 'id', 'hidden' => true],
+        ['attribute' => 'id', 'visible' => false],
         'username',
-        'auth_key',
-        'password_hash',
-        'password_reset_token',
+//        'auth_key',
+//        'password_hash',
+//        'password_reset_token',
         'email:email',
-        'status',
+//        'status',
         [
-            'attribute' => 'employee0.employee_id',
-            'label' => 'Employee',
+            'attribute' => 'branch.branch_description',
+            'label' => 'Branch'
         ],
+        'firstname',
+        'lastname',
+        'middlename',
+        'birthdate',
+        'age',
+        'civil_status',
+        'gender',
+        'home_address',
+        'sss_no',
+        'philhealth_no',
+        'tin_no',
+        'contact_no',
+        'picture',
     ];
     echo DetailView::widget([
         'model' => $model,

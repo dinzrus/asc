@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BorrowerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,16 +17,16 @@ $this->registerJs($search);
 ?>
 <div class="borrower-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
         <?= Html::a('Create Borrower', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>
     </p>
     <div class="search-form" style="display:none">
-        <?=  $this->render('_search', ['model' => $searchModel]); ?>
+        <?= $this->render('_search', ['model' => $searchModel]); ?>
     </div>
-    <?php 
+    <?php
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         ['attribute' => 'id', 'hidden' => true],
@@ -106,22 +105,30 @@ $this->registerJs($search);
 //                ],
 //                'filterInputOptions' => ['placeholder' => 'Status', 'id' => 'grid-borrower-search-status']
 //            ],
-        'branch_id',
+        [
+            'attribute' => 'branch_id',
+            'label' => 'Branch',
+            'value' => function($model) {
+                return $model->branch->branch_description;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->asArray()->all(), 'branch_id', 'branch_description'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Branch', 'id' => 'grid-borrower-search-branch_id']
+        ],
         //'attachment:ntext',
         //'relation_to_applicant',
         //'acount_type',
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{save-as-new} {view} {update} {delete}',
-            'buttons' => [
-                'save-as-new' => function ($url) {
-                    return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
-                },
-            ],
+            'template' => '{view} {update} {delete}',
         ],
-    ]; 
+    ];
     ?>
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => $gridColumn,
@@ -146,8 +153,9 @@ $this->registerJs($search);
                         '<li class="dropdown-header">Export All Data</li>',
                     ],
                 ],
-            ]) ,
+            ]),
         ],
-    ]); ?>
+    ]);
+    ?>
 
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -19,43 +20,42 @@ $this->registerJs($search);
     <p>
         <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?php
+<?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
-        ['attribute' => 'id'],
+        ['attribute' => 'id', 'visible' => false],
         'username',
-        //'auth_key',
-        //'password_hash',
-        //'password_reset_token',
+//        'auth_key',
+//        'password_hash',
+//        'password_reset_token',
         'email:email',
-        //'status',
+//        'status',
         [
-            'attribute' => 'employee',
-            'label' => 'Employee',
-            'value' => function($model) {
-                return $model->employee0->lastname . ', ' . $model->employee0->firstname;
-            },
-            'filterType' => GridView::FILTER_SELECT2,
-            'filter' => \yii\helpers\ArrayHelper::map(\app\models\Employee::find()->asArray()->all(), 'employee_id', 'employee_id'),
-            'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => true],
-            ],
-            'filterInputOptions' => ['placeholder' => 'Employee', 'id' => 'grid--employee']
-        ],
-        [
-            'attribute' => 'branch',
+            'attribute' => 'branch_id',
             'label' => 'Branch',
-            'value' => function($model){
-                return $model->branch0->branch_description;
+            'value' => function($model) {
+                return $model->branch->branch_description;
             }
         ],
+        'firstname',
+        'lastname',
+        'middlename',
+//        'birthdate',
+//        'age',
+//        'civil_status',
+//        'gender',
+        'home_address',
+//        'sss_no',
+//        'philhealth_no',
+//        'tin_no',
+        'contact_no',
+//        'picture',
         [
             'class' => 'yii\grid\ActionColumn',
         ],
-    ];
+    ]; 
     ?>
-    <?=
-    GridView::widget([
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => $gridColumn,
         'pjax' => true,
@@ -83,9 +83,8 @@ $this->registerJs($search);
                 'exportConfig' => [
                     ExportMenu::FORMAT_PDF => false
                 ]
-            ]),
+            ]) ,
         ],
-    ]);
-    ?>
+    ]); ?>
 
 </div>

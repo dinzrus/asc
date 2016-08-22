@@ -76,11 +76,13 @@ class BorrowerController extends Controller {
             $comaker_id = BorrowerComaker::findOne(['borrower_id' => $id]);
             $comaker = Comaker::findOne(['id' => $comaker_id->comaker_id]);
             $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
+            $business = Business::findOne(['borrower_id' => $id]);
 
             return $this->render('view', [
                         'borrower' => $borrower,
                         'comaker' => $comaker,
                         'dependents' => $dependents,
+                        'business' => $business,
             ]);
         }else {
             throw new \yii\web\UnauthorizedHttpException();
@@ -130,7 +132,7 @@ class BorrowerController extends Controller {
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
                 $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
 
-                $business->borrower_id = $borrower->id;
+                
                 
                 if ($borrower->saveAll() && $comaker->saveAll()) {
 
@@ -139,7 +141,7 @@ class BorrowerController extends Controller {
                     $borrower_comaker->comaker_id = $comaker->id;
                     $borrower_comaker->saveAll();
                     
-                    $business->borrower_id = 12;
+                    $business->borrower_id = $borrower->id;
                     $business->saveAll();
                     
                     if (!empty($borrower->borrower_pic)) {
@@ -258,6 +260,7 @@ class BorrowerController extends Controller {
                             'dependents' => (empty($dependents)) ? [new Dependent] : $dependents,
                             'update' => $update,
                             'borrower_comaker' => $borrower_comaker,
+                            'business' => $business,
                 ]);
             }
         }else {

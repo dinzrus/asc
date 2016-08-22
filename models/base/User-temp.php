@@ -3,10 +3,11 @@
 namespace app\models\base;
 
 use Yii;
+use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\behaviors\BlameableBehavior;
-use yii\db\Expression;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\base\Security;
 
 /**
  * This is the base model class for table "user".
@@ -20,41 +21,30 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $employee
  * @property integer $branch_id
- * @property string $firstname
- * @property string $lastname
- * @property string $middlename
- * @property string $birthdate
- * @property integer $age
- * @property string $civil status
- * @property string $gender
- * @property string $home_address
- * @property string $sss_no
- * @property string $philhealth_no
- * @property string $tin_no
- * @property string $contact_no
- * @property string $picture
+ *
+ * @property \app\models\Employee $employee0
  */
-class User extends \yii\db\ActiveRecord implements IdentityInterface {
+class User extends ActiveRecord implements IdentityInterface {
 
-    use \mootensai\relation\RelationTrait;
-    
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+
+    use \mootensai\relation\RelationTrait;
 
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at', 'branch_id', 'firstname', 'lastname', 'middlename', 'birthdate', 'age', 'civil_status', 'gender', 'home_address', 'contact_no'], 'required'],
-            [['status', 'created_at', 'updated_at', 'branch_id', 'age'], 'integer'],
-            [['birthdate'], 'safe'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'firstname', 'lastname', 'middlename', 'civil_status', 'gender', 'home_address', 'sss_no', 'philhealth_no', 'tin_no', 'contact_no', 'picture'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
+            [['username', 'email', 'employee', 'branch_id', 'password_hash'], 'required'],
             [['username'], 'unique'],
             [['email'], 'unique'],
-            [['password_reset_token'], 'unique']
+            [['employee'], 'unique'],
+            [['email'], 'email'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
 
@@ -73,48 +63,35 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface {
             'id' => 'ID',
             'username' => 'Username',
             'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
+            'password_hash' => 'Password',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'status' => 'Status',
-            'branch_id' => 'Branch ID',
-            'firstname' => 'Firstname',
-            'lastname' => 'Lastname',
-            'middlename' => 'Middlename',
-            'birthdate' => 'Birthdate',
-            'age' => 'Age',
-            'civil_status' => 'Civil Status',
-            'gender' => 'Gender',
-            'home_address' => 'Home Address',
-            'sss_no' => 'Sss No',
-            'philhealth_no' => 'Philhealth No',
-            'tin_no' => 'Tin No',
-            'contact_no' => 'Contact No',
-            'picture' => 'Picture',
+            'employee' => 'Employee',
+            'branch_id' => 'Branch'
         ];
     }
 
     /**
      * @inheritdoc
-     * @return array mixed
      */
     public function behaviors() {
         return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-                'value' => new Expression('NOW()'),
-            ],
-            'blameable' => [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'created_at',
-                'updatedByAttribute' => 'updated_at',
-                'value' => new Expression('NOW()'),
-            ],
+            TimestampBehavior::className(),
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployee0() {
+        return $this->hasOne(\app\models\Employee::className(), ['employee_id' => 'employee']);
+    }
+    
+    public function getBranch0(){
+        return $this->hasOne(\app\models\Branch::className(), ['branch_id' => 'branch_id']);
+    }
+    
     /**
      * @inheritdoc
      * @return \app\models\UserQuery the active query used by this AR class.
@@ -240,5 +217,4 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface {
     public function removePasswordResetToken() {
         $this->password_reset_token = null;
     }
-
 }

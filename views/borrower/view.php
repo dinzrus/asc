@@ -42,11 +42,46 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- tab begin here -->
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#principal" data-toggle="tab">Principal Applicant</a></li>
-            <li><a href="#comaker" data-toggle="tab">Second Signatory</a></li>
-            <li><a href="#attachments" data-toggle="tab">Attachments</a></li>
+            <li class="active"><a href="#principal" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Principal Applicant</a></li>
+            <li><a href="#business" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Business</a></li>
+            <li><a href="#comaker" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Second Signatory</a></li>
+            <li><a href="#attachments" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Attachments</a></li>
         </ul>
         <div class="tab-content">
+            <div class="tab-pane" id="business">
+                <?php
+                $gridColumn = [
+                    ['attribute' => 'id', 'visible' => false],
+                    'business_name',
+                    [
+                        'attribute' => 'businessType.business_description',
+                        'label' => 'Business Type',
+                    ],
+                    [
+                        'attribute' => 'addressProvince.province',
+                        'label' => 'Address Province',
+                    ],
+                    [
+                        'attribute' => 'addressCityMunicipality.municipality_city',
+                        'label' => 'Address City Municipality',
+                    ],
+                    [
+                        'attribute' => 'addressBarangay.barangay',
+                        'label' => 'Address Barangay',
+                    ],
+                    'address_st_bldng_no',
+                    'business_years',
+                    'permit_no',
+                    'average_weekly_income',
+                    'average_gross_daily_income',
+                    'ownership',
+                ];
+                echo DetailView::widget([
+                    'model' => $business,
+                    'attributes' => $gridColumn
+                ]);
+                ?>
+            </div>
             <div class="active tab-pane" id="principal">
                 <div class="row">
                     <div class="col-md-4">
@@ -118,7 +153,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'status0.status',
                                 'label' => 'Status',
                             ],
-                            'branch_id',
+                            [
+                                'attribute' => 'branch.branch_description',
+                                'label' => 'Branch'
+                            ]
                         ];
                         echo DetailView::widget([
                             'model' => $borrower,
@@ -130,20 +168,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-8">
-                        <table class="table table-striped table-bordered detail-view">
-                            <tr>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Age</strong></td>
-                                <td><strong>Date of Birth</strong></td>
-                            </tr>
-                            <?php foreach ($dependents as $dependent): ?>
+                        <?php if ((count($dependents) > 0)): ?>
+                            <table class="table table-striped table-bordered detail-view">
                                 <tr>
-                                    <td><?= $dependent->name ?></td>
-                                    <td><?= $dependent->age ?></td>
-                                    <td><?= $dependent->birthdate ?></td>
+                                    <td><strong>Name</strong></td>
+                                    <td><strong>Age</strong></td>
+                                    <td><strong>Date of Birth</strong></td>
                                 </tr>
-                            <?php endforeach; ?>
-                        </table>
+                                <?php foreach ($dependents as $dependent): ?>
+                                    <tr>
+                                        <td><?= $dependent->name ?></td>
+                                        <td><?= $dependent->age ?></td>
+                                        <td><?= $dependent->birthdate ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        <?php endif; ?>                     
                         <?php
                         $gridColumn = [
                             'collaterals:ntext',

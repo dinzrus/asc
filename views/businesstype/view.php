@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model app\models\BusinessType */
 
-$this->title = $model->business_id;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Business Type', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-sm-3" style="margin-top: 15px">
             
-            <?= Html::a('Update', ['update', 'id' => $model->business_id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Delete', ['delete', 'id' => $model->business_id], [
+            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Delete', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
                     'confirm' => 'Are you sure you want to delete this item?',
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
 <?php 
     $gridColumn = [
-        'business_id',
+        ['attribute' => 'id', 'visible' => false],
         'business_description',
     ];
     echo DetailView::widget([
@@ -46,50 +46,40 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <div class="row">
 <?php
-if($providerBorrower->totalCount){
-    $gridColumnBorrower = [
+if($providerBusiness->totalCount){
+    $gridColumnBusiness = [
         ['class' => 'yii\grid\SerialColumn'],
-            'borrower_id',
-            'borrower_pic',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'name_suffix',
-            'principal_birthdate',
-            'principal_age',
-            'birthplace',
-            'address_streetname',
-            'address_barangay',
-            'address_province',
-            'marriage_status',
-            'contact_no',
-                        'date_canvass',
-            'date_ci',
-            'co_fname',
-            'co_lname',
-            'co_middlename',
-            'co_pic',
-            'relation',
-            'co_alias',
-            'co_address',
-            'co_contact_no',
-            'branch',
-            'spouse_age',
-            'no_of_dependents',
-            'business_address',
+            ['attribute' => 'id', 'visible' => false],
+            'business_name',
+                        [
+                'attribute' => 'addressProvince.province',
+                'label' => 'Address Province'
+            ],
+            [
+                'attribute' => 'addressCityMunicipality.municipality_city',
+                'label' => 'Address City Municipality'
+            ],
+            [
+                'attribute' => 'addressBarangay.barangay',
+                'label' => 'Address Barangay'
+            ],
+            'address_st_bldng_no',
             'business_years',
-            'chattel',
-            'borrower_status',
+            'permit_no',
+            'average_weekly_income',
+            'average_gross_daily_income',
+            'ownership',
+            'borrower_id',
     ];
     echo Gridview::widget([
-        'dataProvider' => $providerBorrower,
+        'dataProvider' => $providerBusiness,
         'pjax' => true,
-        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-borrower']],
+        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-business']],
         'panel' => [
         'type' => GridView::TYPE_PRIMARY,
-        'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode('Borrower'),
+        'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode('Business'),
         ],
-        'columns' => $gridColumnBorrower
+        'columns' => $gridColumnBusiness
     ]);
 }
 ?>

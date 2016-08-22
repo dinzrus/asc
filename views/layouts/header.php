@@ -25,7 +25,7 @@ use yii\helpers\Html;
                         <span class="hidden-xs">
                             <?php
                             if (isset(Yii::$app->user->identity->username)) {
-                                echo Yii::$app->user->identity->email;
+                                echo Yii::$app->user->identity->lastname. ', ' . Yii::$app->user->identity->firstname;
                             }
                             ?>
                         </span>

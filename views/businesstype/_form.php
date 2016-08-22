@@ -9,9 +9,9 @@ use yii\widgets\ActiveForm;
 
 \mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos'=> \yii\web\View::POS_END, 
     'viewParams' => [
-        'class' => 'Borrower', 
-        'relID' => 'borrower', 
-        'value' => \yii\helpers\Json::encode($model->borrowers),
+        'class' => 'Business', 
+        'relID' => 'business', 
+        'value' => \yii\helpers\Json::encode($model->businesses),
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
@@ -23,16 +23,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->errorSummary($model); ?>
 
-    <?= $form->field($model, 'business_id')->textInput(['placeholder' => 'Business']) ?>
+    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <?= $form->field($model, 'business_description')->textInput(['maxlength' => true, 'placeholder' => 'Business Description']) ?>
 
     <?php
     $forms = [
         [
-            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('Borrower'),
-            'content' => $this->render('_formBorrower', [
-                'row' => \yii\helpers\ArrayHelper::toArray($model->borrowers),
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('Business'),
+            'content' => $this->render('_formBusiness', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->businesses),
             ]),
         ],
     ];

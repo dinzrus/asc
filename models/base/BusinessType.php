@@ -7,10 +7,10 @@ use Yii;
 /**
  * This is the base model class for table "business_type".
  *
- * @property integer $business_id
+ * @property integer $id
  * @property string $business_description
  *
- * @property \app\models\Borrower[] $borrowers
+ * @property \app\models\Business[] $businesses
  */
 class BusinessType extends \yii\db\ActiveRecord
 {
@@ -40,7 +40,7 @@ class BusinessType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'business_id' => 'Business ID',
+            'id' => 'ID',
             'business_description' => 'Business Description',
         ];
     }
@@ -48,9 +48,9 @@ class BusinessType extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBorrowers()
+    public function getBusinesses()
     {
-        return $this->hasMany(\app\models\Borrower::className(), ['business_type' => 'business_id']);
+        return $this->hasMany(\app\models\Business::className(), ['business_type_id' => 'id']);
     }
     
     /**
