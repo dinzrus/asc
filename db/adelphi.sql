@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-08-22 17:16:56
+Date: 2016-08-23 17:26:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,8 +32,8 @@ CREATE TABLE `auth_assignment` (
 -- Records of auth_assignment
 -- ----------------------------
 INSERT INTO `auth_assignment` VALUES ('ADMIN', '13', null);
+INSERT INTO `auth_assignment` VALUES ('ADMIN', '17', null);
 INSERT INTO `auth_assignment` VALUES ('IT', '10', null);
-INSERT INTO `auth_assignment` VALUES ('ORGANIZER', '13', null);
 
 -- ----------------------------
 -- Table structure for auth_item
@@ -173,8 +173,8 @@ CREATE TABLE `borrower` (
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('1', 'fileupload/Dinoy-Russel -Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', 'Jr.', '1991-09-15', '24', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '09101737965', '2016-08-19', '2016-08-15', '', '', '', '', 'Mary Joy H. Asis', 'Office Clerk', '23', '1992-10-10', '0', 'Honda RS 150 \r\nTV Samsung 52\"', 'C', '4', 'fileupload/1991-09-15-Dinoy-Russel-Wahing-attachment0.jpg', 'B', '2016-08-22 11:10:33', '2016-08-22 14:10:19');
-INSERT INTO `borrower` VALUES ('2', 'fileupload/Robinson-Gabutan-Gwapo.jpg', 'Robinson', 'Gabutan', 'Gwapo', '', '1985-07-24', '35', 'Cebu City Philippines', '4', '6', '4', 'New york street', 'Married', '099999999', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:10:33', '2016-08-22 14:10:19');
+INSERT INTO `borrower` VALUES ('1', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', 'Jr.', '1991-09-15', '24', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '09101737965', '2016-08-19', '2016-08-15', '', '', '', '', 'Mary Joy H. Asis', 'Office Clerk', '23', '1992-10-10', '0', 'Honda RS 150 \r\nTV Samsung 52\"', 'C', '4', 'fileupload/1991-09-15-Dinoy-Russel-Wahing-attachment0.jpg', 'B', '2016-08-22 11:10:33', '2016-08-23 15:34:44');
+INSERT INTO `borrower` VALUES ('2', 'fileupload/Robinson-Gabutan-Gwapo.jpg', 'Robinson', 'Gabutan', 'Gwapo', '', '1985-07-24', '35', 'Cebu City Philippines', '4', '6', '4', 'New york street', 'Married', '099999999', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:10:33', '2016-08-23 15:34:44');
 INSERT INTO `borrower` VALUES ('3', 'fileupload/Joseph-Baldoza-Waju.jpg', 'Joseph', 'Baldoza', 'Waju', 'Sr.', '2016-08-22', '45', 'Apas, Cebu City', '4', '6', '5', 'Lakaw 1', 'Married', '098854522', '2016-08-09', '2016-08-18', '', '', '', '', 'Mary Jane Ompad', 'Teacher', '35', '2016-08-17', '0', 'LG Refrigerator ', 'C', '3', 'fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment0.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment1.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment2.jpg', 'B', '2016-08-22 11:35:35', '2016-08-22 11:37:42');
 INSERT INTO `borrower` VALUES ('4', 'fileupload/Glenn-Casol-Lilyosa.jpg', 'Glenn', 'Casol', 'Lilyosa', '', '2016-08-22', '23', 'Villaflor, Carmen, Bohol', '4', '6', '4', 'UCMA Village, Apas, Cebu City', 'Married', '0995454121', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:35:35', '2016-08-22 11:37:42');
 
@@ -676,16 +676,16 @@ CREATE TABLE `user` (
   `tin_no` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `contact_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `picture` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `temp_pass` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('10', 'it', 'Oyi83DzkBkxl3dfgcgG84wceYGFUa9ib', '$2y$13$8GIWbAEEcBdQRnqrYuYBwedoqd3kXVSn59g4QHfhS0vFKHZPe1UkC', null, 'it@gmail.com', '10', '1469146040', '2147483647', '9', 'Russel', 'Dinoy', 'Wahing', '1991-09-15', '24', 'Single', 'Male', 'Villaflor, Carmen, Bohol', '', '', '', '09101737965', '');
-INSERT INTO `user` VALUES ('12', 'admin', '2sC1B7IVxCJKW34nN_F06E3QxpjVaDSH', '$2y$13$w.ITCfDBx5IncMldGXIyk.a/dOzT.xm96OSDqKMTPNrJgRmx1bTTi', null, 'admin@gmail.com', '10', '1469510625', '1469510625', '9', '', '', '', '0000-00-00', '0', '', '', '', null, null, null, '', null);
-INSERT INTO `user` VALUES ('13', 'organizer', 'sbYwcsCbsE78arBNVmbpe4FLNnYPlthA', '$2y$13$rK6XqpBfgZzfbe5vqLlqA.qsepbNzY8sDYnivlG3WBr59gdl2kEsG', null, 'organizer@gmail.com', '10', '1469585876', '1469585876', '1', '', '', '', '0000-00-00', '0', '', '', '', null, null, null, '', null);
-INSERT INTO `user` VALUES ('14', 'jing', 'SdX7cmfDjj0PhN5lKMPGrkL--af5TYmK', '$2y$13$3y4X3.TqToGV2cxrvpXL8umKiEs4ftzSC5NPhs8ThLCd7wwAM1jxe', null, 'jing@gmail.com', '10', '1469586014', '1469586014', '2', '', '', '', '0000-00-00', '0', '', '', '', null, null, null, '', null);
+INSERT INTO `user` VALUES ('10', 'it', 'QfJY-bzOjH7cn6W3l5GaVQcJtTToQdV1', '$2y$13$B0MtFORlDgqx9EHm6M0ij.gz.znPQJmhrG0GGxCq5m4mmrzTQ1ASG', null, 'dinoyrussel@gmail.com', '10', '1469146040', '2147483647', '9', 'Russel', 'Dinoy', 'Wahing', '1991-09-15', '24', 'Single', 'Male', 'Villaflor, Carmen, Bohol', '', '', '', '09101737965', 'fileupload/Dinoy-Russel-Wahing-1991-09-15-photo.jpg', 'it12345');
+INSERT INTO `user` VALUES ('14', 'jing', 'pG7kCeqrJKS_goXjhcUtqXThChsRwJgC', '$2y$13$fVgR.Y/PTXLMfD3TiwXw1eEGaTam3o9BlPhbwKZi6UJkvwQEvfAkO', null, 'jing@gmail.com', '10', '1469586014', '2147483647', '2', 'Jingjing', 'Ahmmm', 'Hayyy', '0000-00-00', '25', 'Single', 'Female', 'Cebu City', '', '', '', '0956455528', 'fileupload/Ahmmm-Jingjing-Hayyy-0000-00-00-photo.jpg', 'jing12345');
+INSERT INTO `user` VALUES ('17', 'benson', 'xAIs0cbUG8X5o4Vk0JVs2VNsxGCrttfs', '$2y$13$CmCp9zecsVONJmwZdLAUNOK7yptkHrrWJlfECqXTi8J/32F4ykFwG', null, 'benson@gmail.com', '10', '2147483647', '2147483647', '9', 'Benson', 'Gabutan', 'Gibbs', '2016-08-23', '30', 'Single', 'Male', 'Cebu City', '', '', '', '09875478541', 'fileupload/Gabutan-Benson-Gibbs-2016-08-23-photo.jpg', 'benson12345');
