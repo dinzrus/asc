@@ -21,5 +21,5 @@ class AuthAssignment extends BaseAuthAssignment
             [['item_name', 'user_id'], 'string', 'max' => 64]
         ]);
     }
-	
+    	
 }

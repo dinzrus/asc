@@ -13,13 +13,8 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
- * @property string $auth_key
- * @property string $password_hash
- * @property string $password_reset_token
  * @property string $email
  * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
  * @property integer $branch_id
  * @property string $firstname
  * @property string $lastname
@@ -41,20 +36,22 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface {
     
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    
+    public $pass;
 
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at', 'branch_id', 'firstname', 'lastname', 'middlename', 'birthdate', 'age', 'civil_status', 'gender', 'home_address', 'contact_no'], 'required'],
-            [['status', 'created_at', 'updated_at', 'branch_id', 'age'], 'integer'],
+            [['pass', 'username', 'email', 'branch_id', 'firstname', 'lastname', 'middlename', 'birthdate', 'age', 'civil_status', 'gender', 'home_address', 'contact_no'], 'required'],
+            [['status', 'branch_id', 'age'], 'integer'],
             [['birthdate'], 'safe'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'firstname', 'lastname', 'middlename', 'civil_status', 'gender', 'home_address', 'sss_no', 'philhealth_no', 'tin_no', 'contact_no', 'picture'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
+            [['temp_pass', 'username', 'email', 'firstname', 'lastname', 'middlename', 'civil_status', 'gender', 'home_address', 'sss_no', 'philhealth_no', 'tin_no', 'contact_no', 'picture'], 'string', 'max' => 255],
             [['username'], 'unique'],
             [['email'], 'unique'],
-            [['password_reset_token'], 'unique']
+            [['password_reset_token'], 'unique'],
+            ['pass', 'required']
         ];
     }
 
@@ -73,7 +70,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface {
             'id' => 'ID',
             'username' => 'Username',
             'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
+            'password_hash' => 'Password',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'status' => 'Status',
@@ -91,6 +88,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface {
             'tin_no' => 'Tin No',
             'contact_no' => 'Contact No',
             'picture' => 'Picture',
+            'temp_pass' => 'Password'
         ];
     }
 

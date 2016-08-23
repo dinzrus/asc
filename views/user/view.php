@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $gridColumn = [
         ['attribute' => 'id', 'visible' => false],
         'username',
+        'temp_pass',
 //        'auth_key',
 //        'password_hash',
 //        'password_reset_token',

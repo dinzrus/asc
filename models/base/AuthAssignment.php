@@ -56,6 +56,7 @@ class AuthAssignment extends \yii\db\ActiveRecord
         return $this->hasOne(\app\models\AuthItem::className(), ['name' => 'item_name']);
     }
     
+    
     /**
      * @inheritdoc
      * @return \app\models\AuthAssignmentQuery the active query used by this AR class.

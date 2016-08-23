@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -7,7 +6,7 @@ use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 
-$this->title = 'Auth Assignment';
+$this->title = 'User Assignment';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -17,34 +16,33 @@ $this->registerJs($search);
 ?>
 <div class="auth-assignment-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Create Auth Assignment', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create User Assignment', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php 
+    <?php
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         [
-                'attribute' => 'item_name',
-                'label' => 'Item Name',
-                'value' => function($model){
-                    return $model->itemName->name;
-                },
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\AuthItem::find()->asArray()->all(), 'name', 'name'),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
-                ],
-                'filterInputOptions' => ['placeholder' => 'Auth item', 'id' => 'grid--item_name']
+            'attribute' => 'item_name',
+            'label' => 'Item Name',
+            'value' => function($model) {
+                return $model->itemName->name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\app\models\AuthItem::find()->asArray()->all(), 'name', 'name'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
             ],
+            'filterInputOptions' => ['placeholder' => 'Auth item', 'id' => 'grid--item_name']
+        ],
         'user_id',
         [
             'class' => 'yii\grid\ActionColumn',
         ],
-    ]; 
+    ];
     ?>
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => $gridColumn,
         'pjax' => true,
@@ -72,8 +70,9 @@ $this->registerJs($search);
                 'exportConfig' => [
                     ExportMenu::FORMAT_PDF => false
                 ]
-            ]) ,
+            ]),
         ],
-    ]); ?>
+    ]);
+    ?>
 
 </div>

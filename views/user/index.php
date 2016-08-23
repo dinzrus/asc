@@ -23,8 +23,9 @@ $this->registerJs($search);
 <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
-        ['attribute' => 'id', 'visible' => false],
+        ['attribute' => 'id', 'visible' => true],
         'username',
+        'temp_pass',
 //        'auth_key',
 //        'password_hash',
 //        'password_reset_token',

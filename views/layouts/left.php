@@ -46,7 +46,7 @@
                                     'url' => '#',
                                     'visible' => Yii::$app->user->can('IT'),
                                     'items' => [
-                                        ['label' => 'Auth-Assignment', 'icon' => 'fa fa-circle-o', 'url' => ['/authassignment'],],
+                                        ['label' => 'User Assignment', 'icon' => 'fa fa-circle-o', 'url' => ['/authassignment'],],
                                     ],
                                 ],
                                 ['label' => 'Borrowers Info.', 'icon' => 'fa fa-circle-o', 'url' => ['/borrower'], 'visible' => Yii::$app->user->can('ORGANIZER')],
