@@ -17,8 +17,8 @@ class AuthAssignment extends BaseAuthAssignment
         return array_replace_recursive(parent::rules(),
 	    [
             [['item_name', 'user_id'], 'required'],
-            [['created_at'], 'integer'],
-            [['item_name', 'user_id'], 'string', 'max' => 64]
+            [['created_at', 'user_id'], 'integer'],
+            [['item_name'], 'string', 'max' => 64]
         ]);
     }
     	

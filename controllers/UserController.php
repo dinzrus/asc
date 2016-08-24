@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\User;
+use app\models\Log;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -59,7 +60,7 @@ class UserController extends Controller {
      */
     public function actionCreate() {
         $model = new User();
-
+        
         if ($model->loadAll(Yii::$app->request->post())) {
             $model->photo = UploadedFile::getInstance($model, 'photo');
             if (!empty($model->photo)) {
@@ -94,6 +95,8 @@ class UserController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
+        
+        $model->pass = $model->temp_pass;
 
         if ($model->loadAll(Yii::$app->request->post())) {
 
@@ -110,6 +113,8 @@ class UserController extends Controller {
 
             if ($model->saveAll()) {
                 $model->uploadPhoto();
+                $log = new Log();
+                $log->logMe(1, 'user update user ' . $model->username);
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('update', [

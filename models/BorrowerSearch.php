@@ -19,7 +19,7 @@ use app\models\Borrower;
     {
         return [
             [['id', 'age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
-            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthdate', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'ci_date', 'canvass_date', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'spouse_birthdate', 'collaterals', 'status', 'attachment', 'acount_type'], 'safe'],
+            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'birthdate', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'ci_date', 'canvass_date', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'spouse_birthdate', 'collaterals', 'status', 'attachment', 'acount_type'], 'safe'],
         ];
     }
 
@@ -75,7 +75,6 @@ use app\models\Borrower;
             ->andFilterWhere(['like', 'first_name', $this->first_name])
             ->andFilterWhere(['like', 'last_name', $this->last_name])
             ->andFilterWhere(['like', 'middle_name', $this->middle_name])
-            ->andFilterWhere(['like', 'suffix', $this->suffix])
             ->andFilterWhere(['like', 'birthplace', $this->birthplace])
             ->andFilterWhere(['like', 'address_street_house_no', $this->address_street_house_no])
             ->andFilterWhere(['like', 'civil_status', $this->civil_status])

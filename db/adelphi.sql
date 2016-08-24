@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-08-23 17:26:24
+Date: 2016-08-24 17:48:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `auth_assignment`;
 CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
   `created_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`item_name`,`user_id`),
   KEY `user_id` (`user_id`),
@@ -31,8 +31,8 @@ CREATE TABLE `auth_assignment` (
 -- ----------------------------
 -- Records of auth_assignment
 -- ----------------------------
-INSERT INTO `auth_assignment` VALUES ('ADMIN', '13', null);
-INSERT INTO `auth_assignment` VALUES ('ADMIN', '17', null);
+INSERT INTO `auth_assignment` VALUES ('ADMIN', '19', null);
+INSERT INTO `auth_assignment` VALUES ('ADMIN', '20', null);
 INSERT INTO `auth_assignment` VALUES ('IT', '10', null);
 
 -- ----------------------------
@@ -175,8 +175,8 @@ CREATE TABLE `borrower` (
 -- ----------------------------
 INSERT INTO `borrower` VALUES ('1', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', 'Jr.', '1991-09-15', '24', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '09101737965', '2016-08-19', '2016-08-15', '', '', '', '', 'Mary Joy H. Asis', 'Office Clerk', '23', '1992-10-10', '0', 'Honda RS 150 \r\nTV Samsung 52\"', 'C', '4', 'fileupload/1991-09-15-Dinoy-Russel-Wahing-attachment0.jpg', 'B', '2016-08-22 11:10:33', '2016-08-23 15:34:44');
 INSERT INTO `borrower` VALUES ('2', 'fileupload/Robinson-Gabutan-Gwapo.jpg', 'Robinson', 'Gabutan', 'Gwapo', '', '1985-07-24', '35', 'Cebu City Philippines', '4', '6', '4', 'New york street', 'Married', '099999999', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:10:33', '2016-08-23 15:34:44');
-INSERT INTO `borrower` VALUES ('3', 'fileupload/Joseph-Baldoza-Waju.jpg', 'Joseph', 'Baldoza', 'Waju', 'Sr.', '2016-08-22', '45', 'Apas, Cebu City', '4', '6', '5', 'Lakaw 1', 'Married', '098854522', '2016-08-09', '2016-08-18', '', '', '', '', 'Mary Jane Ompad', 'Teacher', '35', '2016-08-17', '0', 'LG Refrigerator ', 'C', '3', 'fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment0.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment1.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment2.jpg', 'B', '2016-08-22 11:35:35', '2016-08-22 11:37:42');
-INSERT INTO `borrower` VALUES ('4', 'fileupload/Glenn-Casol-Lilyosa.jpg', 'Glenn', 'Casol', 'Lilyosa', '', '2016-08-22', '23', 'Villaflor, Carmen, Bohol', '4', '6', '4', 'UCMA Village, Apas, Cebu City', 'Married', '0995454121', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:35:35', '2016-08-22 11:37:42');
+INSERT INTO `borrower` VALUES ('3', 'fileupload/Joseph-Baldoza-Waju.jpg', 'Joseph', 'Baldoza', 'Waju', 'Sr.', '2016-08-22', '45', 'Apas, Cebu City', '4', '6', '5', 'Lakaw 1', 'Married', '0988545223', '2016-08-09', '2016-08-18', '', '', '', '', 'Mary Jane Ompad', 'Teacher', '35', '2016-08-17', '0', 'LG Refrigerator ', 'C', '3', 'fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment0.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment1.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment2.jpg', 'B', '2016-08-22 11:35:35', '2016-08-24 15:43:14');
+INSERT INTO `borrower` VALUES ('4', 'fileupload/Glenn-Casol-Lilyosa.jpg', 'Glenn', 'Casol', 'Lilyosa', '', '2016-08-22', '23', 'Villaflor, Carmen, Bohol', '4', '6', '4', 'UCMA Village, Apas, Cebu City', 'Married', '0995454121', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:35:35', '2016-08-24 15:43:14');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -460,16 +460,51 @@ INSERT INTO `loan_type` VALUES ('2', 'PD-CELP');
 -- ----------------------------
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
-  `log_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `log_type` int(11) DEFAULT NULL,
   `log_description` varchar(255) DEFAULT NULL,
-  `user` int(11) DEFAULT NULL,
-  `log_date` date DEFAULT NULL,
-  PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `log_date` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `log_type` (`log_type`),
+  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`log_type`) REFERENCES `logtype` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
 -- ----------------------------
+INSERT INTO `log` VALUES ('2', '1', 'user update user benson', '2016-08-24 13:47:07', '10', '9');
+INSERT INTO `log` VALUES ('3', '1', 'user update user jing', '2016-08-24 13:48:10', '10', '9');
+INSERT INTO `log` VALUES ('4', '2', 'updated borrower: 3', '2016-08-24 15:43:14', '10', '9');
+INSERT INTO `log` VALUES ('5', '3', 'user login: 10', '2016-08-24 16:12:53', '10', '9');
+INSERT INTO `log` VALUES ('6', '3', 'user login: russel', '2016-08-24 16:14:43', '10', '9');
+INSERT INTO `log` VALUES ('7', '3', 'user login: russel', '2016-08-24 16:15:50', '10', '9');
+INSERT INTO `log` VALUES ('8', '4', 'user logout: russel', '2016-08-24 16:15:53', '10', '9');
+INSERT INTO `log` VALUES ('9', '3', 'user login: russel', '2016-08-24 16:16:11', '10', '9');
+INSERT INTO `log` VALUES ('10', '4', 'user logout: russel', '2016-08-24 16:40:36', '10', '9');
+INSERT INTO `log` VALUES ('11', '3', 'user login: russel', '2016-08-24 16:41:09', '10', '9');
+INSERT INTO `log` VALUES ('12', '4', 'user logout: russel', '2016-08-24 16:43:45', '10', '9');
+
+-- ----------------------------
+-- Table structure for logtype
+-- ----------------------------
+DROP TABLE IF EXISTS `logtype`;
+CREATE TABLE `logtype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_description` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of logtype
+-- ----------------------------
+INSERT INTO `logtype` VALUES ('1', 'create', '2016-08-24 13:52:40');
+INSERT INTO `logtype` VALUES ('2', 'update', '2016-08-24 13:52:45');
+INSERT INTO `logtype` VALUES ('3', 'login', '2016-08-24 15:51:59');
+INSERT INTO `logtype` VALUES ('4', 'logout', '2016-08-24 15:52:04');
+INSERT INTO `logtype` VALUES ('5', 'delete', '2016-08-24 15:52:08');
 
 -- ----------------------------
 -- Table structure for migration
@@ -681,11 +716,12 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('10', 'it', 'QfJY-bzOjH7cn6W3l5GaVQcJtTToQdV1', '$2y$13$B0MtFORlDgqx9EHm6M0ij.gz.znPQJmhrG0GGxCq5m4mmrzTQ1ASG', null, 'dinoyrussel@gmail.com', '10', '1469146040', '2147483647', '9', 'Russel', 'Dinoy', 'Wahing', '1991-09-15', '24', 'Single', 'Male', 'Villaflor, Carmen, Bohol', '', '', '', '09101737965', 'fileupload/Dinoy-Russel-Wahing-1991-09-15-photo.jpg', 'it12345');
-INSERT INTO `user` VALUES ('14', 'jing', 'pG7kCeqrJKS_goXjhcUtqXThChsRwJgC', '$2y$13$fVgR.Y/PTXLMfD3TiwXw1eEGaTam3o9BlPhbwKZi6UJkvwQEvfAkO', null, 'jing@gmail.com', '10', '1469586014', '2147483647', '2', 'Jingjing', 'Ahmmm', 'Hayyy', '0000-00-00', '25', 'Single', 'Female', 'Cebu City', '', '', '', '0956455528', 'fileupload/Ahmmm-Jingjing-Hayyy-0000-00-00-photo.jpg', 'jing12345');
-INSERT INTO `user` VALUES ('17', 'benson', 'xAIs0cbUG8X5o4Vk0JVs2VNsxGCrttfs', '$2y$13$CmCp9zecsVONJmwZdLAUNOK7yptkHrrWJlfECqXTi8J/32F4ykFwG', null, 'benson@gmail.com', '10', '2147483647', '2147483647', '9', 'Benson', 'Gabutan', 'Gibbs', '2016-08-23', '30', 'Single', 'Male', 'Cebu City', '', '', '', '09875478541', 'fileupload/Gabutan-Benson-Gibbs-2016-08-23-photo.jpg', 'benson12345');
+INSERT INTO `user` VALUES ('10', 'russel', 'mqNUgibbYOLDjA5iyWV1BTb-p2K4exo4', '$2y$13$EeRlMjA1q3Ypd5uVUqiq/eFhAbFne3t3gM5FKHyQEqrHVXmU9.tYK', null, 'dinoyrussel@gmail.com', '10', '1469146040', '2147483647', '9', 'Russel', 'Dinoy', 'Wahing', '1991-09-15', '24', 'Single', 'Male', 'Villaflor, Carmen, Bohol', '', '', '', '09101737965', 'fileupload/Dinoy-Russel-Wahing-1991-09-15-photo.jpg', 'russel12345');
+INSERT INTO `user` VALUES ('14', 'jing', 'S6ho-6mlzqAinnEbrEl-IUpPvitouxAs', '$2y$13$QPkWtz.QIqwp9fNKMgwhPeyQNkjwAwoV5fhTt5dt1I7r6Zv6gQvQK', null, 'jing@gmail.com', '10', '1469586014', '2147483647', '2', 'Jingjing', 'Ahmmm', 'Hayyy', '0000-00-00', '25', 'Married', 'Female', 'Cebu City', '', '', '', '0956455528', 'fileupload/Ahmmm-Jingjing-Hayyy-0000-00-00-photo.jpg', 'jing12345');
+INSERT INTO `user` VALUES ('19', 'joseph', 'Z2Xa7HjImN5hSgkW0miuGZHqjNDNkTiH', '$2y$13$YcSTNoQ.RqYOkLadjeXYnu82m/taDcPEi357Qq8HhJAdfzNgqwpwu', null, 'josephbaldoza@gmail.com', '10', '2147483647', '2147483647', '2', 'Joseph', 'Baldoza', 'Gonzales', '2016-08-09', '35', 'Married', 'Male', 'Apas, Cebu city', '', '', '', '099945854', 'fileupload/Baldoza-Joseph-Gonzales-2016-08-09-photo.jpg', 'joseph12345');
+INSERT INTO `user` VALUES ('20', 'benson', 'M8efQNwMU-fhFbxkkC__BrSr1fmRD-vi', '$2y$13$yuo0QEXQ2G9XR.lEGwkJee5VXfr.um1.Uc3xwBq1xiRwQzjvqNPOm', null, 'benson@gmail.com', '10', '2147483647', '2147483647', '1', 'Robinson', 'Gabutan', 'Wills', '2016-08-23', '30', 'Married', 'Male', 'Guadalupe, Cebu city', '', '', '', '0000000000', 'fileupload/Gabutan-Robinson-Wills-2016-08-23-photo.jpg', 'benson12345');

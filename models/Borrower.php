@@ -26,7 +26,7 @@ class Borrower extends BaseBorrower {
             [['collaterals', 'attachment'], 'string'],
             [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'acount_type'], 'string', 'max' => 255],
             [['borrower_pic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
-            [['attachfiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 3]
+            [['attachfiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 7]
         ]);
     }
 

@@ -8,18 +8,15 @@ use yii\behaviors\BlameableBehavior;
 use yii\db\Expression;
 
 /**
- * This is the base model class for table "log".
+ * This is the base model class for table "logtype".
  *
  * @property integer $id
- * @property integer $log_type
- * @property string $log_description
- * @property string $log_date
- * @property integer $user_id
- * @property integer $branch_id
+ * @property string $type_description
+ * @property string $created_at
  *
- * @property \app\models\Logtype $logType
+ * @property \app\models\Log[] $logs
  */
-class Log extends \yii\db\ActiveRecord
+class Logtype extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
@@ -29,9 +26,8 @@ class Log extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['log_type', 'user_id', 'branch_id'], 'integer'],
-            [['log_date'], 'safe'],
-            [['log_description'], 'string', 'max' => 255]
+            [['created_at'], 'safe'],
+            [['type_description'], 'string', 'max' => 255]
         ];
     }
     
@@ -40,7 +36,7 @@ class Log extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'log';
+        return 'logtype';
     }
 
     /**
@@ -50,20 +46,16 @@ class Log extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'log_type' => 'Log Type',
-            'log_description' => 'Log Description',
-            'log_date' => 'Log Date',
-            'user_id' => 'User ID',
-            'branch_id' => 'Branch ID',
+            'type_description' => 'Type Description',
         ];
     }
     
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLogType()
+    public function getLogs()
     {
-        return $this->hasOne(\app\models\Logtype::className(), ['id' => 'log_type']);
+        return $this->hasMany(\app\models\Log::className(), ['log_type' => 'id']);
     }
     
 /**
@@ -75,13 +67,13 @@ class Log extends \yii\db\ActiveRecord
         return [
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'log_date',
+                'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => false,
                 'value' => new Expression('NOW()'),
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'log_date',
+                'createdByAttribute' => 'created_at',
                 'updatedByAttribute' => false,
                 'value' => new Expression('NOW()'),
             ],
@@ -90,10 +82,10 @@ class Log extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \app\models\LogQuery the active query used by this AR class.
+     * @return \app\models\LogtypeQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\models\LogQuery(get_called_class());
+        return new \app\models\LogtypeQuery(get_called_class());
     }
 }

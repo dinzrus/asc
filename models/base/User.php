@@ -238,5 +238,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface {
     public function removePasswordResetToken() {
         $this->password_reset_token = null;
     }
+    
+    public function getAuthItem(){
+        return $this->hasOne(\app\models\AuthItem::className(), ['user_id' => 'id']);
+    }
 
 }

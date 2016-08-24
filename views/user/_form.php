@@ -44,7 +44,7 @@ use kartik\widgets\FileInput;
                 </div>
                 <div class="col-md-4">
                     <?= $form->field($model, 'username')->textInput(['maxlength' => true, 'placeholder' => 'Username']) ?>
-                    
+
                     <?= $form->field($model, 'pass')->textInput(['maxlength' => true, 'placeholder' => 'Password']) ?>
 
                     <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'placeholder' => 'Email']) ?>
@@ -83,19 +83,27 @@ use kartik\widgets\FileInput;
 
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'gender')->dropDownList([
+                    <?=
+                    $form->field($model, 'gender')->dropDownList([
                         'Male' => 'Male',
                         'Female' => 'Female'
-                        ],['prompt' => '--select--']) ?>
+                            ], ['prompt' => '--select--'])
+                    ?>
 
-                    <?= $form->field($model, 'civil_status')->dropDownList([
+                    <?=
+                    $form->field($model, 'civil_status')->dropDownList([
                         'Single' => 'Single',
                         'Married' => 'Married',
                         'Widowed' => 'Widowed',
                         'Common Law' => 'Common Law'
-                        ],['prompt' => '--select--']) ?>
+                            ], ['prompt' => '--select--'])
+                    ?>
 
                     <?= $form->field($model, 'home_address')->textInput(['maxlength' => true, 'placeholder' => 'Home Address']) ?>
+
+                    <?= $form->field($model, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
+                    
+                    <hr>
 
                     <?= $form->field($model, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) ?>
 
@@ -103,7 +111,6 @@ use kartik\widgets\FileInput;
 
                     <?= $form->field($model, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
 
-                    <?= $form->field($model, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
                 </div>
             </div>
 

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Model;
+use app\models\Log;
 use app\models\Borrower;
 use app\models\Comaker;
 use app\models\Barangay;
@@ -134,7 +135,12 @@ class BorrowerController extends Controller {
 
                 
                 
-                if ($borrower->saveAll() && $comaker->saveAll()) {
+                if ($borrower->saveAll() && $comaker->saveAll()) {  
+                    
+                    // log action
+                    $log = new Log();
+                    $description = "created borrower: ". $borrower->id;
+                    $log->logMe(1, $description);
 
                     //save the id of borrower and comaker to borrower_comaker table
                     $borrower_comaker->borrower_id = $borrower->id;
@@ -232,6 +238,11 @@ class BorrowerController extends Controller {
                 }
 
                 if ($borrower->saveAll() && $comaker->saveAll() && $borrower_comaker->saveAll()) {
+                    
+                    // log action
+                    $log = new Log();
+                    $description = "updated borrower: ". $borrower->id;
+                    $log->logMe(2, $description);
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();

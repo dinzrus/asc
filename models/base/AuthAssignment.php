@@ -8,7 +8,7 @@ use Yii;
  * This is the base model class for table "auth_assignment".
  *
  * @property string $item_name
- * @property string $user_id
+ * @property int $user_id
  * @property integer $created_at
  *
  * @property \app\models\AuthItem $itemName
@@ -24,8 +24,8 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return [
             [['item_name', 'user_id'], 'required'],
-            [['created_at'], 'integer'],
-            [['item_name', 'user_id'], 'string', 'max' => 64]
+            [['created_at', 'user_id'], 'integer'],
+            [['item_name'], 'string', 'max' => 64]
         ];
     }
     
@@ -44,7 +44,7 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return [
             'item_name' => 'Item Name',
-            'user_id' => 'User ID',
+            'user_id' => 'User',
         ];
     }
     
@@ -54,6 +54,15 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function getItemName()
     {
         return $this->hasOne(\app\models\AuthItem::className(), ['name' => 'item_name']);
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    
+    public function getUser(){
+        return $this->hasOne(\app\models\User::className(), ['id' => 'user_id']);
     }
     
     

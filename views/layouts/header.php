@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 <header class="main-header">
 
-<?= Html::a('<span class="logo-mini">ASC</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">ASC</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 
@@ -21,11 +21,11 @@ use yii\helpers\Html;
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?=  Html::img((isset(Yii::$app->user->identity->picture))? Yii::$app->user->identity->picture : 'fileupload/default.jpg', ['class' => 'user-image']) ?>
+                        <?= Html::img((isset(Yii::$app->user->identity->picture)) ? Yii::$app->user->identity->picture : 'fileupload/default.jpg', ['class' => 'user-image']) ?>
                         <span class="hidden-xs">
                             <?php
                             if (isset(Yii::$app->user->identity->username)) {
-                                echo Yii::$app->user->identity->lastname. ', ' . Yii::$app->user->identity->firstname;
+                                echo Yii::$app->user->identity->lastname . ', ' . Yii::$app->user->identity->firstname. '  ( '. Yii::$app->user->identity->branch->branch_description . ' ) ';
                             }
                             ?>
                         </span>
@@ -33,11 +33,11 @@ use yii\helpers\Html;
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <?=  Html::img((isset(Yii::$app->user->identity->picture))? Yii::$app->user->identity->picture : 'fileupload/default.jpg', ['class' => 'img-circle']) ?>
+                            <?= Html::img((isset(Yii::$app->user->identity->picture)) ? Yii::$app->user->identity->picture : 'fileupload/default.jpg', ['class' => 'img-circle']) ?>
                             <p>
                                 <?php
                                 if (isset(Yii::$app->user->identity->username)) {
-                                    echo Yii::$app->user->identity->lastname. ', ' . Yii::$app->user->identity->firstname;
+                                    echo Yii::$app->user->identity->lastname . ', ' . Yii::$app->user->identity->firstname;
                                 }
                                 ?>
                                 <small><?= Yii::$app->user->identity->email ?></small>
@@ -46,7 +46,7 @@ use yii\helpers\Html;
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                
+
                             </div>
                             <div class="pull-right">
                                 <?=
