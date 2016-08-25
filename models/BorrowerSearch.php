@@ -68,6 +68,7 @@ use app\models\Borrower;
             'spouse_birthdate' => $this->spouse_birthdate,
             'no_dependent' => $this->no_dependent,
             'branch_id' => $this->branch_id,
+            'status' => 'A',
             'acount_type' => 'B', // so that borrowers will only display in the table
         ]);
 
@@ -86,7 +87,6 @@ use app\models\Borrower;
             ->andFilterWhere(['like', 'spouse_name', $this->spouse_name])
             ->andFilterWhere(['like', 'spouse_occupation', $this->spouse_occupation])
             ->andFilterWhere(['like', 'collaterals', $this->collaterals])
-            ->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'attachment', $this->attachment]);
             //->andFilterWhere(['like', 'acount_type', $this->acount_type]);
 

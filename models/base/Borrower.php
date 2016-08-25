@@ -144,13 +144,6 @@ class Borrower extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStatus0() {
-        return $this->hasOne(\app\models\Status::className(), ['code' => 'status']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getAddressBarangay() {
         return $this->hasOne(\app\models\Barangay::className(), ['id' => 'address_barangay_id']);
     }

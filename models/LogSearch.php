@@ -18,8 +18,8 @@ use app\models\Log;
     public function rules()
     {
         return [
-            [['id', 'log_type', 'user_id', 'branch_id'], 'integer'],
-            [['log_description', 'log_date'], 'safe'],
+            [['id', 'user_id', 'branch_id'], 'integer'],
+            [['log_type', 'log_description', 'log_date'], 'safe'],
         ];
     }
 

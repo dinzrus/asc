@@ -61,6 +61,10 @@ class SiteController extends Controller {
     public function actionIndex() {
         return $this->render('index');
     }
+    
+    public function actionCanvassedapproval(){
+        return;
+    }
 
     /**
      * Login action.
@@ -77,7 +81,7 @@ class SiteController extends Controller {
             // log action
             $log = new Log();
             $description = "user login: " . Yii::$app->user->identity->username;
-            $log->logMe(3, $description);
+            $log->logMe(Log::LOGIN, $description);
             return $this->goBack();
         }
         return $this->render('login', [
@@ -95,7 +99,7 @@ class SiteController extends Controller {
         // log action
         $log = new Log();
         $description = "user logout: " . Yii::$app->user->identity->username;
-        $log->logMe(4, $description);
+        $log->logMe(Log::LOGOUT, $description);
         
         Yii::$app->user->logout();
 

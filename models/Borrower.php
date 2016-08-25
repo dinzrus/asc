@@ -13,6 +13,9 @@ class Borrower extends BaseBorrower {
 
     public $borrower_pic;
     public $attachfiles;
+    
+    const CANVASSED = 'C';
+    const APPROVED = 'A';
 
     /**
      * @inheritdoc

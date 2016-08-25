@@ -17,8 +17,7 @@ $search = "$('.search-button').click(function(){
 $this->registerJs($search);
 ?>
 <div class="log-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -32,19 +31,7 @@ $this->registerJs($search);
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         ['attribute' => 'id', 'visible' => false],
-        [
-                'attribute' => 'log_type',
-                'label' => 'Log Type',
-                'value' => function($model){
-                    return $model->logType->type_description;
-                },
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Logtype::find()->asArray()->all(), 'id', 'type_description'),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
-                ],
-                'filterInputOptions' => ['placeholder' => 'Logtype', 'id' => 'grid-log-search-log_type']
-            ],
+        'log_type',
         'log_description',
         'log_date',
         'user_id',

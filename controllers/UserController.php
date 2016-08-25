@@ -114,7 +114,7 @@ class UserController extends Controller {
             if ($model->saveAll()) {
                 $model->uploadPhoto();
                 $log = new Log();
-                $log->logMe(1, 'user update user ' . $model->username);
+                $log->logMe(Log::UPDATE, 'user update user ' . $model->username);
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('update', [

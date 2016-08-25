@@ -58,6 +58,7 @@
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => '#',
                             'items' => [
+                                ['label' => 'Canvassed Approval.', 'icon' => 'fa fa-circle-o', 'url' => ['/site'], 'visible' => Yii::$app->user->can('IT')],
                             ],
                         ],
                         [

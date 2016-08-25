@@ -29,9 +29,9 @@ class Log extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['log_type', 'user_id', 'branch_id'], 'integer'],
-            [['log_date'], 'safe'],
-            [['log_description'], 'string', 'max' => 255]
+            [[ 'user_id', 'branch_id'], 'integer'],
+            [['log_type', 'log_date'], 'safe'],
+            [['log_type','log_description'], 'string', 'max' => 255]
         ];
     }
     
@@ -56,14 +56,6 @@ class Log extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'branch_id' => 'Branch ID',
         ];
-    }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLogType()
-    {
-        return $this->hasOne(\app\models\Logtype::className(), ['id' => 'log_type']);
     }
     
 /**

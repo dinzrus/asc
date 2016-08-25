@@ -85,7 +85,7 @@ class BorrowerController extends Controller {
                         'dependents' => $dependents,
                         'business' => $business,
             ]);
-        }else {
+        } else {
             throw new \yii\web\UnauthorizedHttpException();
         }
     }
@@ -128,28 +128,32 @@ class BorrowerController extends Controller {
                 if (!empty($borrower->attachfiles)) {
                     $borrower->setAttachUrls();
                 }
-                
+
                 // set the account type of borrower and comaker
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
                 $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
+                
+                // set status
+                $borrower->status = Borrower::CANVASSED;
+                
+                // set branch
+                $borrower->branch_id = Yii::$app->user->identity->branch_id;
 
-                
-                
-                if ($borrower->saveAll() && $comaker->saveAll()) {  
-                    
+                if ($borrower->saveAll() && $comaker->saveAll()) {
+
                     // log action
                     $log = new Log();
-                    $description = "created borrower: ". $borrower->id;
-                    $log->logMe(1, $description);
+                    $description = "borrower created: " . $borrower->id;
+                    $log->logMe(Log::CREATE, $description);
 
                     //save the id of borrower and comaker to borrower_comaker table
                     $borrower_comaker->borrower_id = $borrower->id;
                     $borrower_comaker->comaker_id = $comaker->id;
                     $borrower_comaker->saveAll();
-                    
+
                     $business->borrower_id = $borrower->id;
                     $business->saveAll();
-                    
+
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
                     }
@@ -189,7 +193,7 @@ class BorrowerController extends Controller {
                             'business' => $business,
                 ]);
             }
-        }else {
+        } else {
             throw new \yii\web\UnauthorizedHttpException();
         }
     }
@@ -238,11 +242,11 @@ class BorrowerController extends Controller {
                 }
 
                 if ($borrower->saveAll() && $comaker->saveAll() && $borrower_comaker->saveAll()) {
-                    
+
                     // log action
                     $log = new Log();
-                    $description = "updated borrower: ". $borrower->id;
-                    $log->logMe(2, $description);
+                    $description = "borrower updated: " . $borrower->id;
+                    $log->logMe(Log::UPDATE, $description);
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
@@ -274,7 +278,7 @@ class BorrowerController extends Controller {
                             'business' => $business,
                 ]);
             }
-        }else {
+        } else {
             throw new \yii\web\UnauthorizedHttpException();
         }
     }
@@ -288,9 +292,14 @@ class BorrowerController extends Controller {
     public function actionDelete($id) {
         if (Yii::$app->user->can('IT')) {
             $this->findModel($id)->deleteWithRelated();
+            
+            // log action
+            $log = new Log();
+            $description = "borrower deleted: " . $id;
+            $log->logMe(Log::DELETE, $description);
 
             return $this->redirect(['index']);
-        }else {
+        } else {
             throw new \yii\web\UnauthorizedHttpException();
         }
     }

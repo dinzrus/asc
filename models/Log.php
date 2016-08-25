@@ -10,6 +10,12 @@ use Yii;
  */
 class Log extends BaseLog
 {
+    const CREATE = 'create';
+    const DELETE = 'delete';
+    const UPDATE = 'update';
+    const LOGIN = 'login';
+    const LOGOUT = 'logout';
+    
     /**
      * @inheritdoc
      */
@@ -17,9 +23,9 @@ class Log extends BaseLog
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['log_type', 'user_id', 'branch_id'], 'integer'],
-            [['log_date'], 'safe'],
-            [['log_description'], 'string', 'max' => 255]
+            [['user_id', 'branch_id'], 'integer'],
+            [['log_type','log_date'], 'safe'],
+            [['log_type', 'log_description'], 'string', 'max' => 255]
         ]);
     }
     

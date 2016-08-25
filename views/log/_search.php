@@ -17,14 +17,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'log_type')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\app\models\Logtype::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Logtype'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-
     <?= $form->field($model, 'log_description')->textInput(['maxlength' => true, 'placeholder' => 'Log Description']) ?>
 
     <?= $form->field($model, 'log_date')->widget(\kartik\datecontrol\DateControl::classname(), [

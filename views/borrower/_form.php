@@ -190,69 +190,69 @@ use yii\helpers\Url;
                                     </div>
                                 </div>
                                 <hr>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <?= $form->field($borrower, 'no_dependent')->textInput(['placeholder' => 'No Dependent']) ?> 
-                                        </div>                  
-                                    </div>
-                                    <!-- dependent start -->
-                                    <?php if ($update): ?>
-                                        <?php foreach ($dependents as $i => $dependent): ?>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <?= \yii\helpers\Html::activeHiddenInput($dependent, "[$i]id"); ?>                                                   
-                                                    <?= $form->field($dependent, "[$i]name")->textInput() ?>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <?=
-                                                    $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
-                                                        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                                        'saveFormat' => 'php:Y-m-d',
-                                                        'ajaxConversion' => true,
-                                                        'options' => [
-                                                            'pluginOptions' => [
-                                                                'placeholder' => 'Birthdate',
-                                                                'autoclose' => true
-                                                            ]
-                                                        ],
-                                                    ]);
-                                                    ?>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <?= $form->field($dependent, "[$i]age")->textInput() ?>
-                                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <?= $form->field($borrower, 'no_dependent')->textInput(['placeholder' => 'No Dependent']) ?> 
+                                    </div>                  
+                                </div>
+                                <!-- dependent start -->
+                                <?php if ($update): ?>
+                                    <?php foreach ($dependents as $i => $dependent): ?>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <?= \yii\helpers\Html::activeHiddenInput($dependent, "[$i]id"); ?>                                                   
+                                                <?= $form->field($dependent, "[$i]name")->textInput() ?>
                                             </div>
-                                    <hr>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <?php for ($i = 0; $i < 3; $i++): ?>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <?= $form->field($dependent, "[$i]name")->textInput() ?>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <?=
-                                                    $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
-                                                        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                                        'saveFormat' => 'php:Y-m-d',
-                                                        'ajaxConversion' => true,
-                                                        'options' => [
-                                                            'pluginOptions' => [
-                                                                'placeholder' => 'Birthdate',
-                                                                'autoclose' => true
-                                                            ]
-                                                        ],
-                                                    ]);
-                                                    ?>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <?= $form->field($dependent, "[$i]age")->textInput() ?>
-                                                </div>
+                                            <div class="col-md-5">
+                                                <?=
+                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                    'saveFormat' => 'php:Y-m-d',
+                                                    'ajaxConversion' => true,
+                                                    'options' => [
+                                                        'pluginOptions' => [
+                                                            'placeholder' => 'Birthdate',
+                                                            'autoclose' => true
+                                                        ]
+                                                    ],
+                                                ]);
+                                                ?>
                                             </div>
-                                    <hr>
-                                        <?php endfor; ?>
-                                    <?php endif; ?>
-                                    <!-- dependent end -->  
+                                            <div class="col-md-2">
+                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php for ($i = 0; $i < 3; $i++): ?>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <?= $form->field($dependent, "[$i]name")->textInput() ?>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <?=
+                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                    'saveFormat' => 'php:Y-m-d',
+                                                    'ajaxConversion' => true,
+                                                    'options' => [
+                                                        'pluginOptions' => [
+                                                            'placeholder' => 'Birthdate',
+                                                            'autoclose' => true
+                                                        ]
+                                                    ],
+                                                ]);
+                                                ?>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    <?php endfor; ?>
+                                <?php endif; ?>
+                                <!-- dependent end -->  
 
                             </div>
                         </div> <!-- panel end here -->
@@ -261,7 +261,7 @@ use yii\helpers\Url;
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <?php  $form->field($business, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+                                        <?php $form->field($business, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
                                         <?= $form->field($business, 'business_name')->textInput(['maxlength' => true, 'placeholder' => 'Business Name']) ?>
 
@@ -333,26 +333,6 @@ use yii\helpers\Url;
                                     <div class="panel-heading"><i class="fa fa-car"></i> Collaterals</div>
                                     <div class="panel-body">
                                         <?= $form->field($borrower, 'collaterals')->textarea(['rows' => 6]) ?>
-
-                                        <?=
-                                        $form->field($borrower, 'status')->widget(\kartik\widgets\Select2::classname(), [
-                                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Status::find()->orderBy('code')->asArray()->all(), 'code', 'status'),
-                                            'options' => ['placeholder' => 'Choose Status'],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]);
-                                        ?>
-
-                                        <?=
-                                        $form->field($borrower, 'branch_id')->widget(\kartik\widgets\Select2::classname(), [
-                                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->orderBy('branch_id')->asArray()->all(), 'branch_id', 'branch_description'),
-                                            'options' => ['placeholder' => 'Choose Branch'],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]);
-                                        ?>
                                     </div>
                                 </div>
                             </div>

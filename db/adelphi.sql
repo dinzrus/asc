@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-08-24 17:48:15
+Date: 2016-08-25 17:17:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -165,7 +165,6 @@ CREATE TABLE `borrower` (
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`),
   CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`address_province_id`) REFERENCES `province` (`id`),
-  CONSTRAINT `borrower_ibfk_4` FOREIGN KEY (`status`) REFERENCES `status` (`code`),
   CONSTRAINT `borrower_ibfk_5` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
   CONSTRAINT `borrower_ibfk_6` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -173,8 +172,8 @@ CREATE TABLE `borrower` (
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('1', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', 'Jr.', '1991-09-15', '24', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '09101737965', '2016-08-19', '2016-08-15', '', '', '', '', 'Mary Joy H. Asis', 'Office Clerk', '23', '1992-10-10', '0', 'Honda RS 150 \r\nTV Samsung 52\"', 'C', '4', 'fileupload/1991-09-15-Dinoy-Russel-Wahing-attachment0.jpg', 'B', '2016-08-22 11:10:33', '2016-08-23 15:34:44');
-INSERT INTO `borrower` VALUES ('2', 'fileupload/Robinson-Gabutan-Gwapo.jpg', 'Robinson', 'Gabutan', 'Gwapo', '', '1985-07-24', '35', 'Cebu City Philippines', '4', '6', '4', 'New york street', 'Married', '099999999', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:10:33', '2016-08-23 15:34:44');
+INSERT INTO `borrower` VALUES ('1', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', 'Jr.', '1991-09-15', '24', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '09101737965', '2016-08-19', '2016-08-15', '', '', '', '', 'Mary Joy H. Asis', 'Office Clerk', '23', '1992-10-10', '0', 'Honda RS 150 \r\nTV Samsung 52\"', 'C', '4', 'fileupload/1991-09-15-Dinoy-Russel-Wahing-attachment0.jpg', 'B', '2016-08-22 11:10:33', '2016-08-25 13:27:59');
+INSERT INTO `borrower` VALUES ('2', 'fileupload/Robinson-Gabutan-Gwapo.jpg', 'Robinson', 'Gabutan', 'Gwapo', '', '1985-07-24', '35', 'Cebu City Philippines', '4', '6', '4', 'New york street', 'Married', '099999999', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:10:33', '2016-08-25 13:27:59');
 INSERT INTO `borrower` VALUES ('3', 'fileupload/Joseph-Baldoza-Waju.jpg', 'Joseph', 'Baldoza', 'Waju', 'Sr.', '2016-08-22', '45', 'Apas, Cebu City', '4', '6', '5', 'Lakaw 1', 'Married', '0988545223', '2016-08-09', '2016-08-18', '', '', '', '', 'Mary Jane Ompad', 'Teacher', '35', '2016-08-17', '0', 'LG Refrigerator ', 'C', '3', 'fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment0.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment1.jpg;fileupload/2016-08-22-Baldoza-Joseph-Waju-attachment2.jpg', 'B', '2016-08-22 11:35:35', '2016-08-24 15:43:14');
 INSERT INTO `borrower` VALUES ('4', 'fileupload/Glenn-Casol-Lilyosa.jpg', 'Glenn', 'Casol', 'Lilyosa', '', '2016-08-22', '23', 'Villaflor, Carmen, Bohol', '4', '6', '4', 'UCMA Village, Apas, Cebu City', 'Married', '0995454121', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'C', '2016-08-22 11:35:35', '2016-08-24 15:43:14');
 
@@ -461,50 +460,24 @@ INSERT INTO `loan_type` VALUES ('2', 'PD-CELP');
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `log_type` int(11) DEFAULT NULL,
+  `log_type` varchar(255) DEFAULT NULL,
   `log_description` varchar(255) DEFAULT NULL,
   `log_date` datetime DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `log_type` (`log_type`),
-  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`log_type`) REFERENCES `logtype` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  KEY `log_type` (`log_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
 -- ----------------------------
-INSERT INTO `log` VALUES ('2', '1', 'user update user benson', '2016-08-24 13:47:07', '10', '9');
-INSERT INTO `log` VALUES ('3', '1', 'user update user jing', '2016-08-24 13:48:10', '10', '9');
-INSERT INTO `log` VALUES ('4', '2', 'updated borrower: 3', '2016-08-24 15:43:14', '10', '9');
-INSERT INTO `log` VALUES ('5', '3', 'user login: 10', '2016-08-24 16:12:53', '10', '9');
-INSERT INTO `log` VALUES ('6', '3', 'user login: russel', '2016-08-24 16:14:43', '10', '9');
-INSERT INTO `log` VALUES ('7', '3', 'user login: russel', '2016-08-24 16:15:50', '10', '9');
-INSERT INTO `log` VALUES ('8', '4', 'user logout: russel', '2016-08-24 16:15:53', '10', '9');
-INSERT INTO `log` VALUES ('9', '3', 'user login: russel', '2016-08-24 16:16:11', '10', '9');
-INSERT INTO `log` VALUES ('10', '4', 'user logout: russel', '2016-08-24 16:40:36', '10', '9');
-INSERT INTO `log` VALUES ('11', '3', 'user login: russel', '2016-08-24 16:41:09', '10', '9');
-INSERT INTO `log` VALUES ('12', '4', 'user logout: russel', '2016-08-24 16:43:45', '10', '9');
-
--- ----------------------------
--- Table structure for logtype
--- ----------------------------
-DROP TABLE IF EXISTS `logtype`;
-CREATE TABLE `logtype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_description` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of logtype
--- ----------------------------
-INSERT INTO `logtype` VALUES ('1', 'create', '2016-08-24 13:52:40');
-INSERT INTO `logtype` VALUES ('2', 'update', '2016-08-24 13:52:45');
-INSERT INTO `logtype` VALUES ('3', 'login', '2016-08-24 15:51:59');
-INSERT INTO `logtype` VALUES ('4', 'logout', '2016-08-24 15:52:04');
-INSERT INTO `logtype` VALUES ('5', 'delete', '2016-08-24 15:52:08');
+INSERT INTO `log` VALUES ('1', 'logout', 'user logout: russel', '2016-08-25 13:29:55', '10', '9');
+INSERT INTO `log` VALUES ('2', 'login', 'user login: russel', '2016-08-25 13:30:05', '10', '9');
+INSERT INTO `log` VALUES ('3', 'logout', 'user logout: russel', '2016-08-25 14:06:44', '10', '9');
+INSERT INTO `log` VALUES ('4', 'login', 'user login: benson', '2016-08-25 14:07:00', '20', '1');
+INSERT INTO `log` VALUES ('5', 'logout', 'user logout: benson', '2016-08-25 14:07:37', '20', '1');
+INSERT INTO `log` VALUES ('6', 'login', 'user login: russel', '2016-08-25 14:07:47', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration
