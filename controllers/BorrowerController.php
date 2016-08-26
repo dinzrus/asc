@@ -74,14 +74,11 @@ class BorrowerController extends Controller {
     public function actionView($id) {
         if (Yii::$app->user->can('organizer')) {
             $borrower = $this->findModel($id);
-            $comaker_id = BorrowerComaker::findOne(['borrower_id' => $id]);
-            $comaker = Comaker::findOne(['id' => $comaker_id->comaker_id]);
             $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
             $business = Business::findOne(['borrower_id' => $id]);
 
             return $this->render('view', [
                         'borrower' => $borrower,
-                        'comaker' => $comaker,
                         'dependents' => $dependents,
                         'business' => $business,
             ]);
@@ -98,10 +95,8 @@ class BorrowerController extends Controller {
     public function actionCreate() {
         if (Yii::$app->user->can('organizer')) {
             $borrower = new Borrower();
-            $comaker = new Comaker();
             $update = false;
             $dependent = new Dependent;
-            $borrower_comaker = new BorrowerComaker();
             $business = new Business();
 
             // use for ajax validation
@@ -110,11 +105,10 @@ class BorrowerController extends Controller {
                 return \yii\widgets\ActiveForm::validate($borrower);
             }
 
-            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post()) && $business->loadAll(Yii::$app->request->post())) {
+            if ($borrower->loadAll(Yii::$app->request->post()) && $business->loadAll(Yii::$app->request->post())) {
 
                 //get the instance of borrower_pic and comaker_pic
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
-                $comaker->comaker_pic = UploadedFile::getInstance($comaker, 'comaker_pic');
                 $borrower->attachfiles = UploadedFile::getInstances($borrower, 'attachfiles');
 
                 // set the url of the picture for saving
@@ -122,16 +116,13 @@ class BorrowerController extends Controller {
                 if (!empty($borrower->borrower_pic)) {
                     $borrower->setPicUrl();
                 }
-                if (!empty($comaker->comaker_pic)) {
-                    $comaker->setPicUrl();
-                }
+
                 if (!empty($borrower->attachfiles)) {
                     $borrower->setAttachUrls();
                 }
 
                 // set the account type of borrower and comaker
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
-                $comaker->acount_type = Borrower::ACCOUNT_TYPE2;
                 
                 // set status
                 $borrower->status = Borrower::CANVASSED;
@@ -139,26 +130,18 @@ class BorrowerController extends Controller {
                 // set branch
                 $borrower->branch_id = Yii::$app->user->identity->branch_id;
 
-                if ($borrower->saveAll() && $comaker->saveAll()) {
+                if ($borrower->saveAll()) {
 
                     // log action
                     $log = new Log();
                     $description = "borrower created: " . $borrower->id;
                     $log->logMe(Log::CREATE, $description);
 
-                    //save the id of borrower and comaker to borrower_comaker table
-                    $borrower_comaker->borrower_id = $borrower->id;
-                    $borrower_comaker->comaker_id = $comaker->id;
-                    $borrower_comaker->saveAll();
-
                     $business->borrower_id = $borrower->id;
                     $business->saveAll();
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
-                    }
-                    if (!empty($comaker->comaker_pic)) {
-                        $comaker->upload();
                     }
                     if (!empty($borrower->attachfiles)) {
                         $borrower->uploadAttachFiles();
@@ -176,20 +159,16 @@ class BorrowerController extends Controller {
                 } else {
                     return $this->render('create', [
                                 'borrower' => $borrower,
-                                'comaker' => $comaker,
                                 'dependent' => $dependent,
                                 'update' => $update,
-                                'borrower_comaker' => $borrower_comaker,
                                 'business' => $business,
                     ]);
                 }
             } else {
                 return $this->render('create', [
                             'borrower' => $borrower,
-                            'comaker' => $comaker,
                             'dependent' => $dependent,
                             'update' => $update,
-                            'borrower_comaker' => $borrower_comaker,
                             'business' => $business,
                 ]);
             }
@@ -211,8 +190,6 @@ class BorrowerController extends Controller {
                 $borrower = new Borrower();
             } else {
                 $borrower = $this->findModel($id);
-                $borrower_comaker = BorrowerComaker::findOne(['borrower_id' => $id]);
-                $comaker = Comaker::findOne(['id' => $borrower_comaker->comaker_id]);
                 $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
                 $business = Business::findOne(['borrower_id' => $id]);
             }
@@ -223,25 +200,21 @@ class BorrowerController extends Controller {
                 return \yii\widgets\ActiveForm::validate($borrower);
             }
 
-            if ($borrower->loadAll(Yii::$app->request->post()) && $comaker->loadAll(Yii::$app->request->post()) && $borrower_comaker->loadAll(Yii::$app->request->post()) && $business->loadAll(Yii::$app->request->post())) {
+            if ($borrower->loadAll(Yii::$app->request->post()) && $business->loadAll(Yii::$app->request->post())) {
 
                 //get the instance of borrower_pic and comaker_pic
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
-                $comaker->comaker_pic = UploadedFile::getInstance($comaker, 'comaker_pic');
                 $borrower->attachfiles = UploadedFile::getInstances($borrower, 'attachfiles');
 
                 // set the url of the picture for saving
                 if (!empty($borrower->borrower_pic)) {
                     $borrower->setPicUrl();
                 }
-                if (!empty($comaker->comaker_pic)) {
-                    $comaker->setPicUrl();
-                }
                 if (!empty($borrower->attachfiles)) {
                     $borrower->setAttachUrls();
                 }
 
-                if ($borrower->saveAll() && $comaker->saveAll() && $borrower_comaker->saveAll()) {
+                if ($borrower->saveAll()) {
 
                     // log action
                     $log = new Log();
@@ -250,9 +223,6 @@ class BorrowerController extends Controller {
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
-                    }
-                    if (!empty($comaker->comaker_pic)) {
-                        $comaker->upload();
                     }
                     if (!empty($borrower->attachfiles)) {
                         $borrower->uploadAttachFiles();
@@ -271,10 +241,8 @@ class BorrowerController extends Controller {
             } else {
                 return $this->render('update', [
                             'borrower' => $borrower,
-                            'comaker' => $comaker,
                             'dependents' => (empty($dependents)) ? [new Dependent] : $dependents,
                             'update' => $update,
-                            'borrower_comaker' => $borrower_comaker,
                             'business' => $business,
                 ]);
             }

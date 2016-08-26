@@ -36,13 +36,11 @@ use yii\behaviors\BlameableBehavior;
  * @property string $spouse_birthdate
  * @property integer $no_dependent
  * @property string $collaterals
- * @property string $status
  * @property integer $branch_id
  * @property string $attachment
  * @property string $acount_type
  *
  * @property \app\models\Province $addressProvince
- * @property \app\models\Status $status0
  * @property \app\models\Barangay $addressBarangay
  * @property \app\models\MunicipalityCity $addressCityMunicipality
  */
@@ -58,7 +56,7 @@ class Borrower extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
+            [['gender','first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
             [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],

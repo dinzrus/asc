@@ -22,7 +22,7 @@ class Borrower extends BaseBorrower {
      */
     public function rules() {
         return array_replace_recursive(parent::rules(), [
-            [['no_dependent', 'collaterals', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'ci_date', 'canvass_date', 'spouse_name', 'spouse_occupation', 'spouse_age', 'spouse_birthdate'], 'required'],
+            [['gender', 'no_dependent', 'collaterals', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'ci_date', 'canvass_date', 'spouse_name', 'spouse_occupation', 'spouse_age', 'spouse_birthdate'], 'required'],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
             [['birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id'], 'integer'],
@@ -68,6 +68,7 @@ class Borrower extends BaseBorrower {
             'status' => 'Status',
             'branch_id' => 'Branch',
             'attachment' => 'Attachment',
+            'gender' => 'Gender',
             'acount_type' => 'Acount Type',
             'borrower_pic' => ''
         ];

@@ -15,10 +15,8 @@ $this->params['breadcrumbs'][] = 'Update';
     <?=
     $this->render('_form', [
         'borrower' => $borrower,
-        'comaker' => $comaker,
         'dependents' => $dependents,
         'update' => $update,
-        'borrower_comaker' => $borrower_comaker,
         'business' => $business,
     ])
     ?>

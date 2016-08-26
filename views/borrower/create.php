@@ -13,10 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="borrower-create">
     <?= $this->render('_form', [
         'borrower' => $borrower,
-        'comaker' => $comaker,
         'dependent' => $dependent,
         'update' => $update,
-        'borrower_comaker' => $borrower_comaker,
         'business' => $business,
     ]) ?>
 </div>

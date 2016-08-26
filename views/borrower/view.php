@@ -44,7 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <ul class="nav nav-tabs">
             <li class="active"><a href="#principal" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Principal Applicant</a></li>
             <li><a href="#business" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Business</a></li>
-            <li><a href="#comaker" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Second Signatory</a></li>
             <li><a href="#attachments" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Attachments</a></li>
         </ul>
         <div class="tab-content">
@@ -85,74 +84,57 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="active tab-pane" id="principal">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="well well-sm">
                             <br>
                             <center>
                                 <?= (isset($borrower->profile_pic)) ? Html::img($borrower->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
                             </center>
-                            <br>
-                            <?php
-                            $gridColumn = [
-                                //['attribute' => 'id', 'hidden' => true],
-                                'first_name',
-                                'last_name',
-                                'middle_name',
-                                'suffix',
-                            ];
-                            echo DetailView::widget([
-                                'model' => $borrower,
-                                'attributes' => $gridColumn
-                            ]);
-                            ?>
-                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <td><strong>Name</strong></td>
+                                <td><?= $borrower->last_name. ', ' . $borrower->first_name . $borrower->suffix . ', ' . $borrower->middle_name ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Address</strong></td>
+                                <td><?= $borrower->address_street_house_no . ', '.  $borrower->addressBarangay->barangay . ', ' . $borrower->addressCityMunicipality->municipality_city . ', ' . $borrower->addressProvince->province ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Contact</strong></td>
+                                <td><?= $borrower->contact_no ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Date of Birth</strong></td>
+                                <td><?= $borrower->birthdate ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Age</strong></td>
+                                <td><?= $borrower->age ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Place of Birth</strong></td>
+                                <td><?= $borrower->birthplace ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gender</strong></td>
+                                <td><?= $borrower->gender ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Civil Status</strong></td>
+                                <td><?= $borrower->civil_status ?></td>
+                            </tr>
+                          
+                        </table>
                     </div>
                     <div class="col-md-4">
                         <?php
                         $gridColumn = [
-                            //['attribute' => 'id', 'hidden' => true],
-                            'birthdate',
-                            'age',
-                            'birthplace',
-                            [
-                                'attribute' => 'addressProvince.province',
-                                'label' => 'Address Province',
-                            ],
-                            [
-                                'attribute' => 'addressCityMunicipality.municipality_city',
-                                'label' => 'Address City Municipality',
-                            ],
-                            [
-                                'attribute' => 'addressBarangay.barangay',
-                                'label' => 'Address Barangay',
-                            ],
-                            'address_street_house_no',
-                            'civil_status',
-                            'contact_no',
-                            'tin_no',
-                            'sss_no',
-                            'ctc_no',
-                            'no_dependent',
-                        ];
-                        echo DetailView::widget([
-                            'model' => $borrower,
-                            'attributes' => $gridColumn
-                        ]);
-                        ?>
-                    </div>
-                    <div class="col-md-4">
-                        <?php
-                        $gridColumn = [
-                            'license_no',
                             'spouse_name',
                             'spouse_occupation',
                             'spouse_age',
                             'spouse_birthdate',
                             'ci_date',
                             'canvass_date',
-                            [
-                                'attribute' => 'status0.status',
-                                'label' => 'Status',
-                            ],
                             [
                                 'attribute' => 'branch.branch_description',
                                 'label' => 'Branch'
@@ -168,6 +150,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-8">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td><strong>No. of Dependent(s)</strong></td>
+                                <td><?= $borrower->no_dependent ?></td>
+                            </tr>
+                        </table>
                         <?php if ((count($dependents) > 0)): ?>
                             <table class="table table-striped table-bordered detail-view">
                                 <tr>
@@ -196,62 +184,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div> <!-- principal tab end here -->
-            <div class="tab-pane" id="comaker">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="well well-sm">
-                            <br>
-                            <center>
-                                <?= (isset($comaker->profile_pic)) ? Html::img($comaker->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
-                            </center>
-                            <br>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <?php
-                        $gridColumn = [
-                            //['attribute' => 'id', 'hidden' => true],
-                            'last_name',
-                            'first_name',
-                            'middle_name',
-                            'age',
-                            'birthdate',
-                            'birthplace',
-                        ];
-                        echo DetailView::widget([
-                            'model' => $comaker,
-                            'attributes' => $gridColumn
-                        ]);
-                        ?>
-                    </div>
-                    <div class="col-md-4">
-                        <?php
-                        $gridColumn = [
-                            //['attribute' => 'id', 'hidden' => true],
-                            [
-                                'attribute' => 'addressProvince.province',
-                                'label' => 'Address Province',
-                            ],
-                            [
-                                'attribute' => 'addressCityMunicipality.municipality_city',
-                                'label' => 'Address City Municipality',
-                            ],
-                            [
-                                'attribute' => 'addressBarangay.barangay',
-                                'label' => 'Address Barangay',
-                            ],
-                            'address_street_house_no',
-                            'civil_status',
-                            'contact_no',
-                        ];
-                        echo DetailView::widget([
-                            'model' => $comaker,
-                            'attributes' => $gridColumn
-                        ]);
-                        ?>
-                    </div>
-                </div>
-            </div> <!-- comaker tab end here -->
             <div class="tab-pane" id="attachments">
                 <?php
                 $urls = [];

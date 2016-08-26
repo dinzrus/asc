@@ -22,7 +22,6 @@ use yii\helpers\Url;
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#principal" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Principal Applicant</a></li>
-                    <li><a href="#second" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Second Signatory</a></li>
                     <li><a href="#attachment" data-toggle="tab"><i class="fa fa-bookmark-o"></i> Attachments</a></li>
                 </ul>
                 <div class="tab-content">
@@ -78,6 +77,8 @@ use yii\helpers\Url;
                                         ?>
 
                                         <?= $form->field($borrower, 'age')->textInput(['placeholder' => 'Age']) ?>
+                                        
+                                        <?= $form->field($borrower, 'gender')->dropDownList(['Male' => 'Male', 'Female' => 'Female'], ['prompt' => '-- select --']) ?>
 
                                         <?= $form->field($borrower, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
 
@@ -197,11 +198,15 @@ use yii\helpers\Url;
                                 </div>
                                 <!-- dependent start -->
                                 <?php if ($update): ?>
+                                    <div class="row">
+                                        <div class="col-md-5"><strong>Name</strong></div>
+                                        <div class="col-md-5"><strong>Date of Birth</strong></div>
+                                        <div class="col-md-2"><strong>Age</strong></div>
+                                    </div>
                                     <?php foreach ($dependents as $i => $dependent): ?>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <?= \yii\helpers\Html::activeHiddenInput($dependent, "[$i]id"); ?>                                                   
-                                                <?= $form->field($dependent, "[$i]name")->textInput() ?>
+                                                <?= $form->field($dependent, "[$i]name")->textInput()->label(false) ?>
                                             </div>
                                             <div class="col-md-5">
                                                 <?=
@@ -215,20 +220,24 @@ use yii\helpers\Url;
                                                             'autoclose' => true
                                                         ]
                                                     ],
-                                                ]);
+                                                ])->label(false);
                                                 ?>
                                             </div>
                                             <div class="col-md-2">
-                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                                <?= $form->field($dependent, "[$i]age")->textInput()->label(false) ?>
                                             </div>
                                         </div>
-                                        <hr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
+                                    <div class="row">
+                                        <div class="col-md-5"><strong>Name</strong></div>
+                                        <div class="col-md-5"><strong>Date of Birth</strong></div>
+                                        <div class="col-md-2"><strong>Age</strong></div>
+                                    </div>
                                     <?php for ($i = 0; $i < 3; $i++): ?>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <?= $form->field($dependent, "[$i]name")->textInput() ?>
+                                                <?= $form->field($dependent, "[$i]name")->textInput()->label(false) ?>
                                             </div>
                                             <div class="col-md-5">
                                                 <?=
@@ -242,14 +251,13 @@ use yii\helpers\Url;
                                                             'autoclose' => true
                                                         ]
                                                     ],
-                                                ]);
+                                                ])->label(false);
                                                 ?>
                                             </div>
                                             <div class="col-md-2">
-                                                <?= $form->field($dependent, "[$i]age")->textInput() ?>
+                                                <?= $form->field($dependent, "[$i]age")->textInput()->label(false) ?>
                                             </div>
                                         </div>
-                                        <hr>
                                     <?php endfor; ?>
                                 <?php endif; ?>
                                 <!-- dependent end -->  
@@ -339,124 +347,6 @@ use yii\helpers\Url;
                         </div>
                     </div> <!-- principal tab end here -->
                     <!-- /.tab-pane -->
-
-                    <div class="tab-pane" id="second">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading"><i class="fa fa-user"></i> Second Signatory Info</div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <?php
-                                        echo $form->field($comaker, 'comaker_pic')->widget(FileInput::classname(), [
-                                            'pluginOptions' => [
-                                                'initialPreview' => [
-                                                    empty($comaker->profile_pic) ? 'fileupload/default.jpg' : $comaker->profile_pic
-                                                ],
-                                                'showCaption' => false,
-                                                'showRemove' => false,
-                                                'showUpload' => false,
-                                                'initialPreviewAsData' => true,
-                                                'overwriteInitial' => true,
-                                                'browseClass' => 'btn btn-primary btn-block',
-                                                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                                'browseLabel' => 'Select Photo',
-                                                'maxFileSize' => 500,
-                                            ],
-                                            'options' => ['accept' => 'image/*']
-                                        ]);
-                                        ?>
-                                    </div>
-                                    <div class="col-md-4">
-
-                                        <?= $form->field($comaker, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
-
-                                        <?= $form->field($comaker, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
-
-                                        <?= $form->field($comaker, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
-
-                                        <?= $form->field($comaker, 'suffix')->textInput(['maxlength' => true, 'placeholder' => 'Suffix']) ?>
-
-                                        <?=
-                                        $form->field($comaker, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                            'saveFormat' => 'php:Y-m-d',
-                                            'ajaxConversion' => true,
-                                            'options' => [
-                                                'pluginOptions' => [
-                                                    'placeholder' => 'Choose Birthdate',
-                                                    'autoclose' => true
-                                                ]
-                                            ],
-                                        ]);
-                                        ?>
-
-                                        <?= $form->field($comaker, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
-
-                                        <?= $form->field($comaker, 'age')->textInput(['placeholder' => 'Age']) ?>
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?=
-                                        $form->field($comaker, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
-                                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
-                                            'options' => ['placeholder' => 'Choose Province'],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]);
-                                        ?>
-
-                                        <?=
-                                        $form->field($comaker, 'address_city_municipality_id')->widget(DepDrop::classname(), [
-                                            'options' => ['id' => Html::getInputId($comaker, 'address_city_municipality_id')],
-                                            'type' => DepDrop::TYPE_SELECT2,
-                                            'pluginOptions' => [
-                                                'depends' => [Html::getInputId($comaker, 'address_province_id')],
-                                                'placeholder' => 'Select city/municipality',
-                                                'url' => Url::to(['/borrower/getmunicipalitycity'])
-                                            ]
-                                        ]);
-                                        ?>
-
-                                        <?=
-                                        $form->field($comaker, 'address_barangay_id')->widget(DepDrop::classname(), [
-                                            //'options' => ['id' => 'address-barangay-id'],
-                                            'type' => DepDrop::TYPE_SELECT2,
-                                            'pluginOptions' => [
-                                                'depends' => [Html::getInputId($comaker, 'address_city_municipality_id')],
-                                                'placeholder' => 'Select barangay',
-                                                'url' => Url::to(['/borrower/getbarangay'])
-                                            ]
-                                        ]);
-                                        ?>
-
-                                        <?= $form->field($comaker, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
-
-                                        <?=
-                                        $form->field($comaker, 'civil_status')->dropDownList([
-                                            'Single' => 'Single',
-                                            'Married' => 'Married',
-                                            'Widowed' => 'Widowed',
-                                            'Common_law' => 'Common Law',
-                                            'Separated' => 'Separated'
-                                                ], ['prompt' => '- Select -'])
-                                        ?>
-
-                                        <?= $form->field($comaker, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
-                                        <?=
-                                        $form->field($borrower_comaker, 'relationship')->dropDownList([
-                                            'brother' => 'Brother',
-                                            'sister' => 'Sister',
-                                            'neighbor' => 'Neighbor',
-                                            'husband' => 'Husband',
-                                            'daughter' => 'Daughter',
-                                                ], ['prompt' => '- Select -'])
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="attachment">
                         <?php
