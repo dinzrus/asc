@@ -84,20 +84,20 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="active tab-pane" id="principal">
                 <div class="row">
                     <div class="col-md-4">
-                            <br>
-                            <center>
-                                <?= (isset($borrower->profile_pic)) ? Html::img($borrower->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
-                            </center>
+                        <br>
+                        <center>
+                            <?= (isset($borrower->profile_pic)) ? Html::img($borrower->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
+                        </center>
                     </div>
                     <div class="col-md-4">
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <td><strong>Name</strong></td>
-                                <td><?= $borrower->last_name. ', ' . $borrower->first_name . $borrower->suffix . ', ' . $borrower->middle_name ?></td>
+                                <td><?= $borrower->last_name . ', ' . $borrower->first_name . $borrower->suffix . ', ' . $borrower->middle_name ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Address</strong></td>
-                                <td><?= $borrower->address_street_house_no . ', '.  $borrower->addressBarangay->barangay . ', ' . $borrower->addressCityMunicipality->municipality_city . ', ' . $borrower->addressProvince->province ?></td>
+                                <td><?= $borrower->address_street_house_no . ', ' . $borrower->addressBarangay->barangay . ', ' . $borrower->addressCityMunicipality->municipality_city . ', ' . $borrower->addressProvince->province ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Contact</strong></td>
@@ -123,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <td><strong>Civil Status</strong></td>
                                 <td><?= $borrower->civil_status ?></td>
                             </tr>
-                          
+
                         </table>
                     </div>
                     <div class="col-md-4">
