@@ -128,11 +128,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="col-md-4">
                         <?php
+                        if(!($borrower->spouse_name === "")) {
+                            $gridColumn = [
+                                'spouse_name',
+                                'spouse_occupation',
+                                'spouse_age',
+                                'spouse_birthdate',
+                            ];
+                            echo DetailView::widget([
+                                'model' => $borrower,
+                                'attributes' => $gridColumn
+                            ]);
+                        }
+                        ?>
+                        <?php
                         $gridColumn = [
-                            'spouse_name',
-                            'spouse_occupation',
-                            'spouse_age',
-                            'spouse_birthdate',
                             'ci_date',
                             'canvass_date',
                             [
@@ -171,7 +181,30 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </tr>
                                 <?php endforeach; ?>
                             </table>
-                        <?php endif; ?>                     
+                        <?php endif; ?>    
+                        
+                        <table class="table table-striped table-bordered">
+                            <?php if (!($borrower->father_name === "")): ?>
+                            <tr>
+                                <td><strong>Father Name</strong></td>
+                                <td><?= $borrower->father_name ?></td>
+                                <td><strong>Age</strong></td>
+                                <td><?= $borrower->father_age ?></td>
+                                <td><strong>Date of Birth</strong></td>
+                                <td><?= $borrower->father_birthdate ?></td>
+                            </tr>
+                            <?php endif; ?>
+                            <?php if (!($borrower->mother_name === "")): ?>
+                            <tr>
+                                <td><strong>Mother Name</strong></td>
+                                <td><?= $borrower->mother_name ?></td>
+                                <td><strong>Age</strong></td>
+                                <td><?= $borrower->mother_age ?></td>
+                                <td><strong>Date of Birth</strong></td>
+                                <td><?= $borrower->mother_birthdate ?></td>
+                            </tr>
+                            <?php endif; ?>
+                        </table>
                         <?php
                         $gridColumn = [
                             'collaterals:ntext',
@@ -181,6 +214,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attributes' => $gridColumn
                         ]);
                         ?>
+
                     </div>
                 </div>
             </div> <!-- principal tab end here -->

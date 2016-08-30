@@ -77,7 +77,7 @@ use yii\helpers\Url;
                                         ?>
 
                                         <?= $form->field($borrower, 'age')->textInput(['placeholder' => 'Age']) ?>
-                                        
+
                                         <?= $form->field($borrower, 'gender')->dropDownList(['Male' => 'Male', 'Female' => 'Female'], ['prompt' => '-- select --']) ?>
 
                                         <?= $form->field($borrower, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
@@ -131,7 +131,9 @@ use yii\helpers\Url;
                                         ?>
 
                                         <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
-
+                                        
+                                        <?= $form->field($borrower, 'ci_by')->textInput(['maxlength' => true, 'placeholder' => 'C.I. Officer']) ?>
+                                        
                                         <?=
                                         $form->field($borrower, 'ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
                                             'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
@@ -145,6 +147,8 @@ use yii\helpers\Url;
                                             ],
                                         ]);
                                         ?>
+                                        
+                                        <?= $form->field($borrower, 'canvass_by')->textInput(['maxlength' => true, 'placeholder' => 'Canvasser']) ?>
 
                                         <?=
                                         $form->field($borrower, 'canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
@@ -159,14 +163,14 @@ use yii\helpers\Url;
                                             ],
                                         ]);
                                         ?>
-
-                                        <?= $form->field($borrower, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
-
+                                        <small><i class="fa fa-info"></i> Valid Id(s)</small>                                        <?= $form->field($borrower, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
                                         <?= $form->field($borrower, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) ?>
 
                                         <?= $form->field($borrower, 'ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Ctc No']) ?>
 
                                         <?= $form->field($borrower, 'license_no')->textInput(['maxlength' => true, 'placeholder' => 'License No']) ?>
+
+                                        <small><i class="fa fa-info"></i> Spouse Information</small>
 
                                         <?= $form->field($borrower, 'spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Name']) ?>
 
@@ -191,6 +195,7 @@ use yii\helpers\Url;
                                     </div>
                                 </div>
                                 <hr>
+                                <h4><strong>DEPENDENT(s)</strong></h4>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <?= $form->field($borrower, 'no_dependent')->textInput(['placeholder' => 'No Dependent']) ?> 
@@ -261,7 +266,54 @@ use yii\helpers\Url;
                                     <?php endfor; ?>
                                 <?php endif; ?>
                                 <!-- dependent end -->  
-
+                                <hr>
+                                <h4><strong>PARENTS</strong></h4>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <?= $form->field($borrower, "father_name")->textInput() ?>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <?=
+                                        $form->field($borrower, "father_birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                            'saveFormat' => 'php:Y-m-d',
+                                            'ajaxConversion' => true,
+                                            'options' => [
+                                                'pluginOptions' => [
+                                                    'placeholder' => 'Birthdate',
+                                                    'autoclose' => true
+                                                ]
+                                            ],
+                                        ]);
+                                        ?>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <?= $form->field($borrower, "father_age")->textInput() ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <?= $form->field($borrower, "mother_name")->textInput() ?>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <?=
+                                        $form->field($borrower, "mother_birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                            'saveFormat' => 'php:Y-m-d',
+                                            'ajaxConversion' => true,
+                                            'options' => [
+                                                'pluginOptions' => [
+                                                    'placeholder' => 'Birthdate',
+                                                    'autoclose' => true
+                                                ]
+                                            ],
+                                        ]);
+                                        ?>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <?= $form->field($borrower, "mother_age")->textInput() ?>
+                                    </div>
+                                </div>
                             </div>
                         </div> <!-- panel end here -->
                         <div class="panel panel-primary">

@@ -53,7 +53,7 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        if (Yii::$app->user->can('organizer')) {
+        if (Yii::$app->user->can('ORGANIZER')) {
             $searchModel = new BorrowerSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -72,7 +72,7 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-        if (Yii::$app->user->can('organizer')) {
+        if (Yii::$app->user->can('ORGANIZER')) {
             $borrower = $this->findModel($id);
             $dependents = Dependent::find()->where(['borrower_id' => $id])->indexBy('id')->all();
             $business = Business::findOne(['borrower_id' => $id]);
@@ -93,7 +93,7 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        if (Yii::$app->user->can('organizer')) {
+        if (Yii::$app->user->can('ORGANIZER')) {
             $borrower = new Borrower();
             $update = false;
             $dependent = new Dependent;

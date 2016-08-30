@@ -105,7 +105,8 @@ $this->registerJs($search);
 //                ],
 //                'filterInputOptions' => ['placeholder' => 'Status', 'id' => 'grid-borrower-search-status']
 //            ],
-        [
+        (strtoupper(Yii::$app->user->identity->branch->branch_description) === "MAIN") ?
+                [
             'attribute' => 'branch_id',
             'label' => 'Branch',
             'value' => function($model) {
@@ -117,7 +118,7 @@ $this->registerJs($search);
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => 'Branch', 'id' => 'grid-borrower-search-branch_id']
-        ],
+                ] : 'gender',
         //'attachment:ntext',
         //'relation_to_applicant',
         //'acount_type',

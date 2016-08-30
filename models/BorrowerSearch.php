@@ -67,7 +67,7 @@ use app\models\Borrower;
             'spouse_age' => $this->spouse_age,
             'spouse_birthdate' => $this->spouse_birthdate,
             'no_dependent' => $this->no_dependent,
-            'branch_id' => $this->branch_id,
+            'branch_id' => (strtoupper(Yii::$app->user->identity->branch->branch_description) === "MAIN")? $this->branch_id : Yii::$app->user->identity->branch_id,
             'status' => 'A',
             'acount_type' => 'B', // so that borrowers will only display in the table
         ]);
