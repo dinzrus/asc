@@ -17,7 +17,8 @@ use yii\helpers\Url;
 
     <!-- start your form here -->
     <!------------------------------- tabs start here ------------------------------>     
-    <div class="row">   
+    <div class="row"> 
+        <?= $form->errorSummary($borrower); ?>
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -50,6 +51,17 @@ use yii\helpers\Url;
                                             'options' => ['accept' => 'image/*']
                                         ]);
                                         ?>
+                                        <?php if((strtoupper(Yii::$app->user->identity->branch->branch_description)) === "MAIN") : ?>
+                                        <?=
+                                        $form->field($borrower, 'branch_id')->widget(\kartik\widgets\Select2::classname(), [
+                                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->orderBy('branch_id')->asArray()->all(), 'branch_id', 'branch_description'),
+                                            'options' => ['placeholder' => 'Select Branch'],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ]);
+                                        ?>
+                                        <?php endif; ?>
 
                                     </div>
                                     <div class="col-md-4">
@@ -131,24 +143,16 @@ use yii\helpers\Url;
                                         ?>
 
                                         <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
-                                        
-                                        <?= $form->field($borrower, 'ci_by')->textInput(['maxlength' => true, 'placeholder' => 'C.I. Officer']) ?>
-                                        
+
                                         <?=
-                                        $form->field($borrower, 'ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                            'saveFormat' => 'php:Y-m-d',
-                                            'ajaxConversion' => true,
-                                            'options' => [
-                                                'pluginOptions' => [
-                                                    'placeholder' => 'Choose Ci Date',
-                                                    'autoclose' => true
-                                                ]
+                                        $form->field($borrower, 'canvass_by')->widget(\kartik\widgets\Select2::classname(), [
+                                            'data' => (!(strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN')) ? \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->where(['branch_id' => Yii::$app->user->identity->branch_id])->orderBy('id')->all(), 'id', 'fullname') : \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->all(), 'id', 'fullname'),
+                                            'options' => ['placeholder' => 'Canvasser'],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
                                             ],
                                         ]);
                                         ?>
-                                        
-                                        <?= $form->field($borrower, 'canvass_by')->textInput(['maxlength' => true, 'placeholder' => 'Canvasser']) ?>
 
                                         <?=
                                         $form->field($borrower, 'canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
@@ -383,16 +387,6 @@ use yii\helpers\Url;
                                         <?= $form->field($business, 'average_gross_daily_income')->textInput(['placeholder' => 'Avergage Gross Daily Income']) ?>
 
                                         <?= $form->field($business, 'ownership')->dropDownList(['Rented' => 'Rented', 'Owned' => 'Owned'], ['prompt' => '-- select --']) ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading"><i class="fa fa-car"></i> Collaterals</div>
-                                    <div class="panel-body">
-                                        <?= $form->field($borrower, 'collaterals')->textarea(['rows' => 6]) ?>
                                     </div>
                                 </div>
                             </div>

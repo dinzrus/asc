@@ -37,7 +37,7 @@ $this->registerJs($search);
         ],
         [
             'attribute' => 'user_id',
-            'value' => 'user.username'
+            'value' => 'user.fullname'
         ],
         [
             'class' => 'yii\grid\ActionColumn',

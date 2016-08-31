@@ -22,12 +22,12 @@ class Borrower extends BaseBorrower {
      */
     public function rules() {
         return array_replace_recursive(parent::rules(), [
-            [['canvass_by', 'ci_by', 'gender', 'no_dependent', 'collaterals', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'ci_date', 'canvass_date'], 'required'],
+            [['branch_id' ,'canvass_by', 'gender', 'no_dependent', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'canvass_date'], 'required'],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
-            [['father_birthdate', 'mother_birthdate','birthdate', 'ci_date', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
-            [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id', 'mother_age', 'father_age'], 'integer'],
-            [['collaterals', 'attachment'], 'string'],
-            [['canvass_by', 'ci_by', 'profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'acount_type', 'mother_name', 'father_name'], 'string', 'max' => 255],
+            [['father_birthdate', 'mother_birthdate','birthdate','canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
+            [['canvass_by', 'age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id', 'mother_age', 'father_age'], 'integer'],
+            [['attachment'], 'string'],
+            [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'acount_type', 'mother_name', 'father_name'], 'string', 'max' => 255],
             [['borrower_pic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['attachfiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 7]
         ]);
@@ -53,7 +53,6 @@ class Borrower extends BaseBorrower {
             'address_street_house_no' => 'Street/House No.',
             'civil_status' => 'Civil Status',
             'contact_no' => 'Contact No',
-            'ci_date' => 'C.I. Date',
             'canvass_date' => 'Canvass Date',
             'tin_no' => 'TIN No',
             'sss_no' => 'SSS No',
@@ -64,7 +63,6 @@ class Borrower extends BaseBorrower {
             'spouse_age' => 'Spouse Age',
             'spouse_birthdate' => 'Spouse Date of Birth',
             'no_dependent' => 'No Dependent',
-            'collaterals' => 'Collaterals',
             'status' => 'Status',
             'branch_id' => 'Branch',
             'attachment' => 'Attachment',
@@ -72,7 +70,6 @@ class Borrower extends BaseBorrower {
             'acount_type' => 'Acount Type',
             'borrower_pic' => '',
             'canvass_by' => 'Canvasser',
-            'ci_by' => 'C.I. Officer'
         ];
     }
     

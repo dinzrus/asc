@@ -242,5 +242,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface {
     public function getAuthItem(){
         return $this->hasOne(\app\models\AuthItem::className(), ['user_id' => 'id']);
     }
+    
+    public function getFullname(){
+        return $this->lastname . ', ' . $this->firstname;
+    }
 
 }

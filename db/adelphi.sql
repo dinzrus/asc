@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-08-30 17:30:41
+Date: 2016-08-31 16:40:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,6 +33,7 @@ CREATE TABLE `auth_assignment` (
 -- ----------------------------
 INSERT INTO `auth_assignment` VALUES ('ADMIN', '19', null);
 INSERT INTO `auth_assignment` VALUES ('ADMIN', '20', null);
+INSERT INTO `auth_assignment` VALUES ('ADMIN', '21', null);
 INSERT INTO `auth_assignment` VALUES ('IT', '10', null);
 INSERT INTO `auth_assignment` VALUES ('ORGANIZER', '14', null);
 
@@ -140,7 +141,6 @@ CREATE TABLE `borrower` (
   `address_street_house_no` varchar(255) NOT NULL,
   `civil_status` varchar(255) NOT NULL,
   `contact_no` varchar(255) NOT NULL,
-  `ci_date` date DEFAULT NULL,
   `canvass_date` date DEFAULT NULL,
   `tin_no` varchar(255) DEFAULT NULL,
   `sss_no` varchar(255) DEFAULT NULL,
@@ -151,7 +151,6 @@ CREATE TABLE `borrower` (
   `spouse_age` int(11) DEFAULT NULL,
   `spouse_birthdate` date DEFAULT NULL,
   `no_dependent` int(11) DEFAULT NULL,
-  `collaterals` text CHARACTER SET latin5,
   `status` varchar(255) DEFAULT NULL,
   `branch_id` int(11) DEFAULT NULL,
   `attachment` text,
@@ -165,8 +164,7 @@ CREATE TABLE `borrower` (
   `father_name` varchar(255) DEFAULT NULL,
   `father_age` int(11) DEFAULT NULL,
   `father_birthdate` date DEFAULT NULL,
-  `canvass_by` varchar(255) DEFAULT NULL,
-  `ci_by` varchar(255) DEFAULT NULL,
+  `canvass_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `borrower_ibfk_3` (`spouse_birthdate`),
   KEY `borrower_ibfk_2` (`civil_status`),
@@ -177,13 +175,14 @@ CREATE TABLE `borrower` (
   CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`address_province_id`) REFERENCES `province` (`id`),
   CONSTRAINT `borrower_ibfk_5` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
   CONSTRAINT `borrower_ibfk_6` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('1', 'fileupload/Mary  Joy-Asis-Hinacay.jpg', 'Mary', 'Asiss', 'Hinacay', '', '2016-10-10', '23', 'Guindulman', '4', '6', '4', 'Centro 1', 'Married', '0999545122', '2016-08-17', '2016-08-16', '', '', '', '', '', '', null, null, '1', 'XRM 125\r\nSony 50\" TV', 'A', '9', 'fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment0.jpg;fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment1.jpg;fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment2.jpg', 'B', '2016-08-26 13:31:18', '2016-08-30 11:42:02', 'Female', 'Norma W. Dinoy', '60', '2016-08-17', 'Olipio T. Dinoy', '56', '2016-08-16', null, null);
-INSERT INTO `borrower` VALUES ('2', null, 'Anna Mae', 'Casol', 'Lilyoso', '', '2016-08-17', '20', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 2', 'Single', '0999144456', '2016-08-17', '2016-08-17', '', '', '', '', '', '', null, null, '0', 'TV - Sony Bravia 54\"', 'A', '2', null, 'B', '2016-08-30 13:18:50', '2016-08-30 13:18:50', 'Female', '', null, null, '', null, null, null, null);
+INSERT INTO `borrower` VALUES ('1', 'fileupload/Mary  Joy-Asis-Hinacay.jpg', 'Mary', 'Asiss', 'Hinacay', '', '2016-10-10', '23', 'Guindulman', '4', '6', '4', 'Centro 1', 'Married', '0999545122', '2016-08-16', '', '', '', '', 'Russel Dinoy', 'IT Programmer', '24', '2016-08-31', '1', 'A', '2', 'fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment0.jpg;fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment1.jpg;fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment2.jpg', 'B', '2016-08-26 13:31:18', '2016-08-31 14:06:12', 'Female', 'Norma W. Dinoy', '60', '2016-08-17', 'Olipio T. Dinoy', '56', '2016-08-16', '2');
+INSERT INTO `borrower` VALUES ('2', 'fileupload/Anna Mae-Casol-Lilyoso.jpg', 'Anna Mae', 'Casol', 'Lilyoso', '', '2016-08-17', '20', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 2', 'Single', '0999144456', '2016-08-17', '', '', '', '', '', '', null, null, '0', 'A', '1', null, 'B', '2016-08-30 13:18:50', '2016-08-31 14:57:49', 'Female', '', null, null, '', null, null, '2');
+INSERT INTO `borrower` VALUES ('3', 'fileupload/robert-ajoc-buro.jpg', 'Robert', 'Ajoc', 'Buro', '', '2016-08-18', '25', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '095565521', '2016-08-09', '989865656', '54565651321', '4548653465', '4165431345', 'Ruth Lagria', 'Farmer', '54', '2016-08-23', '3', 'A', '3', 'fileupload/2016-08-18-ajoc-robert-buro-attachment0.jpg;fileupload/2016-08-18-ajoc-robert-buro-attachment1.jpg;fileupload/2016-08-18-ajoc-robert-buro-attachment2.jpg', 'B', '2016-08-31 14:43:16', '2016-08-31 14:44:29', 'Male', 'Marciano Ajoc', '60', '2016-08-31', 'Ligaya Ajoc', '56', '2016-08-24', '2');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -291,7 +290,7 @@ CREATE TABLE `business` (
   CONSTRAINT `business_ibfk_2` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`),
   CONSTRAINT `business_ibfk_3` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
   CONSTRAINT `business_ibfk_4` FOREIGN KEY (`business_type_id`) REFERENCES `business_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3285 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of business
@@ -300,6 +299,7 @@ INSERT INTO `business` VALUES ('1', 'DinzDev', '1', '3', '1', '1', 'Centro 1', '
 INSERT INTO `business` VALUES ('3', 'Casol Sari-sari Store', '1', '3', '1', '1', 'Suba 2', '5', '98878454845', '10000', '10000', 'Owned', '2');
 INSERT INTO `business` VALUES ('7', 'Baldoza Store', '1', '4', '6', '5', 'Lakaw 1 ', '5', '898589', '10000', '30000', 'Rented', '3');
 INSERT INTO `business` VALUES ('50', 'IT FERM', '1', '3', '1', '1', 'Suba 2', '3', '698584545', '20000', '10000000', 'Owned', '1');
+INSERT INTO `business` VALUES ('3284', 'Tindahan Ni Opaw', '1', '3', '1', '1', 'Poblacion Sur.', '5', 'uyuyt646jg4hj', '10500', '11000', 'Rented', '3');
 
 -- ----------------------------
 -- Table structure for business_type
@@ -328,13 +328,19 @@ CREATE TABLE `canvasser` (
   `age` int(11) NOT NULL,
   `birthdate` date NOT NULL,
   `address` varchar(255) NOT NULL,
-  `branch_id` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `branch_id` int(11) NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_id` (`branch_id`),
+  CONSTRAINT `canvasser_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of canvasser
 -- ----------------------------
+INSERT INTO `canvasser` VALUES ('1', 'Russel', 'Dinoy', 'Wahing', '25', '1991-09-15', 'Carmen, Bohol', '2', '2016-08-31 10:07:27', '2016-08-31 10:07:27');
+INSERT INTO `canvasser` VALUES ('2', 'Benson', 'Gabutan', 'Lala', '45', '2016-08-31', 'Villamanga', '2', '2016-08-31 10:36:14', '2016-08-31 10:36:14');
 
 -- ----------------------------
 -- Table structure for ci
@@ -348,8 +354,12 @@ CREATE TABLE `ci` (
   `age` int(11) NOT NULL,
   `birthdate` date NOT NULL,
   `address` varchar(255) NOT NULL,
-  `branch_id` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `branch_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_id` (`branch_id`),
+  CONSTRAINT `ci_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -367,12 +377,15 @@ CREATE TABLE `dependent` (
   `birthdate` date DEFAULT NULL,
   `borrower_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of dependent
 -- ----------------------------
 INSERT INTO `dependent` VALUES ('1', 'Carl Dinoy', '8', '2016-08-24', '1');
+INSERT INTO `dependent` VALUES ('2', 'Mark Ajoc', '12', '2016-08-10', '3');
+INSERT INTO `dependent` VALUES ('3', 'Glea Ajoc', '14', '2016-08-17', '3');
+INSERT INTO `dependent` VALUES ('4', 'Grace Ajoc', '10', '2016-08-25', '3');
 
 -- ----------------------------
 -- Table structure for jumpdate
@@ -516,7 +529,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -561,6 +574,61 @@ INSERT INTO `log` VALUES ('37', 'logout', 'user logout: russel', '2016-08-30 13:
 INSERT INTO `log` VALUES ('38', 'login', 'user login: jing', '2016-08-30 13:44:12', '14', '2');
 INSERT INTO `log` VALUES ('39', 'logout', 'user logout: jing', '2016-08-30 14:04:31', '14', '2');
 INSERT INTO `log` VALUES ('40', 'login', 'user login: russel', '2016-08-30 14:04:38', '10', '9');
+INSERT INTO `log` VALUES ('41', 'logout', 'user logout: russel', '2016-08-31 10:24:04', '10', '9');
+INSERT INTO `log` VALUES ('42', 'login', 'user login: jing', '2016-08-31 10:24:17', '14', '2');
+INSERT INTO `log` VALUES ('43', 'logout', 'user logout: jing', '2016-08-31 10:33:50', '14', '2');
+INSERT INTO `log` VALUES ('44', 'login', 'user login: russel', '2016-08-31 10:33:57', '10', '9');
+INSERT INTO `log` VALUES ('45', 'logout', 'user logout: russel', '2016-08-31 11:03:23', '10', '9');
+INSERT INTO `log` VALUES ('46', 'login', 'user login: jing', '2016-08-31 11:03:32', '14', '2');
+INSERT INTO `log` VALUES ('47', 'logout', 'user logout: jing', '2016-08-31 11:07:00', '14', '2');
+INSERT INTO `log` VALUES ('48', 'login', 'user login: russel', '2016-08-31 11:07:07', '10', '9');
+INSERT INTO `log` VALUES ('49', 'update', 'borrower updated: 1', '2016-08-31 11:45:03', '10', '9');
+INSERT INTO `log` VALUES ('50', 'update', 'borrower updated: 1', '2016-08-31 11:45:13', '10', '9');
+INSERT INTO `log` VALUES ('51', 'update', 'borrower updated: 1', '2016-08-31 11:45:30', '10', '9');
+INSERT INTO `log` VALUES ('52', 'update', 'borrower updated: 1', '2016-08-31 11:46:18', '10', '9');
+INSERT INTO `log` VALUES ('53', 'update', 'borrower updated: 2', '2016-08-31 11:46:47', '10', '9');
+INSERT INTO `log` VALUES ('54', 'logout', 'user logout: russel', '2016-08-31 13:45:23', '10', '9');
+INSERT INTO `log` VALUES ('55', 'login', 'user login: joseph', '2016-08-31 13:45:42', '19', '2');
+INSERT INTO `log` VALUES ('56', 'logout', 'user logout: joseph', '2016-08-31 13:45:49', '19', '2');
+INSERT INTO `log` VALUES ('57', 'login', 'user login: jing', '2016-08-31 13:45:55', '14', '2');
+INSERT INTO `log` VALUES ('58', 'logout', 'user logout: jing', '2016-08-31 13:46:04', '14', '2');
+INSERT INTO `log` VALUES ('59', 'login', 'user login: russel', '2016-08-31 13:46:12', '10', '9');
+INSERT INTO `log` VALUES ('60', 'update', 'borrower updated: 1', '2016-08-31 13:46:22', '10', '9');
+INSERT INTO `log` VALUES ('61', 'update', 'borrower updated: 2', '2016-08-31 13:46:32', '10', '9');
+INSERT INTO `log` VALUES ('62', 'logout', 'user logout: russel', '2016-08-31 13:46:36', '10', '9');
+INSERT INTO `log` VALUES ('63', 'login', 'user login: jing', '2016-08-31 13:46:45', '14', '2');
+INSERT INTO `log` VALUES ('64', 'logout', 'user logout: jing', '2016-08-31 13:53:52', '14', '2');
+INSERT INTO `log` VALUES ('65', 'login', 'user login: russel', '2016-08-31 13:54:05', '10', '9');
+INSERT INTO `log` VALUES ('66', 'update', 'borrower updated: 1', '2016-08-31 13:56:48', '10', '9');
+INSERT INTO `log` VALUES ('67', 'update', 'borrower updated: 1', '2016-08-31 14:06:12', '10', '9');
+INSERT INTO `log` VALUES ('68', 'logout', 'user logout: russel', '2016-08-31 14:06:58', '10', '9');
+INSERT INTO `log` VALUES ('69', 'login', 'user login: jing', '2016-08-31 14:07:05', '14', '2');
+INSERT INTO `log` VALUES ('70', 'logout', 'user logout: jing', '2016-08-31 14:07:56', '14', '2');
+INSERT INTO `log` VALUES ('71', 'login', 'user login: russel', '2016-08-31 14:08:17', '10', '9');
+INSERT INTO `log` VALUES ('72', 'logout', 'user logout: russel', '2016-08-31 14:15:01', '10', '9');
+INSERT INTO `log` VALUES ('73', 'login', 'user login: jing', '2016-08-31 14:15:14', '14', '2');
+INSERT INTO `log` VALUES ('74', 'logout', 'user logout: jing', '2016-08-31 14:22:44', '14', '2');
+INSERT INTO `log` VALUES ('75', 'login', 'user login: russel', '2016-08-31 14:23:00', '10', '9');
+INSERT INTO `log` VALUES ('76', 'create', 'borrower created: 3', '2016-08-31 14:43:16', '10', '9');
+INSERT INTO `log` VALUES ('77', 'update', 'borrower updated: 3', '2016-08-31 14:44:29', '10', '9');
+INSERT INTO `log` VALUES ('78', 'logout', 'user logout: russel', '2016-08-31 14:52:13', '10', '9');
+INSERT INTO `log` VALUES ('79', 'login', 'user login: benson', '2016-08-31 14:52:22', '20', '1');
+INSERT INTO `log` VALUES ('80', 'logout', 'user logout: benson', '2016-08-31 14:52:30', '20', '1');
+INSERT INTO `log` VALUES ('81', 'login', 'user login: russel', '2016-08-31 14:52:38', '10', '9');
+INSERT INTO `log` VALUES ('82', 'update', 'borrower updated: 2', '2016-08-31 14:52:51', '10', '9');
+INSERT INTO `log` VALUES ('83', 'logout', 'user logout: russel', '2016-08-31 14:52:57', '10', '9');
+INSERT INTO `log` VALUES ('84', 'login', 'user login: benson', '2016-08-31 14:53:07', '20', '1');
+INSERT INTO `log` VALUES ('85', 'logout', 'user logout: benson', '2016-08-31 14:54:19', '20', '1');
+INSERT INTO `log` VALUES ('86', 'login', 'user login: russel', '2016-08-31 14:54:27', '10', '9');
+INSERT INTO `log` VALUES ('87', 'update', 'borrower updated: 2', '2016-08-31 14:57:49', '10', '9');
+INSERT INTO `log` VALUES ('88', 'logout', 'user logout: russel', '2016-08-31 15:02:17', '10', '9');
+INSERT INTO `log` VALUES ('89', 'login', 'user login: nerissa', '2016-08-31 15:02:26', '21', '9');
+INSERT INTO `log` VALUES ('90', 'logout', 'user logout: nerissa', '2016-08-31 15:03:16', '21', '9');
+INSERT INTO `log` VALUES ('91', 'login', 'user login: russel', '2016-08-31 15:03:23', '10', '9');
+INSERT INTO `log` VALUES ('92', 'logout', 'user logout: russel', '2016-08-31 15:35:41', '10', '9');
+INSERT INTO `log` VALUES ('93', 'login', 'user login: benson', '2016-08-31 15:36:32', '20', '1');
+INSERT INTO `log` VALUES ('94', 'logout', 'user logout: benson', '2016-08-31 15:36:53', '20', '1');
+INSERT INTO `log` VALUES ('95', 'login', 'user login: russel', '2016-08-31 15:37:01', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration
@@ -772,7 +840,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of user
@@ -781,3 +849,4 @@ INSERT INTO `user` VALUES ('10', 'russel', 'mqNUgibbYOLDjA5iyWV1BTb-p2K4exo4', '
 INSERT INTO `user` VALUES ('14', 'jing', 'S6ho-6mlzqAinnEbrEl-IUpPvitouxAs', '$2y$13$QPkWtz.QIqwp9fNKMgwhPeyQNkjwAwoV5fhTt5dt1I7r6Zv6gQvQK', null, 'jing@gmail.com', '10', '1469586014', '2147483647', '2', 'Jingjing', 'Ahmmm', 'Hayyy', '0000-00-00', '25', 'Married', 'Female', 'Cebu City', '', '', '', '0956455528', 'fileupload/Ahmmm-Jingjing-Hayyy-0000-00-00-photo.jpg', 'jing12345');
 INSERT INTO `user` VALUES ('19', 'joseph', 'Z2Xa7HjImN5hSgkW0miuGZHqjNDNkTiH', '$2y$13$YcSTNoQ.RqYOkLadjeXYnu82m/taDcPEi357Qq8HhJAdfzNgqwpwu', null, 'josephbaldoza@gmail.com', '10', '2147483647', '2147483647', '2', 'Joseph', 'Baldoza', 'Gonzales', '2016-08-09', '35', 'Married', 'Male', 'Apas, Cebu city', '', '', '', '099945854', 'fileupload/Baldoza-Joseph-Gonzales-2016-08-09-photo.jpg', 'joseph12345');
 INSERT INTO `user` VALUES ('20', 'benson', 'M8efQNwMU-fhFbxkkC__BrSr1fmRD-vi', '$2y$13$yuo0QEXQ2G9XR.lEGwkJee5VXfr.um1.Uc3xwBq1xiRwQzjvqNPOm', null, 'benson@gmail.com', '10', '2147483647', '2147483647', '1', 'Robinson', 'Gabutan', 'Wills', '2016-08-23', '30', 'Married', 'Male', 'Guadalupe, Cebu city', '', '', '', '0000000000', 'fileupload/Gabutan-Robinson-Wills-2016-08-23-photo.jpg', 'benson12345');
+INSERT INTO `user` VALUES ('21', 'nerissa', 'DPQ4HWRtwxZB-g7pmznblNg88xoArEnB', '$2y$13$ORmDlHIxn3oBLWYeDgxhdOnspkliNvFwow5QzfmjsQE6.PEqZUk7S', null, 'nerissa@gmail.com', '10', '2147483647', '2147483647', '9', 'Nerissa', 'Sayson', 'Hmmm', '2016-08-31', '25', 'Single', 'Female', 'Mambaling Cebu City', '345634563', '3413453', '345345354', '099451224', 'fileupload/Sayson-Nerissa-Hmmm-2016-08-31-photo.jpg', 'nerissa12345');

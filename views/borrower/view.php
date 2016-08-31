@@ -84,10 +84,25 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="active tab-pane" id="principal">
                 <div class="row">
                     <div class="col-md-4">
+                        <?php
+                        if (strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN') {
+                            $gridColumn = [
+                                [
+                                    'attribute' => 'branch.branch_description',
+                                    'label' => 'Branch'
+                                ]
+                            ];
+                            echo DetailView::widget([
+                                'model' => $borrower,
+                                'attributes' => $gridColumn
+                            ]);
+                        }
+                        ?>
                         <br>
                         <center>
                             <?= (isset($borrower->profile_pic)) ? Html::img($borrower->profile_pic, ['width' => 200, 'class' => 'img-thumbnail']) : Html::img('fileupload/default.jpg', ['width' => 200, 'class' => 'img-thumbnail']) ?>
                         </center>
+
                     </div>
                     <div class="col-md-4">
                         <table class="table table-striped table-bordered">
@@ -128,7 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="col-md-4">
                         <?php
-                        if(!($borrower->spouse_name === "")) {
+                        if (!($borrower->spouse_name === "")) {
                             $gridColumn = [
                                 'spouse_name',
                                 'spouse_occupation',
@@ -143,12 +158,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         ?>
                         <?php
                         $gridColumn = [
-                            'ci_date',
+                            'canvasser.fullname',
                             'canvass_date',
-                            [
-                                'attribute' => 'branch.branch_description',
-                                'label' => 'Branch'
-                            ]
                         ];
                         echo DetailView::widget([
                             'model' => $borrower,
@@ -160,12 +171,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-8">
-                        <table class="table table-bordered table-striped">
-                            <tr>
-                                <td><strong>No. of Dependent(s)</strong></td>
-                                <td><?= $borrower->no_dependent ?></td>
-                            </tr>
-                        </table>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <td><strong>No. of Dependent(s)</strong></td>
+                                        <td><?= $borrower->no_dependent ?></td>
+                                    </tr>
+                                </table>
+                            </div></div>
                         <?php if ((count($dependents) > 0)): ?>
                             <table class="table table-striped table-bordered detail-view">
                                 <tr>
@@ -182,39 +196,29 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php endforeach; ?>
                             </table>
                         <?php endif; ?>    
-                        
+
                         <table class="table table-striped table-bordered">
                             <?php if (!($borrower->father_name === "")): ?>
-                            <tr>
-                                <td><strong>Father Name</strong></td>
-                                <td><?= $borrower->father_name ?></td>
-                                <td><strong>Age</strong></td>
-                                <td><?= $borrower->father_age ?></td>
-                                <td><strong>Date of Birth</strong></td>
-                                <td><?= $borrower->father_birthdate ?></td>
-                            </tr>
+                                <tr>
+                                    <td><strong>Father Name</strong></td>
+                                    <td><?= $borrower->father_name ?></td>
+                                    <td><strong>Age</strong></td>
+                                    <td><?= $borrower->father_age ?></td>
+                                    <td><strong>Date of Birth</strong></td>
+                                    <td><?= $borrower->father_birthdate ?></td>
+                                </tr>
                             <?php endif; ?>
                             <?php if (!($borrower->mother_name === "")): ?>
-                            <tr>
-                                <td><strong>Mother Name</strong></td>
-                                <td><?= $borrower->mother_name ?></td>
-                                <td><strong>Age</strong></td>
-                                <td><?= $borrower->mother_age ?></td>
-                                <td><strong>Date of Birth</strong></td>
-                                <td><?= $borrower->mother_birthdate ?></td>
-                            </tr>
+                                <tr>
+                                    <td><strong>Mother Name</strong></td>
+                                    <td><?= $borrower->mother_name ?></td>
+                                    <td><strong>Age</strong></td>
+                                    <td><?= $borrower->mother_age ?></td>
+                                    <td><strong>Date of Birth</strong></td>
+                                    <td><?= $borrower->mother_birthdate ?></td>
+                                </tr>
                             <?php endif; ?>
                         </table>
-                        <?php
-                        $gridColumn = [
-                            'collaterals:ntext',
-                        ];
-                        echo DetailView::widget([
-                            'model' => $borrower,
-                            'attributes' => $gridColumn
-                        ]);
-                        ?>
-
                     </div>
                 </div>
             </div> <!-- principal tab end here -->

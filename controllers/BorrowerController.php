@@ -123,12 +123,28 @@ class BorrowerController extends Controller {
 
                 // set the account type of borrower and comaker
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
-                
+
                 // set status
-                $borrower->status = Borrower::CANVASSED;
-                
+                $borrower->status = Borrower::APPROVED;
+
                 // set branch
-                $borrower->branch_id = Yii::$app->user->identity->branch_id;
+                if (!(isset($borrower->branch_id))) {
+                    $borrower->branch_id = Yii::$app->user->identity->branch_id;
+                }
+
+                // format all string using ucwords()
+                $borrower->birthplace = ucwords($borrower->birthplace);
+                $borrower->spouse_name = ucwords($borrower->spouse_name);
+                $borrower->spouse_occupation = ucwords($borrower->spouse_occupation);
+                $borrower->address_street_house_no = ucwords($borrower->address_street_house_no);
+                $borrower->first_name = ucwords($borrower->first_name);
+                $borrower->last_name = ucwords($borrower->last_name);
+                $borrower->middle_name = ucwords($borrower->middle_name);
+                $borrower->father_name = ucwords($borrower->father_name);
+                $borrower->mother_name = ucwords($borrower->mother_name);
+                $business->business_name = ucwords($business->business_name);
+                $business->address_st_bldng_no = ucwords($business->address_st_bldng_no);
+
 
                 if ($borrower->saveAll()) {
 
@@ -150,6 +166,7 @@ class BorrowerController extends Controller {
                     if (Model::loadMultiple($dependents, Yii::$app->request->post()) && Model::validateMultiple($dependents)) {
                         foreach ($dependents as $dependent) {
                             $dependent->borrower_id = $borrower->id;
+                            $dependent->name = ucwords($dependent->name);
                             if (!empty($dependent->name)) {
                                 $dependent->save(false);
                             }
@@ -214,6 +231,19 @@ class BorrowerController extends Controller {
                     $borrower->setAttachUrls();
                 }
 
+                // format all string using ucwords()
+                $borrower->birthplace = ucwords($borrower->birthplace);
+                $borrower->spouse_name = ucwords($borrower->spouse_name);
+                $borrower->spouse_occupation = ucwords($borrower->spouse_occupation);
+                $borrower->address_street_house_no = ucwords($borrower->address_street_house_no);
+                $borrower->first_name = ucwords($borrower->first_name);
+                $borrower->last_name = ucwords($borrower->last_name);
+                $borrower->middle_name = ucwords($borrower->middle_name);
+                $borrower->father_name = ucwords($borrower->father_name);
+                $borrower->mother_name = ucwords($borrower->mother_name);
+                $business->business_name = ucwords($business->business_name);
+                $business->address_st_bldng_no = ucwords($business->address_st_bldng_no);
+
                 if ($borrower->saveAll()) {
 
                     // log action
@@ -260,7 +290,7 @@ class BorrowerController extends Controller {
     public function actionDelete($id) {
         if (Yii::$app->user->can('IT')) {
             $this->findModel($id)->deleteWithRelated();
-            
+
             // log action
             $log = new Log();
             $description = "borrower deleted: " . $id;

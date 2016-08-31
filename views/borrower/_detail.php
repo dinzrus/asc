@@ -43,7 +43,6 @@ use kartik\grid\GridView;
         'address_street_house_no',
         'civil_status',
         'contact_no',
-        'ci_date',
         'canvass_date',
         'tin_no',
         'sss_no',

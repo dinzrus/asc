@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <?= $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\app\models\User::find()->orderBy('id')->asArray()->all(), 'id', 'username'),
+        'data' => \yii\helpers\ArrayHelper::map(\app\models\User::find()->orderBy('id')->all(), 'id', 'fullname'),
         'options' => ['placeholder' => 'Choose User'],
         'pluginOptions' => [
             'allowClear' => true

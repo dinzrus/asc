@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 <header class="main-header">
 
-    <?= Html::a('<span class="logo-mini">ASC</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">ASC</span><span class="logo-lg">' . Yii::$app->user->identity->branch->branch_description . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 
@@ -25,7 +25,7 @@ use yii\helpers\Html;
                         <span class="hidden-xs">
                             <?php
                             if (isset(Yii::$app->user->identity->username)) {
-                                echo Yii::$app->user->identity->lastname . ', ' . Yii::$app->user->identity->firstname. '  ( '. Yii::$app->user->identity->branch->branch_description . ' ) ';
+                                echo Yii::$app->user->identity->lastname . ', ' . Yii::$app->user->identity->firstname;
                             }
                             ?>
                         </span>
