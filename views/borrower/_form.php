@@ -88,8 +88,6 @@ use yii\helpers\Url;
                                         ]);
                                         ?>
 
-                                        <?= $form->field($borrower, 'age')->textInput(['placeholder' => 'Age']) ?>
-
                                         <?= $form->field($borrower, 'gender')->dropDownList(['Male' => 'Male', 'Female' => 'Female'], ['prompt' => '-- select --']) ?>
 
                                         <?= $form->field($borrower, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
@@ -194,8 +192,6 @@ use yii\helpers\Url;
                                         ]);
                                         ?>
 
-                                        <?= $form->field($borrower, 'spouse_age')->textInput(['placeholder' => 'Spouse Age']) ?>
-
                                     </div>
                                 </div>
                                 <hr>
@@ -210,7 +206,6 @@ use yii\helpers\Url;
                                     <div class="row">
                                         <div class="col-md-5"><strong>Name</strong></div>
                                         <div class="col-md-5"><strong>Date of Birth</strong></div>
-                                        <div class="col-md-2"><strong>Age</strong></div>
                                     </div>
                                     <?php foreach ($dependents as $i => $dependent): ?>
                                         <div class="row">
@@ -232,16 +227,13 @@ use yii\helpers\Url;
                                                 ])->label(false);
                                                 ?>
                                             </div>
-                                            <div class="col-md-2">
-                                                <?= $form->field($dependent, "[$i]age")->textInput()->label(false) ?>
-                                            </div>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <div class="row">
                                         <div class="col-md-5"><strong>Name</strong></div>
                                         <div class="col-md-5"><strong>Date of Birth</strong></div>
-                                        <div class="col-md-2"><strong>Age</strong></div>
+  
                                     </div>
                                     <?php for ($i = 0; $i < 3; $i++): ?>
                                         <div class="row">
@@ -262,9 +254,6 @@ use yii\helpers\Url;
                                                     ],
                                                 ])->label(false);
                                                 ?>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <?= $form->field($dependent, "[$i]age")->textInput()->label(false) ?>
                                             </div>
                                         </div>
                                     <?php endfor; ?>
@@ -291,9 +280,6 @@ use yii\helpers\Url;
                                         ]);
                                         ?>
                                     </div>
-                                    <div class="col-md-2">
-                                        <?= $form->field($borrower, "father_age")->textInput() ?>
-                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5">
@@ -313,9 +299,6 @@ use yii\helpers\Url;
                                             ],
                                         ]);
                                         ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?= $form->field($borrower, "mother_age")->textInput() ?>
                                     </div>
                                 </div>
                             </div>

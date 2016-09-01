@@ -144,5 +144,17 @@ class Borrower extends BaseBorrower {
             return false;
         }
     }
+    
+    /**
+     * This will calculate the age 
+     * @param type $dob
+     * @return int age
+     */
+    public function calculateAge($dob) {
+        $birthdate = new \DateTime($dob);
+        $dtoday = new \DateTime('today');
+        $age = $birthdate->diff($dtoday)->y;
+        return $age;
+    }
 
 }

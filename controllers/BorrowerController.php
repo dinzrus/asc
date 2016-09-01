@@ -131,6 +131,12 @@ class BorrowerController extends Controller {
                 if (!(isset($borrower->branch_id))) {
                     $borrower->branch_id = Yii::$app->user->identity->branch_id;
                 }
+                
+                //calculate age
+                $borrower->age = $borrower->calculateAge($borrower->birthdate);
+                $borrower->spouse_age = $borrower->calculateAge($borrower->spouse_birthdate);
+                $borrower->mother_age = $borrower->calculateAge($borrower->mother_birthdate);
+                $borrower->father_age = $borrower->calculateAge($borrower->father_birthdate);
 
                 // format all string using ucwords()
                 $borrower->birthplace = ucwords($borrower->birthplace);
@@ -168,6 +174,7 @@ class BorrowerController extends Controller {
                             $dependent->borrower_id = $borrower->id;
                             $dependent->name = ucwords($dependent->name);
                             if (!empty($dependent->name)) {
+                                $dependent->age = $dependent->calculateAge($dependent->birthdate);
                                 $dependent->save(false);
                             }
                         }
@@ -243,6 +250,13 @@ class BorrowerController extends Controller {
                 $borrower->mother_name = ucwords($borrower->mother_name);
                 $business->business_name = ucwords($business->business_name);
                 $business->address_st_bldng_no = ucwords($business->address_st_bldng_no);
+                
+                
+                //calculate age
+                $borrower->age = $borrower->calculateAge($borrower->birthdate);
+                $borrower->spouse_age = $borrower->calculateAge($borrower->spouse_birthdate);
+                $borrower->mother_age = $borrower->calculateAge($borrower->mother_birthdate);
+                $borrower->father_age = $borrower->calculateAge($borrower->father_birthdate);
 
                 if ($borrower->saveAll()) {
 
@@ -262,6 +276,7 @@ class BorrowerController extends Controller {
                         foreach ($dependents as $dependent) {
                             $dependent->borrower_id = $borrower->id;
                             if (!empty($dependent->name)) {
+                                $dependent->age = $dependent->calculateAge($dependent->birthdate);
                                 $dependent->save(false);
                             }
                         }
