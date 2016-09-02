@@ -406,8 +406,8 @@ use yii\helpers\Url;
                                 'showUpload' => false,
                                 'browseLabel' => 'Select Attachment',
                                 'removeLabel' => ' ',
-                                'maxFileCount' => 3,
-                                'maxFileSize' => 500,
+                                'maxFileCount' => 10,
+                                'maxFileSize' => 200,
                             ],
                             'options' => [
                                 'accept' => 'image/*',
