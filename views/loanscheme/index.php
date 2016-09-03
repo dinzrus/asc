@@ -17,8 +17,6 @@ $this->registerJs($search);
 ?>
 <div class="loan-scheme-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Create Loan Scheme', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

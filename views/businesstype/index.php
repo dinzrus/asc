@@ -17,8 +17,6 @@ $this->registerJs($search);
 ?>
 <div class="business-type-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Create Business Type', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

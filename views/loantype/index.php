@@ -16,9 +16,6 @@ $search = "$('.search-button').click(function(){
 $this->registerJs($search);
 ?>
 <div class="loan-type-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Create Loan Type', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

@@ -15,12 +15,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-sm-9">
-            <h2><?= 'Canvasser'.' '. Html::encode($this->title) ?></h2>
+            <h2><?= 'Canvasser' . ' ' . Html::encode($this->title) ?></h2>
         </div>
         <div class="col-sm-3" style="margin-top: 15px">
-            
+
             <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+            <?=
+            Html::a('Delete', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
                     'confirm' => 'Are you sure you want to delete this item?',
@@ -30,26 +31,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
         </div>
     </div>
-
-    <div class="row">
-<?php 
-    $gridColumn = [
-        ['attribute' => 'id', 'visible' => false],
-        'fname',
-        'lname',
-        'middlename',
-        'age',
-        'birthdate',
-        'address',
-        [
-            'attribute' => 'branch.branch_id',
-            'label' => 'Branch',
-        ],
-    ];
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => $gridColumn
-    ]); 
-?>
+    <div class="box box-solid">
+        <div class="box-body">
+            <?php
+            $gridColumn = [
+                ['attribute' => 'id', 'visible' => false],
+                'fname',
+                'lname',
+                'middlename',
+                'age',
+                'birthdate',
+                'address',
+                [
+                    'attribute' => 'branch.branch_id',
+                    'label' => 'Branch',
+                ],
+            ];
+            echo DetailView::widget([
+                'model' => $model,
+                'attributes' => $gridColumn
+            ]);
+            ?>
+        </div>
     </div>
 </div>
