@@ -55,37 +55,10 @@
                             ],
                         ],
                         [
-                            'label' => 'Transaction',
-                            'icon' => 'fa fa-suitcase',
-                            'visible' => !Yii::$app->user->isGuest,
-                            'url' => '#',
-                            'items' => [
-                                ['label' => 'Canvassed Approval.', 'icon' => 'fa fa-circle-o', 'url' => ['/site'], 'visible' => Yii::$app->user->can('IT')],
-                            ],
-                        ],
-                        [
-                            'label' => 'Inquiries',
-                            'icon' => 'fa fa-line-chart',
-                            'visible' => !Yii::$app->user->isGuest,
-                            'url' => '#',
-                            'items' => [
-
-                            ],
-                        ],
-                        [
                             'label' => 'Reports',
                             'icon' => 'fa fa-print',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => ['/report'],
-                        ],
-                        [
-                            'label' => 'Help',
-                            'icon' => 'fa fa-support',
-                            'visible' => !Yii::$app->user->isGuest,
-                            'url' => '#',
-                            'items' => [
-                           
-                            ],
                         ],
                     ],
                 ]
