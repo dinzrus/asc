@@ -60,17 +60,17 @@ class Business extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'business_name' => 'Business Name',
-            'business_type_id' => 'Business Type ID',
-            'address_province_id' => 'Address Province ID',
-            'address_city_municipality_id' => 'Address City Municipality ID',
-            'address_barangay_id' => 'Address Barangay ID',
+            'business_type_id' => 'Business Type',
+            'address_province_id' => 'Address Province',
+            'address_city_municipality_id' => 'Address City Municipality',
+            'address_barangay_id' => 'Address Barangay',
             'address_st_bldng_no' => 'Address St Bldng No',
             'business_years' => 'Business Years',
             'permit_no' => 'Permit No',
             'average_weekly_income' => 'Average Weekly Income',
             'average_gross_daily_income' => 'Average Gross Daily Income',
             'ownership' => 'Ownership',
-            'borrower_id' => 'Borrower ID',
+            'borrower_id' => 'Borrower',
         ];
     }
     
