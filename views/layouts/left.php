@@ -19,7 +19,7 @@
                         ['label' => 'Menu', 'options' => ['class' => 'header']],
                         ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                         [
-                            'label' => 'Maintenance',
+                            'label' => 'File',
                             'icon' => 'fa fa-tachometer',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => '#',

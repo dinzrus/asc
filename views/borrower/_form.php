@@ -32,273 +32,283 @@ use yii\helpers\Url;
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <?php
-                                        echo $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
-                                            'pluginOptions' => [
-                                                'initialPreview' => [
-                                                    empty($borrower->profile_pic) ? 'fileupload/default.jpg' : $borrower->profile_pic
-                                                ],
-                                                'initialPreviewAsData' => true,
-                                                'overwriteInitial' => true,
-                                                'showCaption' => false,
-                                                'showRemove' => false,
-                                                'showUpload' => false,
-                                                'browseClass' => 'btn btn-primary btn-block',
-                                                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                                'browseLabel' => 'Select Photo',
-                                                'maxFileSize' => 500,
-                                            ],
-                                            'options' => ['accept' => 'image/*']
-                                        ]);
-                                        ?>
-                                        <?php if((strtoupper(Yii::$app->user->identity->branch->branch_description)) === "MAIN") : ?>
-                                        <?=
-                                        $form->field($borrower, 'branch_id')->widget(\kartik\widgets\Select2::classname(), [
-                                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->orderBy('branch_id')->asArray()->all(), 'branch_id', 'branch_description'),
-                                            'options' => ['placeholder' => 'Select Branch'],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]);
-                                        ?>
-                                        <?php endif; ?>
-
-                                    </div>
-                                    <div class="col-md-4">
-
-                                        <?= $form->field($borrower, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
-
-                                        <?= $form->field($borrower, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
-
-                                        <?= $form->field($borrower, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
-
-                                        <?= $form->field($borrower, 'suffix')->textInput(['maxlength' => true, 'placeholder' => 'Suffix']) ?>
-
-                                        <?=
-                                        $form->field($borrower, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                            'saveFormat' => 'php:Y-m-d',
-                                            'ajaxConversion' => true,
-                                            'options' => [
-                                                'pluginOptions' => [
-                                                    'placeholder' => 'Choose Birthdate',
-                                                    'autoclose' => true,
-                                                ],
-                                            ],
-                                        ]);
-                                        ?>
-
-                                        <?= $form->field($borrower, 'gender')->dropDownList(['Male' => 'Male', 'Female' => 'Female'], ['prompt' => '-- select --']) ?>
-
-                                        <?= $form->field($borrower, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
-
-                                        <?=
-                                        $form->field($borrower, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
-                                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
-                                            'options' => ['placeholder' => 'Choose Province'],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]);
-                                        ?>
-
-                                        <?=
-                                        $form->field($borrower, 'address_city_municipality_id')->widget(DepDrop::classname(), [
-                                            'options' => ['id' => Html::getInputId($borrower, 'address_city_municipality_id')],
-                                            'type' => DepDrop::TYPE_SELECT2,
-                                            'pluginOptions' => [
-                                                'depends' => [Html::getInputId($borrower, 'address_province_id')],
-                                                'placeholder' => 'Select city/municipality',
-                                                'url' => Url::to(['/borrower/getmunicipalitycity'])
-                                            ]
-                                        ]);
-                                        ?>
-
-                                        <?=
-                                        $form->field($borrower, 'address_barangay_id')->widget(DepDrop::classname(), [
-                                            //'options' => ['id' => 'address-barangay-id'],
-                                            'type' => DepDrop::TYPE_SELECT2,
-                                            'pluginOptions' => [
-                                                'depends' => [Html::getInputId($borrower, 'address_city_municipality_id')],
-                                                'placeholder' => 'Select barangay',
-                                                'url' => Url::to(['/borrower/getbarangay'])
-                                            ]
-                                        ]);
-                                        ?>
-
-                                        <?= $form->field($borrower, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?=
-                                        $form->field($borrower, 'civil_status')->dropDownList([
-                                            'Single' => 'Single',
-                                            'Married' => 'Married',
-                                            'Widowed' => 'Widowed',
-                                            'Common_law' => 'Common Law',
-                                            'Separated' => 'Separated'
-                                                ], ['prompt' => '- Select - '])
-                                        ?>
-
-                                        <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
-
-                                        <?=
-                                        $form->field($borrower, 'canvass_by')->widget(\kartik\widgets\Select2::classname(), [
-                                            'data' => (!(strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN')) ? \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->where(['branch_id' => Yii::$app->user->identity->branch_id])->orderBy('id')->all(), 'id', 'fullname') : \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->all(), 'id', 'fullname'),
-                                            'options' => ['placeholder' => 'Canvasser'],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]);
-                                        ?>
-
-                                        <?=
-                                        $form->field($borrower, 'canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                            'saveFormat' => 'php:Y-m-d',
-                                            'ajaxConversion' => true,
-                                            'options' => [
-                                                'pluginOptions' => [
-                                                    'placeholder' => 'Choose Canvass Date',
-                                                    'autoclose' => true
-                                                ]
-                                            ],
-                                        ]);
-                                        ?>
-                                        <small><i class="fa fa-info"></i> Valid Id(s)</small>                                        <?= $form->field($borrower, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
-                                        <?= $form->field($borrower, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) ?>
-
-                                        <?= $form->field($borrower, 'ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Ctc No']) ?>
-
-                                        <?= $form->field($borrower, 'license_no')->textInput(['maxlength' => true, 'placeholder' => 'License No']) ?>
-
-                                        <small><i class="fa fa-info"></i> Spouse Information</small>
-
-                                        <?= $form->field($borrower, 'spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Name']) ?>
-
-                                        <?= $form->field($borrower, 'spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Occupation']) ?>
-
-                                        <?=
-                                        $form->field($borrower, 'spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
-                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                            'saveFormat' => 'php:Y-m-d',
-                                            'ajaxConversion' => true,
-                                            'options' => [
-                                                'pluginOptions' => [
-                                                    'placeholder' => 'Choose Spouse Birthdate',
-                                                    'autoclose' => true
-                                                ]
-                                            ],
-                                        ]);
-                                        ?>
-
-                                    </div>
-                                </div>
-                                <hr>
-                                <h4><strong>DEPENDENT(s)</strong></h4>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <?= $form->field($borrower, 'no_dependent')->textInput(['placeholder' => 'No Dependent']) ?> 
-                                    </div>                  
-                                </div>
-                                <!-- dependent start -->
-                                <?php if ($update): ?>
-                                    <div class="row">
-                                        <div class="col-md-5"><strong>Name</strong></div>
-                                        <div class="col-md-5"><strong>Date of Birth</strong></div>
-                                    </div>
-                                    <?php foreach ($dependents as $i => $dependent): ?>
                                         <div class="row">
-                                            <div class="col-md-5">
-                                                <?= $form->field($dependent, "[$i]name")->textInput()->label(false) ?>
-                                            </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-12">
+                                                <?php
+                                                echo $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
+                                                    'pluginOptions' => [
+                                                        'initialPreview' => [
+                                                            empty($borrower->profile_pic) ? 'fileupload/default.jpg' : $borrower->profile_pic
+                                                        ],
+                                                        'initialPreviewAsData' => true,
+                                                        'overwriteInitial' => true,
+                                                        'showCaption' => false,
+                                                        'showRemove' => false,
+                                                        'showUpload' => false,
+                                                        'browseClass' => 'btn btn-primary btn-block',
+                                                        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                                                        'browseLabel' => 'Select Photo',
+                                                        'maxFileSize' => 500,
+                                                    ],
+                                                    'options' => ['accept' => 'image/*']
+                                                ]);
+                                                ?>
+                                                <?php if ((strtoupper(Yii::$app->user->identity->branch->branch_description)) === "MAIN") : ?>
+                                                    <?=
+                                                    $form->field($borrower, 'branch_id')->widget(\kartik\widgets\Select2::classname(), [
+                                                        'data' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->orderBy('branch_id')->asArray()->all(), 'branch_id', 'branch_description'),
+                                                        'options' => ['placeholder' => 'Select Branch'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true
+                                                        ],
+                                                    ]);
+                                                    ?>
+                                                <?php endif; ?>
+                                                <?= $form->field($borrower, 'last_name')->textInput(['maxlength' => true, 'placeholder' => 'Last Name']) ?>
+
+                                                <?= $form->field($borrower, 'first_name')->textInput(['maxlength' => true, 'placeholder' => 'First Name']) ?>
+
+                                                <?= $form->field($borrower, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
+
+                                                <?= $form->field($borrower, 'suffix')->textInput(['maxlength' => true, 'placeholder' => 'Suffix']) ?>
+
                                                 <?=
-                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                $form->field($borrower, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
                                                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
                                                     'saveFormat' => 'php:Y-m-d',
                                                     'ajaxConversion' => true,
                                                     'options' => [
                                                         'pluginOptions' => [
-                                                            'placeholder' => 'Birthdate',
-                                                            'autoclose' => true
-                                                        ]
+                                                            'placeholder' => 'Choose Birthdate',
+                                                            'autoclose' => true,
+                                                        ],
                                                     ],
-                                                ])->label(false);
+                                                ]);
                                                 ?>
+
+                                                <?= $form->field($borrower, 'gender')->dropDownList(['Male' => 'Male', 'Female' => 'Female'], ['prompt' => '-- select --']) ?>
+
+                                                <?= $form->field($borrower, 'birthplace')->textInput(['maxlength' => true, 'placeholder' => 'Birthplace']) ?>
+
                                             </div>
                                         </div>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <div class="row">
-                                        <div class="col-md-5"><strong>Name</strong></div>
-                                        <div class="col-md-5"><strong>Date of Birth</strong></div>
-  
                                     </div>
-                                    <?php for ($i = 0; $i < 3; $i++): ?>
+                                    <div class="col-md-8">
                                         <div class="row">
-                                            <div class="col-md-5">
-                                                <?= $form->field($dependent, "[$i]name")->textInput()->label(false) ?>
-                                            </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
                                                 <?=
-                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                $form->field($borrower, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
+                                                    'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
+                                                    'options' => ['placeholder' => 'Choose Province'],
+                                                    'pluginOptions' => [
+                                                        'allowClear' => true
+                                                    ],
+                                                ]);
+                                                ?>
+
+                                                <?=
+                                                $form->field($borrower, 'address_city_municipality_id')->widget(DepDrop::classname(), [
+                                                    'options' => ['id' => Html::getInputId($borrower, 'address_city_municipality_id')],
+                                                    'type' => DepDrop::TYPE_SELECT2,
+                                                    'pluginOptions' => [
+                                                        'depends' => [Html::getInputId($borrower, 'address_province_id')],
+                                                        'placeholder' => 'Select city/municipality',
+                                                        'url' => Url::to(['/borrower/getmunicipalitycity'])
+                                                    ]
+                                                ]);
+                                                ?>
+
+                                                <?=
+                                                $form->field($borrower, 'address_barangay_id')->widget(DepDrop::classname(), [
+                                                    //'options' => ['id' => 'address-barangay-id'],
+                                                    'type' => DepDrop::TYPE_SELECT2,
+                                                    'pluginOptions' => [
+                                                        'depends' => [Html::getInputId($borrower, 'address_city_municipality_id')],
+                                                        'placeholder' => 'Select barangay',
+                                                        'url' => Url::to(['/borrower/getbarangay'])
+                                                    ]
+                                                ]);
+                                                ?>
+
+                                                <?= $form->field($borrower, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
+
+                                                <?= $form->field($borrower, 'contact_no')->textInput(['maxlength' => true, 'placeholder' => 'Contact No']) ?>
+
+                                                <?=
+                                                $form->field($borrower, 'civil_status')->dropDownList([
+                                                    'Single' => 'Single',
+                                                    'Married' => 'Married',
+                                                    'Widowed' => 'Widowed',
+                                                    'Common_law' => 'Common Law',
+                                                    'Separated' => 'Separated'
+                                                        ], ['prompt' => '- Select - '])
+                                                ?>
+
+                                                <?=
+                                                $form->field($borrower, 'canvass_by')->widget(\kartik\widgets\Select2::classname(), [
+                                                    'data' => (!(strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN')) ? \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->where(['branch_id' => Yii::$app->user->identity->branch_id])->orderBy('id')->all(), 'id', 'fullname') : \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->all(), 'id', 'fullname'),
+                                                    'options' => ['placeholder' => 'Canvasser'],
+                                                    'pluginOptions' => [
+                                                        'allowClear' => true
+                                                    ],
+                                                ]);
+                                                ?>
+
+                                                <?=
+                                                $form->field($borrower, 'canvass_date')->widget(\kartik\datecontrol\DateControl::classname(), [
                                                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
                                                     'saveFormat' => 'php:Y-m-d',
                                                     'ajaxConversion' => true,
                                                     'options' => [
                                                         'pluginOptions' => [
-                                                            'placeholder' => 'Birthdate',
+                                                            'placeholder' => 'Choose Canvass Date',
                                                             'autoclose' => true
                                                         ]
                                                     ],
-                                                ])->label(false);
+                                                ]);
                                                 ?>
+
                                             </div>
+                                            <div class="col-md-6">
+                                                <small><i class="fa fa-info"></i> Valid Id(s)</small>                                        <?= $form->field($borrower, 'tin_no')->textInput(['maxlength' => true, 'placeholder' => 'Tin No']) ?>
+                                                <?= $form->field($borrower, 'sss_no')->textInput(['maxlength' => true, 'placeholder' => 'Sss No']) ?>
+
+                                                <?= $form->field($borrower, 'ctc_no')->textInput(['maxlength' => true, 'placeholder' => 'Ctc No']) ?>
+
+                                                <?= $form->field($borrower, 'license_no')->textInput(['maxlength' => true, 'placeholder' => 'License No']) ?>
+
+                                                <small><i class="fa fa-info"></i> Spouse Information</small>
+
+                                                <?= $form->field($borrower, 'spouse_name')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Name']) ?>
+
+                                                <?= $form->field($borrower, 'spouse_occupation')->textInput(['maxlength' => true, 'placeholder' => 'Spouse Occupation']) ?>
+
+                                                <?=
+                                                $form->field($borrower, 'spouse_birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                    'saveFormat' => 'php:Y-m-d',
+                                                    'ajaxConversion' => true,
+                                                    'options' => [
+                                                        'pluginOptions' => [
+                                                            'placeholder' => 'Choose Spouse Birthdate',
+                                                            'autoclose' => true
+                                                        ]
+                                                    ],
+                                                ]);
+                                                ?>
+                                            </div> 
                                         </div>
-                                    <?php endfor; ?>
-                                <?php endif; ?>
-                                <!-- dependent end -->  
-                                <hr>
-                                <h4><strong>PARENTS</strong></h4>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <?= $form->field($borrower, "father_name")->textInput() ?>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <?=
-                                        $form->field($borrower, "father_birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
-                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                            'saveFormat' => 'php:Y-m-d',
-                                            'ajaxConversion' => true,
-                                            'options' => [
-                                                'pluginOptions' => [
-                                                    'placeholder' => 'Birthdate',
-                                                    'autoclose' => true
-                                                ]
-                                            ],
-                                        ]);
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <?= $form->field($borrower, "mother_name")->textInput() ?>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <?=
-                                        $form->field($borrower, "mother_birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
-                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-                                            'saveFormat' => 'php:Y-m-d',
-                                            'ajaxConversion' => true,
-                                            'options' => [
-                                                'pluginOptions' => [
-                                                    'placeholder' => 'Birthdate',
-                                                    'autoclose' => true
-                                                ]
-                                            ],
-                                        ]);
-                                        ?>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <hr>
+                                                <h4><strong>DEPENDENT(s)</strong></h4>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <?= $form->field($borrower, 'no_dependent')->textInput(['placeholder' => 'No Dependent']) ?> 
+                                                    </div>                  
+                                                </div>
+                                                <!-- dependent start -->
+                                                <?php if ($update): ?>
+                                                    <div class="row">
+                                                        <div class="col-md-8"><strong>Name</strong></div>
+                                                        <div class="col-md-4"><strong>Date of Birth</strong></div>
+                                                    </div>
+                                                    <?php foreach ($dependents as $i => $dependent): ?>
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <?= $form->field($dependent, "[$i]name")->textInput()->label(false) ?>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <?=
+                                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                                    'saveFormat' => 'php:Y-m-d',
+                                                                    'ajaxConversion' => true,
+                                                                    'options' => [
+                                                                        'pluginOptions' => [
+                                                                            'placeholder' => 'Birthdate',
+                                                                            'autoclose' => true
+                                                                        ]
+                                                                    ],
+                                                                ])->label(false);
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <div class="row">
+                                                        <div class="col-md-8"><strong>Name</strong></div>
+                                                        <div class="col-md-4"><strong>Date of Birth</strong></div>
+
+                                                    </div>
+                                                    <?php for ($i = 0; $i < 3; $i++): ?>
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <?= $form->field($dependent, "[$i]name")->textInput()->label(false) ?>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <?=
+                                                                $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                                    'saveFormat' => 'php:Y-m-d',
+                                                                    'ajaxConversion' => true,
+                                                                    'options' => [
+                                                                        'pluginOptions' => [
+                                                                            'placeholder' => 'Birthdate',
+                                                                            'autoclose' => true
+                                                                        ]
+                                                                    ],
+                                                                ])->label(false);
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    <?php endfor; ?>
+                                                <?php endif; ?>
+                                                <!-- dependent end -->  
+                                                <hr>
+                                                <h4><strong>PARENTS</strong></h4>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <?= $form->field($borrower, "father_name")->textInput() ?>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <?=
+                                                        $form->field($borrower, "father_birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                            'saveFormat' => 'php:Y-m-d',
+                                                            'ajaxConversion' => true,
+                                                            'options' => [
+                                                                'pluginOptions' => [
+                                                                    'placeholder' => 'Birthdate',
+                                                                    'autoclose' => true
+                                                                ]
+                                                            ],
+                                                        ]);
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <?= $form->field($borrower, "mother_name")->textInput() ?>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <?=
+                                                        $form->field($borrower, "mother_birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                                            'saveFormat' => 'php:Y-m-d',
+                                                            'ajaxConversion' => true,
+                                                            'options' => [
+                                                                'pluginOptions' => [
+                                                                    'placeholder' => 'Birthdate',
+                                                                    'autoclose' => true
+                                                                ]
+                                                            ],
+                                                        ]);
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>    
                                     </div>
                                 </div>
                             </div>
