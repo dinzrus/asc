@@ -13,6 +13,7 @@ use Yii;
  *
  * @property \app\models\MunicipalityCity $municipalityCity
  * @property \app\models\Borrower[] $borrowers
+ * @property \app\models\Business[] $businesses
  */
 class Barangay extends \yii\db\ActiveRecord
 {
@@ -65,7 +66,16 @@ class Barangay extends \yii\db\ActiveRecord
     {
         return $this->hasMany(\app\models\Borrower::className(), ['address_barangay_id' => 'id']);
     }
-    
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinesses()
+    {
+        return $this->hasMany(\app\models\Business::className(), ['address_barangay_id' => 'id']);
+    }
+
+
     /**
      * @inheritdoc
      * @return \app\models\BarangayQuery the active query used by this AR class.

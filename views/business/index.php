@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\BusinessSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
@@ -18,11 +19,16 @@ $this->registerJs($search);
 <div class="business-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Business', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>
     </p>
-<?php 
+    <div class="search-form" style="display:none">
+        <?=  $this->render('_search', ['model' => $searchModel]); ?>
+    </div>
+    <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         ['attribute' => 'id', 'visible' => false],
@@ -38,7 +44,7 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Business type', 'id' => 'grid--business_type_id']
+                'filterInputOptions' => ['placeholder' => 'Business type', 'id' => 'grid-business-search-business_type_id']
             ],
         [
                 'attribute' => 'address_province_id',
@@ -51,7 +57,7 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Province', 'id' => 'grid--address_province_id']
+                'filterInputOptions' => ['placeholder' => 'Province', 'id' => 'grid-business-search-address_province_id']
             ],
         [
                 'attribute' => 'address_city_municipality_id',
@@ -64,7 +70,7 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Municipality city', 'id' => 'grid--address_city_municipality_id']
+                'filterInputOptions' => ['placeholder' => 'Municipality city', 'id' => 'grid-business-search-address_city_municipality_id']
             ],
         [
                 'attribute' => 'address_barangay_id',
@@ -77,27 +83,15 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Barangay', 'id' => 'grid--address_barangay_id']
+                'filterInputOptions' => ['placeholder' => 'Barangay', 'id' => 'grid-business-search-address_barangay_id']
             ],
         'address_st_bldng_no',
         'business_years',
         'permit_no',
         'average_weekly_income',
-        'avergage_gross_daily_income',
+        'average_gross_daily_income',
         'ownership',
-        [
-                'attribute' => 'borrower_id',
-                'label' => 'Borrower',
-                'value' => function($model){
-                    return $model->borrower->id;
-                },
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Borrower::find()->asArray()->all(), 'id', 'id'),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
-                ],
-                'filterInputOptions' => ['placeholder' => 'Borrower', 'id' => 'grid--borrower_id']
-            ],
+        'borrower_id',
         [
             'class' => 'yii\grid\ActionColumn',
         ],
@@ -105,6 +99,7 @@ $this->registerJs($search);
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => $gridColumn,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-business']],

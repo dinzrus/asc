@@ -56,12 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'business_years',
         'permit_no',
         'average_weekly_income',
-        'avergage_gross_daily_income',
+        'average_gross_daily_income',
         'ownership',
-        [
-            'attribute' => 'borrower.id',
-            'label' => 'Borrower',
-        ],
+        'borrower_id',
     ];
     echo DetailView::widget([
         'model' => $model,
