@@ -25,6 +25,7 @@
                             'url' => '#',
                             'items' => [
                                 ['label' => 'Loan Type', 'icon' => 'fa fa-circle-o', 'url' => ['/loantype'], 'visible' => Yii::$app->user->can('IT')],
+                                ['label' => 'Businesses', 'icon' => 'fa fa-circle-o', 'url' => ['/business'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Business Type', 'icon' => 'fa fa-circle-o', 'url' => ['/businesstype'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Branches', 'icon' => 'fa fa-circle-o', 'url' => ['/branch'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Jumpdate', 'icon' => 'fa fa-circle-o', 'url' => ['/jumpdate'], 'visible' => Yii::$app->user->can('IT')],
@@ -40,6 +41,7 @@
                                     'items' => [
                                         ['label' => 'Provinces', 'icon' => 'fa fa-circle-o', 'url' => ['/province'],],
                                         ['label' => 'City/Municipality', 'icon' => 'fa fa-circle-o', 'url' => ['/municipalitycity'],],
+                                        ['label' => 'Barangay', 'icon' => 'fa fa-circle-o', 'url' => ['/barangay'],],
                                     ],
                                 ],
                                 [

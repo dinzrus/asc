@@ -4,16 +4,16 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Business */
+/* @var $model app\models\BusinessSearch */
 /* @var $form yii\widgets\ActiveForm */
-
 ?>
 
-<div class="business-form">
+<div class="form-business-search">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->errorSummary($model); ?>
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
@@ -43,30 +43,31 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'address_barangay_id')->widget(\kartik\widgets\Select2::classname(), [
+    <?php /* echo $form->field($model, 'address_barangay_id')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\app\models\Barangay::find()->orderBy('id')->asArray()->all(), 'id', 'barangay'),
         'options' => ['placeholder' => 'Choose Barangay'],
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ]); ?>
+    ]); */ ?>
 
-    <?= $form->field($model, 'address_st_bldng_no')->textInput(['maxlength' => true, 'placeholder' => 'Address St Bldng No']) ?>
+    <?php /* echo $form->field($model, 'address_st_bldng_no')->textInput(['maxlength' => true, 'placeholder' => 'Address St Bldng No']) */ ?>
 
-    <?= $form->field($model, 'business_years')->textInput(['placeholder' => 'Business Years']) ?>
+    <?php /* echo $form->field($model, 'business_years')->textInput(['placeholder' => 'Business Years']) */ ?>
 
-    <?= $form->field($model, 'permit_no')->textInput(['maxlength' => true, 'placeholder' => 'Permit No']) ?>
+    <?php /* echo $form->field($model, 'permit_no')->textInput(['maxlength' => true, 'placeholder' => 'Permit No']) */ ?>
 
-    <?= $form->field($model, 'average_weekly_income')->textInput(['placeholder' => 'Average Weekly Income']) ?>
+    <?php /* echo $form->field($model, 'average_weekly_income')->textInput(['placeholder' => 'Average Weekly Income']) */ ?>
 
-    <?= $form->field($model, 'average_gross_daily_income')->textInput(['placeholder' => 'Average Gross Daily Income']) ?>
+    <?php /* echo $form->field($model, 'average_gross_daily_income')->textInput(['placeholder' => 'Average Gross Daily Income']) */ ?>
 
-    <?= $form->field($model, 'ownership')->textInput(['maxlength' => true, 'placeholder' => 'Ownership']) ?>
+    <?php /* echo $form->field($model, 'ownership')->textInput(['maxlength' => true, 'placeholder' => 'Ownership']) */ ?>
 
-    <?= $form->field($model, 'borrower_id')->textInput(['placeholder' => 'Borrower']) ?>
+    <?php /* echo $form->field($model, 'borrower_id')->textInput(['placeholder' => 'Borrower']) */ ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

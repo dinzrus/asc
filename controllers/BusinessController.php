@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Business;
-use yii\data\ActiveDataProvider;
+use app\models\BusinessSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,6 +23,19 @@ class BusinessController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 
@@ -32,11 +45,11 @@ class BusinessController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Business::find(),
-        ]);
+        $searchModel = new BusinessSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

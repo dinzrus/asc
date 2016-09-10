@@ -152,7 +152,7 @@ class SiteController extends Controller {
                 //$data = $sheet->rangeToArray('A1:' . $maxCell['column'] . $maxCell['row']);
 
                 for ($row = 1; $row <= $highestRow; $row++) {
-                    $rowData = $sheet->rangeToArray('A'. $row . ':' . $maxCell['column'] . $maxCell['row']);
+                    $rowData = $sheet->rangeToArray('A' . $row . ':' . $maxCell['column'] . $maxCell['row']);
 
                     if ($row == 1) {
                         continue;
@@ -173,8 +173,8 @@ class SiteController extends Controller {
                     $test->net_proceeds = $rowData[0][10];
                     $test->penalty = $rowData[0][11];
                     $test->pen_days = $rowData[0][12];
-                    
-                    if(!($test->save())){
+
+                    if (!($test->save())) { // use to skip empty rows
                         continue;
                     }
 

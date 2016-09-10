@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use \app\models\base\Barangay as BaseBarangay;
 
 /**

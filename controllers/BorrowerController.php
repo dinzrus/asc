@@ -264,6 +264,10 @@ class BorrowerController extends Controller {
                     $log = new Log();
                     $description = "borrower updated: " . $borrower->id;
                     $log->logMe(Log::UPDATE, $description);
+                    
+                    
+                    // update business
+                    $business->saveAll();
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
