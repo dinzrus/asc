@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-08-31 16:40:10
+Date: 2016-09-10 17:23:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -110,16 +110,71 @@ CREATE TABLE `barangay` (
   PRIMARY KEY (`id`),
   KEY `municipality_city_id` (`municipality_city_id`),
   CONSTRAINT `barangay_ibfk_1` FOREIGN KEY (`municipality_city_id`) REFERENCES `municipality_city` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1064 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of barangay
 -- ----------------------------
-INSERT INTO `barangay` VALUES ('1', 'Villaflor', '1');
-INSERT INTO `barangay` VALUES ('2', 'Alegria', '1');
-INSERT INTO `barangay` VALUES ('3', 'Nueva Fuerza', '1');
-INSERT INTO `barangay` VALUES ('4', 'Lahug', '6');
-INSERT INTO `barangay` VALUES ('5', 'Apas', '6');
+INSERT INTO `barangay` VALUES ('1004', 'Palaka Sur ', '35');
+INSERT INTO `barangay` VALUES ('1005', 'Patic ', '35');
+INSERT INTO `barangay` VALUES ('1006', 'Tapong ', '35');
+INSERT INTO `barangay` VALUES ('1007', 'Ubay ', '35');
+INSERT INTO `barangay` VALUES ('1008', 'Utod', '35');
+INSERT INTO `barangay` VALUES ('1009', 'Barangay I (Pob.) ', '36');
+INSERT INTO `barangay` VALUES ('1010', 'Barangay II (Pob.) ', '36');
+INSERT INTO `barangay` VALUES ('1011', 'Barangay III (Pob.) ', '36');
+INSERT INTO `barangay` VALUES ('1012', 'Buenavista Gibong ', '36');
+INSERT INTO `barangay` VALUES ('1013', 'Buenavista Rizal ', '36');
+INSERT INTO `barangay` VALUES ('1014', 'Burgos ', '36');
+INSERT INTO `barangay` VALUES ('1015', 'Cambarus ', '36');
+INSERT INTO `barangay` VALUES ('1016', 'Canroma ', '36');
+INSERT INTO `barangay` VALUES ('1017', 'Don Salvador Benedicto ', '36');
+INSERT INTO `barangay` VALUES ('1018', 'General Malvar ', '36');
+INSERT INTO `barangay` VALUES ('1019', 'Gomez ', '36');
+INSERT INTO `barangay` VALUES ('1020', 'M. H. Del Pilar ', '36');
+INSERT INTO `barangay` VALUES ('1021', 'Mabini ', '36');
+INSERT INTO `barangay` VALUES ('1022', 'Miranda', '36');
+INSERT INTO `barangay` VALUES ('1023', 'Pandan ', '36');
+INSERT INTO `barangay` VALUES ('1024', 'Recreo ', '36');
+INSERT INTO `barangay` VALUES ('1025', 'San Isidro ', '36');
+INSERT INTO `barangay` VALUES ('1026', 'San Juan ', '36');
+INSERT INTO `barangay` VALUES ('1027', 'Zamora', '36');
+INSERT INTO `barangay` VALUES ('1028', 'Antipolo', '36');
+INSERT INTO `barangay` VALUES ('1029', 'Bagonawa ', '37');
+INSERT INTO `barangay` VALUES ('1030', 'Baliwagan', '37');
+INSERT INTO `barangay` VALUES ('1031', ' Batuan ', '37');
+INSERT INTO `barangay` VALUES ('1032', 'Guintorilan ', '37');
+INSERT INTO `barangay` VALUES ('1033', 'Nayon ', '37');
+INSERT INTO `barangay` VALUES ('1034', 'Poblacion ', '37');
+INSERT INTO `barangay` VALUES ('1035', 'Sibucao ', '37');
+INSERT INTO `barangay` VALUES ('1036', 'Tabao Baybay ', '37');
+INSERT INTO `barangay` VALUES ('1037', 'Tabao Rizal ', '37');
+INSERT INTO `barangay` VALUES ('1038', 'Tibsoc', '37');
+INSERT INTO `barangay` VALUES ('1039', 'Bandila ', '39');
+INSERT INTO `barangay` VALUES ('1040', 'Bug-ang ', '39');
+INSERT INTO `barangay` VALUES ('1041', 'General Luna ', '39');
+INSERT INTO `barangay` VALUES ('1042', 'Magticol ', '39');
+INSERT INTO `barangay` VALUES ('1043', 'Poblacion ', '39');
+INSERT INTO `barangay` VALUES ('1044', 'Salamanca ', '39');
+INSERT INTO `barangay` VALUES ('1045', 'San Isidro ', '39');
+INSERT INTO `barangay` VALUES ('1046', 'San Jose ', '39');
+INSERT INTO `barangay` VALUES ('1047', 'Tabun-ac', '39');
+INSERT INTO `barangay` VALUES ('1048', 'Alijis ', '40');
+INSERT INTO `barangay` VALUES ('1049', 'Ayungon ', '40');
+INSERT INTO `barangay` VALUES ('1050', 'Bagumbayan ', '40');
+INSERT INTO `barangay` VALUES ('1051', 'Batuan', '40');
+INSERT INTO `barangay` VALUES ('1052', 'Bayabas ', '40');
+INSERT INTO `barangay` VALUES ('1053', 'Central Tabao ', '40');
+INSERT INTO `barangay` VALUES ('1054', 'Doldol ', '40');
+INSERT INTO `barangay` VALUES ('1055', 'Guintorilan ', '40');
+INSERT INTO `barangay` VALUES ('1056', 'Lacaron ', '40');
+INSERT INTO `barangay` VALUES ('1057', 'Mabini ', '40');
+INSERT INTO `barangay` VALUES ('1058', 'Pacol ', '40');
+INSERT INTO `barangay` VALUES ('1059', 'Palaka ', '40');
+INSERT INTO `barangay` VALUES ('1060', 'Paloma ', '40');
+INSERT INTO `barangay` VALUES ('1061', 'Poblacion ', '40');
+INSERT INTO `barangay` VALUES ('1062', 'Sagua Banua ', '40');
+INSERT INTO `barangay` VALUES ('1063', 'Tabao Proper', '40');
 
 -- ----------------------------
 -- Table structure for borrower
@@ -172,17 +227,14 @@ CREATE TABLE `borrower` (
   KEY `status` (`status`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`),
-  CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`address_province_id`) REFERENCES `province` (`id`),
   CONSTRAINT `borrower_ibfk_5` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
-  CONSTRAINT `borrower_ibfk_6` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  CONSTRAINT `borrower_ibfk_6` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`),
+  CONSTRAINT `borrower_ibfk_7` FOREIGN KEY (`address_province_id`) REFERENCES `province` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('1', 'fileupload/Mary  Joy-Asis-Hinacay.jpg', 'Mary', 'Asiss', 'Hinacay', '', '2016-10-10', '23', 'Guindulman', '4', '6', '4', 'Centro 1', 'Married', '0999545122', '2016-08-16', '', '', '', '', 'Russel Dinoy', 'IT Programmer', '24', '2016-08-31', '1', 'A', '2', 'fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment0.jpg;fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment1.jpg;fileupload/2016-10-10-Asis-Mary  Joy-Hinacay-attachment2.jpg', 'B', '2016-08-26 13:31:18', '2016-08-31 14:06:12', 'Female', 'Norma W. Dinoy', '60', '2016-08-17', 'Olipio T. Dinoy', '56', '2016-08-16', '2');
-INSERT INTO `borrower` VALUES ('2', 'fileupload/Anna Mae-Casol-Lilyoso.jpg', 'Anna Mae', 'Casol', 'Lilyoso', '', '2016-08-17', '20', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 2', 'Single', '0999144456', '2016-08-17', '', '', '', '', '', '', null, null, '0', 'A', '1', null, 'B', '2016-08-30 13:18:50', '2016-08-31 14:57:49', 'Female', '', null, null, '', null, null, '2');
-INSERT INTO `borrower` VALUES ('3', 'fileupload/robert-ajoc-buro.jpg', 'Robert', 'Ajoc', 'Buro', '', '2016-08-18', '25', 'Villaflor, Carmen, Bohol', '3', '1', '1', 'Centro 1', 'Married', '095565521', '2016-08-09', '989865656', '54565651321', '4548653465', '4165431345', 'Ruth Lagria', 'Farmer', '54', '2016-08-23', '3', 'A', '3', 'fileupload/2016-08-18-ajoc-robert-buro-attachment0.jpg;fileupload/2016-08-18-ajoc-robert-buro-attachment1.jpg;fileupload/2016-08-18-ajoc-robert-buro-attachment2.jpg', 'B', '2016-08-31 14:43:16', '2016-08-31 14:44:29', 'Male', 'Marciano Ajoc', '60', '2016-08-31', 'Ligaya Ajoc', '56', '2016-08-24', '2');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -281,25 +333,20 @@ CREATE TABLE `business` (
   `ownership` varchar(255) NOT NULL,
   `borrower_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `address_province_id` (`address_province_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `business_type_id` (`business_type_id`),
   KEY `business_ibfk_5` (`borrower_id`),
-  CONSTRAINT `business_ibfk_1` FOREIGN KEY (`address_province_id`) REFERENCES `province` (`id`),
+  KEY `address_province_id` (`address_province_id`),
   CONSTRAINT `business_ibfk_2` FOREIGN KEY (`address_city_municipality_id`) REFERENCES `municipality_city` (`id`),
   CONSTRAINT `business_ibfk_3` FOREIGN KEY (`address_barangay_id`) REFERENCES `barangay` (`id`),
-  CONSTRAINT `business_ibfk_4` FOREIGN KEY (`business_type_id`) REFERENCES `business_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3285 DEFAULT CHARSET=latin1;
+  CONSTRAINT `business_ibfk_4` FOREIGN KEY (`business_type_id`) REFERENCES `business_type` (`id`),
+  CONSTRAINT `business_ibfk_5` FOREIGN KEY (`address_province_id`) REFERENCES `province` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3287 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of business
 -- ----------------------------
-INSERT INTO `business` VALUES ('1', 'DinzDev', '1', '3', '1', '1', 'Centro 1', '3', '999999', '10000', '20000', 'Owned', '1');
-INSERT INTO `business` VALUES ('3', 'Casol Sari-sari Store', '1', '3', '1', '1', 'Suba 2', '5', '98878454845', '10000', '10000', 'Owned', '2');
-INSERT INTO `business` VALUES ('7', 'Baldoza Store', '1', '4', '6', '5', 'Lakaw 1 ', '5', '898589', '10000', '30000', 'Rented', '3');
-INSERT INTO `business` VALUES ('50', 'IT FERM', '1', '3', '1', '1', 'Suba 2', '3', '698584545', '20000', '10000000', 'Owned', '1');
-INSERT INTO `business` VALUES ('3284', 'Tindahan Ni Opaw', '1', '3', '1', '1', 'Poblacion Sur.', '5', 'uyuyt646jg4hj', '10500', '11000', 'Rented', '3');
 
 -- ----------------------------
 -- Table structure for business_type
@@ -309,12 +356,49 @@ CREATE TABLE `business_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `business_description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of business_type
 -- ----------------------------
 INSERT INTO `business_type` VALUES ('1', 'Sari-sari Store');
+INSERT INTO `business_type` VALUES ('2', 'Appliance Repair');
+INSERT INTO `business_type` VALUES ('3', 'Auto /  Motor Parts');
+INSERT INTO `business_type` VALUES ('4', 'Auto / Motor Repair');
+INSERT INTO `business_type` VALUES ('5', 'Bakery');
+INSERT INTO `business_type` VALUES ('6', 'Barber Shop / Beauty Shop');
+INSERT INTO `business_type` VALUES ('7', 'Bicycle Store');
+INSERT INTO `business_type` VALUES ('8', 'Carenderia');
+INSERT INTO `business_type` VALUES ('9', 'Carenderia / Sari-sari Store');
+INSERT INTO `business_type` VALUES ('10', 'Cellphone Repair / Sales');
+INSERT INTO `business_type` VALUES ('11', 'Computer Repair / Sales');
+INSERT INTO `business_type` VALUES ('12', 'Dress Shop');
+INSERT INTO `business_type` VALUES ('13', 'Fish Vendor / Wholesaler');
+INSERT INTO `business_type` VALUES ('14', 'Flower Shop');
+INSERT INTO `business_type` VALUES ('15', 'Food Vending');
+INSERT INTO `business_type` VALUES ('16', 'Fruit Vendor / Wholesaler');
+INSERT INTO `business_type` VALUES ('17', 'Furniture Dealer');
+INSERT INTO `business_type` VALUES ('18', 'Gasoline Retailer');
+INSERT INTO `business_type` VALUES ('19', 'Ice Cream / Buko Vendor');
+INSERT INTO `business_type` VALUES ('20', 'Machine Shop');
+INSERT INTO `business_type` VALUES ('21', 'Meat Vendor');
+INSERT INTO `business_type` VALUES ('22', 'Frozen Food Supplier');
+INSERT INTO `business_type` VALUES ('23', 'Pharmacy');
+INSERT INTO `business_type` VALUES ('24', 'Softdrinks Distribution');
+INSERT INTO `business_type` VALUES ('25', 'Water Refilling Station');
+INSERT INTO `business_type` VALUES ('26', 'Rice Wholesaler');
+INSERT INTO `business_type` VALUES ('27', 'RTW / Ukay-ukay Vendor');
+INSERT INTO `business_type` VALUES ('28', 'Shells Craft Maker / Dealer');
+INSERT INTO `business_type` VALUES ('29', 'Shoe Maker / Repair');
+INSERT INTO `business_type` VALUES ('30', 'Vegetable Vendor');
+INSERT INTO `business_type` VALUES ('31', 'Videoke /  Video Games / Billiard');
+INSERT INTO `business_type` VALUES ('32', 'Vulcanizing Shop');
+INSERT INTO `business_type` VALUES ('33', 'Tailoring');
+INSERT INTO `business_type` VALUES ('34', 'Halo-halo / Sari-sari');
+INSERT INTO `business_type` VALUES ('35', 'Autoload / E-Load');
+INSERT INTO `business_type` VALUES ('36', 'Party Needs / Ballons');
+INSERT INTO `business_type` VALUES ('37', 'Agrivet Supply');
+INSERT INTO `business_type` VALUES ('38', 'Others');
 
 -- ----------------------------
 -- Table structure for canvasser
@@ -339,7 +423,7 @@ CREATE TABLE `canvasser` (
 -- ----------------------------
 -- Records of canvasser
 -- ----------------------------
-INSERT INTO `canvasser` VALUES ('1', 'Russel', 'Dinoy', 'Wahing', '25', '1991-09-15', 'Carmen, Bohol', '2', '2016-08-31 10:07:27', '2016-08-31 10:07:27');
+INSERT INTO `canvasser` VALUES ('1', 'Russel', 'Dinoy', 'Wahing', '25', '1991-09-15', 'Carmen, Bohol', '1', '2016-09-02 10:09:52', '2016-08-31 10:07:27');
 INSERT INTO `canvasser` VALUES ('2', 'Benson', 'Gabutan', 'Lala', '45', '2016-08-31', 'Villamanga', '2', '2016-08-31 10:36:14', '2016-08-31 10:36:14');
 
 -- ----------------------------
@@ -377,15 +461,65 @@ CREATE TABLE `dependent` (
   `birthdate` date DEFAULT NULL,
   `borrower_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of dependent
 -- ----------------------------
-INSERT INTO `dependent` VALUES ('1', 'Carl Dinoy', '8', '2016-08-24', '1');
-INSERT INTO `dependent` VALUES ('2', 'Mark Ajoc', '12', '2016-08-10', '3');
-INSERT INTO `dependent` VALUES ('3', 'Glea Ajoc', '14', '2016-08-17', '3');
-INSERT INTO `dependent` VALUES ('4', 'Grace Ajoc', '10', '2016-08-25', '3');
+INSERT INTO `dependent` VALUES ('1', 'Carl Dinoy', '0', '2016-08-24', '1');
+INSERT INTO `dependent` VALUES ('2', 'Mark Ajoc', '0', '2016-08-10', '3');
+INSERT INTO `dependent` VALUES ('3', 'Glea Ajoc', '0', '2016-08-17', '3');
+INSERT INTO `dependent` VALUES ('4', 'Grace Ajoc', '0', '2016-08-25', '3');
+INSERT INTO `dependent` VALUES ('5', 'Josh', '16', '2000-01-16', '5');
+INSERT INTO `dependent` VALUES ('6', '5454', '0', null, '4');
+INSERT INTO `dependent` VALUES ('7', 'Bata 1', '26', '1990-06-19', '6');
+INSERT INTO `dependent` VALUES ('8', 'Bata 2', '12', '2004-06-22', '6');
+INSERT INTO `dependent` VALUES ('9', 'Bata 3', '31', '1984-09-18', '6');
+
+-- ----------------------------
+-- Table structure for exceltest
+-- ----------------------------
+DROP TABLE IF EXISTS `exceltest`;
+CREATE TABLE `exceltest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `daily` float DEFAULT NULL,
+  `term` int(11) DEFAULT NULL,
+  `gross_amt` float DEFAULT NULL,
+  `interest` float DEFAULT NULL,
+  `vat` float DEFAULT NULL,
+  `notarial` float DEFAULT NULL,
+  `processing_fee` float DEFAULT NULL,
+  `total_deductions` float DEFAULT NULL,
+  `add_days` int(11) DEFAULT NULL,
+  `add_coll` float DEFAULT NULL,
+  `net_proceeds` float DEFAULT NULL,
+  `penalty` float DEFAULT NULL,
+  `pen_days` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of exceltest
+-- ----------------------------
+INSERT INTO `exceltest` VALUES ('1', '90', '52', '4230', '846', '122.67', '200', '315', '637.67', '3', '481.5', '3227.83', '15', '3');
+INSERT INTO `exceltest` VALUES ('2', '100', '52', '4700', '940', '136.3', '201', '325', '662.3', '4', '635', '3732.7', '15', '3');
+INSERT INTO `exceltest` VALUES ('3', '110', '52', '5170', '1034', '149.93', '202', '335', '686.93', '5', '808.5', '4257.57', '15', '3');
+INSERT INTO `exceltest` VALUES ('4', '120', '52', '5640', '1128', '163.56', '203', '345', '711.56', '6', '1002', '4802.44', '15', '3');
+INSERT INTO `exceltest` VALUES ('5', '130', '52', '6110', '1222', '177.19', '204', '355', '736.19', '7', '1215.5', '5367.31', '15', '3');
+INSERT INTO `exceltest` VALUES ('6', '140', '52', '6580', '1316', '190.82', '205', '365', '760.82', '8', '1449', '5952.18', '15', '3');
+INSERT INTO `exceltest` VALUES ('7', '150', '51', '7050', '1410', '204.45', '206', '375', '785.45', '9', '1702.5', '6557.05', '15', '3');
+INSERT INTO `exceltest` VALUES ('8', '160', '51', '7520', '1504', '218.08', '207', '385', '810.08', '10', '1976', '7181.92', '15', '3');
+INSERT INTO `exceltest` VALUES ('9', '170', '51', '7990', '1598', '231.71', '208', '395', '834.71', '11', '2269.5', '7826.79', '15', '3');
+INSERT INTO `exceltest` VALUES ('10', '180', '51', '8460', '1692', '245.34', '209', '405', '859.34', '12', '2583', '8491.66', '15', '3');
+INSERT INTO `exceltest` VALUES ('11', '190', '51', '8930', '1786', '258.97', '210', '415', '883.97', '13', '2916.5', '9176.53', '15', '3');
+INSERT INTO `exceltest` VALUES ('12', '200', '51', '9400', '1880', '272.6', '211', '425', '908.6', '14', '3270', '9881.4', '15', '3');
+INSERT INTO `exceltest` VALUES ('13', '220', '51', '10340', '2068', '299.86', '212', '445', '956.86', '15', '3817', '11132.1', '15', '3');
+INSERT INTO `exceltest` VALUES ('14', '250', '51', '11750', '2350', '340.75', '213', '475', '1028.75', '16', '4587.5', '12958.8', '15', '3');
+INSERT INTO `exceltest` VALUES ('15', '270', '51', '12690', '2538', '368.01', '214', '495', '1077.01', '17', '5224.5', '14299.5', '15', '3');
+INSERT INTO `exceltest` VALUES ('16', '280', '51', '13160', '2632', '381.64', '215', '505', '1101.64', '18', '5698', '15124.4', '15', '3');
+INSERT INTO `exceltest` VALUES ('17', '300', '51', '14100', '2820', '408.9', '216', '525', '1149.9', '19', '6405', '16535.1', '15', '3');
+INSERT INTO `exceltest` VALUES ('18', '350', '50', '16450', '3290', '477.05', '217', '575', '1269.05', '20', '7822.5', '19713.4', '15', '3');
+INSERT INTO `exceltest` VALUES ('19', '400', '50', '18800', '3760', '545.2', '218', '625', '1388.2', '21', '9340', '22991.8', '15', '3');
 
 -- ----------------------------
 -- Table structure for jumpdate
@@ -529,7 +663,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -629,6 +763,54 @@ INSERT INTO `log` VALUES ('92', 'logout', 'user logout: russel', '2016-08-31 15:
 INSERT INTO `log` VALUES ('93', 'login', 'user login: benson', '2016-08-31 15:36:32', '20', '1');
 INSERT INTO `log` VALUES ('94', 'logout', 'user logout: benson', '2016-08-31 15:36:53', '20', '1');
 INSERT INTO `log` VALUES ('95', 'login', 'user login: russel', '2016-08-31 15:37:01', '10', '9');
+INSERT INTO `log` VALUES ('96', 'login', 'user login: russel', '2016-09-01 08:45:08', '10', '9');
+INSERT INTO `log` VALUES ('97', 'logout', 'user logout: russel', '2016-09-01 09:04:19', '10', '9');
+INSERT INTO `log` VALUES ('98', 'login', 'user login: joseph', '2016-09-01 09:04:30', '19', '2');
+INSERT INTO `log` VALUES ('99', 'logout', 'user logout: joseph', '2016-09-01 13:43:56', '19', '2');
+INSERT INTO `log` VALUES ('100', 'login', 'user login: russel', '2016-09-01 13:44:09', '10', '9');
+INSERT INTO `log` VALUES ('101', 'update', 'borrower updated: 1', '2016-09-01 14:11:42', '10', '9');
+INSERT INTO `log` VALUES ('102', 'update', 'borrower updated: 1', '2016-09-02 08:38:18', '10', '9');
+INSERT INTO `log` VALUES ('103', 'update', 'borrower updated: 3', '2016-09-02 09:03:08', '10', '9');
+INSERT INTO `log` VALUES ('104', 'update', 'borrower updated: 1', '2016-09-02 09:56:14', '10', '9');
+INSERT INTO `log` VALUES ('105', 'update', 'borrower updated: 1', '2016-09-02 09:57:41', '10', '9');
+INSERT INTO `log` VALUES ('106', 'login', 'user login: joseph', '2016-09-02 10:04:07', '19', '2');
+INSERT INTO `log` VALUES ('107', 'login', 'user login: benson', '2016-09-02 10:06:58', '20', '1');
+INSERT INTO `log` VALUES ('108', 'create', 'borrower created: 4', '2016-09-02 10:14:23', '20', '1');
+INSERT INTO `log` VALUES ('109', 'logout', 'user logout: benson', '2016-09-02 10:20:08', '20', '1');
+INSERT INTO `log` VALUES ('110', 'create', 'borrower created: 5', '2016-09-02 10:28:43', '19', '2');
+INSERT INTO `log` VALUES ('111', 'update', 'user update user benson', '2016-09-02 10:50:55', '10', '9');
+INSERT INTO `log` VALUES ('112', 'logout', 'user logout: russel', '2016-09-02 10:51:01', '10', '9');
+INSERT INTO `log` VALUES ('113', 'login', 'user login: benson', '2016-09-02 10:51:10', '20', '9');
+INSERT INTO `log` VALUES ('114', 'logout', 'user logout: benson', '2016-09-02 11:02:57', '20', '9');
+INSERT INTO `log` VALUES ('115', 'login', 'user login: russel', '2016-09-02 11:03:06', '10', '9');
+INSERT INTO `log` VALUES ('116', 'login', 'user login: russel', '2016-09-02 14:24:36', '10', '9');
+INSERT INTO `log` VALUES ('117', 'logout', 'user logout: russel', '2016-09-02 14:51:24', '10', '9');
+INSERT INTO `log` VALUES ('118', 'logout', 'user logout: russel', '2016-09-03 12:10:11', '10', '9');
+INSERT INTO `log` VALUES ('119', 'login', 'user login: benson', '2016-09-03 12:10:33', '20', '9');
+INSERT INTO `log` VALUES ('120', 'logout', 'user logout: benson', '2016-09-03 13:17:47', '20', '9');
+INSERT INTO `log` VALUES ('121', 'login', 'user login: russel', '2016-09-03 13:17:59', '10', '9');
+INSERT INTO `log` VALUES ('122', 'login', 'user login: russel', '2016-09-05 10:00:27', '10', '9');
+INSERT INTO `log` VALUES ('123', 'login', 'user login: russel', '2016-09-06 10:06:08', '10', '9');
+INSERT INTO `log` VALUES ('124', 'update', 'borrower updated: 1', '2016-09-06 10:21:11', '10', '9');
+INSERT INTO `log` VALUES ('125', 'login', 'user login: russel', '2016-09-06 11:09:31', '10', '9');
+INSERT INTO `log` VALUES ('126', 'logout', 'user logout: russel', '2016-09-09 13:41:18', '10', '9');
+INSERT INTO `log` VALUES ('127', 'login', 'user login: russel', '2016-09-09 13:41:30', '10', '9');
+INSERT INTO `log` VALUES ('128', 'login', 'user login: russel', '2016-09-10 13:02:20', '10', '9');
+INSERT INTO `log` VALUES ('129', 'login', 'user login: russel', '2016-09-10 14:19:43', '10', '9');
+INSERT INTO `log` VALUES ('130', 'update', 'borrower updated: 2', '2016-09-10 14:25:43', '10', '9');
+INSERT INTO `log` VALUES ('131', 'update', 'borrower updated: 2', '2016-09-10 14:26:25', '10', '9');
+INSERT INTO `log` VALUES ('132', 'update', 'borrower updated: 2', '2016-09-10 14:27:06', '10', '9');
+INSERT INTO `log` VALUES ('133', 'update', 'borrower updated: 2', '2016-09-10 14:27:45', '10', '9');
+INSERT INTO `log` VALUES ('134', 'update', 'borrower updated: 2', '2016-09-10 14:30:05', '10', '9');
+INSERT INTO `log` VALUES ('135', 'update', 'borrower updated: 2', '2016-09-10 14:30:37', '10', '9');
+INSERT INTO `log` VALUES ('136', 'update', 'borrower updated: 2', '2016-09-10 14:32:42', '10', '9');
+INSERT INTO `log` VALUES ('137', 'update', 'borrower updated: 3', '2016-09-10 15:32:44', '10', '9');
+INSERT INTO `log` VALUES ('138', 'update', 'borrower updated: 3', '2016-09-10 15:33:58', '10', '9');
+INSERT INTO `log` VALUES ('139', 'update', 'borrower updated: 3', '2016-09-10 15:41:15', '10', '9');
+INSERT INTO `log` VALUES ('140', 'update', 'borrower updated: 3', '2016-09-10 16:05:07', '10', '9');
+INSERT INTO `log` VALUES ('141', 'create', 'borrower created: 4', '2016-09-10 17:02:31', '10', '9');
+INSERT INTO `log` VALUES ('142', 'create', 'borrower created: 5', '2016-09-10 17:03:00', '10', '9');
+INSERT INTO `log` VALUES ('143', 'create', 'borrower created: 6', '2016-09-10 17:03:35', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration
@@ -686,19 +868,157 @@ CREATE TABLE `municipality_city` (
   PRIMARY KEY (`id`),
   KEY `province_id` (`province_id`),
   CONSTRAINT `municipality_city_ibfk_1` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of municipality_city
 -- ----------------------------
-INSERT INTO `municipality_city` VALUES ('1', 'Carmen', '3');
-INSERT INTO `municipality_city` VALUES ('2', 'Loay', '3');
-INSERT INTO `municipality_city` VALUES ('3', 'Pilar', '3');
-INSERT INTO `municipality_city` VALUES ('4', 'Sagbayan', '3');
-INSERT INTO `municipality_city` VALUES ('5', 'Batuan', '3');
 INSERT INTO `municipality_city` VALUES ('6', 'Cebu City', '4');
 INSERT INTO `municipality_city` VALUES ('7', 'Mandaue City', '4');
 INSERT INTO `municipality_city` VALUES ('8', 'Talisay City', '4');
+INSERT INTO `municipality_city` VALUES ('9', 'Bacolod City', '5');
+INSERT INTO `municipality_city` VALUES ('10', 'Bago City', '5');
+INSERT INTO `municipality_city` VALUES ('11', 'Cadiz City', '5');
+INSERT INTO `municipality_city` VALUES ('12', 'Escalante City', '5');
+INSERT INTO `municipality_city` VALUES ('13', 'Kabankalan City', '5');
+INSERT INTO `municipality_city` VALUES ('14', 'La Carlota City', '5');
+INSERT INTO `municipality_city` VALUES ('15', 'Sagay City', '5');
+INSERT INTO `municipality_city` VALUES ('16', 'San Carlos City', '5');
+INSERT INTO `municipality_city` VALUES ('17', 'Silay City', '5');
+INSERT INTO `municipality_city` VALUES ('18', 'Sipalay City', '5');
+INSERT INTO `municipality_city` VALUES ('19', 'Victorias City', '5');
+INSERT INTO `municipality_city` VALUES ('20', 'Binalbagan', '5');
+INSERT INTO `municipality_city` VALUES ('21', 'Calatrava', '5');
+INSERT INTO `municipality_city` VALUES ('22', 'Candoni', '5');
+INSERT INTO `municipality_city` VALUES ('23', 'Cauayan', '5');
+INSERT INTO `municipality_city` VALUES ('24', 'Enrique Magalona', '5');
+INSERT INTO `municipality_city` VALUES ('25', 'Himamaylan City', '5');
+INSERT INTO `municipality_city` VALUES ('26', 'Hinigaran', '5');
+INSERT INTO `municipality_city` VALUES ('27', 'Hinoban', '5');
+INSERT INTO `municipality_city` VALUES ('28', 'Ilog', '5');
+INSERT INTO `municipality_city` VALUES ('29', 'Isabela', '5');
+INSERT INTO `municipality_city` VALUES ('30', 'La Castellana', '5');
+INSERT INTO `municipality_city` VALUES ('31', 'Manapla', '5');
+INSERT INTO `municipality_city` VALUES ('32', 'Moises Padilla', '5');
+INSERT INTO `municipality_city` VALUES ('33', 'Murcia', '5');
+INSERT INTO `municipality_city` VALUES ('34', 'Paraiso (Fabrica)', '5');
+INSERT INTO `municipality_city` VALUES ('35', 'Pulupandan', '5');
+INSERT INTO `municipality_city` VALUES ('36', 'Pontevedra', '5');
+INSERT INTO `municipality_city` VALUES ('37', 'San Enrique', '5');
+INSERT INTO `municipality_city` VALUES ('38', 'Silay Hawaiian Central', '5');
+INSERT INTO `municipality_city` VALUES ('39', 'Toboso', '5');
+INSERT INTO `municipality_city` VALUES ('40', 'Valladolid', '5');
+INSERT INTO `municipality_city` VALUES ('41', 'Iloilo City', '6');
+INSERT INTO `municipality_city` VALUES ('42', 'Passi City', '6');
+INSERT INTO `municipality_city` VALUES ('43', 'Ajuy', '6');
+INSERT INTO `municipality_city` VALUES ('44', 'Alimodian', '6');
+INSERT INTO `municipality_city` VALUES ('45', 'Anilao', '6');
+INSERT INTO `municipality_city` VALUES ('46', 'Badiangan ', '6');
+INSERT INTO `municipality_city` VALUES ('47', 'Balasan', '6');
+INSERT INTO `municipality_city` VALUES ('48', 'Banate', '6');
+INSERT INTO `municipality_city` VALUES ('49', 'Barotac Nuevo', '6');
+INSERT INTO `municipality_city` VALUES ('50', 'Barotac Viejo', '6');
+INSERT INTO `municipality_city` VALUES ('51', 'Batad', '6');
+INSERT INTO `municipality_city` VALUES ('52', 'Bingawan', '6');
+INSERT INTO `municipality_city` VALUES ('53', 'Cabatuan', '6');
+INSERT INTO `municipality_city` VALUES ('54', 'Calinog', '6');
+INSERT INTO `municipality_city` VALUES ('55', 'Carles', '6');
+INSERT INTO `municipality_city` VALUES ('56', 'Concepcion', '6');
+INSERT INTO `municipality_city` VALUES ('57', 'Dingle', '6');
+INSERT INTO `municipality_city` VALUES ('58', 'Dueñas', '6');
+INSERT INTO `municipality_city` VALUES ('59', 'Dumangas', '6');
+INSERT INTO `municipality_city` VALUES ('60', 'Estancia', '6');
+INSERT INTO `municipality_city` VALUES ('61', 'Guimbal', '6');
+INSERT INTO `municipality_city` VALUES ('62', 'Igbaras', '6');
+INSERT INTO `municipality_city` VALUES ('63', 'Janiuay', '6');
+INSERT INTO `municipality_city` VALUES ('64', 'Lambunao ', '6');
+INSERT INTO `municipality_city` VALUES ('65', 'Leganes ', '6');
+INSERT INTO `municipality_city` VALUES ('66', 'Lemery', '6');
+INSERT INTO `municipality_city` VALUES ('67', ' Leon', '6');
+INSERT INTO `municipality_city` VALUES ('68', 'Maasin ', '6');
+INSERT INTO `municipality_city` VALUES ('69', 'Miagao ', '6');
+INSERT INTO `municipality_city` VALUES ('70', 'Mina ', '6');
+INSERT INTO `municipality_city` VALUES ('71', 'New Lucena ', '6');
+INSERT INTO `municipality_city` VALUES ('72', 'Oton', '6');
+INSERT INTO `municipality_city` VALUES ('73', ' Pavia ', '6');
+INSERT INTO `municipality_city` VALUES ('74', 'Pototan ', '6');
+INSERT INTO `municipality_city` VALUES ('75', 'San Dionisio', '6');
+INSERT INTO `municipality_city` VALUES ('76', ' San Enrique', '6');
+INSERT INTO `municipality_city` VALUES ('77', ' San Joaquin', '6');
+INSERT INTO `municipality_city` VALUES ('78', ' San Miguel ', '6');
+INSERT INTO `municipality_city` VALUES ('79', 'San Rafael ', '6');
+INSERT INTO `municipality_city` VALUES ('80', 'Santa Barbara', '6');
+INSERT INTO `municipality_city` VALUES ('81', ' Sara ', '6');
+INSERT INTO `municipality_city` VALUES ('82', 'Tigbauan ', '6');
+INSERT INTO `municipality_city` VALUES ('83', 'Tubungan', '6');
+INSERT INTO `municipality_city` VALUES ('84', ' Zarraga', '6');
+INSERT INTO `municipality_city` VALUES ('85', ' Altavas', '7');
+INSERT INTO `municipality_city` VALUES ('86', ' Balete ', '7');
+INSERT INTO `municipality_city` VALUES ('87', 'Banga ', '7');
+INSERT INTO `municipality_city` VALUES ('88', 'Batan ', '7');
+INSERT INTO `municipality_city` VALUES ('89', 'Buruanga', '7');
+INSERT INTO `municipality_city` VALUES ('90', ' Ibajay ', '7');
+INSERT INTO `municipality_city` VALUES ('91', 'Kalibo', '7');
+INSERT INTO `municipality_city` VALUES ('92', ' Lezo ', '7');
+INSERT INTO `municipality_city` VALUES ('93', 'Libacao ', '7');
+INSERT INTO `municipality_city` VALUES ('94', 'Madalag ', '7');
+INSERT INTO `municipality_city` VALUES ('95', 'Makato ', '7');
+INSERT INTO `municipality_city` VALUES ('96', 'Malay', '7');
+INSERT INTO `municipality_city` VALUES ('97', ' Malinao ', '7');
+INSERT INTO `municipality_city` VALUES ('98', 'Nabas', '7');
+INSERT INTO `municipality_city` VALUES ('99', ' New Washington ', '7');
+INSERT INTO `municipality_city` VALUES ('100', 'Numancia', '7');
+INSERT INTO `municipality_city` VALUES ('101', ' Tangalan', '7');
+INSERT INTO `municipality_city` VALUES ('102', 'Alcantara', '4');
+INSERT INTO `municipality_city` VALUES ('103', 'Alcoy', '4');
+INSERT INTO `municipality_city` VALUES ('104', 'Aloguinsan', '4');
+INSERT INTO `municipality_city` VALUES ('105', 'Argao', '4');
+INSERT INTO `municipality_city` VALUES ('106', 'Asturias', '4');
+INSERT INTO `municipality_city` VALUES ('107', 'Badian', '4');
+INSERT INTO `municipality_city` VALUES ('108', 'Balamban', '4');
+INSERT INTO `municipality_city` VALUES ('109', 'Bantayan', '4');
+INSERT INTO `municipality_city` VALUES ('110', 'Barili', '4');
+INSERT INTO `municipality_city` VALUES ('111', 'Boljoon', '4');
+INSERT INTO `municipality_city` VALUES ('112', 'Borbon', '4');
+INSERT INTO `municipality_city` VALUES ('113', 'Carmen', '4');
+INSERT INTO `municipality_city` VALUES ('114', 'Catmon', '4');
+INSERT INTO `municipality_city` VALUES ('115', 'Template', '4');
+INSERT INTO `municipality_city` VALUES ('116', 'Compostela', '4');
+INSERT INTO `municipality_city` VALUES ('117', 'Consolacion', '4');
+INSERT INTO `municipality_city` VALUES ('118', 'Cordova', '4');
+INSERT INTO `municipality_city` VALUES ('119', 'Daanbantayan', '4');
+INSERT INTO `municipality_city` VALUES ('120', 'Dalaguete', '4');
+INSERT INTO `municipality_city` VALUES ('121', 'Dumanjug', '4');
+INSERT INTO `municipality_city` VALUES ('122', 'Ginatilan', '4');
+INSERT INTO `municipality_city` VALUES ('123', 'Liloan', '4');
+INSERT INTO `municipality_city` VALUES ('124', 'Madridejos', '4');
+INSERT INTO `municipality_city` VALUES ('125', 'Malabuyoc', '4');
+INSERT INTO `municipality_city` VALUES ('126', 'Medellin', '4');
+INSERT INTO `municipality_city` VALUES ('127', 'Minglanilla', '4');
+INSERT INTO `municipality_city` VALUES ('128', 'Moalboal', '4');
+INSERT INTO `municipality_city` VALUES ('129', 'Oslob', '4');
+INSERT INTO `municipality_city` VALUES ('130', 'Pilar', '4');
+INSERT INTO `municipality_city` VALUES ('131', 'Pinamungajan', '4');
+INSERT INTO `municipality_city` VALUES ('132', 'Poro', '4');
+INSERT INTO `municipality_city` VALUES ('133', 'Ronda', '4');
+INSERT INTO `municipality_city` VALUES ('134', 'Samboan', '4');
+INSERT INTO `municipality_city` VALUES ('135', 'San Fernando', '4');
+INSERT INTO `municipality_city` VALUES ('136', 'San Francisco', '4');
+INSERT INTO `municipality_city` VALUES ('137', 'San Remigio', '4');
+INSERT INTO `municipality_city` VALUES ('138', 'Santa Fe', '4');
+INSERT INTO `municipality_city` VALUES ('139', 'Santander', '4');
+INSERT INTO `municipality_city` VALUES ('140', 'Sibonga', '4');
+INSERT INTO `municipality_city` VALUES ('141', 'Sogod', '4');
+INSERT INTO `municipality_city` VALUES ('142', 'Tabogon', '4');
+INSERT INTO `municipality_city` VALUES ('143', 'Tabuelan', '4');
+INSERT INTO `municipality_city` VALUES ('144', 'Tuburan', '4');
+INSERT INTO `municipality_city` VALUES ('145', 'Tudela', '4');
+INSERT INTO `municipality_city` VALUES ('146', 'Catmon', '4');
+INSERT INTO `municipality_city` VALUES ('147', 'Lapu-Lapu', '4');
+INSERT INTO `municipality_city` VALUES ('148', 'Naga City', '4');
+INSERT INTO `municipality_city` VALUES ('150', 'Toledo', '4');
+INSERT INTO `municipality_city` VALUES ('152', 'Carcar City', '4');
+INSERT INTO `municipality_city` VALUES ('153', 'Danao City', '4');
 
 -- ----------------------------
 -- Table structure for payment
@@ -727,13 +1047,15 @@ CREATE TABLE `province` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `province` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of province
 -- ----------------------------
-INSERT INTO `province` VALUES ('3', 'Bohol');
 INSERT INTO `province` VALUES ('4', 'Cebu');
+INSERT INTO `province` VALUES ('5', 'Negros Occidental');
+INSERT INTO `province` VALUES ('6', 'Iloilo');
+INSERT INTO `province` VALUES ('7', 'Aklan ');
 
 -- ----------------------------
 -- Table structure for status
@@ -848,5 +1170,5 @@ CREATE TABLE `user` (
 INSERT INTO `user` VALUES ('10', 'russel', 'mqNUgibbYOLDjA5iyWV1BTb-p2K4exo4', '$2y$13$EeRlMjA1q3Ypd5uVUqiq/eFhAbFne3t3gM5FKHyQEqrHVXmU9.tYK', null, 'dinoyrussel@gmail.com', '10', '1469146040', '2147483647', '9', 'Russel', 'Dinoy', 'Wahing', '1991-09-15', '24', 'Single', 'Male', 'Villaflor, Carmen, Bohol', '', '', '', '09101737965', 'fileupload/Dinoy-Russel-Wahing-1991-09-15-photo.jpg', 'russel12345');
 INSERT INTO `user` VALUES ('14', 'jing', 'S6ho-6mlzqAinnEbrEl-IUpPvitouxAs', '$2y$13$QPkWtz.QIqwp9fNKMgwhPeyQNkjwAwoV5fhTt5dt1I7r6Zv6gQvQK', null, 'jing@gmail.com', '10', '1469586014', '2147483647', '2', 'Jingjing', 'Ahmmm', 'Hayyy', '0000-00-00', '25', 'Married', 'Female', 'Cebu City', '', '', '', '0956455528', 'fileupload/Ahmmm-Jingjing-Hayyy-0000-00-00-photo.jpg', 'jing12345');
 INSERT INTO `user` VALUES ('19', 'joseph', 'Z2Xa7HjImN5hSgkW0miuGZHqjNDNkTiH', '$2y$13$YcSTNoQ.RqYOkLadjeXYnu82m/taDcPEi357Qq8HhJAdfzNgqwpwu', null, 'josephbaldoza@gmail.com', '10', '2147483647', '2147483647', '2', 'Joseph', 'Baldoza', 'Gonzales', '2016-08-09', '35', 'Married', 'Male', 'Apas, Cebu city', '', '', '', '099945854', 'fileupload/Baldoza-Joseph-Gonzales-2016-08-09-photo.jpg', 'joseph12345');
-INSERT INTO `user` VALUES ('20', 'benson', 'M8efQNwMU-fhFbxkkC__BrSr1fmRD-vi', '$2y$13$yuo0QEXQ2G9XR.lEGwkJee5VXfr.um1.Uc3xwBq1xiRwQzjvqNPOm', null, 'benson@gmail.com', '10', '2147483647', '2147483647', '1', 'Robinson', 'Gabutan', 'Wills', '2016-08-23', '30', 'Married', 'Male', 'Guadalupe, Cebu city', '', '', '', '0000000000', 'fileupload/Gabutan-Robinson-Wills-2016-08-23-photo.jpg', 'benson12345');
+INSERT INTO `user` VALUES ('20', 'benson', 'okXq3CyxsI3tehq8_0pNIvCEGEIslMvu', '$2y$13$Rpy4XaDJt635P1LGEbczFu0g8qyV0bLZFGBkUNKYY7g2bXxHXMvGS', null, 'benson@gmail.com', '10', '2147483647', '2147483647', '9', 'Robinson', 'Gabutan', 'Wills', '2016-08-23', '30', 'Married', 'Male', 'Guadalupe, Cebu city', '', '', '', '0000000000', 'fileupload/Gabutan-Robinson-Wills-2016-08-23-photo.jpg', 'benson12345');
 INSERT INTO `user` VALUES ('21', 'nerissa', 'DPQ4HWRtwxZB-g7pmznblNg88xoArEnB', '$2y$13$ORmDlHIxn3oBLWYeDgxhdOnspkliNvFwow5QzfmjsQE6.PEqZUk7S', null, 'nerissa@gmail.com', '10', '2147483647', '2147483647', '9', 'Nerissa', 'Sayson', 'Hmmm', '2016-08-31', '25', 'Single', 'Female', 'Mambaling Cebu City', '345634563', '3413453', '345345354', '099451224', 'fileupload/Sayson-Nerissa-Hmmm-2016-08-31-photo.jpg', 'nerissa12345');
