@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="row">
                 <div class="col-sm-9">
-                    <h2><?= 'Municipality City' . ' ' . Html::encode($this->title) ?></h2>
                 </div>
                 <div class="col-sm-3" style="margin-top: 15px">
 
@@ -33,10 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                 </div>
             </div>
+            <br>
 
             <?php
             $gridColumn = [
-                ['attribute' => 'id', 'hidden' => true],
+                ['attribute' => 'id', 'visible' => false],
                 'municipality_city',
                 [
                     'attribute' => 'province.province',
@@ -49,10 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);
             ?>
 
+
             <?php
             if ($providerBarangay->totalCount) {
                 $gridColumnBarangay = [
                     ['class' => 'yii\grid\SerialColumn'],
+                    ['attribute' => 'id', 'visible' => false],
                     'barangay',
                 ];
                 echo Gridview::widget([
@@ -63,70 +65,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'type' => GridView::TYPE_PRIMARY,
                         'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode('Barangay'),
                     ],
+                    'export' => false,
                     'columns' => $gridColumnBarangay
                 ]);
             }
             ?>
-
-
-
-            <?php
-            if ($providerBorrower->totalCount) {
-                $gridColumnBorrower = [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'profile_pic',
-                    'first_name',
-                    'last_name',
-                    'middle_name',
-                    'suffix',
-                    'birthdate',
-                    'age',
-                    'birthplace',
-                    [
-                        'attribute' => 'addressProvince.province',
-                        'label' => 'Address Province'
-                    ],
-                    [
-                        'attribute' => 'addressBarangay.barangay',
-                        'label' => 'Address Barangay'
-                    ],
-                    'address_street_house_no',
-                    'civil_status',
-                    'contact_no',
-                    'ci_date',
-                    'canvass_date',
-                    'tin_no',
-                    'sss_no',
-                    'ctc_no',
-                    'license_no',
-                    'spouse_name',
-                    'spouse_occupation',
-                    'spouse_age',
-                    'spouse_birthdate',
-                    'no_dependent',
-                    'collaterals:ntext',
-                    [
-                        'attribute' => 'status0.status',
-                        'label' => 'Status'
-                    ],
-                    'branch_id',
-                    'attachment:ntext',
-                    'relation_to_applicant',
-                    'acount_type',
-                ];
-                echo Gridview::widget([
-                    'dataProvider' => $providerBorrower,
-                    'pjax' => true,
-                    'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-borrower']],
-                    'panel' => [
-                        'type' => GridView::TYPE_PRIMARY,
-                        'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode('Borrower'),
-                    ],
-                    'columns' => $gridColumnBorrower
-                ]);
-            }
-            ?>
-
         </div>
     </div>
 </div>

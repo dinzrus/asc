@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property string $province
  *
- * @property \app\models\Borrower[] $borrowers
  * @property \app\models\MunicipalityCity[] $municipalityCities
  */
 class Province extends \yii\db\ActiveRecord
@@ -23,6 +22,7 @@ class Province extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['province'], 'required'],
             [['province'], 'string', 'max' => 255]
         ];
     }
@@ -46,14 +46,6 @@ class Province extends \yii\db\ActiveRecord
         ];
     }
     
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBorrowers()
-    {
-        return $this->hasMany(\app\models\Borrower::className(), ['address_province_id' => 'id']);
-    }
-        
     /**
      * @return \yii\db\ActiveQuery
      */

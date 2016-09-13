@@ -28,7 +28,7 @@ class BarangayController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'add-borrower', 'add-business'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['@']
                     ],
                     [
@@ -62,16 +62,8 @@ class BarangayController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $providerBorrower = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->borrowers,
-        ]);
-        $providerBusiness = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->businesses,
-        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'providerBorrower' => $providerBorrower,
-            'providerBusiness' => $providerBusiness,
         ]);
     }
 
@@ -137,46 +129,6 @@ class BarangayController extends Controller
     {
         if (($model = Barangay::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-    
-    /**
-    * Action to load a tabular form grid
-    * for Borrower
-    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
-    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
-    *
-    * @return mixed
-    */
-    public function actionAddBorrower()
-    {
-        if (Yii::$app->request->isAjax) {
-            $row = Yii::$app->request->post('Borrower');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
-                $row[] = [];
-            return $this->renderAjax('_formBorrower', ['row' => $row]);
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-    
-    /**
-    * Action to load a tabular form grid
-    * for Business
-    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
-    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
-    *
-    * @return mixed
-    */
-    public function actionAddBusiness()
-    {
-        if (Yii::$app->request->isAjax) {
-            $row = Yii::$app->request->post('Business');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
-                $row[] = [];
-            return $this->renderAjax('_formBusiness', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

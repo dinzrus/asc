@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use \app\models\base\Province as BaseProvince;
 
 /**
@@ -17,6 +16,7 @@ class Province extends BaseProvince
     {
         return array_replace_recursive(parent::rules(),
 	    [
+            [['province'], 'required'],
             [['province'], 'string', 'max' => 255]
         ]);
     }

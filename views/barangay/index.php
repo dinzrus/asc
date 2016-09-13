@@ -17,7 +17,7 @@ $search = "$('.search-button').click(function(){
 $this->registerJs($search);
 ?>
 <div class="barangay-index">
-
+    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>

@@ -23,6 +23,19 @@ class ProvinceController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'add-municipality-city'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 
@@ -49,15 +62,11 @@ class ProvinceController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $providerBorrower = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->borrowers,
-        ]);
         $providerMunicipalityCity = new \yii\data\ArrayDataProvider([
             'allModels' => $model->municipalityCities,
         ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'providerBorrower' => $providerBorrower,
             'providerMunicipalityCity' => $providerMunicipalityCity,
         ]);
     }
@@ -124,26 +133,6 @@ class ProvinceController extends Controller
     {
         if (($model = Province::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-    
-    /**
-    * Action to load a tabular form grid
-    * for Borrower
-    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
-    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
-    *
-    * @return mixed
-    */
-    public function actionAddBorrower()
-    {
-        if (Yii::$app->request->isAjax) {
-            $row = Yii::$app->request->post('Borrower');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
-                $row[] = [];
-            return $this->renderAjax('_formBorrower', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

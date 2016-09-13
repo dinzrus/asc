@@ -30,7 +30,7 @@ $this->registerJs($search);
     <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
-        ['attribute' => 'id', 'hidden' => true],
+        ['attribute' => 'id', 'visible' => false],
         'municipality_city',
         [
                 'attribute' => 'province_id',

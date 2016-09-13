@@ -59,22 +59,6 @@ class Barangay extends \yii\db\ActiveRecord
         return $this->hasOne(\app\models\MunicipalityCity::className(), ['id' => 'municipality_city_id']);
     }
         
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBorrowers()
-    {
-        return $this->hasMany(\app\models\Borrower::className(), ['address_barangay_id' => 'id']);
-    }
-        
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBusinesses()
-    {
-        return $this->hasMany(\app\models\Business::className(), ['address_barangay_id' => 'id']);
-    }
-
 
     /**
      * @inheritdoc

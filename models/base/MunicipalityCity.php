@@ -12,7 +12,6 @@ use Yii;
  * @property integer $province_id
  *
  * @property \app\models\Barangay[] $barangays
- * @property \app\models\Borrower[] $borrowers
  * @property \app\models\Province $province
  */
 class MunicipalityCity extends \yii\db\ActiveRecord
@@ -46,7 +45,7 @@ class MunicipalityCity extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'municipality_city' => 'City/Municipality',
+            'municipality_city' => 'Municipality City',
             'province_id' => 'Province ID',
         ];
     }
@@ -57,14 +56,6 @@ class MunicipalityCity extends \yii\db\ActiveRecord
     public function getBarangays()
     {
         return $this->hasMany(\app\models\Barangay::className(), ['municipality_city_id' => 'id']);
-    }
-        
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBorrowers()
-    {
-        return $this->hasMany(\app\models\Borrower::className(), ['address_city_municipality_id' => 'id']);
     }
         
     /**

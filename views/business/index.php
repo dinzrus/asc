@@ -18,7 +18,6 @@ $this->registerJs($search);
 ?>
 <div class="business-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -37,10 +36,10 @@ $this->registerJs($search);
                 'attribute' => 'business_type_id',
                 'label' => 'Business Type',
                 'value' => function($model){
-                    return $model->businessType->id;
+                    return $model->businessType->business_description;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\BusinessType::find()->asArray()->all(), 'id', 'id'),
+                'filter' => \yii\helpers\ArrayHelper::map(\app\models\BusinessType::find()->asArray()->all(), 'id', 'business_description'),
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
@@ -87,10 +86,6 @@ $this->registerJs($search);
             ],
         'address_st_bldng_no',
         'business_years',
-        'permit_no',
-        'average_weekly_income',
-        'average_gross_daily_income',
-        'ownership',
         'borrower_id',
         [
             'class' => 'yii\grid\ActionColumn',

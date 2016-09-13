@@ -17,6 +17,7 @@ $search = "$('.search-button').click(function(){
 $this->registerJs($search);
 ?>
 <div class="province-index">
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -29,7 +30,7 @@ $this->registerJs($search);
     <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
-        ['attribute' => 'id', 'hidden' => true],
+        ['attribute' => 'id', 'visible' => false],
         'province',
         [
             'class' => 'yii\grid\ActionColumn',
