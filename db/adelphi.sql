@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-09-13 16:55:05
+Date: 2016-09-14 17:04:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3171,7 +3171,7 @@ CREATE TABLE `borrower` (
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('5', null, 'Russel', 'Dinoy', 'Wahing', '', '2016-09-13', '0', 'Villaflor, Carmen, Bohol', '4', '6', '24', 'Centro 1', 'Married', '09454121', '2016-09-14', '', '', '', '', '', '', '0', null, '0', 'A', '2', null, 'B', '2016-09-13 10:28:05', '2016-09-13 10:28:05', 'Male', '', '0', null, '', '0', null, '1');
+INSERT INTO `borrower` VALUES ('5', null, 'Russel', 'Dinoy', 'Wahing', '', '2016-09-13', '0', 'Villaflor, Carmen, Bohol', '4', '6', '29', 'Centro 1', 'Married', '09454121', '2016-09-14', '', '', '', '', '', '', '0', null, '0', 'A', '2', null, 'B', '2016-09-13 10:28:05', '2016-09-14 08:21:54', 'Male', '', '0', null, '', '0', null, '1');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -3229,25 +3229,6 @@ INSERT INTO `branch` VALUES ('4', 'Boracay', '-', '(036) 390 - 0337', '0000-00-0
 INSERT INTO `branch` VALUES ('5', 'Iloilo', '-', '(033) 501 - 4413', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `branch` VALUES ('6', 'Bacolod', '-', '(034) 709 - 6157', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `branch` VALUES ('9', 'Main', '#6 Casa Feneza Villamanga, Bulacao, Pardo, Cebu City', '416 - 4347', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-
--- ----------------------------
--- Table structure for branch_loanscheme
--- ----------------------------
-DROP TABLE IF EXISTS `branch_loanscheme`;
-CREATE TABLE `branch_loanscheme` (
-  `branch_loanscheme_id` int(11) NOT NULL,
-  `loanscheme` int(11) NOT NULL,
-  `branch` int(11) NOT NULL,
-  `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `date_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`branch_loanscheme_id`),
-  KEY `branch_loanscheme_ibfk_1` (`loanscheme`),
-  KEY `branch_loanscheme_ibfk_2` (`branch`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of branch_loanscheme
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for business
@@ -3515,60 +3496,84 @@ CREATE TABLE `loan` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for loanscheme_type
+-- Table structure for loanscheme
 -- ----------------------------
-DROP TABLE IF EXISTS `loanscheme_type`;
-CREATE TABLE `loanscheme_type` (
-  `loanscheme_type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_description` varchar(255) NOT NULL,
-  `created_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`loanscheme_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `loanscheme`;
+CREATE TABLE `loanscheme` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `loanscheme_name` varchar(100) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `updated_by` varchar(255) DEFAULT NULL,
+  `lock` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=829875170 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of loanscheme_type
+-- Records of loanscheme
 -- ----------------------------
-INSERT INTO `loanscheme_type` VALUES ('1', 'default', '2016-07-15 13:49:00', '2016-07-15 13:49:05');
 
 -- ----------------------------
--- Table structure for loan_scheme
+-- Table structure for loanscheme_assignment
 -- ----------------------------
-DROP TABLE IF EXISTS `loan_scheme`;
-CREATE TABLE `loan_scheme` (
-  `loan_scheme_id` int(11) NOT NULL AUTO_INCREMENT,
-  `loanscheme_type` int(11) NOT NULL,
+DROP TABLE IF EXISTS `loanscheme_assignment`;
+CREATE TABLE `loanscheme_assignment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `loanscheme_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `updated_by` varchar(255) DEFAULT NULL,
+  `lock` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_id` (`branch_id`),
+  KEY `loanscheme_id` (`loanscheme_id`),
+  CONSTRAINT `loanscheme_assignment_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
+  CONSTRAINT `loanscheme_assignment_ibfk_2` FOREIGN KEY (`loanscheme_id`) REFERENCES `loanscheme` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of loanscheme_assignment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for loanscheme_values
+-- ----------------------------
+DROP TABLE IF EXISTS `loanscheme_values`;
+CREATE TABLE `loanscheme_values` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `loanscheme_id` int(11) NOT NULL,
   `daily` float NOT NULL,
   `term` int(11) NOT NULL,
-  `gross_day` int(11) NOT NULL,
-  `gross_amount` float NOT NULL,
-  `interest` float(11,0) NOT NULL,
-  `interest_amount` float NOT NULL,
-  `gas` float NOT NULL,
-  `doc_percentage` float NOT NULL,
-  `doc_stamp` float NOT NULL,
-  `mis_percentage` float NOT NULL,
-  `misc` float NOT NULL,
+  `gross_amt` float NOT NULL,
+  `interest` float NOT NULL,
+  `vat` float NOT NULL,
   `admin_fee` float NOT NULL,
-  `notarial_fee` float NOT NULL,
-  `additional_fee` float NOT NULL,
+  `notary_fee` float NOT NULL,
+  `misc` float NOT NULL,
+  `doc_stamp` float NOT NULL,
+  `gas` float NOT NULL,
   `total_deductions` float NOT NULL,
-  `add_days` float NOT NULL,
+  `add_days` int(11) NOT NULL,
   `add_coll` float NOT NULL,
   `net_proceeds` float NOT NULL,
   `penalty` float NOT NULL,
-  `vat_interest` float NOT NULL,
-  `vat_amount` float NOT NULL,
-  `processing_fee` float NOT NULL,
-  PRIMARY KEY (`loan_scheme_id`),
-  KEY `loan_scheme_ibfk_1` (`loanscheme_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `pen_days` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `updated_by` varchar(255) DEFAULT NULL,
+  `lock` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `loanscheme_values_ibfk_1` (`loanscheme_id`),
+  CONSTRAINT `loanscheme_values_ibfk_1` FOREIGN KEY (`loanscheme_id`) REFERENCES `loanscheme` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of loan_scheme
+-- Records of loanscheme_values
 -- ----------------------------
-INSERT INTO `loan_scheme` VALUES ('1', '1', '50', '52', '47', '2350', '20', '470', '50', '0.5', '11.75', '2.4', '56.4', '175', '150', '50', '493.15', '4', '200', '1586.85', '15', '14.5', '68.15', '275');
-INSERT INTO `loan_scheme` VALUES ('2', '1', '6000', '50', '47', '282000', '20', '56400', '50', '0.5', '1410', '2.4', '6768', '175', '300', '6000', '14703', '2', '12000', '222897', '900', '14.5', '8178', '6225');
 
 -- ----------------------------
 -- Table structure for loan_type
@@ -3599,7 +3604,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3754,6 +3759,12 @@ INSERT INTO `log` VALUES ('147', 'create', 'borrower created: 4', '2016-09-13 09
 INSERT INTO `log` VALUES ('148', 'create', 'borrower created: 5', '2016-09-13 10:28:05', '10', '9');
 INSERT INTO `log` VALUES ('149', 'login', 'user login: russel', '2016-09-13 13:15:53', '10', '9');
 INSERT INTO `log` VALUES ('150', 'login', 'user login: russel', '2016-09-13 13:19:33', '10', '9');
+INSERT INTO `log` VALUES ('151', 'update', 'borrower updated: 5', '2016-09-14 08:21:54', '10', '9');
+INSERT INTO `log` VALUES ('152', 'login', 'user login: russel', '2016-09-14 11:27:21', '10', '9');
+INSERT INTO `log` VALUES ('153', 'logout', 'user logout: russel', '2016-09-14 11:32:34', '10', '9');
+INSERT INTO `log` VALUES ('154', 'login', 'user login: joseph', '2016-09-14 11:32:45', '19', '2');
+INSERT INTO `log` VALUES ('155', 'logout', 'user logout: joseph', '2016-09-14 11:33:31', '19', '2');
+INSERT INTO `log` VALUES ('156', 'login', 'user login: russel', '2016-09-14 11:33:40', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration

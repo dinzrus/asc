@@ -129,7 +129,7 @@ class SiteController extends Controller {
      * @return type
      */
     public function actionUploadexcel() {
-        $model = new \app\models\Exceltest();
+        $model = new \app\models\LoanschemeValues();
 
         if (Yii::$app->request->isPost) {
             $model->excelfile = UploadedFile::getInstance($model, 'excelfile');
@@ -158,21 +158,25 @@ class SiteController extends Controller {
                         continue;
                     }
 
-                    $test = New \app\models\Exceltest();
+                    $test = New \app\models\LoanschemeValues();
 
+                    $test->loanscheme_id = 8;
                     $test->daily = $rowData[0][0];
                     $test->term = $rowData[0][1];
                     $test->gross_amt = $rowData[0][2];
                     $test->interest = $rowData[0][3];
                     $test->vat = $rowData[0][4];
-                    $test->notarial = $rowData[0][5];
-                    $test->processing_fee = $rowData[0][6];
-                    $test->total_deductions = $rowData[0][7];
-                    $test->add_days = $rowData[0][8];
-                    $test->add_coll = $rowData[0][9];
-                    $test->net_proceeds = $rowData[0][10];
-                    $test->penalty = $rowData[0][11];
-                    $test->pen_days = $rowData[0][12];
+                    $test->admin_fee = $rowData[0][5];
+                    $test->notary_fee = $rowData[0][6];
+                    $test->misc = $rowData[0][7];
+                    $test->doc_stamp = $rowData[0][8];
+                    $test->gas = $rowData[0][9];
+                    $test->total_deductions = $rowData[0][10];
+                    $test->add_days = $rowData[0][11];
+                    $test->add_coll = $rowData[0][12];
+                    $test->net_proceeds = $rowData[0][13];
+                    $test->penalty = $rowData[0][14];
+                    $test->pen_days = $rowData[0][15];
 
                     if (!($test->save())) { // use to skip empty rows
                         continue;
@@ -180,7 +184,6 @@ class SiteController extends Controller {
 
                     print_r($test->getErrors());
                 }
-
                 return;
             }
         }
@@ -192,6 +195,7 @@ class SiteController extends Controller {
     /**
      * Displays about page.
      *
+     * 
      * @return string
      */
     public function actionAbout() {

@@ -4,18 +4,17 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\LoanScheme */
+/* @var $model app\models\Loanscheme */
 
-$this->title = 'Create Loan Scheme';
-$this->params['breadcrumbs'][] = ['label' => 'Loan Scheme', 'url' => ['index']];
+$this->title = 'Create Loanscheme';
+$this->params['breadcrumbs'][] = ['label' => 'Loanscheme', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="loan-scheme-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="loanscheme-create">
 
     <?= $this->render('_form', [
         'model' => $model,
+        'loandata' => $loandata,
     ]) ?>
 
 </div>
