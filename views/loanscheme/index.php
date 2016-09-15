@@ -17,9 +17,6 @@ $this->registerJs($search);
 ?>
 <div class="loanscheme-index">
 
-    <p>
-        <?= Html::a('Create Loanscheme', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],

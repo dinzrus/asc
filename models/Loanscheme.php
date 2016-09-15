@@ -20,8 +20,6 @@ class Loanscheme extends BaseLoanscheme
             [['created_at', 'updated_at'], 'safe'],
             [['loanscheme_name'], 'string', 'max' => 100],
             [['created_by', 'updated_by'], 'string', 'max' => 255],
-            [['lock'], 'default', 'value' => '0'],
-            [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
     }
 	

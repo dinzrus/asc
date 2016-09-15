@@ -28,7 +28,7 @@ class LoanschemeController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'add-loanscheme-assignment', 'add-loanscheme-values'],
+                        'actions' => ['uploadexcel', 'index', 'view', 'create', 'update', 'delete', 'add-loanscheme-assignment', 'add-loanscheme-values'],
                         'roles' => ['@']
                     ],
                     [
@@ -83,66 +83,10 @@ class LoanschemeController extends Controller {
         $loandata = new \app\models\LoanschemeValues();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            $loandata->excelfile = UploadedFile::getInstance($model, 'excelfile');
-            if ($loandata->upload()) {
-                // file is uploaded successfully
-                $inputFile = $loandata->pathname;
-                try {
-                    $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
-                    $objectReader = \PHPExcel_IOFactory::createReader($inputFileType);
-                    $objectPhpFile = $objectReader->load($inputFile);
-                } catch (Exception $ex) {
-                    die('Error');
-                }
-
-                $sheet = $objectPhpFile->getSheet(0);
-                $highestRow = $sheet->getHighestRow();
-                $highestColumn = $sheet->getHighestColumn();
-
-                $maxCell = $sheet->getHighestRowAndColumn();
-                //$data = $sheet->rangeToArray('A1:' . $maxCell['column'] . $maxCell['row']);
-
-                for ($row = 1; $row <= $highestRow; $row++) {
-                    $rowData = $sheet->rangeToArray('A' . $row . ':' . $maxCell['column'] . $maxCell['row']);
-
-                    if ($row == 1) {
-                        continue;
-                    }
-
-                    $loan = New \app\models\LoanschemeValues();
-
-                    $$loan->loanscheme_id = $model->id;
-                    $$loan->daily = $rowData[0][0];
-                    $$loan->term = $rowData[0][1];
-                    $$loan->gross_amt = $rowData[0][2];
-                    $$loan->interest = $rowData[0][3];
-                    $$loan->vat = $rowData[0][4];
-                    $$loan->admin_fee = $rowData[0][5];
-                    $$loan->notary_fee = $rowData[0][6];
-                    $$loan->misc = $rowData[0][7];
-                    $$loan->doc_stamp = $rowData[0][8];
-                    $$loan->gas = $rowData[0][9];
-                    $$loan->total_deductions = $rowData[0][10];
-                    $$loan->add_days = $rowData[0][11];
-                    $$loan->add_coll = $rowData[0][12];
-                    $$loan->net_proceeds = $rowData[0][13];
-                    $$loan->penalty = $rowData[0][14];
-                    $$loan->pen_days = $rowData[0][15];
-
-                    if (!($$loan->save())) { // use to skip empty rows
-                        continue;
-                    }
-
-                    print_r($$loan->getErrors());
-                }
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                         'model' => $model,
-                        'loandata' => $loandata,
             ]);
         }
     }
@@ -227,6 +171,69 @@ class LoanschemeController extends Controller {
             return $this->renderAjax('_formLoanschemeValues', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionUploadexcel() {
+        $loanscheme = new Loanscheme();
+        $loandata = new \app\models\LoanschemeValues();
+
+        if ($loanscheme->load(Yii::$app->request->post()) && $loanscheme->save()) {
+            $loandata->excelfile = UploadedFile::getInstance($loandata, 'excelfile');
+            if ($loandata->upload()) {
+                // file is uploaded successfully 
+                $inputFile = $loandata->pathname;
+                try {
+                    $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
+                    $objectReader = \PHPExcel_IOFactory::createReader($inputFileType);
+                    $objectPhpFile = $objectReader->load($inputFile);
+                } catch (Exception $ex) {
+                    die('Error');
+                }
+
+                $sheet = $objectPhpFile->getSheet(0);
+                $highestRow = $sheet->getHighestRow();
+                $highestColumn = $sheet->getHighestColumn();
+
+                $maxCell = $sheet->getHighestRowAndColumn();
+                //$data = $sheet->rangeToArray('A1:' . $maxCell['column'] . $maxCell['row']); 
+
+                for ($row = 1; $row <= $highestRow; $row++) {
+                    $rowData = $sheet->rangeToArray('A' . $row . ':' . $maxCell['column'] . $maxCell['row']);
+
+                    if ($row == 1) {
+                        continue;
+                    }
+
+                    $loan = New \app\models\LoanschemeValues();
+
+                    $loan->loanscheme_id = $loanscheme->id;
+                    $loan->daily = $rowData[0][0];
+                    $loan->term = $rowData[0][1];
+                    $loan->gross_amt = $rowData[0][2];
+                    $loan->interest = $rowData[0][3];
+                    $loan->vat = $rowData[0][4];
+                    $loan->admin_fee = $rowData[0][5];
+                    $loan->notary_fee = $rowData[0][6];
+                    $loan->misc = $rowData[0][7];
+                    $loan->doc_stamp = $rowData[0][8];
+                    $loan->gas = $rowData[0][9];
+                    $loan->total_deductions = $rowData[0][10];
+                    $loan->add_days = $rowData[0][11];
+                    $loan->add_coll = $rowData[0][12];
+                    $loan->net_proceeds = $rowData[0][13];
+                    $loan->penalty = $rowData[0][14];
+                    $loan->pen_days = $rowData[0][15];
+
+                    $loan->save();
+                }
+                return $this->redirect(['view', 'id' => $loanscheme->id]);
+            }
+        } else {
+            return $this->render('uploadexcel', [
+                        'loandata' => $loandata,
+                        'loanscheme' => $loanscheme,
+            ]);
         }
     }
 

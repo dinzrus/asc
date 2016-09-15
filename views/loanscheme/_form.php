@@ -35,8 +35,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'loanscheme_name')->textInput(['maxlength' => true, 'placeholder' => 'Loanscheme Name']) ?>
     
-    <?= $form->field($loandata, 'excelfile')->fileInput() ?>
-
     <?php
     $forms = [
         [

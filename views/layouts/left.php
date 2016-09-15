@@ -31,7 +31,17 @@
                                 ['label' => 'Jumpdate', 'icon' => 'fa fa-circle-o', 'url' => ['/jumpdate'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Canvasser', 'icon' => 'fa fa-circle-o', 'url' => ['/canvasser'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Credit Invistigator', 'icon' => 'fa fa-circle-o', 'url' => ['/ci'], 'visible' => Yii::$app->user->can('IT')],
-                                ['label' => 'Loan Scheme', 'icon' => 'fa fa-circle-o', 'url' => ['/loanscheme'], 'visible' => Yii::$app->user->can('IT')],
+                                [
+                                    'label' => 'Loanscheme',
+                                    'icon' => 'fa fa-circle-o',
+                                    'url' => '#',
+                                    'visible' => Yii::$app->user->can('IT'),
+                                    'items' => [
+                                        ['label' => 'Upload Loanscheme', 'icon' => 'fa fa-circle-o', 'url' => ['/loanscheme/uploadexcel'],], 
+                                        ['label' => 'Manage Loanscheme', 'icon' => 'fa fa-circle-o', 'url' => ['/loanscheme'],],
+                                        ['label' => 'Loanscheme Data', 'icon' => 'fa fa-circle-o', 'url' => ['/loanschemevalues'],], 
+                                    ],
+                                ],
                                 ['label' => 'User', 'icon' => 'fa fa-circle-o', 'url' => ['/user'], 'visible' => Yii::$app->user->can('IT')],
                                 [
                                     'label' => 'Addresses',
@@ -56,6 +66,15 @@
                                 ['label' => 'Borrowers Info.', 'icon' => 'fa fa-circle-o', 'url' => ['/borrower'], 'visible' => Yii::$app->user->can('ORGANIZER')],
                             ],
                         ],
+                        [
+                                    'label' => 'Transaction',
+                                    'icon' => 'fa fa-briefcase',
+                                    'url' => '#',
+                                    'items' => [
+                                        ['label' => 'Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/'], "visible" => Yii::$app->user->can('IT')],  
+                                        ['label' => 'Schedule for Releasing', 'icon' => 'fa fa-circle-o', 'url' => ['/'], "visible" => Yii::$app->user->can('ORGANIZER')],  
+                                    ],
+                                ],
                         [
                             'label' => 'Reports',
                             'icon' => 'fa fa-print',

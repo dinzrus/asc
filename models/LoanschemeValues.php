@@ -22,9 +22,7 @@ class LoanschemeValues extends BaseLoanschemeValues {
             [['daily', 'gross_amt', 'interest', 'vat', 'admin_fee', 'notary_fee', 'misc', 'doc_stamp', 'gas', 'total_deductions', 'add_coll', 'net_proceeds', 'penalty'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['created_by', 'updated_by', 'pathname'], 'string', 'max' => 255],
-            [['lock'], 'default', 'value' => '0'],
-            [['excelfile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'xls, xlsx'],
-            [['lock'], 'mootensai\components\OptimisticLockValidator']
+            [['excelfile'], 'file', 'skipOnEmpty' => FALSE, 'extensions' => 'xls, xlsx'],
         ]);
     }
     

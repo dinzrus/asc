@@ -18,7 +18,6 @@ $this->registerJs($search);
 ?>
 <div class="loanscheme-values-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -36,10 +35,10 @@ $this->registerJs($search);
                 'attribute' => 'loanscheme_id',
                 'label' => 'Loanscheme',
                 'value' => function($model){
-                    return $model->loanscheme->id;
+                    return $model->loanscheme->loanscheme_name;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Loanscheme::find()->asArray()->all(), 'id', 'id'),
+                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Loanscheme::find()->asArray()->all(), 'id', 'loanscheme_name'),
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
@@ -48,19 +47,19 @@ $this->registerJs($search);
         'daily',
         'term',
         'gross_amt',
-        'interest',
-        'vat',
-        'admin_fee',
-        'notary_fee',
-        'misc',
-        'doc_stamp',
-        'gas',
+//        'interest',
+//        'vat',
+//        'admin_fee',
+//        'notary_fee',
+//        'misc',
+//        'doc_stamp',
+//        'gas',
         'total_deductions',
-        'add_days',
-        'add_coll',
+//        'add_days',
+//        'add_coll',
         'net_proceeds',
         'penalty',
-        'pen_days',
+//        'pen_days',
         [
             'class' => 'yii\grid\ActionColumn',
         ],

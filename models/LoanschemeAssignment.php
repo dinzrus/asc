@@ -20,8 +20,6 @@ class LoanschemeAssignment extends BaseLoanschemeAssignment
             [['loanscheme_id', 'branch_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['created_by', 'updated_by'], 'string', 'max' => 255],
-            [['lock'], 'default', 'value' => '0'],
-            [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
     }
 	

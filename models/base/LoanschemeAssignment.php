@@ -35,8 +35,7 @@ class LoanschemeAssignment extends \yii\db\ActiveRecord
             [['loanscheme_id', 'branch_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['created_by', 'updated_by'], 'string', 'max' => 255],
-            [['lock'], 'default', 'value' => '0'],
-            [['lock'], 'mootensai\components\OptimisticLockValidator']
+
         ];
     }
     
@@ -46,17 +45,6 @@ class LoanschemeAssignment extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'loanscheme_assignment';
-    }
-
-    /**
-     * 
-     * @return string
-     * overwrite function optimisticLock
-     * return string name of field are used to stored optimistic lock 
-     * 
-     */
-    public function optimisticLock() {
-        return 'lock';
     }
 
     /**
