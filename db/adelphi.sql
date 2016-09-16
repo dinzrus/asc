@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-09-15 17:18:27
+Date: 2016-09-16 17:56:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3166,12 +3166,13 @@ CREATE TABLE `borrower` (
   KEY `status` (`status`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('5', null, 'Russel', 'Dinoy', 'Wahing', '', '2016-09-13', '0', 'Villaflor, Carmen, Bohol', '4', '6', '29', 'Centro 1', 'Married', '09454121', '2016-09-14', '', '', '', '', '', '', '0', null, '0', 'A', '2', null, 'B', '2016-09-13 10:28:05', '2016-09-14 08:21:54', 'Male', '', '0', null, '', '0', null, '1');
+INSERT INTO `borrower` VALUES ('5', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', '', '2016-09-13', '0', 'Villaflor, Carmen, Bohol', '4', '6', '29', 'Centro 1', 'Married', '09454121', '2016-09-14', '', '', '', '', '', '', '0', null, '0', 'C', '2', null, 'B', '2016-09-13 10:28:05', '2016-09-16 13:27:52', 'Male', '', '0', null, '', '0', null, '1');
+INSERT INTO `borrower` VALUES ('6', null, 'Mary Joy', 'Asis ', 'Hinacay', '', '1990-10-10', '25', 'Guildulman, Bohol', '4', '6', '6', 'UCMA Village', 'Single', '09101737965', '2016-09-16', '', '', '', '', 'Russel Dinoy', 'Programmer', '25', '1991-06-11', '0', 'C', '2', null, 'B', '2016-09-16 13:22:28', '2016-09-16 15:57:34', 'Female', 'Norma W. Dinoy', '36', '1980-07-22', 'Olipio T. Dinoy', '27', '1989-09-13', '1');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -3260,6 +3261,7 @@ CREATE TABLE `business` (
 -- ----------------------------
 -- Records of business
 -- ----------------------------
+INSERT INTO `business` VALUES ('8', 'ITBELONGS', '10', '4', '6', '24', 'Centro 1', '3', 'TIP66GFH', '15000', '25000', 'Owned', '6');
 INSERT INTO `business` VALUES ('21', 'ESHOP', '10', '4', '8', '738', 'Basak III', '3', '895YTDSFS', '10000', '20000', 'Rented', '2');
 INSERT INTO `business` VALUES ('744', 'ESHOP', '10', '4', '6', '5', 'Basak II', '5', '897TDG9090', '20000', '40000', 'Owned', '1');
 INSERT INTO `business` VALUES ('745', 'ESHOP', '2', '4', '8', '739', 'Tubigan 2', '3', 'HJFH90787', '10000', '20000', 'Owned', '3');
@@ -3652,7 +3654,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3661,6 +3663,20 @@ INSERT INTO `log` VALUES ('1', 'logout', 'user logout: russel', '2016-09-15 15:2
 INSERT INTO `log` VALUES ('2', 'login', 'user login: benson', '2016-09-15 15:20:23', '20', '9');
 INSERT INTO `log` VALUES ('3', 'logout', 'user logout: benson', '2016-09-15 15:21:04', '20', '9');
 INSERT INTO `log` VALUES ('4', 'login', 'user login: russel', '2016-09-15 15:21:12', '10', '9');
+INSERT INTO `log` VALUES ('5', 'create', 'borrower created: 6', '2016-09-16 13:22:29', '10', '9');
+INSERT INTO `log` VALUES ('6', 'update', 'borrower updated: 5', '2016-09-16 13:24:57', '10', '9');
+INSERT INTO `log` VALUES ('7', 'update', 'borrower updated: 5', '2016-09-16 13:27:52', '10', '9');
+INSERT INTO `log` VALUES ('8', 'logout', 'user logout: russel', '2016-09-16 13:56:41', '10', '9');
+INSERT INTO `log` VALUES ('9', 'login', 'user login: joseph', '2016-09-16 13:57:27', '19', '2');
+INSERT INTO `log` VALUES ('10', 'logout', 'user logout: joseph', '2016-09-16 14:00:05', '19', '2');
+INSERT INTO `log` VALUES ('11', 'login', 'user login: russel', '2016-09-16 14:00:17', '10', '9');
+INSERT INTO `log` VALUES ('12', 'logout', 'user logout: russel', '2016-09-16 14:00:46', '10', '9');
+INSERT INTO `log` VALUES ('13', 'login', 'user login: nerissa', '2016-09-16 14:00:59', '21', '9');
+INSERT INTO `log` VALUES ('14', 'logout', 'user logout: nerissa', '2016-09-16 14:01:55', '21', '9');
+INSERT INTO `log` VALUES ('15', 'login', 'user login: russel', '2016-09-16 14:02:08', '10', '9');
+INSERT INTO `log` VALUES ('16', 'update', 'borrower updated: 6', '2016-09-16 15:57:34', '10', '9');
+INSERT INTO `log` VALUES ('17', 'logout', 'user logout: russel', '2016-09-16 16:04:43', '10', '9');
+INSERT INTO `log` VALUES ('18', 'login', 'user login: nerissa', '2016-09-16 16:05:01', '21', '9');
 
 -- ----------------------------
 -- Table structure for migration

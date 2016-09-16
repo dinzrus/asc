@@ -192,6 +192,63 @@ class SiteController extends Controller {
         ]);
     }
 
+    public function actionCicanvassapproval() {
+        $list = Yii::$app->db->createCommand(
+                        "SELECT\n" .
+                        "borrower.id,\n" .
+                        "borrower.profile_pic,\n" .
+                        "borrower.first_name,\n" .
+                        "borrower.last_name,\n" .
+                        "borrower.middle_name,\n" .
+                        "borrower.suffix,\n" .
+                        "borrower.birthdate,\n" .
+                        "borrower.age,\n" .
+                        "borrower.birthplace,\n" .
+                        "borrower.address_province_id,\n" .
+                        "borrower.address_city_municipality_id,\n" .
+                        "borrower.address_barangay_id,\n" .
+                        "borrower.address_street_house_no,\n" .
+                        "borrower.civil_status,\n" .
+                        "borrower.contact_no,\n" .
+                        "borrower.canvass_date,\n" .
+                        "borrower.tin_no,\n" .
+                        "borrower.sss_no,\n" .
+                        "borrower.ctc_no,\n" .
+                        "borrower.license_no,\n" .
+                        "borrower.spouse_name,\n" .
+                        "borrower.spouse_occupation,\n" .
+                        "borrower.spouse_age,\n" .
+                        "borrower.spouse_birthdate,\n" .
+                        "borrower.no_dependent,\n" .
+                        "borrower.`status`,\n" .
+                        "borrower.branch_id,\n" .
+                        "borrower.attachment,\n" .
+                        "borrower.acount_type,\n" .
+                        "borrower.created_at,\n" .
+                        "borrower.updated_at,\n" .
+                        "borrower.gender,\n" .
+                        "borrower.mother_name,\n" .
+                        "borrower.mother_age,\n" .
+                        "borrower.mother_birthdate,\n" .
+                        "borrower.father_name,\n" .
+                        "borrower.father_age,\n" .
+                        "borrower.father_birthdate,\n" .
+                        "borrower.canvass_by,\n" .
+                        "branch.branch_description,\n" .
+                        "canvasser.fname,\n" .
+                        "canvasser.lname,\n" .
+                        "canvasser.middlename\n" .
+                        "FROM\n" .
+                        "borrower\n" .
+                        "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
+                        "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
+                        "WHERE borrower.status = 'C'"
+                )->queryAll();
+        return $this->render('cicanvassapproval', [
+                    'list' => $list,
+        ]);
+    }
+
     /**
      * Displays about page.
      *

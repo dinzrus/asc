@@ -15,7 +15,11 @@ class Borrower extends BaseBorrower {
     public $attachfiles;
     
     const CANVASSED = 'C';
-    const APPROVED = 'A';
+    const CI_DENIED = 'CD';
+    const CI_APPROVED = 'CA';
+    const APPROVED_RELEASING = 'AR';
+    const DENIED_RELEASING = 'DR';
+
 
     /**
      * @inheritdoc

@@ -37,7 +37,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
+                        'actions' => ['deniedcicanvass','approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -125,13 +125,13 @@ class BorrowerController extends Controller {
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
 
                 // set status
-                $borrower->status = Borrower::APPROVED;
+                $borrower->status = Borrower::CANVASSED;
 
                 // set branch
                 if (!(isset($borrower->branch_id))) {
                     $borrower->branch_id = Yii::$app->user->identity->branch_id;
                 }
-                
+
                 //calculate age
                 $borrower->age = $borrower->calculateAge($borrower->birthdate);
                 $borrower->spouse_age = $borrower->calculateAge($borrower->spouse_birthdate);
@@ -151,7 +151,6 @@ class BorrowerController extends Controller {
                 $business->business_name = ucwords($business->business_name);
                 $business->address_st_bldng_no = ucwords($business->address_st_bldng_no);
 
-
                 if ($borrower->saveAll()) {
 
                     // log action
@@ -160,7 +159,7 @@ class BorrowerController extends Controller {
                     $log->logMe(Log::CREATE, $description);
 
                     $business->borrower_id = $borrower->id;
-                    $business->saveAll();
+                    $business->save();
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
@@ -250,8 +249,8 @@ class BorrowerController extends Controller {
                 $borrower->mother_name = ucwords($borrower->mother_name);
                 $business->business_name = ucwords($business->business_name);
                 $business->address_st_bldng_no = ucwords($business->address_st_bldng_no);
-                
-                
+
+
                 //calculate age
                 $borrower->age = $borrower->calculateAge($borrower->birthdate);
                 $borrower->spouse_age = $borrower->calculateAge($borrower->spouse_birthdate);
@@ -264,10 +263,10 @@ class BorrowerController extends Controller {
                     $log = new Log();
                     $description = "borrower updated: " . $borrower->id;
                     $log->logMe(Log::UPDATE, $description);
-                    
-                    
+
+
                     // update business
-                    $business->saveAll();
+                    $business->save();
 
                     if (!empty($borrower->borrower_pic)) {
                         $borrower->upload();
@@ -350,6 +349,16 @@ class BorrowerController extends Controller {
         ]);
 
         return $pdf->render();
+    }
+
+    public function actionApprovedcicanvass($id) {
+        Yii::$app->db->createCommand()->update('borrower', ['status' => \app\models\Borrower::CI_APPROVED], "id = $id")->execute();
+        return $this->redirect(['site/cicanvassapproval']);
+    }
+    
+    public function actionDeniedcicanvass($id) {
+        Yii::$app->db->createCommand()->update('borrower', ['status' => \app\models\Borrower::CI_DENIED], "id = $id")->execute();
+        return $this->redirect(['site/cicanvassapproval']);
     }
 
     /**

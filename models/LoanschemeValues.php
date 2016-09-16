@@ -25,8 +25,8 @@ class LoanschemeValues extends BaseLoanschemeValues {
             [['excelfile'], 'file', 'skipOnEmpty' => FALSE, 'extensions' => 'xls, xlsx'],
         ]);
     }
-    
-     public function upload() {
+
+    public function upload() {
         if ($this->excelfile != "") {
             $this->excelfile->saveAs('fileupload/' . $this->excelfile->baseName . '.' . $this->excelfile->extension);
             $this->pathname = 'fileupload/' . $this->excelfile->baseName . '.' . $this->excelfile->extension;
