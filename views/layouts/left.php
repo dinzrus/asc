@@ -37,9 +37,9 @@
                                     'url' => '#',
                                     'visible' => Yii::$app->user->can('IT'),
                                     'items' => [
-                                        ['label' => 'Upload Loanscheme', 'icon' => 'fa fa-circle-o', 'url' => ['/loanscheme/uploadexcel'],], 
+                                        ['label' => 'Upload Loanscheme', 'icon' => 'fa fa-circle-o', 'url' => ['/loanscheme/uploadexcel'],],
                                         ['label' => 'Manage Loanscheme', 'icon' => 'fa fa-circle-o', 'url' => ['/loanscheme'],],
-                                        ['label' => 'Loanscheme Data', 'icon' => 'fa fa-circle-o', 'url' => ['/loanschemevalues'],], 
+                                        ['label' => 'Loanscheme Data', 'icon' => 'fa fa-circle-o', 'url' => ['/loanschemevalues'],],
                                     ],
                                 ],
                                 ['label' => 'User', 'icon' => 'fa fa-circle-o', 'url' => ['/user'], 'visible' => Yii::$app->user->can('IT')],
@@ -67,15 +67,15 @@
                             ],
                         ],
                         [
-                                    'label' => 'Transaction',
-                                    'icon' => 'fa fa-briefcase',
-                                    'url' => '#',
-                                    'items' => [
-                                        ['label' => 'C.I. Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],  
-                                        ['label' => 'Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/canvassapproval'], "visible" => Yii::$app->user->can('IT')],  
-                                        ['label' => 'Schedule for Releasing', 'icon' => 'fa fa-circle-o', 'url' => ['/'], "visible" => Yii::$app->user->can('ORGANIZER')],  
-                                    ],
-                                ],
+                            'label' => 'Transaction',
+                            'icon' => 'fa fa-briefcase',
+                            'url' => '#',
+                            'items' => [
+                                ['label' => 'C.I. Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Schedule for Releasing', 'icon' => 'fa fa-circle-o', 'url' => ['/'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/canvassapproval'], "visible" => Yii::$app->user->can('IT')],
+                            ],
+                        ],
                         [
                             'label' => 'Reports',
                             'icon' => 'fa fa-print',

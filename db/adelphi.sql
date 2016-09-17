@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-09-16 17:56:23
+Date: 2016-09-17 16:57:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3654,7 +3654,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3677,6 +3677,15 @@ INSERT INTO `log` VALUES ('15', 'login', 'user login: russel', '2016-09-16 14:02
 INSERT INTO `log` VALUES ('16', 'update', 'borrower updated: 6', '2016-09-16 15:57:34', '10', '9');
 INSERT INTO `log` VALUES ('17', 'logout', 'user logout: russel', '2016-09-16 16:04:43', '10', '9');
 INSERT INTO `log` VALUES ('18', 'login', 'user login: nerissa', '2016-09-16 16:05:01', '21', '9');
+INSERT INTO `log` VALUES ('19', 'logout', 'user logout: nerissa', '2016-09-17 15:38:53', '21', '9');
+INSERT INTO `log` VALUES ('20', 'login', 'user login: jing', '2016-09-17 15:39:00', '14', '2');
+INSERT INTO `log` VALUES ('21', 'logout', 'user logout: jing', '2016-09-17 15:39:11', '14', '2');
+INSERT INTO `log` VALUES ('22', 'login', 'user login: russel', '2016-09-17 15:39:21', '10', '9');
+INSERT INTO `log` VALUES ('23', 'update', 'user update user nerissa', '2016-09-17 15:39:49', '10', '9');
+INSERT INTO `log` VALUES ('24', 'logout', 'user logout: russel', '2016-09-17 15:40:01', '10', '9');
+INSERT INTO `log` VALUES ('25', 'login', 'user login: nerissa', '2016-09-17 15:40:13', '21', '4');
+INSERT INTO `log` VALUES ('26', 'logout', 'user logout: nerissa', '2016-09-17 15:46:50', '21', '4');
+INSERT INTO `log` VALUES ('27', 'login', 'user login: joseph', '2016-09-17 15:47:02', '19', '2');
 
 -- ----------------------------
 -- Table structure for migration
@@ -4035,4 +4044,4 @@ INSERT INTO `user` VALUES ('10', 'russel', 'mqNUgibbYOLDjA5iyWV1BTb-p2K4exo4', '
 INSERT INTO `user` VALUES ('14', 'jing', 'S6ho-6mlzqAinnEbrEl-IUpPvitouxAs', '$2y$13$QPkWtz.QIqwp9fNKMgwhPeyQNkjwAwoV5fhTt5dt1I7r6Zv6gQvQK', null, 'jing@gmail.com', '10', '1469586014', '2147483647', '2', 'Jingjing', 'Ahmmm', 'Hayyy', '0000-00-00', '25', 'Married', 'Female', 'Cebu City', '', '', '', '0956455528', 'fileupload/Ahmmm-Jingjing-Hayyy-0000-00-00-photo.jpg', 'jing12345');
 INSERT INTO `user` VALUES ('19', 'joseph', 'Z2Xa7HjImN5hSgkW0miuGZHqjNDNkTiH', '$2y$13$YcSTNoQ.RqYOkLadjeXYnu82m/taDcPEi357Qq8HhJAdfzNgqwpwu', null, 'josephbaldoza@gmail.com', '10', '2147483647', '2147483647', '2', 'Joseph', 'Baldoza', 'Gonzales', '2016-08-09', '35', 'Married', 'Male', 'Apas, Cebu city', '', '', '', '099945854', 'fileupload/Baldoza-Joseph-Gonzales-2016-08-09-photo.jpg', 'joseph12345');
 INSERT INTO `user` VALUES ('20', 'benson', 'okXq3CyxsI3tehq8_0pNIvCEGEIslMvu', '$2y$13$Rpy4XaDJt635P1LGEbczFu0g8qyV0bLZFGBkUNKYY7g2bXxHXMvGS', null, 'benson@gmail.com', '10', '2147483647', '2147483647', '9', 'Robinson', 'Gabutan', 'Wills', '2016-08-23', '30', 'Married', 'Male', 'Guadalupe, Cebu city', '', '', '', '0000000000', 'fileupload/Gabutan-Robinson-Wills-2016-08-23-photo.jpg', 'benson12345');
-INSERT INTO `user` VALUES ('21', 'nerissa', 'DPQ4HWRtwxZB-g7pmznblNg88xoArEnB', '$2y$13$ORmDlHIxn3oBLWYeDgxhdOnspkliNvFwow5QzfmjsQE6.PEqZUk7S', null, 'nerissa@gmail.com', '10', '2147483647', '2147483647', '9', 'Nerissa', 'Sayson', 'Hmmm', '2016-08-31', '25', 'Single', 'Female', 'Mambaling Cebu City', '345634563', '3413453', '345345354', '099451224', 'fileupload/Sayson-Nerissa-Hmmm-2016-08-31-photo.jpg', 'nerissa12345');
+INSERT INTO `user` VALUES ('21', 'nerissa', '5srvcmU6cJ-npS6mL1w6BNO3syZbgR-D', '$2y$13$4oUzKlOwRgLx9SG6YYzyTu67Iw1NDmffda6AD0ABv9xjBWmAWSGUi', null, 'nerissa@gmail.com', '10', '2147483647', '2147483647', '4', 'Nerissa', 'Sayson', 'Hmmm', '2016-08-31', '25', 'Single', 'Female', 'Mambaling Cebu City', '345634563', '3413453', '345345354', '099451224', 'fileupload/Sayson-Nerissa-Hmmm-2016-08-31-photo.jpg', 'nerissa12345');
