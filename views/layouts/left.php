@@ -72,8 +72,9 @@
                             'url' => '#',
                             'items' => [
                                 ['label' => 'C.I. Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
-                                ['label' => 'Schedule for Releasing', 'icon' => 'fa fa-circle-o', 'url' => ['/'], "visible" => Yii::$app->user->can('ORGANIZER')],
-                                ['label' => 'Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/canvassapproval'], "visible" => Yii::$app->user->can('IT')],
+                                ['label' => 'Hold for SFR', 'icon' => 'fa fa-circle-o', 'url' => ['/site/holdforsfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Schedule for Releasing', 'icon' => 'fa fa-circle-o', 'url' => ['/borrower/sfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Realesing Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/canvassapproval'], "visible" => Yii::$app->user->can('IT')],
                             ],
                         ],
                         [

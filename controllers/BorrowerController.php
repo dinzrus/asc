@@ -37,7 +37,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['deniedcicanvass','approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
+                        'actions' => ['sfr','deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -58,6 +58,20 @@ class BorrowerController extends Controller {
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             return $this->render('index', [
+                        'searchModel' => $searchModel,
+                        'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            throw new \yii\web\UnauthorizedHttpException();
+        }
+    }
+
+    public function actionSfr() {
+        if (Yii::$app->user->can('ORGANIZER')) {
+            $searchModel = new BorrowerSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('scheduleforreleasing', [
                         'searchModel' => $searchModel,
                         'dataProvider' => $dataProvider,
             ]);
@@ -111,7 +125,6 @@ class BorrowerController extends Controller {
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
                 $borrower->attachfiles = UploadedFile::getInstances($borrower, 'attachfiles');
 
-                // set the url of the picture for saving
                 // set the url of the picture for saving    
                 if (!empty($borrower->borrower_pic)) {
                     $borrower->setPicUrl();
@@ -207,6 +220,7 @@ class BorrowerController extends Controller {
      * @return mixed
      */
     public function actionUpdate($id) {
+
         if (Yii::$app->user->can('IT')) {
             $update = true;
             if (Yii::$app->request->post('_asnew') == '1') {
@@ -355,7 +369,7 @@ class BorrowerController extends Controller {
         Yii::$app->db->createCommand()->update('borrower', ['status' => \app\models\Borrower::CI_APPROVED], "id = $id")->execute();
         return $this->redirect(['site/cicanvassapproval']);
     }
-    
+
     public function actionDeniedcicanvass($id) {
         Yii::$app->db->createCommand()->update('borrower', ['status' => \app\models\Borrower::CI_DENIED], "id = $id")->execute();
         return $this->redirect(['site/cicanvassapproval']);

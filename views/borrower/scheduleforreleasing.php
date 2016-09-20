@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 
-$this->title = 'Borrower';
+$this->title = 'Schedule for Releasing';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -15,16 +15,16 @@ $search = "$('.search-button').click(function(){
 });";
 $this->registerJs($search);
 ?>
-<div class="borrower-index">
+<div>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+    <?php // echo $this->render('_sfrsearch', ['model' => $searchModel]);  ?>
 
     <p>
         <?= Html::a('Create Borrower', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>
     </p>
     <div class="search-form" style="display:none">
-        <?= $this->render('_search', ['model' => $searchModel]); ?>
+        <?= $this->render('_sfrsearch', ['model' => $searchModel]); ?>
     </div>
     <?php
     $gridColumn = [
@@ -159,3 +159,5 @@ $this->registerJs($search);
     ?>
 
 </div>
+
+

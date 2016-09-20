@@ -4,7 +4,7 @@
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 
-$this->title = 'C.I. Canvass Approval';
+$this->title = 'Hold for Scheduling';
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <th>Branch</th>
                     <th>Canvasser</th>
                     <th>Canvass Date</th>
-                    <th><a href="#" class="btn btn-social"><i class="fa fa-lg fa-thumbs-o-up "></i> Approve All</a></th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td><?= $li['branch_description'] ?></td>
                             <td><?= $li['lname'] . ', ' . $li['fname'] . ' ' . $li['middlename'] ?></td>
                             <td><?= $li['canvass_date'] ?></td>
-                            <td><a href="<?= Url::to(['/borrower/view', 'id' => $li['id']]); ?>" class="btn btn-success"><i class="glyphicon glyphicon-eye-open"></i></a> | <a href="<?= Url::to(['borrower/approvedcicanvass', 'id' => $li['id']]); ?>" class="btn btn-primary" onclick="return confirm('Approved canvass?')"><i class="fa fa-thumbs-o-up "></i></a> | <a href="<?= Url::to(['borrower/deniedcicanvass', 'id' => $li['id']]); ?>" class="btn btn-danger" onclick="return confirm('Deny canvass?')"><i class="fa fa-thumbs-o-down "></i></a></td>
+                            <td><a href="<?= Url::to(['/borrower/view', 'id' => $li['id']]); ?>" class="btn btn-success"><i class="glyphicon glyphicon-eye-open"></i></a> | <a href="<?= Url::to(['borrower/approvedcicanvass', 'id' => $li['id']]); ?>" class="btn btn-primary" onclick="return confirm('Approved canvass?')"><i class="fa fa-thumbs-o-up "></i></a></td>
                                     <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td class="alert-info" colspan="6" style="text-align: center;">No data to display</td>
                         </tr>
                 <?php endif; ?>
+
             </tbody>
         </table>
     </div>
