@@ -244,6 +244,56 @@ class SiteController extends Controller {
         ]);
     }
 
+    public function actionSfr() {
+        $list = (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ? Yii::$app->db->createCommand(
+                        "SELECT\n" .
+                        "borrower.id,\n" .
+                        "borrower.profile_pic,\n" .
+                        "borrower.first_name,\n" .
+                        "borrower.last_name,\n" .
+                        "borrower.middle_name,\n" .
+                        "borrower.suffix,\n" .
+                        "borrower.contact_no,\n" .
+                        "borrower.canvass_date,\n" .
+                        "borrower.`status`,\n" .
+                        "borrower.branch_id,\n" .
+                        "borrower.canvass_by,\n" .
+                        "branch.branch_description,\n" .
+                        "canvasser.fname,\n" .
+                        "canvasser.lname,\n" .
+                        "canvasser.middlename\n" .
+                        "FROM\n" .
+                        "borrower\n" .
+                        "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
+                        "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" 
+                )->queryAll() :
+                Yii::$app->db->createCommand(
+                        "SELECT\n" .
+                        "borrower.id,\n" .
+                        "borrower.profile_pic,\n" .
+                        "borrower.first_name,\n" .
+                        "borrower.last_name,\n" .
+                        "borrower.middle_name,\n" .
+                        "borrower.suffix,\n" .
+                        "borrower.contact_no,\n" .
+                        "borrower.canvass_date,\n" .
+                        "borrower.`status`,\n" .
+                        "borrower.branch_id,\n" .
+                        "borrower.canvass_by,\n" .
+                        "branch.branch_description,\n" .
+                        "canvasser.fname,\n" .
+                        "canvasser.lname,\n" .
+                        "canvasser.middlename\n" .
+                        "FROM\n" .
+                        "borrower\n" .
+                        "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
+                        "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
+                        "WHERE borrower.branch_id = " . Yii::$app->user->identity->branch_id
+                )->queryAll();
+        return $this->render('scheduleforreleasing', [
+                    'list' => $list,
+        ]);
+    }
     
     public function actionHoldforsfr() {
         $list = (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ? Yii::$app->db->createCommand(
