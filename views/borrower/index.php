@@ -106,18 +106,18 @@ $this->registerJs($search);
 //                'filterInputOptions' => ['placeholder' => 'Status', 'id' => 'grid-borrower-search-status']
 //            ],
         (strtoupper(Yii::$app->user->identity->branch->branch_description) === "MAIN") ?
-               [
-                    'attribute' => 'branch_id',
-                    'label' => 'Branch',
-                    'value' => function($model) {
-                        return $model->branch->branch_description;
-                    },
-                    'filterType' => GridView::FILTER_SELECT2,
-                    'filter' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->asArray()->all(), 'branch_id', 'branch_description'),
-                    'filterWidgetOptions' => [
-                        'pluginOptions' => ['allowClear' => true],
-                    ],
-                    'filterInputOptions' => ['placeholder' => 'Branch', 'id' => 'grid-borrower-search-branch_id']
+                [
+            'attribute' => 'branch_id',
+            'label' => 'Branch',
+            'value' => function($model) {
+                return $model->branch->branch_description;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->asArray()->all(), 'branch_id', 'branch_description'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Branch', 'id' => 'grid-borrower-search-branch_id']
                 ] : 'gender',
         //'attachment:ntext',
         //'relation_to_applicant',
@@ -125,38 +125,38 @@ $this->registerJs($search);
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{view} {update} {delete}',
-        ],
-    ];
-    ?>
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => $gridColumn,
-        'pjax' => true,
-        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-borrower']],
-        'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
-        ],
-        // your toolbar can include the additional full export menu
-        'toolbar' => [
-            '{export}',
-            ExportMenu::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => $gridColumn,
-                'target' => ExportMenu::TARGET_BLANK,
-                'fontAwesome' => true,
-                'dropdownOptions' => [
-                    'label' => 'Full',
-                    'class' => 'btn btn-default',
-                    'itemsBefore' => [
-                        '<li class="dropdown-header">Export All Data</li>',
-                    ],
                 ],
-            ]),
-        ],
-    ]);
-    ?>
+            ];
+            ?>
+            <?=
+            GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => $gridColumn,
+                'pjax' => true,
+                'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-borrower']],
+                'panel' => [
+                    'type' => GridView::TYPE_PRIMARY,
+                    'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
+                ],
+                // your toolbar can include the additional full export menu
+                'toolbar' => [
+                    '{export}',
+                    ExportMenu::widget([
+                        'dataProvider' => $dataProvider,
+                        'columns' => $gridColumn,
+                        'target' => ExportMenu::TARGET_BLANK,
+                        'fontAwesome' => true,
+                        'dropdownOptions' => [
+                            'label' => 'Full',
+                            'class' => 'btn btn-default',
+                            'itemsBefore' => [
+                                '<li class="dropdown-header">Export All Data</li>',
+                            ],
+                        ],
+                    ]),
+                ],
+            ]);
+            ?>
 
 </div>
