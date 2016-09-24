@@ -58,7 +58,7 @@ $this->registerJs($search);
                             <td><?= $li->branch->branch_description ?></td>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
                             <td><?= $li['canvass_date'] ?></td>
-                            <td><a href="<?= Url::to(['/borrower/view', 'id' => $li->id]); ?>" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
+                            <td><a href="<?= Url::to(['/site/schedulerelease', 'id' => $li->id]); ?>" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>

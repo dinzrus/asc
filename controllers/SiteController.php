@@ -315,6 +315,14 @@ class SiteController extends Controller {
                     'list' => $list,
         ]);
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function actionSchedulerelease(){
+        return $this->render('schedulerelease');
+    }
 
     /**
      * Displays about page.
