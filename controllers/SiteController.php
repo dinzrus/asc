@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\SignupForm;
+use app\models\Borrower;
 use app\models\Log;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
@@ -320,8 +321,13 @@ class SiteController extends Controller {
      * 
      * @return type
      */
-    public function actionSchedulerelease(){
-        return $this->render('schedulerelease');
+    public function actionSchedulerelease($id){
+        $borrower = Borrower::findOne(['id' => $id]);
+        $business = \app\models\base\Business::findOne(['borrower_id' => $id]);
+        return $this->render('schedulerelease',[
+                'borrower' => $borrower,
+                'business' => $business,
+        ]);
     }
 
     /**
