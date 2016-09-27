@@ -8,6 +8,7 @@ use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use yii\web\View;
 
 $this->title = 'Schedule for Releasing';
 $this->params['breadcrumbs'][] = $this->title;
@@ -54,11 +55,11 @@ $this->registerJs($search);
                         ?>
                         <tr>
                             <td><?= $counter ?></td>
-                            <td><?= $li->last_name . ', ' . $li->first_name . ' ' . $li->middle_name ?></td>
+                            <td><?= $li->fullname ?></td>
                             <td><?= $li->branch->branch_description ?></td>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
                             <td><?= $li['canvass_date'] ?></td>
-                            <td><a href="<?= Url::to(['/site/schedulerelease', 'id' => $li->id]); ?>" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
+                            <td><a data-id="<?= $li->id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -78,5 +79,41 @@ $this->registerJs($search);
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="font-weight: bold"></h4>
+            </div>
+            <div class="modal-body">
+                <label for="">Loan Type</label>
+                <input type="text" name="recipient" class="form-control">
+                <label for="">Daily</label>
+                <input type="text" name="recipient" class="form-control">
+                <label for="">Unit</label>
+                <input type="text" name="recipient" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Schedule</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php 
+
+$this->registerJs("$('#myModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var recipient = button.data('id')
+  var fname = button.data('name')
+  var modal = $(this)
+  modal.find('.modal-title').text('Schedule: ' + fname)
+  modal.find('.modal-body input').val(recipient)
+})", View::POS_END);
+
+?>
 
 

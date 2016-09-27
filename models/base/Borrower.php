@@ -133,6 +133,10 @@ class Borrower extends \yii\db\ActiveRecord {
     public function getAddressProvince() {
         return $this->hasOne(\app\models\Province::className(), ['id' => 'address_province_id']);
     }
+    
+    public function getFullname(){
+        return $this->last_name. ', ' . $this->first_name . ' ' . $this->middle_name;
+    }
 
     /**
      * @return \yii\db\ActiveQuery
