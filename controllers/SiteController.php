@@ -13,6 +13,7 @@ use app\models\Borrower;
 use app\models\Log;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
+use yii\helpers\Json;
 
 class SiteController extends Controller {
 
@@ -338,6 +339,14 @@ class SiteController extends Controller {
      */
     public function actionAbout() {
         return $this->render('about');
+    }
+    
+    
+    // test ajax request
+   
+    public function actionTest($id){
+        $data = Borrower::findOne($id);
+        echo Json::encode($data);
     }
 
 }

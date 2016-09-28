@@ -97,23 +97,28 @@ $this->registerJs($search);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Schedule</button>
+                <button type="submit" class="btn btn-primary">Schedule</button>
             </div>
         </div>
     </div>
 </div>
 
-<?php 
+<?php
+$this->registerJs("
+    $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var recipient = button.data('id');
+            var fname = button.data('name');
+            
+            $.get('index.php?r=site/test',{ id:recipient } , function(data) {
+                alert(data);
+            } );
 
-$this->registerJs("$('#myModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget)
-  var recipient = button.data('id')
-  var fname = button.data('name')
-  var modal = $(this)
-  modal.find('.modal-title').text('Schedule: ' + fname)
-  modal.find('.modal-body input').val(recipient)
-})", View::POS_END);
-
+            var modal = $(this);
+            modal.find('.modal-title').text('Schedule: ' + fname);
+            modal.find('.modal-body input').val(recipient);
+          }
+)", View::POS_END);
 ?>
 
-
+    

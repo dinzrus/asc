@@ -432,17 +432,3 @@ use yii\helpers\Url;
 
 </div>
 
-<script type="text/javascript">
-    function calculateAge(birthDate, id) {
-        var birthDate = new Date(birthDate);
-        var currentDate = new Date();
-
-        var years = (otherDate.getFullYear() - birthDate.getFullYear());
-
-        if (currentDate.getMonth() < birthDate.getMonth() ||
-                currentDate.getMonth() == birthDate.getMonth() && currentDate.getDate() < birthDate.getDate()) {
-            years--;
-        }
-        $('#' + id).val(years);
-    }
-</script>
