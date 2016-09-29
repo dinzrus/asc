@@ -59,7 +59,7 @@ $this->registerJs($search);
                             <td><?= $li->branch->branch_description ?></td>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
                             <td><?= $li['canvass_date'] ?></td>
-                            <td><a data-id="<?= $li->id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
+                            <td><a data-idd="<?= $li->id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -107,18 +107,20 @@ $this->registerJs($search);
 $this->registerJs("
     $('#myModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
-            var recipient = button.data('id');
+            var recipient = button.data('idd');
             var fname = button.data('name');
+            var modal = $(this);
             
-            $.get('index.php?r=site/test',{ id:recipient } , function(data) {
+            $.get('index.php?r=site/test',{ id:recipient }, function(data) {
                 alert(data);
+                //var jsn = JSON.parse(data);
+                //modal.find('.modal-body input').val(jsn.id);
             } );
 
-            var modal = $(this);
             modal.find('.modal-title').text('Schedule: ' + fname);
-            modal.find('.modal-body input').val(recipient);
+            //modal.find('.modal-body input').val(recipient);
           }
 )", View::POS_END);
 ?>
 
-    
+

@@ -346,7 +346,9 @@ class SiteController extends Controller {
    
     public function actionTest($id){
         $data = Borrower::findOne($id);
-        echo Json::encode($data);
+        $la = \app\models\LoanschemeAssignment::find()->where(['branch_id' => $data->branch_id])->one();
+        $dailys = \app\models\LoanschemeValues::find()->where(['loanscheme_id' => $la['loanscheme_id']])->all();
+        return Json::encode($dailys);
     }
 
 }
