@@ -259,9 +259,12 @@ class SiteController extends Controller {
         $clnts = $query->offset($pagination->offset)
                 ->limit($pagination->limit)
                 ->all();
+        
+        $loantype = \app\models\LoanType::find()->all();
 
         return $this->render('scheduleforreleasing', [
                     'list' => $clnts,
+                    'loantype' => $loantype,
                     'pagination' => $pagination,
         ]);
     }

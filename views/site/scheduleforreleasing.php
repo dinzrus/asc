@@ -59,7 +59,7 @@ $this->registerJs($search);
                             <td><?= $li->branch->branch_description ?></td>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
                             <td><?= $li['canvass_date'] ?></td>
-                            <td><a data-idd="<?= $li->id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
+                            <td><a data-idd="<?= $li->id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -89,9 +89,13 @@ $this->registerJs($search);
             </div>
             <div class="modal-body">
                 <label for="">Loan Type</label>
-                <input type="text" name="recipient" class="form-control">
+                <select class="form-control">
+                    <?php foreach ($loantype as $lt): ?>
+                        <option value="<?= $lt->loan_id ?>"><?= $lt->loan_description ?></option>
+                    <?php endforeach; ?>
+                </select>
                 <label for="">Daily</label>
-                <input type="text" name="recipient" class="form-control">
+                <div id="daily"></div>
                 <label for="">Unit</label>
                 <input type="text" name="recipient" class="form-control">
             </div>
@@ -112,14 +116,18 @@ $this->registerJs("
             var modal = $(this);
             
             $.get('index.php?r=site/test',{ id:recipient }, function(data) {
-                alert(data);
-                //var jsn = JSON.parse(data);
-                //modal.find('.modal-body input').val(jsn.id);
-            } );
+                var jsn = JSON.parse(data);
+                var s = $('<select id = jsn.id name=daily />');
+                for(var val in jsn) {
+                    $('<option />', {value: val['id'], text:val['daily']}).appendTo(s);
+                }
+                s.appendTo('#daily');
 
-            modal.find('.modal-title').text('Schedule: ' + fname);
-            //modal.find('.modal-body input').val(recipient);
-          }
+                } );
+
+modal . find('.modal-title') . text('Schedule: ' + fname);
+//modal.find('.modal-body input').val(recipient);
+}
 )", View::POS_END);
 ?>
 
