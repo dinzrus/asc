@@ -59,7 +59,7 @@ $this->registerJs($search);
                             <td><?= $li->branch->branch_description ?></td>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
                             <td><?= $li['canvass_date'] ?></td>
-                            <td><a data-idd="<?= $li->id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
+                            <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -80,32 +80,45 @@ $this->registerJs($search);
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel" style="font-weight: bold"></h4>
+<form action="<?= Url::to(['site/schedulerelease/']); ?>" method="get">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-weight: bold"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <?= Html::hiddenInput('id', null, ['class' => 'clnts_id']) ?>
+                            <label for="">Loan Type</label>
+                            <select class="form-control" name="loantype">
+                                <?php foreach ($loantype as $lt): ?>
+                                    <option value="<?= $lt->loan_id ?>"><?= $lt->loan_description ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Daily</label>
+                            <div  id="daily"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Unit</label>
+                            <div id="unit"></div>
+                        </div>
+                    </div>  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+                </div>
             </div>
-            <div class="modal-body">
-                <label for="">Loan Type</label>
-                <select class="form-control">
-                    <?php foreach ($loantype as $lt): ?>
-                        <option value="<?= $lt->loan_id ?>"><?= $lt->loan_description ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <label for="">Daily</label>
-                <div id="daily"></div>
-                <label for="">Unit</label>
-                <input type="text" name="recipient" class="form-control">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Schedule</button>
-            </div>
+
         </div>
     </div>
-</div>
+</form>
 
 <?php
 $this->registerJs("
@@ -113,21 +126,46 @@ $this->registerJs("
             var button = $(event.relatedTarget);
             var recipient = button.data('idd');
             var fname = button.data('name');
+            var branch = button.data('branch');
             var modal = $(this);
             
-            $.get('index.php?r=site/test',{ id:recipient }, function(data) {
+            $.get('index.php?r=site/test',{ id:recipient, branch:branch }, function(data) {
                 var jsn = JSON.parse(data);
-                var s = $('<select id = jsn.id name=daily />');
-                for(var val in jsn) {
-                    $('<option />', {value: val['id'], text:val['daily']}).appendTo(s);
+                // alert(data);
+                var d1 = jsn[0];
+                var d2 = jsn[1];
+                
+                // dropdown for daily and unit ----------------------------------
+                var s = $('<select/>');
+                var x = $('<select/>');
+                
+                s.addClass('form-control daily');
+                s.attr('name','daily');
+                
+                x.addClass('form-control unit');
+                x.attr('name','unit');
+                
+                for(var key in d1) {
+                    $('<option />', {value: d1[key].id, text: d1[key].daily}).appendTo(s);
                 }
+                
+                for(var key in d2) {
+                    $('<option />', {value: d2[key].unit_id, text: d2[key].unit_description}).appendTo(x);
+                }
+                //-----------------------------------------------------
+                
+                $('.daily').remove();
                 s.appendTo('#daily');
+                
+                $('.unit').remove();
+                x.appendTo('#unit');
 
                 } );
 
-modal . find('.modal-title') . text('Schedule: ' + fname);
-//modal.find('.modal-body input').val(recipient);
-}
+                modal . find('.modal-title') . text('Schedule: ' + fname);
+                modal . find('.clnts_id').val(recipient);
+                //modal.find('.modal-body input').val(recipient);
+            }
 )", View::POS_END);
 ?>
 

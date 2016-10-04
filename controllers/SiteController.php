@@ -33,12 +33,12 @@ class SiteController extends Controller {
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'logout' => ['post'],
+//                ],
+//            ],
         ];
     }
 
@@ -325,7 +325,7 @@ class SiteController extends Controller {
      * 
      * @return type
      */
-    public function actionSchedulerelease($id){
+    public function actionSchedulerelease($id,$loantype,$daily,$unit){
         $borrower = Borrower::findOne(['id' => $id]);
         $business = \app\models\base\Business::findOne(['borrower_id' => $id]);
         return $this->render('schedulerelease',[
@@ -347,11 +347,19 @@ class SiteController extends Controller {
     
     // test ajax request
    
-    public function actionTest($id){
-        $data = Borrower::findOne($id);
-        $la = \app\models\LoanschemeAssignment::find()->where(['branch_id' => $data->branch_id])->one();
-        $dailys = \app\models\LoanschemeValues::find()->where(['loanscheme_id' => $la['loanscheme_id']])->all();
-        return Json::encode($dailys);
+    public function actionTest($id,$branch){
+        
+        $data = Borrower::findOne($id); // retrieve borrowers info
+        
+        $la = \app\models\LoanschemeAssignment::find()->where(['branch_id' => $data->branch_id])->one(); // retrieve loanscheme through borrowers branch id
+        
+        $dailys = \app\models\LoanschemeValues::find()->where(['loanscheme_id' => $la['loanscheme_id']])->all(); // get loanscheme values
+        
+        $units = \app\models\Unit::find()->where(['branch_id' => $branch])->all(); // retrieve units
+             
+        echo Json::encode(array($dailys, $units));
+       
+        die();
     }
 
 }
