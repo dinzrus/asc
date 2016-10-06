@@ -64,19 +64,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <table class="table">
                                         <tr>
                                             <td><strong>Account Type:</strong></td>
-                                            <td></td>
+                                            <td><?= $ltype->loan_description ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Daily Amount:</strong></td>
-                                            <td></td>
+                                            <td><?= $damount->daily ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Unit:</strong></td>
-                                            <td></td>
+                                            <td><?= $unt->unit_description ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Date of Release:</strong></td>
-                                            <td></td>
+                                            <td><?= date('m/d/y'); ?></td>
                                         </tr>
                                     </table>
                                 </div>

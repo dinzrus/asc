@@ -4,8 +4,6 @@
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
-use kartik\export\ExportMenu;
-use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use yii\web\View;
@@ -21,7 +19,7 @@ $this->registerJs($search);
 <div class="box box-primary">
     <div class="box-body">  
         <label for="srcword">Search</label>
-        <form action="<?= Url::to(['/']); ?>" method="get">
+        <form action="<?= Url::to(['/']); ?>">
             <div class="row">
                 <div class="col-md-6">
                     <div class="input-group">
@@ -80,16 +78,16 @@ $this->registerJs($search);
 </div>
 
 <!-- Modal -->
-<form action="<?= Url::to(['site/schedulerelease/']); ?>" method="get">
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
 
-            <div class="modal-content">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="get">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel" style="font-weight: bold"></h4>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body">    
                     <div class="row">
                         <div class="col-md-4">
                             <?= Html::hiddenInput('id', null, ['class' => 'clnts_id']) ?>
@@ -112,13 +110,13 @@ $this->registerJs($search);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+                    <?= Html::a('Submit',Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary', 'onclick' => 'javascript:addURL(this);']) ?>
                 </div>
-            </div>
-
+            </form>
         </div>
     </div>
-</form>
+</div>
+
 
 <?php
 $this->registerJs("
@@ -166,7 +164,19 @@ $this->registerJs("
                 modal . find('.clnts_id').val(recipient);
                 //modal.find('.modal-body input').val(recipient);
             }
-)", View::POS_END);
+            
+            
+        );
+        
+        // this function adds parameters to the url of the submit button in the modal
+        function addURL(element)
+            { 
+                $(element).attr('href', function() {
+                    return this.href + '&id=' + $('input[name=id]').val() + '&loantype=' + $('select[name=loantype]').val() + '&daily=' + $('select[name=daily]').val() + '&unit=' + $('select[name=unit]').val();
+                });
+            }
+
+", View::POS_END);
 ?>
 
 
