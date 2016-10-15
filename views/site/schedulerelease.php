@@ -83,11 +83,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-md-6">
                                     <table class="table">
                                         <tr>
-                                            <td colspan="2" style="text-align: center"><strong>Account Type</strong></td>
+                                            <td><strong>Gross Amount:</strong></td>
+                                            <td style="text-align: right"><?= $damount->gross_amt ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Account Type:</td>
-                                            <td style="text-align: right">10000.45</td>
+                                            <td><strong>Total Deductions:</strong></td>
+                                            <td style="text-align: right"><?= $damount->total_deductions ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Net Proceeds:</strong></td>
+                                            <td style="text-align: right"><?= $damount->net_proceeds ?></td>
                                         </tr>
                                     </table>
                                 </div>
