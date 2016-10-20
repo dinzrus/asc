@@ -326,18 +326,21 @@ class SiteController extends Controller {
      * @return type
      */
     public function actionSchedulerelease($id,$loantype,$daily,$unit){
+        
         $borrower = Borrower::findOne(['id' => $id]);
         $business = \app\models\base\Business::findOne(['borrower_id' => $id]);
         $unt = \app\models\Unit::findOne(['unit_id' => $unit]);
         $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
         $damount = \app\models\LoanschemeValues::findOne(['id' => $daily]);
         
+        $comaker = new \app\models\Comaker();
         return $this->render('schedulerelease',[
                 'borrower' => $borrower,
                 'business' => $business,
                 'unt' => $unt,
                 'ltype' => $ltype,
                 'damount' => $damount,
+                'comaker' => $comaker,
         ]);
     }
 

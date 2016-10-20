@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 $this->title = 'SCHEDULE FOR LOAN RELEASING';
 $this->params['breadcrumbs'][] = $this->title;
@@ -52,57 +53,52 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4 class="box-title"><i class="fa fa-folder-open"></i> <strong>LOAN DETAILS</strong></h4>
             </div>
             <div class="box-body">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#loan" data-toggle="tab"><i class="fa fa-tag"></i> <strong>Loan</strong></a></li>
-                        <li><a href="#second" data-toggle="tab"><i class="fa fa-tag"></i> <strong>Second Sig.</strong></a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="loan">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <table class="table">
-                                        <tr>
-                                            <td><strong>Account Type:</strong></td>
-                                            <td><?= $ltype->loan_description ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Daily Amount:</strong></td>
-                                            <td><?= $damount->daily ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Unit:</strong></td>
-                                            <td><?= $unt->unit_description ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Date of Release:</strong></td>
-                                            <td><?= date('m/d/y'); ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-md-6">
-                                    <table class="table">
-                                        <tr>
-                                            <td><strong>Gross Amount:</strong></td>
-                                            <td style="text-align: right"><?= $damount->gross_amt ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Total Deductions:</strong></td>
-                                            <td style="text-align: right"><?= $damount->total_deductions ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Net Proceeds:</strong></td>
-                                            <td style="text-align: right"><?= $damount->net_proceeds ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="active tab-pane" id="second">
-
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tr>
+                                <td><strong>Account Type:</strong></td>
+                                <td><?= $ltype->loan_description ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Daily Amount:</strong></td>
+                                <td><?= $damount->daily ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Unit:</strong></td>
+                                <td><?= $unt->unit_description ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Date of Release:</strong></td>
+                                <td><?= date('m/d/y'); ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tr>
+                                <td><strong>Gross Amount:</strong></td>
+                                <td style="text-align: right"><?= $damount->gross_amt ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Deductions:</strong></td>
+                                <td style="text-align: right"><?= $damount->total_deductions ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Net Proceeds:</strong></td>
+                                <td style="text-align: right"><?= $damount->net_proceeds ?></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Collaterals <small style="color: red;">(required)</small></label>
+                        <textarea class="form-control" style="height: 100px" placeholder="Collaterals"></textarea>
+                    </div>
+                </div>
+                <br/>
                 <div class="row">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-success"><i class="fa fa-hdd-o"></i> Save</button>
