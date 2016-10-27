@@ -53,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4 class="box-title"><i class="fa fa-folder-open"></i> <strong>LOAN DETAILS</strong></h4>
             </div>
             <div class="box-body">
+                <?php $form = ActiveForm::begin(['action' => ['site/index']]); ?>
                 <div class="row">
                     <div class="col-md-6">
                         <table class="table">
@@ -71,6 +72,18 @@ $this->params['breadcrumbs'][] = $this->title;
                             <tr>
                                 <td><strong>Date of Release:</strong></td>
                                 <td><?= date('m/d/y'); ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maturity Date:</strong></td>
+                                <td><?php
+                                    /**
+                                     * Temporary Only
+                                     * Todo...
+                                     */
+                                    $date = date('m/d/y');
+                                    $mat = strtotime('10/21/2016' . '48 days');
+                                    echo date('m/d/y', $mat);
+                                    ?></td>
                             </tr>
                         </table>
                     </div>
@@ -94,6 +107,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 <hr />
                 <div class="row">
                     <div class="col-md-12">
+                        <?= $form->errorSummary($comaker) ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($comaker, 'first_name') ?>
+                        <?= $form->field($comaker, 'last_name') ?>
+                        <?= $form->field($comaker, 'middle_name') ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($comaker, 'contact_no') ?>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12">
                         <label>Collaterals <small style="color: red;">(required)</small></label>
                         <textarea class="form-control" style="height: 100px" placeholder="Collaterals"></textarea>
                     </div>
@@ -101,9 +130,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br/>
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-hdd-o"></i> Save</button>
+                        <div class="form-group">
+                            <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-lg']) ?>
+                        </div>
                     </div>
                 </div>
+                <?php ActiveForm::end() ?>
             </div>
         </div>
     </div>

@@ -332,6 +332,7 @@ class SiteController extends Controller {
         $unt = \app\models\Unit::findOne(['unit_id' => $unit]);
         $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
         $damount = \app\models\LoanschemeValues::findOne(['id' => $daily]);
+        $loan = new \app\models\Loan();
         
         $comaker = new \app\models\Comaker();
         return $this->render('schedulerelease',[
