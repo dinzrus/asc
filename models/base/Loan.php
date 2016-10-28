@@ -3,11 +3,14 @@
 namespace app\models\base;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use mootensai\behaviors\UUIDBehavior;
 
 /**
  * This is the base model class for table "loan".
  *
- * @property integer $loan_id
+ * @property integer $id
  * @property string $loan_no
  * @property integer $loan_type
  * @property integer $borrower
@@ -29,6 +32,13 @@ use Yii;
  * @property double $add_coll
  * @property double $net_proceeds
  * @property double $penalty
+ * @property string $collaterals
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $created_by
+ * @property string $updated_by
+ * @property string $ci_date
+ * @property integer $ci_officer
  *
  * @property \app\models\LoanType $loanType
  * @property \app\models\Unit $unit0
@@ -43,11 +53,12 @@ class Loan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['loan_no', 'loan_type', 'borrower', 'unit', 'release_date', 'maturity_date', 'daily', 'term', 'gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_days', 'add_coll', 'net_proceeds', 'penalty'], 'required'],
-            [['loan_type', 'borrower', 'unit', 'daily', 'term', 'add_days'], 'integer'],
-            [['release_date', 'maturity_date'], 'safe'],
+            [['loan_no', 'loan_type', 'borrower', 'unit', 'release_date', 'maturity_date', 'daily', 'term', 'gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_days', 'add_coll', 'net_proceeds', 'penalty', 'collaterals', 'ci_date', 'ci_officer'], 'required'],
+            [['loan_type', 'borrower', 'unit', 'daily', 'term', 'add_days', 'ci_officer'], 'integer'],
+            [['release_date', 'maturity_date', 'created_at', 'updated_at', 'ci_date'], 'safe'],
             [['gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_coll', 'net_proceeds', 'penalty'], 'number'],
-            [['loan_no'], 'string', 'max' => 255]
+            [['loan_no'], 'string', 'max' => 50],
+            [['collaterals', 'created_by', 'updated_by'], 'string', 'max' => 255]
         ];
     }
     
@@ -65,7 +76,7 @@ class Loan extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'loan_id' => 'Loan ID',
+            'id' => 'ID',
             'loan_no' => 'Loan No',
             'loan_type' => 'Loan Type',
             'borrower' => 'Borrower',
@@ -87,6 +98,9 @@ class Loan extends \yii\db\ActiveRecord
             'add_coll' => 'Add Coll',
             'net_proceeds' => 'Net Proceeds',
             'penalty' => 'Penalty',
+            'collaterals' => 'Collaterals',
+            'ci_date' => 'Ci Date',
+            'ci_officer' => 'Ci Officer',
         ];
     }
     
@@ -106,6 +120,31 @@ class Loan extends \yii\db\ActiveRecord
         return $this->hasOne(\app\models\Unit::className(), ['unit_id' => 'unit']);
     }
     
+/**
+     * @inheritdoc
+     * @return array mixed
+     */ 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'uuid' => [
+                'class' => UUIDBehavior::className(),
+                'column' => 'id',
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      * @return \app\models\LoanQuery the active query used by this AR class.

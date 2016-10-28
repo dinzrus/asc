@@ -3,8 +3,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\DepDrop;
+use yii\helpers\Url;
 
-$this->title = 'SCHEDULE FOR LOAN RELEASING';
+$this->title = 'Schedule for releasing';
+$this->params['breadcrumbs'][] = ['label' => 'Borrowers list', 'url' => ['site/sfr']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -63,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </tr>
                             <tr>
                                 <td><strong>Daily Amount:</strong></td>
-                                <td><?= $damount->daily ?></td>
+                                <td><?= $loanscheme->daily ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Unit:</strong></td>
@@ -91,30 +94,129 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table">
                             <tr>
                                 <td><strong>Gross Amount:</strong></td>
-                                <td style="text-align: right"><?= $damount->gross_amt ?></td>
+                                <td style="text-align: right"><?= $loanscheme->gross_amt ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Total Deductions:</strong></td>
-                                <td style="text-align: right"><?= $damount->total_deductions ?></td>
+                                <td style="text-align: right"><?= $loanscheme->total_deductions ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Net Proceeds:</strong></td>
-                                <td style="text-align: right"><?= $damount->net_proceeds ?></td>
+                                <td style="text-align: right"><?= $loanscheme->net_proceeds ?></td>
                             </tr>
                         </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <?=
+                        $form->field($loan, 'ci_officer')->widget(\kartik\widgets\Select2::classname(), [
+                            'data' => (!(strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN')) ? \yii\helpers\ArrayHelper::map(\app\models\base\Ci::find()->orderBy('lname')->where(['branch_id' => Yii::$app->user->identity->branch_id])->orderBy('id')->all(), 'id', 'fullname') : \yii\helpers\ArrayHelper::map(\app\models\base\Ci::find()->orderBy('lname')->all(), 'id', 'fullname'),
+                            'options' => ['placeholder' => 'Canvasser'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?=
+                        $form->field($loan, 'ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                            'saveFormat' => 'php:Y-m-d',
+                            'ajaxConversion' => true,
+                            'options' => [
+                                'pluginOptions' => [
+                                    'placeholder' => 'CI Date',
+                                    'autoclose' => true,
+                                ],
+                            ],
+                        ]);
+                        ?>
                     </div>
                 </div>
                 <hr />
                 <div class="row">
                     <div class="col-md-12">
-                        <?= $form->errorSummary($comaker) ?>
+                        <h4><i class="fa fa-user"></i> <strong>SECOND SIGNATORY</strong></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'last_name') ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'first_name') ?> 
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'middle_name') ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'gender') ?> 
+                    </div>
+                    <div class="col-md-4">
+                        <?=
+                        $form->field($comaker, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                            'saveFormat' => 'php:Y-m-d',
+                            'ajaxConversion' => true,
+                            'options' => [
+                                'pluginOptions' => [
+                                    'placeholder' => 'Choose Birthdate',
+                                    'autoclose' => true,
+                                ],
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'birthplace') ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <?=
+                        $form->field($comaker, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
+                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
+                            'options' => ['placeholder' => 'Choose Province'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?=
+                        $form->field($comaker, 'address_city_municipality_id')->widget(DepDrop::classname(), [
+                            'options' => ['id' => Html::getInputId($comaker, 'address_city_municipality_id')],
+                            'type' => DepDrop::TYPE_SELECT2,
+                            'pluginOptions' => [
+                                'depends' => [Html::getInputId($comaker, 'address_province_id')],
+                                'placeholder' => 'Select city/municipality',
+                                'url' => Url::to(['/borrower/getmunicipalitycity'])
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?=
+                        $form->field($comaker, 'address_barangay_id')->widget(DepDrop::classname(), [
+                            //'options' => ['id' => 'address-barangay-id'],
+                            'type' => DepDrop::TYPE_SELECT2,
+                            'pluginOptions' => [
+                                'depends' => [Html::getInputId($comaker, 'address_city_municipality_id')],
+                                'placeholder' => 'Select barangay',
+                                'url' => Url::to(['/borrower/getbarangay'])
+                            ]
+                        ]);
+                        ?> 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <?= $form->field($comaker, 'first_name') ?>
-                        <?= $form->field($comaker, 'last_name') ?>
-                        <?= $form->field($comaker, 'middle_name') ?>
+                        <?= $form->field($comaker, 'address_street_house_no') ?>
                     </div>
                     <div class="col-md-6">
                         <?= $form->field($comaker, 'contact_no') ?>
@@ -123,8 +225,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <hr/>
                 <div class="row">
                     <div class="col-md-12">
-                        <label>Collaterals <small style="color: red;">(required)</small></label>
-                        <textarea class="form-control" style="height: 100px" placeholder="Collaterals"></textarea>
+                        <?= $form->field($loan, 'collaterals')->textarea() ?>
                     </div>
                 </div>
                 <br/>

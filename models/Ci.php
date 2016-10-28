@@ -22,5 +22,5 @@ class Ci extends BaseCi
             [['fname', 'lname', 'middlename', 'address'], 'string', 'max' => 255]
         ]);
     }
-	
+
 }

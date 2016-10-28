@@ -23,36 +23,33 @@ use yii\db\Expression;
  *
  * @property \app\models\Branch $branch
  */
-class Ci extends \yii\db\ActiveRecord
-{
+class Ci extends \yii\db\ActiveRecord {
+
     use \mootensai\relation\RelationTrait;
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['fname', 'lname', 'middlename', 'age', 'birthdate', 'address', 'branch_id'], 'required'],
-            [['age', 'branch_id'], 'integer'],
-            [['birthdate', 'created_at', 'updated_at'], 'safe'],
-            [['fname', 'lname', 'middlename', 'address'], 'string', 'max' => 255]
+                [['fname', 'lname', 'middlename', 'age', 'birthdate', 'address', 'branch_id'], 'required'],
+                [['age', 'branch_id'], 'integer'],
+                [['birthdate', 'created_at', 'updated_at'], 'safe'],
+                [['fname', 'lname', 'middlename', 'address'], 'string', 'max' => 255]
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'ci';
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'fname' => 'Fname',
@@ -64,21 +61,23 @@ class Ci extends \yii\db\ActiveRecord
             'branch_id' => 'Branch ID',
         ];
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBranch()
-    {
+    public function getBranch() {
         return $this->hasOne(\app\models\Branch::className(), ['branch_id' => 'branch_id']);
     }
-    
-/**
+
+    public function getFullname() {
+        return $this->lname . ', ' . $this->fname . ' ' . $this->middlename;
+    }
+
+    /**
      * @inheritdoc
      * @return array mixed
-     */ 
-    public function behaviors()
-    {
+     */
+    public function behaviors() {
         return [
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
@@ -99,8 +98,8 @@ class Ci extends \yii\db\ActiveRecord
      * @inheritdoc
      * @return \app\models\CiQuery the active query used by this AR class.
      */
-    public static function find()
-    {
+    public static function find() {
         return new \app\models\CiQuery(get_called_class());
     }
+
 }

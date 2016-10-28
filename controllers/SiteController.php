@@ -331,17 +331,19 @@ class SiteController extends Controller {
         $business = \app\models\base\Business::findOne(['borrower_id' => $id]);
         $unt = \app\models\Unit::findOne(['unit_id' => $unit]);
         $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
-        $damount = \app\models\LoanschemeValues::findOne(['id' => $daily]);
-        $loan = new \app\models\Loan();
+        $loanscheme = \app\models\LoanschemeValues::findOne(['id' => $daily]);
         
+        $loan = new \app\models\Loan();
         $comaker = new \app\models\Comaker();
+        
         return $this->render('schedulerelease',[
                 'borrower' => $borrower,
                 'business' => $business,
                 'unt' => $unt,
                 'ltype' => $ltype,
-                'damount' => $damount,
+                'loanscheme' => $loanscheme,
                 'comaker' => $comaker,
+                'loan' => $loan,
         ]);
     }
 
