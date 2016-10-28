@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-09-17 16:57:49
+Date: 2016-10-28 17:41:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3166,13 +3166,20 @@ CREATE TABLE `borrower` (
   KEY `status` (`status`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('5', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', '', '2016-09-13', '0', 'Villaflor, Carmen, Bohol', '4', '6', '29', 'Centro 1', 'Married', '09454121', '2016-09-14', '', '', '', '', '', '', '0', null, '0', 'C', '2', null, 'B', '2016-09-13 10:28:05', '2016-09-16 13:27:52', 'Male', '', '0', null, '', '0', null, '1');
-INSERT INTO `borrower` VALUES ('6', null, 'Mary Joy', 'Asis ', 'Hinacay', '', '1990-10-10', '25', 'Guildulman, Bohol', '4', '6', '6', 'UCMA Village', 'Single', '09101737965', '2016-09-16', '', '', '', '', 'Russel Dinoy', 'Programmer', '25', '1991-06-11', '0', 'C', '2', null, 'B', '2016-09-16 13:22:28', '2016-09-16 15:57:34', 'Female', 'Norma W. Dinoy', '36', '1980-07-22', 'Olipio T. Dinoy', '27', '1989-09-13', '1');
+INSERT INTO `borrower` VALUES ('5', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', '', '2016-09-13', '0', 'Villaflor, Carmen, Bohol', '4', '6', '29', 'Centro 1', 'Married', '09454121', '2016-09-14', '', '', '', '', '', '', '0', null, '0', 'CA', '2', null, 'B', '2016-09-13 10:28:05', '2016-09-16 13:27:52', 'Male', '', '0', null, '', '0', null, '1');
+INSERT INTO `borrower` VALUES ('6', null, 'Mary Joy', 'Asis ', 'Hinacay', '', '1990-10-10', '25', 'Guildulman, Bohol', '4', '6', '6', 'UCMA Village', 'Single', '09101737965', '2016-09-16', '', '', '', '', 'Russel Dinoy', 'Programmer', '25', '1991-06-11', '0', 'CA', '5', null, 'B', '2016-09-16 13:22:28', '2016-09-20 10:34:18', 'Female', 'Norma W. Dinoy', '36', '1980-07-22', 'Olipio T. Dinoy', '27', '1989-09-13', '2');
+INSERT INTO `borrower` VALUES ('7', null, 'Joseph', 'Baldoza', 'Loso', '', '1985-07-18', '31', 'Apas, Cebu City, Cebu', '4', '6', '6', 'Kalibat', 'Married', '0945124885', '2016-09-22', '', '', '', '', 'Marlyn Baldoza', 'Teacher', '32', '1984-06-19', '3', 'CA', '4', null, 'B', '2016-09-22 14:51:45', '2016-09-22 14:51:45', 'Male', 'Mothername', '42', '1974-06-18', 'Fathername', '316', '1700-06-08', '2');
+INSERT INTO `borrower` VALUES ('8', null, 'MILANILA', 'NAZARENO', 'EMBODO', '', '1980-01-06', '36', 'SIBONGA CEBU', '4', '105', '1145', 'SUMAGUAN', 'Single', '09434416589', '2016-11-02', '', '', '', '', '', '', '0', null, '1', 'CA', '2', null, 'B', '2016-09-30 09:54:26', '2016-09-30 09:54:26', 'Female', 'FELICISIMA NAZARENO', '68', '1948-08-06', 'CIRILO NAZARENO', '67', '1949-07-09', '2');
+INSERT INTO `borrower` VALUES ('9', null, 'JERAME', 'FAMUAGAN', 'BANQUIL', '', '1988-12-03', '27', 'DUB-DOB, BOGO, ARGAO, CEBU', '4', '105', '1116', 'N/A', 'Single', '09273343935', '2016-08-28', '', '', '', '', '', '', '0', null, '1', 'CA', '2', null, 'B', '2016-09-30 10:05:32', '2016-09-30 10:05:32', 'Female', 'JOVENCIA FAMULAGAN BANQUIL', '52', '1964-06-01', 'LUCAS GELBOLINGO FAMULAGAN', '53', '1962-10-18', '2');
+INSERT INTO `borrower` VALUES ('10', null, 'MRIA TARA', 'MONDAREZ', 'CONDE', '', '2016-08-01', '0', 'Cebu City', '4', '6', '36', '576- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09267073405', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'CA', '2', null, 'B', '2016-09-30 10:13:12', '2016-09-30 10:13:12', 'Female', '', '0', null, 'MARY ANN M. SAQUIN', '53', '1962-10-01', '2');
+INSERT INTO `borrower` VALUES ('11', null, 'SPUDSCOTTIE', 'SAQUIN', 'MONDARES', '', '1992-12-31', '23', 'Cebu City', '4', '6', '36', '577- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09087659315', '1992-12-31', '', '', '', '', '', '', '0', null, '1', 'CA', '2', null, 'B', '2016-09-30 10:22:57', '2016-09-30 10:22:57', 'Male', '', '0', null, '', '0', null, '2');
+INSERT INTO `borrower` VALUES ('12', null, 'SIGFRED CHRISTIAN', 'GUAREN', 'REÑA', '', '1981-05-10', '35', 'BULACAO', '4', '6', '57', '132', 'Single', '09434416589', '2016-09-30', '', '', '', '', '', '', '0', null, '1', 'CA', '2', null, 'B', '2016-09-30 10:31:31', '2016-09-30 10:31:31', 'Male', 'ASUNCION REÑA', '0', '2016-08-10', 'REYNALDO GUAREN', '52', '1964-06-10', '2');
+INSERT INTO `borrower` VALUES ('13', null, 'SOFIAH STARLA', 'BAYRON ', 'FAMULAGAN', '', '2015-09-28', '1', 'DR IDELFONSO ALCANTARA MEMORIAL HOSPITAL DALAGUETE CEBU', '4', '105', '1116', 'SITIO LOWER DUB-DOB ', 'Single', '09087659315', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'CA', '2', null, 'B', '2016-09-30 10:48:09', '2016-09-30 13:23:27', 'Female', 'FAMULAGAN JERAME B', '27', '1988-12-03', 'JAMES BAYRON', '43', '1973-09-14', '1');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -3256,16 +3263,23 @@ CREATE TABLE `business` (
   KEY `business_type_id` (`business_type_id`) USING BTREE,
   KEY `business_ibfk_6` (`address_province_id`),
   CONSTRAINT `business_ibfk_4` FOREIGN KEY (`business_type_id`) REFERENCES `business_type` (`id`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=747 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=729535 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of business
 -- ----------------------------
+INSERT INTO `business` VALUES ('5', 'JHESS BOTIQUE', '12', '4', '105', '1116', 'N/A', '2014', '14344', '15000', '3000', 'Owned', '9');
 INSERT INTO `business` VALUES ('8', 'ITBELONGS', '10', '4', '6', '24', 'Centro 1', '3', 'TIP66GFH', '15000', '25000', 'Owned', '6');
 INSERT INTO `business` VALUES ('21', 'ESHOP', '10', '4', '8', '738', 'Basak III', '3', '895YTDSFS', '10000', '20000', 'Rented', '2');
+INSERT INTO `business` VALUES ('70', 'CIRCLE K', '1', '4', '6', '36', '576- P. DEL ROSARIO EXT. CEBU CITY', '6', '12345', '150000', '10000', 'Owned', '10');
 INSERT INTO `business` VALUES ('744', 'ESHOP', '10', '4', '6', '5', 'Basak II', '5', '897TDG9090', '20000', '40000', 'Owned', '1');
 INSERT INTO `business` VALUES ('745', 'ESHOP', '2', '4', '8', '739', 'Tubigan 2', '3', 'HJFH90787', '10000', '20000', 'Owned', '3');
 INSERT INTO `business` VALUES ('746', 'ESHOP', '10', '4', '6', '24', 'Basak II', '5', 'TUDG667', '10000', '10000', 'Rented', '5');
+INSERT INTO `business` VALUES ('52762', 'SHOP', '4', '4', '105', '1116', 'CARLOCK ST. LAMACAN ARGAO', '12', '46666', '10000', '3000', 'Rented', '13');
+INSERT INTO `business` VALUES ('729531', 'Joseph Photo Studio', '11', '4', '6', '6', 'Baklayon', '5', 'T778HHJG', '90000', '50000', 'Owned', '7');
+INSERT INTO `business` VALUES ('729532', 'ICE WATER REFILLING', '25', '4', '105', '1145', 'SUMAGUAN', '1', '012456', '2000', '500', 'Owned', '8');
+INSERT INTO `business` VALUES ('729533', 'SPUDSCOTTIE PARLOR', '6', '4', '6', '36', '577- P. DEL ROSARIO EXT. CEBU CITY', '5', '123456', '150000', '10000', 'Owned', '11');
+INSERT INTO `business` VALUES ('729534', 'HAYAHAY RESORT', '38', '4', '129', '2085', 'SITIO CONDE', '1', '12365', '10000', '2000', 'Owned', '12');
 
 -- ----------------------------
 -- Table structure for business_type
@@ -3363,11 +3377,61 @@ CREATE TABLE `ci` (
   PRIMARY KEY (`id`),
   KEY `branch_id` (`branch_id`),
   CONSTRAINT `ci_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of ci
 -- ----------------------------
+INSERT INTO `ci` VALUES ('1', 'Russel ', 'Dinoy', 'Wahing', '24', '1991-09-15', 'Villaflor, Carmen, Bohol', '1', '2016-10-28 13:32:48', '2016-10-28 13:32:48');
+
+-- ----------------------------
+-- Table structure for comaker
+-- ----------------------------
+DROP TABLE IF EXISTS `comaker`;
+CREATE TABLE `comaker` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_pic` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) NOT NULL,
+  `suffix` varchar(255) DEFAULT NULL,
+  `birthdate` date NOT NULL,
+  `age` int(11) NOT NULL,
+  `birthplace` varchar(255) NOT NULL,
+  `address_province_id` int(11) NOT NULL,
+  `address_city_municipality_id` int(11) NOT NULL,
+  `address_barangay_id` int(11) NOT NULL,
+  `address_street_house_no` varchar(255) NOT NULL,
+  `civil_status` varchar(255) NOT NULL,
+  `contact_no` varchar(255) NOT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
+  `attachment` text,
+  `gender` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `updated_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `borrower_ibfk_2` (`civil_status`),
+  KEY `address_province_id` (`address_province_id`),
+  KEY `status` (`status`),
+  KEY `address_barangay_id` (`address_barangay_id`),
+  KEY `address_city_municipality_id` (`address_city_municipality_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of comaker
+-- ----------------------------
+INSERT INTO `comaker` VALUES ('5', 'fileupload/Russel-Dinoy-Wahing.jpg', 'Russel', 'Dinoy', 'Wahing', '', '2016-09-13', '0', 'Villaflor, Carmen, Bohol', '4', '6', '29', 'Centro 1', 'Married', '09454121', 'CA', '2', null, 'Male', '2016-09-13 10:28:05', '2016-09-16 13:27:52', null, null);
+INSERT INTO `comaker` VALUES ('6', null, 'Mary Joy', 'Asis ', 'Hinacay', '', '1990-10-10', '25', 'Guildulman, Bohol', '4', '6', '6', 'UCMA Village', 'Single', '09101737965', 'CA', '5', null, 'Female', '2016-09-16 13:22:28', '2016-09-20 10:34:18', null, null);
+INSERT INTO `comaker` VALUES ('7', null, 'Joseph', 'Baldoza', 'Loso', '', '1985-07-18', '31', 'Apas, Cebu City, Cebu', '4', '6', '6', 'Kalibat', 'Married', '0945124885', 'CA', '4', null, 'Male', '2016-09-22 14:51:45', '2016-09-22 14:51:45', null, null);
+INSERT INTO `comaker` VALUES ('8', null, 'MILANILA', 'NAZARENO', 'EMBODO', '', '1980-01-06', '36', 'SIBONGA CEBU', '4', '105', '1145', 'SUMAGUAN', 'Single', '09434416589', 'CA', '2', null, 'Female', '2016-09-30 09:54:26', '2016-09-30 09:54:26', null, null);
+INSERT INTO `comaker` VALUES ('9', null, 'JERAME', 'FAMUAGAN', 'BANQUIL', '', '1988-12-03', '27', 'DUB-DOB, BOGO, ARGAO, CEBU', '4', '105', '1116', 'N/A', 'Single', '09273343935', 'CA', '2', null, 'Female', '2016-09-30 10:05:32', '2016-09-30 10:05:32', null, null);
+INSERT INTO `comaker` VALUES ('10', null, 'MRIA TARA', 'MONDAREZ', 'CONDE', '', '2016-08-01', '0', 'Cebu City', '4', '6', '36', '576- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09267073405', 'CA', '2', null, 'Female', '2016-09-30 10:13:12', '2016-09-30 10:13:12', null, null);
+INSERT INTO `comaker` VALUES ('11', null, 'SPUDSCOTTIE', 'SAQUIN', 'MONDARES', '', '1992-12-31', '23', 'Cebu City', '4', '6', '36', '577- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09087659315', 'CA', '2', null, 'Male', '2016-09-30 10:22:57', '2016-09-30 10:22:57', null, null);
+INSERT INTO `comaker` VALUES ('12', null, 'SIGFRED CHRISTIAN', 'GUAREN', 'REÑA', '', '1981-05-10', '35', 'BULACAO', '4', '6', '57', '132', 'Single', '09434416589', 'CA', '2', null, 'Male', '2016-09-30 10:31:31', '2016-09-30 10:31:31', null, null);
+INSERT INTO `comaker` VALUES ('13', null, 'SOFIAH STARLA', 'BAYRON ', 'FAMULAGAN', '', '2015-09-28', '1', 'DR IDELFONSO ALCANTARA MEMORIAL HOSPITAL DALAGUETE CEBU', '4', '105', '1116', 'SITIO LOWER DUB-DOB ', 'Single', '09087659315', 'CA', '2', null, 'Female', '2016-09-30 10:48:09', '2016-09-30 13:23:27', null, null);
 
 -- ----------------------------
 -- Table structure for dependent
@@ -3380,7 +3444,7 @@ CREATE TABLE `dependent` (
   `birthdate` date DEFAULT NULL,
   `borrower_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of dependent
@@ -3393,8 +3457,17 @@ INSERT INTO `dependent` VALUES ('5', 'Josh', '16', '2000-01-16', '5');
 INSERT INTO `dependent` VALUES ('6', '5454', '0', null, '4');
 INSERT INTO `dependent` VALUES ('7', 'Bata 1', '26', '1990-06-19', '6');
 INSERT INTO `dependent` VALUES ('8', 'Bata 2', '12', '2004-06-22', '6');
-INSERT INTO `dependent` VALUES ('9', 'Bata 3', '31', '1984-09-18', '6');
+INSERT INTO `dependent` VALUES ('9', 'Bata 3', '32', '1984-09-18', '6');
 INSERT INTO `dependent` VALUES ('10', 'Mark Galoso', '0', '2016-09-13', '1');
+INSERT INTO `dependent` VALUES ('11', 'Child1', '121', '1895-06-20', '7');
+INSERT INTO `dependent` VALUES ('12', 'Child2', '23', '1993-06-15', '7');
+INSERT INTO `dependent` VALUES ('13', 'Child3', '25', '1991-07-22', '7');
+INSERT INTO `dependent` VALUES ('14', 'JOHLYEN MIGUELLE NAZARENO UPHILL', '6', '2010-03-08', '8');
+INSERT INTO `dependent` VALUES ('15', 'SOFIAH STARLA FAMULAGAN', '0', '2015-10-28', '9');
+INSERT INTO `dependent` VALUES ('16', 'MARY ANN SAQUIN', '53', '1962-10-01', '10');
+INSERT INTO `dependent` VALUES ('17', 'NICOLE SAQUIN', '0', '2016-10-09', '11');
+INSERT INTO `dependent` VALUES ('18', 'ASCUNSION REÑA', '67', '1949-08-15', '12');
+INSERT INTO `dependent` VALUES ('19', 'FAMULAGAN JERAME B.', '27', '1988-12-03', '13');
 
 -- ----------------------------
 -- Table structure for exceltest
@@ -3462,8 +3535,8 @@ INSERT INTO `jumpdate` VALUES ('1', '2016-07-20', 'Ramadan');
 -- ----------------------------
 DROP TABLE IF EXISTS `loan`;
 CREATE TABLE `loan` (
-  `loan_id` int(11) NOT NULL AUTO_INCREMENT,
-  `loan_no` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `loan_no` varchar(50) NOT NULL,
   `loan_type` int(11) NOT NULL,
   `borrower` int(11) NOT NULL,
   `unit` int(11) NOT NULL,
@@ -3484,7 +3557,14 @@ CREATE TABLE `loan` (
   `add_coll` float NOT NULL,
   `net_proceeds` float NOT NULL,
   `penalty` float NOT NULL,
-  PRIMARY KEY (`loan_id`,`loan_no`),
+  `collaterals` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `updated_by` varchar(255) DEFAULT NULL,
+  `ci_date` date NOT NULL,
+  `ci_officer` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`loan_no`),
   KEY `loan_no` (`loan_no`),
   KEY `loan_type` (`loan_type`),
   KEY `loan_ibfk_2` (`unit`),
@@ -3509,13 +3589,12 @@ CREATE TABLE `loanscheme` (
   `created_by` varchar(255) DEFAULT NULL,
   `updated_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8561418 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8561417 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loanscheme
 -- ----------------------------
 INSERT INTO `loanscheme` VALUES ('8561416', 'Loanscheme v.1', '2016-09-15 13:24:52', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme` VALUES ('8561417', 'Loanscheme v.6', '2016-09-15 06:15:38', '2016-09-15 06:15:38', '10', '10');
 
 -- ----------------------------
 -- Table structure for loanscheme_assignment
@@ -3534,22 +3613,17 @@ CREATE TABLE `loanscheme_assignment` (
   KEY `loanscheme_assignment_ibfk_2` (`loanscheme_id`),
   CONSTRAINT `loanscheme_assignment_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE,
   CONSTRAINT `loanscheme_assignment_ibfk_2` FOREIGN KEY (`loanscheme_id`) REFERENCES `loanscheme` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=499350609 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=499350603 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loanscheme_assignment
 -- ----------------------------
-INSERT INTO `loanscheme_assignment` VALUES ('807', '8561416', '6', '2016-09-15 06:13:44', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('808087', '8561416', '5', '2016-09-15 06:13:44', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350600', '8561416', '1', '2016-09-15 06:09:14', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350601', '8561416', '2', '2016-09-15 06:09:14', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350602', '8561416', '3', '2016-09-15 06:09:14', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350603', '8561417', '1', '2016-09-15 06:16:06', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350604', '8561417', '2', '2016-09-15 06:16:06', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350605', '8561417', '3', '2016-09-15 06:16:06', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350606', '8561417', '4', '2016-09-15 06:16:06', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350607', '8561417', '5', '2016-09-15 06:16:06', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_assignment` VALUES ('499350608', '8561417', '6', '2016-09-15 06:16:06', '2016-09-15 06:16:06', '10', '10');
+INSERT INTO `loanscheme_assignment` VALUES ('807', '8561416', '6', '2016-09-15 06:13:44', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_assignment` VALUES ('72095', '8561416', '4', '2016-09-29 14:39:17', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_assignment` VALUES ('808087', '8561416', '5', '2016-09-15 06:13:44', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_assignment` VALUES ('499350600', '8561416', '1', '2016-09-15 06:09:14', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_assignment` VALUES ('499350601', '8561416', '2', '2016-09-15 06:09:14', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_assignment` VALUES ('499350602', '8561416', '3', '2016-09-15 06:09:14', '2016-09-29 14:39:17', '10', '10');
 
 -- ----------------------------
 -- Table structure for loanscheme_values
@@ -3581,49 +3655,30 @@ CREATE TABLE `loanscheme_values` (
   PRIMARY KEY (`id`),
   KEY `loanscheme_values_ibfk_1` (`loanscheme_id`),
   CONSTRAINT `loanscheme_values_ibfk_1` FOREIGN KEY (`loanscheme_id`) REFERENCES `loanscheme` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=289759306 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=289759287 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loanscheme_values
 -- ----------------------------
-INSERT INTO `loanscheme_values` VALUES ('289759268', '8561416', '100', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759269', '8561416', '120', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759270', '8561416', '140', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759271', '8561416', '160', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759272', '8561416', '180', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759273', '8561416', '200', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759274', '8561416', '220', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759275', '8561416', '240', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759276', '8561416', '260', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759277', '8561416', '280', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759278', '8561416', '300', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759279', '8561416', '320', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759280', '8561416', '340', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759281', '8561416', '360', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759282', '8561416', '380', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759283', '8561416', '400', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759284', '8561416', '420', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759285', '8561416', '440', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759286', '8561416', '460', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-15 06:26:30', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759287', '8561417', '100', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:39', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759288', '8561417', '120', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:39', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759289', '8561417', '140', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:39', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759290', '8561417', '160', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:39', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759291', '8561417', '180', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:39', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759292', '8561417', '200', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:39', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759293', '8561417', '220', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:39', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759294', '8561417', '240', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759295', '8561417', '260', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759296', '8561417', '280', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759297', '8561417', '300', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759298', '8561417', '320', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759299', '8561417', '340', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759300', '8561417', '360', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759301', '8561417', '380', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759302', '8561417', '400', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759303', '8561417', '420', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759304', '8561417', '440', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
-INSERT INTO `loanscheme_values` VALUES ('289759305', '8561417', '460', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 06:15:40', '2016-09-15 06:16:06', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759268', '8561416', '100', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759269', '8561416', '120', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759270', '8561416', '140', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759271', '8561416', '160', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759272', '8561416', '180', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759273', '8561416', '200', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759274', '8561416', '220', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759275', '8561416', '240', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759276', '8561416', '260', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759277', '8561416', '280', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759278', '8561416', '300', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759279', '8561416', '320', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759280', '8561416', '340', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759281', '8561416', '360', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759282', '8561416', '380', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759283', '8561416', '400', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759284', '8561416', '420', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759285', '8561416', '440', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
+INSERT INTO `loanscheme_values` VALUES ('289759286', '8561416', '460', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
 
 -- ----------------------------
 -- Table structure for loan_type
@@ -3633,13 +3688,15 @@ CREATE TABLE `loan_type` (
   `loan_id` int(11) NOT NULL AUTO_INCREMENT,
   `loan_description` varchar(255) NOT NULL,
   PRIMARY KEY (`loan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loan_type
 -- ----------------------------
 INSERT INTO `loan_type` VALUES ('1', 'N-CELP');
 INSERT INTO `loan_type` VALUES ('2', 'PD-CELP');
+INSERT INTO `loan_type` VALUES ('3', 'ERP-CELP');
+INSERT INTO `loan_type` VALUES ('4', 'PO - CELP');
 
 -- ----------------------------
 -- Table structure for log
@@ -3654,7 +3711,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3686,6 +3743,51 @@ INSERT INTO `log` VALUES ('24', 'logout', 'user logout: russel', '2016-09-17 15:
 INSERT INTO `log` VALUES ('25', 'login', 'user login: nerissa', '2016-09-17 15:40:13', '21', '4');
 INSERT INTO `log` VALUES ('26', 'logout', 'user logout: nerissa', '2016-09-17 15:46:50', '21', '4');
 INSERT INTO `log` VALUES ('27', 'login', 'user login: joseph', '2016-09-17 15:47:02', '19', '2');
+INSERT INTO `log` VALUES ('28', 'logout', 'user logout: joseph', '2016-09-19 10:32:53', '19', '2');
+INSERT INTO `log` VALUES ('29', 'login', 'user login: russel', '2016-09-19 10:33:00', '10', '9');
+INSERT INTO `log` VALUES ('30', 'logout', 'user logout: russel', '2016-09-19 11:32:59', '10', '9');
+INSERT INTO `log` VALUES ('31', 'login', 'user login: nerissa', '2016-09-19 11:33:11', '21', '4');
+INSERT INTO `log` VALUES ('32', 'logout', 'user logout: nerissa', '2016-09-19 11:33:18', '21', '4');
+INSERT INTO `log` VALUES ('33', 'login', 'user login: russel', '2016-09-19 11:33:35', '10', '9');
+INSERT INTO `log` VALUES ('34', 'update', 'borrower updated: 6', '2016-09-19 14:01:50', '10', '9');
+INSERT INTO `log` VALUES ('35', 'update', 'borrower updated: 6', '2016-09-20 10:34:18', '10', '9');
+INSERT INTO `log` VALUES ('36', 'login', 'user login: russel', '2016-09-21 10:25:55', '10', '9');
+INSERT INTO `log` VALUES ('37', 'logout', 'user logout: russel', '2016-09-21 11:17:10', '10', '9');
+INSERT INTO `log` VALUES ('38', 'login', 'user login: nerissa', '2016-09-21 11:17:22', '21', '4');
+INSERT INTO `log` VALUES ('39', 'logout', 'user logout: nerissa', '2016-09-21 11:19:57', '21', '4');
+INSERT INTO `log` VALUES ('40', 'login', 'user login: russel', '2016-09-21 11:20:04', '10', '9');
+INSERT INTO `log` VALUES ('41', 'logout', 'user logout: russel', '2016-09-21 11:20:28', '10', '9');
+INSERT INTO `log` VALUES ('42', 'login', 'user login: jing', '2016-09-21 11:20:40', '14', '2');
+INSERT INTO `log` VALUES ('43', 'logout', 'user logout: jing', '2016-09-21 11:25:07', '14', '2');
+INSERT INTO `log` VALUES ('44', 'login', 'user login: russel', '2016-09-21 11:25:14', '10', '9');
+INSERT INTO `log` VALUES ('45', 'create', 'borrower created: 7', '2016-09-22 14:51:45', '10', '9');
+INSERT INTO `log` VALUES ('46', 'login', 'user login: russel', '2016-09-28 14:33:32', '10', '9');
+INSERT INTO `log` VALUES ('47', 'login', 'user login: russel', '2016-09-29 09:46:59', '10', '9');
+INSERT INTO `log` VALUES ('48', 'login', 'user login: russel', '2016-09-29 10:18:39', '10', '9');
+INSERT INTO `log` VALUES ('49', 'login', 'user login: russel', '2016-09-29 11:03:13', '10', '9');
+INSERT INTO `log` VALUES ('50', 'login', 'user login: jing', '2016-09-30 09:47:09', '14', '2');
+INSERT INTO `log` VALUES ('51', 'create', 'borrower created: 8', '2016-09-30 09:54:27', '14', '2');
+INSERT INTO `log` VALUES ('52', 'create', 'borrower created: 9', '2016-09-30 10:05:32', '14', '2');
+INSERT INTO `log` VALUES ('53', 'create', 'borrower created: 10', '2016-09-30 10:13:12', '14', '2');
+INSERT INTO `log` VALUES ('54', 'create', 'borrower created: 11', '2016-09-30 10:22:58', '14', '2');
+INSERT INTO `log` VALUES ('55', 'create', 'borrower created: 12', '2016-09-30 10:31:31', '14', '2');
+INSERT INTO `log` VALUES ('56', 'create', 'borrower created: 13', '2016-09-30 10:48:09', '14', '2');
+INSERT INTO `log` VALUES ('57', 'logout', 'user logout: jing', '2016-09-30 10:55:36', '14', '2');
+INSERT INTO `log` VALUES ('58', 'login', 'user login: russel', '2016-09-30 10:55:49', '10', '9');
+INSERT INTO `log` VALUES ('59', 'update', 'borrower updated: 13', '2016-09-30 13:23:28', '10', '9');
+INSERT INTO `log` VALUES ('60', 'login', 'user login: russel', '2016-10-04 09:27:00', '10', '9');
+INSERT INTO `log` VALUES ('61', 'logout', 'user logout: russel', '2016-10-04 17:33:42', '10', '9');
+INSERT INTO `log` VALUES ('62', 'login', 'user login: russel', '2016-10-04 17:33:51', '10', '9');
+INSERT INTO `log` VALUES ('63', 'login', 'user login: russel', '2016-10-05 08:58:16', '10', '9');
+INSERT INTO `log` VALUES ('64', 'login', 'user login: russel', '2016-10-06 08:46:44', '10', '9');
+INSERT INTO `log` VALUES ('65', 'login', 'user login: russel', '2016-10-11 15:58:07', '10', '9');
+INSERT INTO `log` VALUES ('66', 'login', 'user login: russel', '2016-10-12 09:41:44', '10', '9');
+INSERT INTO `log` VALUES ('67', 'login', 'user login: russel', '2016-10-18 13:40:44', '10', '9');
+INSERT INTO `log` VALUES ('68', 'logout', 'user logout: russel', '2016-10-21 11:39:24', '10', '9');
+INSERT INTO `log` VALUES ('69', 'login', 'user login: russel', '2016-10-21 11:39:33', '10', '9');
+INSERT INTO `log` VALUES ('70', 'logout', 'user logout: russel', '2016-10-21 11:39:36', '10', '9');
+INSERT INTO `log` VALUES ('71', 'login', 'user login: russel', '2016-10-21 11:40:03', '10', '9');
+INSERT INTO `log` VALUES ('72', 'login', 'user login: russel', '2016-10-28 09:53:55', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration
