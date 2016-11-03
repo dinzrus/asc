@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4 class="box-title"><i class="fa fa-folder-open"></i> <strong>LOAN DETAILS</strong></h4>
             </div>
             <div class="box-body">
-                <?php $form = ActiveForm::begin(['action' => ['site/index']]); ?>
+                <?php $form = ActiveForm::begin(); ?>
                 <div class="row">
                     <div class="col-md-6">
                         <table class="table">

@@ -44,7 +44,7 @@ class Comaker extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'gender', 'created_at', 'updated_at'], 'required'],
+            [['first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'gender'], 'required'],
             [['birthdate', 'created_at', 'updated_at'], 'safe'],
             [['age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'branch_id'], 'integer'],
             [['attachment'], 'string'],

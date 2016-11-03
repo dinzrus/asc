@@ -26,7 +26,7 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'index'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -249,9 +249,9 @@ class SiteController extends Controller {
 
     public function actionSfr() {
         $query = (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ?
-                \app\models\Borrower::find():
-                 \app\models\Borrower::find()
-                ->where(['borrower.branch_id' => Yii::$app->user->identity->branch_id]);
+                \app\models\Borrower::find() :
+                \app\models\Borrower::find()
+                        ->where(['borrower.branch_id' => Yii::$app->user->identity->branch_id]);
 
         $count = $query->count();
         $pagination = new Pagination(['totalCount' => $count]);
@@ -259,7 +259,7 @@ class SiteController extends Controller {
         $clnts = $query->offset($pagination->offset)
                 ->limit($pagination->limit)
                 ->all();
-        
+
         $loantype = \app\models\LoanType::find()->all();
 
         return $this->render('scheduleforreleasing', [
@@ -320,31 +320,60 @@ class SiteController extends Controller {
                     'list' => $list,
         ]);
     }
-    
+
     /**
      * 
      * @return type
      */
-    public function actionSchedulerelease($id,$loantype,$daily,$unit){
-        
+    public function actionSchedulerelease($id, $loantype, $daily, $unit) {
+
         $borrower = Borrower::findOne(['id' => $id]);
         $business = \app\models\base\Business::findOne(['borrower_id' => $id]);
         $unt = \app\models\Unit::findOne(['unit_id' => $unit]);
         $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
         $loanscheme = \app\models\LoanschemeValues::findOne(['id' => $daily]);
-        
+
         $loan = new \app\models\Loan();
         $comaker = new \app\models\Comaker();
-        
-        return $this->render('schedulerelease',[
-                'borrower' => $borrower,
-                'business' => $business,
-                'unt' => $unt,
-                'ltype' => $ltype,
-                'loanscheme' => $loanscheme,
-                'comaker' => $comaker,
-                'loan' => $loan,
-        ]);
+
+        if ($comaker->load(Yii::$app->request->post()) && $loan->load(Yii::$app->request->post())) {
+            
+           $loan->daily = $loanscheme->daily;
+           $loan->term = $loanscheme->term;
+           $loan->gross_amount = $loanscheme->gross_amt;
+           $loan->total_deductions = $loanscheme->total_deductions;
+           $loan->net_proceeds = $loanscheme->net_proceeds;
+           $loan->doc_stamp = $loanscheme->doc_stamp;
+           $loan->gas = $loanscheme->gas;
+           $loan->admin_fee = $loanscheme->admin_fee;
+           $loan->notarial_fee = $loanscheme->notary_fee;
+           $loan->additional_fee = 0; //temp only
+           $loan->misc = $loanscheme->misc;
+           $loan->add_coll = $loanscheme->add_coll;
+           $loan->interest_bdays = $loanscheme->interest;
+           $loan->add_days = $loanscheme->add_days;
+           $loan->loan_type = $ltype->loan_id;
+           $loan->borrower = $borrower->id;
+           $loan->unit = $unt->unit_id;
+           $loan->release_date = date('m/d/y'); // temp only
+           $loan->maturity_date = date('m/d/y'); // temp only
+           $loan->penalty = $loanscheme->penalty;
+           $loan->loan_no = 'TEMPNO123456';
+              
+           $comaker->civil_status = 'Single'; //temp lang
+           $comaker->age = 10; // temp lang
+               
+        } else {
+            return $this->render('schedulerelease', [
+                        'borrower' => $borrower,
+                        'business' => $business,
+                        'unt' => $unt,
+                        'ltype' => $ltype, 
+                        'loanscheme' => $loanscheme,
+                        'comaker' => $comaker,
+                        'loan' => $loan,
+            ]);
+        }
     }
 
     /**
@@ -356,22 +385,21 @@ class SiteController extends Controller {
     public function actionAbout() {
         return $this->render('about');
     }
-    
-    
+
     // test ajax request
-   
-    public function actionTest($id,$branch){
-        
+
+    public function actionTest($id, $branch) {
+
         $data = Borrower::findOne($id); // retrieve borrowers info
-        
+
         $la = \app\models\LoanschemeAssignment::find()->where(['branch_id' => $data->branch_id])->one(); // retrieve loanscheme through borrowers branch id
-        
+
         $dailys = \app\models\LoanschemeValues::find()->where(['loanscheme_id' => $la['loanscheme_id']])->all(); // get loanscheme values
-        
+
         $units = \app\models\Unit::find()->where(['branch_id' => $branch])->all(); // retrieve units
-             
+
         echo Json::encode(array($dailys, $units));
-       
+
         die();
     }
 
