@@ -78,8 +78,20 @@
                             ],
                         ],
                         [
+                            'label' => 'Inquiries',
+                            'icon' => 'fa fa-info',
+                            'visible' => !Yii::$app->user->isGuest,
+                            'url' => ['/report'],
+                        ],
+                        [
                             'label' => 'Reports',
                             'icon' => 'fa fa-print',
+                            'visible' => !Yii::$app->user->isGuest,
+                            'url' => ['/report'],
+                        ],
+                        [
+                            'label' => 'Help',
+                            'icon' => 'fa fa-book',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => ['/report'],
                         ],

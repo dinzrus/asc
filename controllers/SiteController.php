@@ -355,13 +355,19 @@ class SiteController extends Controller {
            $loan->loan_type = $ltype->loan_id;
            $loan->borrower = $borrower->id;
            $loan->unit = $unt->unit_id;
-           $loan->release_date = date('m/d/y'); // temp only
-           $loan->maturity_date = date('m/d/y'); // temp only
            $loan->penalty = $loanscheme->penalty;
-           $loan->loan_no = 'TEMPNO123456';
-              
-           $comaker->civil_status = 'Single'; //temp lang
+           
+           // todo: calculate age 
            $comaker->age = 10; // temp lang
+           
+           // todo: set release and maturity date 
+           $loan->release_date = date('m/d/y'); // get the date of the day
+           $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date);
+           
+           // todo: generate account no.
+           $loan->loan_no = 'TEMPNO123456'; // temp only
+           
+           $loan->save();
                
         } else {
             return $this->render('schedulerelease', [

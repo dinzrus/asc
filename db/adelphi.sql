@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-11-03 17:09:07
+Date: 2016-11-09 17:25:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3563,17 +3563,11 @@ CREATE TABLE `loan` (
   KEY `loan_ibfk_3` (`borrower`),
   CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`loan_type`) REFERENCES `loan_type` (`loan_id`) ON UPDATE CASCADE,
   CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`unit`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48600865 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
-INSERT INTO `loan` VALUES ('7', 'TEMPNO123456', '3', '7', '16', '2011-03-16', '2011-03-16', '400', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'Tv Flat SN. TYID4545', '1', '2016-11-16', '2016-11-03 13:50:56', '2016-11-03 13:50:56', '10', '10');
-INSERT INTO `loan` VALUES ('87', 'TEMPNO123456', '3', '7', '16', '2011-03-16', '2011-03-16', '400', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'swim', '1', '2016-11-22', '2016-11-03 14:05:33', '2016-11-03 14:05:33', '10', '10');
-INSERT INTO `loan` VALUES ('48600861', 'TEMPNO123456', '3', '7', '16', '2011-03-16', '2011-03-16', '400', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'Tv Flat SN. TYID4545', '1', '2016-11-16', '2016-11-03 13:44:58', '2016-11-03 13:44:58', '10', '10');
-INSERT INTO `loan` VALUES ('48600862', 'TEMPNO123456', '3', '7', '16', '2011-03-16', '2011-03-16', '400', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'Tv Flat SN. TYID4545', '1', '2016-11-16', '2016-11-03 13:46:44', '2016-11-03 13:46:44', '10', '10');
-INSERT INTO `loan` VALUES ('48600863', 'TEMPNO123456', '3', '7', '16', '2011-03-16', '2011-03-16', '400', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'swim', '1', '2016-11-22', '2016-11-03 13:53:03', '2016-11-03 13:53:03', '10', '10');
-INSERT INTO `loan` VALUES ('48600864', 'TEMPNO123456', '3', '7', '16', '2011-03-16', '2011-03-16', '400', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'swim', '1', '2016-11-22', '2016-11-03 13:59:11', '2016-11-03 13:59:11', '10', '10');
 
 -- ----------------------------
 -- Table structure for loanscheme
@@ -3709,7 +3703,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3786,6 +3780,12 @@ INSERT INTO `log` VALUES ('69', 'login', 'user login: russel', '2016-10-21 11:39
 INSERT INTO `log` VALUES ('70', 'logout', 'user logout: russel', '2016-10-21 11:39:36', '10', '9');
 INSERT INTO `log` VALUES ('71', 'login', 'user login: russel', '2016-10-21 11:40:03', '10', '9');
 INSERT INTO `log` VALUES ('72', 'login', 'user login: russel', '2016-10-28 09:53:55', '10', '9');
+INSERT INTO `log` VALUES ('73', 'login', 'user login: russel', '2016-11-05 09:36:34', '10', '9');
+INSERT INTO `log` VALUES ('74', 'logout', 'user logout: russel', '2016-11-07 09:05:39', '10', '9');
+INSERT INTO `log` VALUES ('75', 'login', 'user login: joseph', '2016-11-07 09:05:51', '19', '2');
+INSERT INTO `log` VALUES ('76', 'logout', 'user logout: joseph', '2016-11-07 09:15:20', '19', '2');
+INSERT INTO `log` VALUES ('77', 'login', 'user login: russel', '2016-11-07 09:15:27', '10', '9');
+INSERT INTO `log` VALUES ('78', 'login', 'user login: russel', '2016-11-09 13:26:04', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration

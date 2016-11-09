@@ -38,7 +38,9 @@ $this->registerJs($search);
                 <tr>
                     <th>No.</th>
                     <th>Name</th>
-                    <th>Branch</th>
+                    <?php if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN'): ?>
+                        <th>Branch</th>
+                    <?php endif; ?>
                     <th>Canvasser</th>
                     <th>Canvass Date</th>
                     <th>Actions</th>
@@ -54,7 +56,9 @@ $this->registerJs($search);
                         <tr>
                             <td><?= $counter ?></td>
                             <td><?= $li->fullname ?></td>
-                            <td><?= $li->branch->branch_description ?></td>
+                            <?php if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN'): ?>
+                                <td><?= $li->branch->branch_description ?></td>
+                            <?php endif; ?>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
                             <td><?= $li['canvass_date'] ?></td>
                             <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
@@ -110,7 +114,7 @@ $this->registerJs($search);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <?= Html::a('Submit',Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary', 'onclick' => 'javascript:addURL(this);']) ?>
+                    <?= Html::a('Submit', Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary', 'onclick' => 'javascript:addURL(this);']) ?>
                 </div>
             </form>
         </div>

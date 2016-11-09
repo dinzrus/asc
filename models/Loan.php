@@ -24,5 +24,12 @@ class Loan extends BaseLoan
             [['collaterals', 'created_by', 'updated_by'], 'string', 'max' => 255]
         ]);
     }
+    
+    /**
+     * This will return the maturity date of the loan
+     */
+    public static function getMaturityDate($reldate){
+        return $reldate;
+    }
 	
 }

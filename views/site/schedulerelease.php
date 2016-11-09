@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                      */
                                     $date = date('m/d/y');
                                     $mat = strtotime('10/21/2016' . '48 days');
-                                    echo date('m/d/y', $mat);
+                                    echo \app\models\Loan::getMaturityDate(date('m/d/y', $mat));
                                     ?></td>
                             </tr>
                         </table>
@@ -153,10 +153,28 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
-                        <?= $form->field($comaker, 'gender') ?> 
+                    <div class="col-md-6">
+                        <?=
+                        $form->field($comaker, 'gender')->dropDownList([
+                            'Male' => 'Male',
+                            'Female' => 'Female',
+                                ], ['prompt' => '- Select - '])
+                        ?> 
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        <?=
+                        $form->field($comaker, 'civil_status')->dropDownList([
+                            'Single' => 'Single',
+                            'Married' => 'Married',
+                            'Widowed' => 'Widowed',
+                            'Common_law' => 'Common Law',
+                            'Separated' => 'Separated'
+                                ], ['prompt' => '- Select - '])
+                        ?> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
                         <?=
                         $form->field($comaker, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
                             'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
@@ -171,7 +189,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                         ?>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-7">
                         <?= $form->field($comaker, 'birthplace') ?>
                     </div>
                 </div>
