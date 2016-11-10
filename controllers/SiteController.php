@@ -327,58 +327,86 @@ class SiteController extends Controller {
      */
     public function actionSchedulerelease($id, $loantype, $daily, $unit) {
 
-        $borrower = Borrower::findOne(['id' => $id]);
-        $business = \app\models\base\Business::findOne(['borrower_id' => $id]);
-        $unt = \app\models\Unit::findOne(['unit_id' => $unit]);
-        $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
-        $loanscheme = \app\models\LoanschemeValues::findOne(['id' => $daily]);
+        if (Yii::$app->user->can('ORGANIZER')) {
 
-        $loan = new \app\models\Loan();
-        $comaker = new \app\models\Comaker();
+            $borrower = Borrower::findOne(['id' => $id]);
+            $business = \app\models\base\Business::findOne(['borrower_id' => $id]);
+            $unt = \app\models\Unit::findOne(['unit_id' => $unit]);
+            $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
+            $loanscheme = \app\models\LoanschemeValues::findOne(['id' => $daily]);
 
-        if ($comaker->load(Yii::$app->request->post()) && $loan->load(Yii::$app->request->post())) {
-            
-           $loan->daily = $loanscheme->daily;
-           $loan->term = $loanscheme->term;
-           $loan->gross_amount = $loanscheme->gross_amt;
-           $loan->total_deductions = $loanscheme->total_deductions;
-           $loan->net_proceeds = $loanscheme->net_proceeds;
-           $loan->doc_stamp = $loanscheme->doc_stamp;
-           $loan->gas = $loanscheme->gas;
-           $loan->admin_fee = $loanscheme->admin_fee;
-           $loan->notarial_fee = $loanscheme->notary_fee;
-           $loan->additional_fee = 0; //temp only
-           $loan->misc = $loanscheme->misc;
-           $loan->add_coll = $loanscheme->add_coll;
-           $loan->interest_bdays = $loanscheme->interest;
-           $loan->add_days = $loanscheme->add_days;
-           $loan->loan_type = $ltype->loan_id;
-           $loan->borrower = $borrower->id;
-           $loan->unit = $unt->unit_id;
-           $loan->penalty = $loanscheme->penalty;
-           
-           // todo: calculate age 
-           $comaker->age = 10; // temp lang
-           
-           // todo: set release and maturity date 
-           $loan->release_date = date('m/d/y'); // get the date of the day
-           $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date);
-           
-           // todo: generate account no.
-           $loan->loan_no = 'TEMPNO123456'; // temp only
-           
-           $loan->save();
-               
+            $loan = new \app\models\Loan();
+            $comaker = new \app\models\Comaker();
+
+            if ($comaker->load(Yii::$app->request->post()) && $loan->load(Yii::$app->request->post())) {
+
+                $loan->daily = $loanscheme->daily;
+                $loan->term = $loanscheme->term;
+                $loan->gross_amount = $loanscheme->gross_amt;
+                $loan->total_deductions = $loanscheme->total_deductions;
+                $loan->net_proceeds = $loanscheme->net_proceeds;
+                $loan->doc_stamp = $loanscheme->doc_stamp;
+                $loan->gas = $loanscheme->gas;
+                $loan->admin_fee = $loanscheme->admin_fee;
+                $loan->notarial_fee = $loanscheme->notary_fee;
+                $loan->additional_fee = 0; //temp only
+                $loan->misc = $loanscheme->misc;
+                $loan->add_coll = $loanscheme->add_coll;
+                $loan->interest_bdays = $loanscheme->interest;
+                $loan->add_days = $loanscheme->add_days;
+                $loan->loan_type = $ltype->loan_id;
+                $loan->borrower = $borrower->id;
+                $loan->unit = $unt->unit_id;
+                $loan->penalty = $loanscheme->penalty;
+
+                // todo: calculate age 
+                $comaker->age = 10; // temp lang
+                // todo: set release and maturity date 
+                $loan->release_date = date('m/d/y'); // get the date of the day
+                $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date);
+
+                // todo: generate account no.
+                $loan->loan_no = 'TEMPNO123456';// todo: temp only
+                $loan->status = 'test'; // todo
+
+                if ($comaker->validate() && $loan->validate()) {                   
+                    $comaker->save();
+                    $loan->save();
+                    
+                    $loan_comaker = new \app\models\Loancomaker();
+                    $loan_comaker->loan_id = $loan->id;
+                    $loan_comaker->comaker_id = $comaker->id;
+                    $loan_comaker->save();
+                    
+                    $session = Yii::$app->session;
+                    $message = $borrower->fullname .' had been released!';
+                    $session->setFlash('loanReleased', $message);
+                    
+                    return $this->redirect(['site/sfr']);
+                } else {
+                    return $this->render('schedulerelease', [
+                                'borrower' => $borrower,
+                                'business' => $business,
+                                'unt' => $unt,
+                                'ltype' => $ltype,
+                                'loanscheme' => $loanscheme,
+                                'comaker' => $comaker,
+                                'loan' => $loan,
+                    ]);
+                }
+            } else {
+                return $this->render('schedulerelease', [
+                            'borrower' => $borrower,
+                            'business' => $business,
+                            'unt' => $unt,
+                            'ltype' => $ltype,
+                            'loanscheme' => $loanscheme,
+                            'comaker' => $comaker,
+                            'loan' => $loan,
+                ]);
+            }
         } else {
-            return $this->render('schedulerelease', [
-                        'borrower' => $borrower,
-                        'business' => $business,
-                        'unt' => $unt,
-                        'ltype' => $ltype, 
-                        'loanscheme' => $loanscheme,
-                        'comaker' => $comaker,
-                        'loan' => $loan,
-            ]);
+            throw new \yii\web\UnauthorizedHttpException();
         }
     }
 
@@ -392,9 +420,8 @@ class SiteController extends Controller {
         return $this->render('about');
     }
 
-    // test ajax request
 
-    public function actionTest($id, $branch) {
+    public function actionDailyunits($id, $branch) {
 
         $data = Borrower::findOne($id); // retrieve borrowers info
 

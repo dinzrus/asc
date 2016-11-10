@@ -18,6 +18,16 @@ $this->registerJs($search);
 ?>
 <div class="box box-primary">
     <div class="box-body">  
+        <div class="row">
+            <div class="col-md-12">
+                <?php if (Yii::$app->session->hasFlash('loanReleased')): ?>
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('loanReleased') ?></h4>           
+                    </div>
+                <?php endif; ?>   
+            </div>
+        </div>
         <label for="srcword">Search</label>
         <form action="<?= Url::to(['/']); ?>">
             <div class="row">
@@ -61,7 +71,7 @@ $this->registerJs($search);
                             <?php endif; ?>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
                             <td><?= $li['canvass_date'] ?></td>
-                            <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
+                            <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-instagram btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -131,7 +141,7 @@ $this->registerJs("
             var branch = button.data('branch');
             var modal = $(this);
             
-            $.get('index.php?r=site/test',{ id:recipient, branch:branch }, function(data) {
+            $.get('index.php?r=site/dailyunits',{ id:recipient, branch:branch }, function(data) {
                 var jsn = JSON.parse(data);
                 // alert(data);
                 var d1 = jsn[0];

@@ -33,6 +33,7 @@ use mootensai\behaviors\UUIDBehavior;
  * @property double $net_proceeds
  * @property double $penalty
  * @property string $collaterals
+ * @properyt string $status
  * @property string $created_at
  * @property string $updated_at
  * @property string $created_by
@@ -53,7 +54,7 @@ class Loan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['loan_no', 'loan_type', 'borrower', 'unit', 'release_date', 'maturity_date', 'daily', 'term', 'gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_days', 'add_coll', 'net_proceeds', 'penalty', 'collaterals', 'ci_date', 'ci_officer'], 'required'],
+            [['loan_no', 'loan_type', 'borrower', 'unit', 'release_date', 'maturity_date', 'daily', 'term', 'gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_days', 'add_coll', 'net_proceeds', 'penalty', 'collaterals', 'ci_date', 'ci_officer', 'status'], 'required'],
             [['loan_type', 'borrower', 'unit', 'daily', 'term', 'add_days', 'ci_officer'], 'integer'],
             [['release_date', 'maturity_date', 'created_at', 'updated_at', 'ci_date'], 'safe'],
             [['gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_coll', 'net_proceeds', 'penalty'], 'number'],
@@ -99,6 +100,7 @@ class Loan extends \yii\db\ActiveRecord
             'net_proceeds' => 'Net Proceeds',
             'penalty' => 'Penalty',
             'collaterals' => 'Collaterals',
+            'status' => 'Status',
             'ci_date' => 'Ci Date',
             'ci_officer' => 'Ci Officer',
         ];

@@ -69,6 +69,7 @@
                         [
                             'label' => 'Transaction',
                             'icon' => 'fa fa-briefcase',
+                            'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => '#',
                             'items' => [
                                 ['label' => 'C.I. Canvass Approval', 'icon' => 'fa fa-circle-o', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
@@ -80,8 +81,11 @@
                         [
                             'label' => 'Inquiries',
                             'icon' => 'fa fa-info',
-                            'visible' => !Yii::$app->user->isGuest,
+                            'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => ['/report'],
+                            'items' => [
+                                        ['label' => 'Borrowers Accounts Ledger', 'icon' => 'fa fa-circle-o', 'url' => ['/'],],
+                                    ],
                         ],
                         [
                             'label' => 'Reports',

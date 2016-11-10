@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-11-09 17:25:45
+Date: 2016-11-10 17:08:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3418,12 +3418,14 @@ CREATE TABLE `comaker` (
   KEY `status` (`status`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2648 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of comaker
 -- ----------------------------
-INSERT INTO `comaker` VALUES ('87', null, 'fsdfsf', 'fsfsd', 'fsdf', null, '2016-11-17', '10', 'Carmen', '5', '12', '195', 'Banilad one', 'Single', '03126464', null, null, null, 'Male', '2016-11-03 14:05:33', '2016-11-03 14:05:33', '10', '10');
+INSERT INTO `comaker` VALUES ('6', null, 'fd', 'ffsdf', 'sf', null, '2016-12-08', '10', 'fsdf', '5', '13', '217', 'fsd', 'Single', 'fdsf', null, null, null, 'Female', '2016-11-10 15:43:55', '2016-11-10 15:43:55', '10', '10');
+INSERT INTO `comaker` VALUES ('2646', null, 'Joseph', 'Baldoza', 'Gwapo', null, '2016-11-09', '10', 'Apas Cebu', '4', '6', '6', '#8 casa feneza ubay', 'Married', '45115', null, null, null, 'Male', '2016-11-10 10:41:15', '2016-11-10 10:41:15', '10', '10');
+INSERT INTO `comaker` VALUES ('2647', null, 'fsdf', 'fsdf', 'fdsf', null, '2016-12-01', '10', 'fsdf', '5', '12', '196', 'fsdf', 'Single', 'fdsf', null, null, null, 'Male', '2016-11-10 10:45:14', '2016-11-10 10:45:14', '10', '10');
 
 -- ----------------------------
 -- Table structure for dependent
@@ -3552,6 +3554,7 @@ CREATE TABLE `loan` (
   `collaterals` varchar(255) NOT NULL,
   `ci_officer` int(11) NOT NULL,
   `ci_date` date NOT NULL,
+  `status` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
@@ -3563,11 +3566,14 @@ CREATE TABLE `loan` (
   KEY `loan_ibfk_3` (`borrower`),
   CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`loan_type`) REFERENCES `loan_type` (`loan_id`) ON UPDATE CASCADE,
   CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`unit`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
+INSERT INTO `loan` VALUES ('1', 'TEMPNO123456', '1', '6', '18', '2011-10-16', '2011-10-16', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'fdsfdsfdsf', '1', '2016-11-22', null, '2016-11-10 10:41:15', '2016-11-10 10:41:15', '10', '10');
+INSERT INTO `loan` VALUES ('2', 'TEMPNO123456', '1', '9', '6', '2011-10-16', '2011-10-16', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'fdsfsdf', '1', '2016-11-25', null, '2016-11-10 10:45:14', '2016-11-10 10:45:14', '10', '10');
+INSERT INTO `loan` VALUES ('6', 'TEMPNO123456', '1', '11', '6', '2011-10-16', '2011-10-16', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'dsfdsf', '1', '2016-12-08', 'TEST', '2016-11-10 15:43:55', '2016-11-10 15:43:55', '10', '10');
 
 -- ----------------------------
 -- Table structure for loanscheme
@@ -3673,6 +3679,24 @@ INSERT INTO `loanscheme_values` VALUES ('289759285', '8561416', '440', '51', '45
 INSERT INTO `loanscheme_values` VALUES ('289759286', '8561416', '460', '51', '4566', '5000.56', '100.5', '75.56', '50.36', '150.75', '50', '50', '5477.73', '3', '1000', '7089.5', '25.5', '3', '2016-09-15 13:24:53', '2016-09-29 14:39:17', '10', '10');
 
 -- ----------------------------
+-- Table structure for loan_comaker
+-- ----------------------------
+DROP TABLE IF EXISTS `loan_comaker`;
+CREATE TABLE `loan_comaker` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `loan_id` int(11) NOT NULL,
+  `comaker_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of loan_comaker
+-- ----------------------------
+INSERT INTO `loan_comaker` VALUES ('1', '2651064', '2646');
+INSERT INTO `loan_comaker` VALUES ('2', '2', '2647');
+INSERT INTO `loan_comaker` VALUES ('3', '6', '6');
+
+-- ----------------------------
 -- Table structure for loan_type
 -- ----------------------------
 DROP TABLE IF EXISTS `loan_type`;
@@ -3703,7 +3727,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3786,6 +3810,8 @@ INSERT INTO `log` VALUES ('75', 'login', 'user login: joseph', '2016-11-07 09:05
 INSERT INTO `log` VALUES ('76', 'logout', 'user logout: joseph', '2016-11-07 09:15:20', '19', '2');
 INSERT INTO `log` VALUES ('77', 'login', 'user login: russel', '2016-11-07 09:15:27', '10', '9');
 INSERT INTO `log` VALUES ('78', 'login', 'user login: russel', '2016-11-09 13:26:04', '10', '9');
+INSERT INTO `log` VALUES ('79', 'logout', 'user logout: russel', '2016-11-10 09:15:27', '10', '9');
+INSERT INTO `log` VALUES ('80', 'login', 'user login: russel', '2016-11-10 09:16:32', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration
