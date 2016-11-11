@@ -360,7 +360,7 @@ class SiteController extends Controller {
                 $loan->penalty = $loanscheme->penalty;
 
                 // todo: calculate age 
-                $comaker->age = 10; // temp lang
+                $comaker->age = \app\models\Comaker::calculateAge($comaker->birthdate);
                 // todo: set release and maturity date 
                 $loan->release_date = date('m/d/y'); // get the date of the day
                 $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date);

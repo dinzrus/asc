@@ -112,7 +112,7 @@ class Comaker extends \yii\db\ActiveRecord
             ],
         ];
     }
-
+    
     /**
      * @inheritdoc
      * @return \app\models\ComakerQuery the active query used by this AR class.

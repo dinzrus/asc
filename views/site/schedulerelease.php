@@ -129,6 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <h4><i class="fa fa-user"></i> <strong>SECOND SIGNATORY</strong></h4>
                     </div>
                 </div>
+                <?= $form->errorSummary($comaker) ?>
                 <div class="row">
                     <div class="col-md-4">
                         <?= $form->field($comaker, 'last_name') ?>
