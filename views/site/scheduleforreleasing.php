@@ -123,8 +123,8 @@ $this->registerJs($search);
                     </div>  
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <?= Html::a('Submit', Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary', 'onclick' => 'javascript:addURL(this);']) ?>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    <?= Html::a('<i class="fa fa-calendar"></i> Schedule', Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary', 'onclick' => 'javascript:addURL(this);']) ?>
                 </div>
             </form>
         </div>

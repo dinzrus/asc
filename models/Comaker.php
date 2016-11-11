@@ -23,5 +23,12 @@ class Comaker extends BaseComaker
             [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'status', 'gender', 'created_by', 'updated_by'], 'string', 'max' => 255]
         ]);
     }
+    
+    public static function calculateAge($dob) {
+        $birthdate = new \DateTime($dob);
+        $dtoday = new \DateTime('today');
+        $age = $birthdate->diff($dtoday)->y;
+        return $age;
+    }
 	
 }

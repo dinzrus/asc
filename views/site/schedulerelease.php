@@ -73,20 +73,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <td><?= $unt->unit_description ?></td>
                             </tr>
                             <tr>
-                                <td><strong>Date of Release:</strong></td>
-                                <td><?= date('m/d/y'); ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Maturity Date:</strong></td>
-                                <td><?php
-                                    /**
-                                     * Temporary Only
-                                     * Todo...
-                                     */
-                                    $date = date('m/d/y');
-                                    $mat = strtotime('10/21/2016' . '48 days');
-                                    echo \app\models\Loan::getMaturityDate(date('m/d/y', $mat));
-                                    ?></td>
+                                <td><strong>Release Date:</strong></td>
+                                <td><?= date('m/d/y') ?></td>
                             </tr>
                         </table>
                     </div>
@@ -250,7 +238,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-lg']) ?>
+                            <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-primary btn-lg']) ?>
                         </div>
                     </div>
                 </div>
