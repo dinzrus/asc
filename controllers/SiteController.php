@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\SignupForm;
+use app\models\BorrowerSfrSearch;
 use app\models\Borrower;
 use app\models\Log;
 use yii\web\UploadedFile;
@@ -248,24 +249,17 @@ class SiteController extends Controller {
     }
 
     public function actionSfr() {
-        $query = (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ?
-                \app\models\Borrower::find() :
-                \app\models\Borrower::find()
-                        ->where(['borrower.branch_id' => Yii::$app->user->identity->branch_id]);
+        $borrowersearch = new BorrowerSfrSearch();
+        $borrower = $borrowersearch->search(Yii::$app->request->queryParams);
 
-        $count = $query->count();
-        $pagination = new Pagination(['totalCount' => $count]);
-
-        $clnts = $query->offset($pagination->offset)
-                ->limit($pagination->limit)
-                ->all();
+        $borrowers = $borrower->getModels();
 
         $loantype = \app\models\LoanType::find()->all();
 
         return $this->render('scheduleforreleasing', [
-                    'list' => $clnts,
+                    'borrowers' => $borrowers,
+                    'borrowersearch' => $borrowersearch,
                     'loantype' => $loantype,
-                    'pagination' => $pagination,
         ]);
     }
 
@@ -366,22 +360,22 @@ class SiteController extends Controller {
                 $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date);
 
                 // todo: generate account no.
-                $loan->loan_no = 'TEMPNO123456';// todo: temp only
-                $loan->status = 'test'; // todo
+                $loan->loan_no = 'TEMPNO123456'; // todo: temp only
+                $loan->status = $loan::NEEDAPPROVAL;
 
-                if ($comaker->validate() && $loan->validate()) {                   
+                if ($comaker->validate() && $loan->validate()) {
                     $comaker->save();
                     $loan->save();
-                    
+
                     $loan_comaker = new \app\models\Loancomaker();
                     $loan_comaker->loan_id = $loan->id;
                     $loan_comaker->comaker_id = $comaker->id;
                     $loan_comaker->save();
-                    
+
                     $session = Yii::$app->session;
-                    $message = $borrower->fullname .' had been released!';
+                    $message = $borrower->fullname . ' has been scheduled!';
                     $session->setFlash('loanReleased', $message);
-                    
+
                     return $this->redirect(['site/sfr']);
                 } else {
                     return $this->render('schedulerelease', [
@@ -410,6 +404,14 @@ class SiteController extends Controller {
         }
     }
 
+    public function actionReleasingapproval() {
+        if (Yii::$app->user->can('IT')) {
+            
+        } else {
+            throw new \yii\web\UnauthorizedHttpException();
+        }
+    }
+
     /**
      * Displays about page.
      *
@@ -419,7 +421,6 @@ class SiteController extends Controller {
     public function actionAbout() {
         return $this->render('about');
     }
-
 
     public function actionDailyunits($id, $branch) {
 

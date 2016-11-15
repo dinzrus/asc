@@ -57,6 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="box-body">
                 <?php $form = ActiveForm::begin(); ?>
+                <?= $form->errorSummary($comaker) ?>
                 <div class="row">
                     <div class="col-md-6">
                         <table class="table">
@@ -128,8 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-12">
                         <h4><i class="fa fa-user"></i> <strong>SECOND SIGNATORY</strong></h4>
                     </div>
-                </div>
-                <?= $form->errorSummary($comaker) ?>
+                </div>                
                 <div class="row">
                     <div class="col-md-4">
                         <?= $form->field($comaker, 'last_name') ?>
@@ -239,7 +239,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-primary btn-lg']) ?>
+                            <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-primary btn-block btn-lg']) ?>
                         </div>
                     </div>
                 </div>

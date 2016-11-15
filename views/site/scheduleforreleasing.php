@@ -7,9 +7,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use yii\web\View;
+use yii\widgets\Pjax;
 
 $this->title = 'Schedule for Releasing';
 $this->params['breadcrumbs'][] = $this->title;
+
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
 	return false;
@@ -28,20 +30,13 @@ $this->registerJs($search);
                 <?php endif; ?>   
             </div>
         </div>
-        <label for="srcword">Search</label>
-        <form action="<?= Url::to(['/']); ?>">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search text" name="srcword">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </div>
+        <?php Pjax::begin(); ?>      
+        <div class="search-form">
+            <div class="search-form">
+                <?= $this->render('_search', ['model' => $borrowersearch]); ?>
             </div>
+        </div>
 
-        </form>
         <br>
         <table class="table table-condensed table-bordered">
             <thead>
@@ -60,16 +55,16 @@ $this->registerJs($search);
                 <?php
                 $counter = 1;
 
-                if (count($list) > 0) :
-                    foreach ($list as $li):
+                if (count($borrowers) > 0) :
+                    foreach ($borrowers as $li):
                         ?>
                         <tr>
                             <td><?= $counter ?></td>
-                            <td><?= $li->fullname ?></td>
+                            <td><?= strtoupper($li->fullname) ?></td>
                             <?php if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN'): ?>
                                 <td><?= $li->branch->branch_description ?></td>
                             <?php endif; ?>
-                            <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname . ' ' . $li->canvasser->middlename ?></td>
+                            <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname ?></td>
                             <td><?= $li['canvass_date'] ?></td>
                             <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-instagram btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
@@ -83,11 +78,7 @@ $this->registerJs($search);
 
             </tbody>
         </table>
-        <?=
-        LinkPager::widget([
-            'pagination' => $pagination,
-        ]);
-        ?>
+        <?php Pjax::end(); ?>
     </div>
 </div>
 
@@ -123,8 +114,15 @@ $this->registerJs($search);
                     </div>  
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                    <?= Html::a('<i class="fa fa-calendar"></i> Schedule', Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary', 'onclick' => 'javascript:addURL(this);']) ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+
+                        </div>
+                        <div class="col-md-6">
+                            <?= Html::a('<i class="fa fa-calendar"></i> Schedule', Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);']) ?>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

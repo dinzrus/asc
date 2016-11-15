@@ -8,7 +8,8 @@ use \app\models\base\Loan as BaseLoan;
  * This is the model class for table "loan".
  */
 class Loan extends BaseLoan {
-
+    const NEEDAPPROVAL = 'NA';
+    const APPROVED = 'A';
     /**
      * @inheritdoc
      */
