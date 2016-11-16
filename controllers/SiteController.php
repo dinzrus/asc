@@ -406,7 +406,7 @@ class SiteController extends Controller {
 
     public function actionReleasingapproval() {
         if (Yii::$app->user->can('IT')) {
-            
+            return $this->render('releasingapproval');
         } else {
             throw new \yii\web\UnauthorizedHttpException();
         }
