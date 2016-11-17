@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </tr>
                             <tr>
                                 <td><strong>Daily Amount:</strong></td>
-                                <td><?= $loanscheme->daily ?></td>
+                                <td><?= Yii::$app->formatter->asCurrency($loanscheme->daily) ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Unit:</strong></td>
@@ -83,15 +83,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table">
                             <tr>
                                 <td><strong>Gross Amount:</strong></td>
-                                <td style="text-align: right"><?= $loanscheme->gross_amt ?></td>
+                                <td style="text-align: right"><?= Yii::$app->formatter->asCurrency($loanscheme->gross_amt) ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Total Deductions:</strong></td>
-                                <td style="text-align: right"><?= $loanscheme->total_deductions ?></td>
+                                <td style="text-align: right"><?= Yii::$app->formatter->asCurrency($loanscheme->total_deductions) ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Net Proceeds:</strong></td>
-                                <td style="text-align: right"><?= $loanscheme->net_proceeds ?></td>
+                                <td style="text-align: right"><?= Yii::$app->formatter->asCurrency($loanscheme->net_proceeds) ?></td>
                             </tr>
                         </table>
                     </div>

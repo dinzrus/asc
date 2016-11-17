@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td><?= $li['last_name'] . ', ' . $li['first_name'] . ' ' . $li['middle_name'] ?></td>
                             <td><?= $li['branch_description'] ?></td>
                             <td><?= $li['lname'] . ', ' . $li['fname'] . ' ' . $li['middlename'] ?></td>
-                            <td><?= $li['canvass_date'] ?></td>
+                            <td><?= Yii::$app->formatter->asDate($li['canvass_date']) ?></td>
                             <td><a href="<?= Url::to(['/borrower/view', 'id' => $li['id']]); ?>" class="btn btn-success"><i class="glyphicon glyphicon-eye-open"></i></a> | <a href="<?= Url::to(['borrower/approvedcicanvass', 'id' => $li['id']]); ?>" class="btn btn-primary" onclick="return confirm('Approved canvass?')"><i class="fa fa-thumbs-o-up "></i></a> | <a href="<?= Url::to(['borrower/deniedcicanvass', 'id' => $li['id']]); ?>" class="btn btn-danger" onclick="return confirm('Deny canvass?')"><i class="fa fa-thumbs-o-down "></i></a></td>
                                     <?php $counter++; ?>
                         </tr>

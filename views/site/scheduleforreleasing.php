@@ -54,7 +54,6 @@ $this->registerJs($search);
             <tbody>
                 <?php
                 $counter = 1;
-
                 if (count($borrowers) > 0) :
                     foreach ($borrowers as $li):
                         ?>
@@ -65,7 +64,7 @@ $this->registerJs($search);
                                 <td><?= $li->branch->branch_description ?></td>
                             <?php endif; ?>
                             <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname ?></td>
-                            <td><?= $li['canvass_date'] ?></td>
+                            <td><?= Yii::$app->formatter->asDate($li['canvass_date']) ?></td>
                             <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-instagram btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
@@ -175,9 +174,7 @@ $this->registerJs("
                 modal . find('.modal-title') . text('Schedule: ' + fname);
                 modal . find('.clnts_id').val(recipient);
                 //modal.find('.modal-body input').val(recipient);
-            }
-            
-            
+            }  
         );
         
         // this function adds parameters to the url of the submit button in the modal

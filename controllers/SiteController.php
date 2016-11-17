@@ -406,7 +406,35 @@ class SiteController extends Controller {
 
     public function actionReleasingapproval() {
         if (Yii::$app->user->can('IT')) {
-            return $this->render('releasingapproval');
+            $loan_for_approval = Yii::$app->db->createCommand("SELECT\n" .
+                            "borrower.id,\n" .
+                            "borrower.first_name,\n" .
+                            "borrower.last_name,\n" .
+                            "borrower.middle_name,\n" .
+                            "borrower.suffix,\n" .
+                            "loan.id AS loan_id,\n" .
+                            "loan.loan_no,\n" .
+                            "loan.loan_type,\n" .
+                            "loan.release_date,\n" .
+                            "loan.maturity_date,\n" .
+                            "loan.daily,\n" .
+                            "unit.unit_description,\n" .
+                            "loan_type.loan_description,\n" .
+                            "branch.branch_description,\n" .
+                            "ci.fname AS ci_fname,\n" .
+                            "ci.lname AS ci_lname,\n" .
+                            "ci.middlename AS ci_middlename,\n" .
+                            "loan.ci_date\n" .
+                            "FROM\n" .
+                            "borrower\n" .
+                            "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                            "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                            "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                            "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                            "INNER JOIN ci ON loan.ci_officer = ci.id\n" .
+                            "WHERE loan.status = 'NA'")->queryAll();
+
+            return $this->render('releasingapproval', ['loan_for_approval' => $loan_for_approval]);
         } else {
             throw new \yii\web\UnauthorizedHttpException();
         }
