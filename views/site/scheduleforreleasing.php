@@ -8,6 +8,7 @@ use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use yii\web\View;
 use yii\widgets\Pjax;
+use kartik\widgets\Growl;
 
 $this->title = 'Schedule for Releasing';
 $this->params['breadcrumbs'][] = $this->title;
@@ -23,10 +24,23 @@ $this->registerJs($search);
         <div class="row">
             <div class="col-md-12">
                 <?php if (Yii::$app->session->hasFlash('loanReleased')): ?>
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h4><i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('loanReleased') ?></h4>           
-                    </div>
+                     <?php
+                    echo Growl::widget([
+                        'type' => Growl::TYPE_SUCCESS,
+                        'title' => 'Well done!',
+                        'icon' => 'glyphicon glyphicon-ok-sign',
+                        'body' => Yii::$app->session->getFlash('loanReleased'),
+                        'showSeparator' => true,
+                        'delay' => 0,
+                        'pluginOptions' => [
+                            'showProgressbar' => false,
+                            'placement' => [
+                                'from' => 'top',
+                                'align' => 'right',
+                            ]
+                        ]
+                    ]);
+                    ?>
                 <?php endif; ?>   
             </div>
         </div>

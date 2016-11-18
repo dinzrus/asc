@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Loan;
 use app\models\SignupForm;
 use app\models\BorrowerSfrSearch;
 use app\models\Borrower;
@@ -404,8 +405,17 @@ class SiteController extends Controller {
         }
     }
 
-    public function actionReleasingapproval() {
+    public function actionReleasingapproval($id = null) {
+
         if (Yii::$app->user->can('IT')) {
+
+            if (!(is_null($id))) {
+                $loan = \app\models\Loan::findOne($id);
+                $loan->status = \app\models\Loan::APPROVED;
+                $loan->save();
+                Yii::$app->session->setFlash('loan_approved', "Loan approval success!");
+            }
+
             $loan_for_approval = Yii::$app->db->createCommand("SELECT\n" .
                             "borrower.id,\n" .
                             "borrower.first_name,\n" .
@@ -450,6 +460,7 @@ class SiteController extends Controller {
         return $this->render('about');
     }
 
+    
     public function actionDailyunits($id, $branch) {
 
         $data = Borrower::findOne($id); // retrieve borrowers info
@@ -463,6 +474,16 @@ class SiteController extends Controller {
         echo Json::encode(array($dailys, $units));
 
         die();
+    }
+    
+    /**
+     * 
+     */
+    public function actionLoandetails($id){
+        
+        $loan = Loan::findOne($id); // retrieve loan details
+        
+        echo Json::encode($loan);
     }
 
 }

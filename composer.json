@@ -21,7 +21,8 @@
         "dmstr/yii2-adminlte-asset": "2.*",
         "mootensai/yii2-enhanced-gii": "dev-master",
         "kartik-v/yii2-datecontrol": "dev-master",
-        "kartik-v/yii2-mpdf": "dev-master"
+        "kartik-v/yii2-mpdf": "dev-master",
+        "kartik-v/yii2-widget-growl": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
