@@ -449,6 +449,19 @@ class SiteController extends Controller {
             throw new \yii\web\UnauthorizedHttpException();
         }
     }
+    
+    // Borrowers account ledger
+    public function actionAccountledger() {
+        $borrowersearch = new BorrowerSfrSearch();
+        $borrower = $borrowersearch->search(Yii::$app->request->queryParams);
+
+        $borrowers = $borrower->getModels();
+
+        return $this->render('accountledger', [
+                    'borrowers' => $borrowers,
+                    'borrowersearch' => $borrowersearch,
+        ]);
+    }
 
     /**
      * Displays about page.

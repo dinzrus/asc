@@ -158,7 +158,7 @@ $this->registerJs("
                 var d1 = jsn[0];
                 var d2 = jsn[1];
                 
-                // dropdown for daily and unit ----------------------------------
+                // dropdown for daily and unit 
                 var s = $('<select/>');
                 var x = $('<select/>');
                 
@@ -175,7 +175,6 @@ $this->registerJs("
                 for(var key in d2) {
                     $('<option />', {value: d2[key].unit_id, text: d2[key].unit_description}).appendTo(x);
                 }
-                //-----------------------------------------------------
                 
                 $('.daily').remove();
                 s.appendTo('#daily');

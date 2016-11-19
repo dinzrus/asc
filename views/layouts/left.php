@@ -84,7 +84,7 @@
                             'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => ['/report'],
                             'items' => [
-                                        ['label' => 'Borrowers Accounts Ledger', 'icon' => 'fa  fa-caret-right', 'url' => ['/'],],
+                                        ['label' => 'Borrowers Accounts Ledger', 'icon' => 'fa  fa-caret-right', 'url' => ['site/accountledger'],],
                                     ],
                         ],
                         [
