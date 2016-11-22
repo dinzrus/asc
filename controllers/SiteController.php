@@ -494,7 +494,7 @@ class SiteController extends Controller {
      */
     public function actionLoandetails($id){
         
-        $loan = Loan::findOne($id); // retrieve loan details
+        $loan = Loan::find()->where(['borrower' => $id])->all(); // retrieve loan details
         
         echo Json::encode($loan);
     }

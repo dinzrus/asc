@@ -75,7 +75,7 @@ $this->registerJs($search);
                             <?php if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN'): ?>
                                 <td><?= $li->branch->branch_description ?></td>
                             <?php endif; ?>
-                            <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-instagram btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i>&nbsp; View Accounts</a></td>
+                            <td><a data-borrowerid="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-instagram btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i>&nbsp; View Accounts</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -99,75 +99,24 @@ $this->registerJs($search);
             <form method="get">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 style="text-align: center; font-weight: bold; color: blue;">LOAN HISTORY</h3>
+                    <h3 style="font-weight: bold; color: blue;">LOAN HISTORY</h3>
                     <i style="float: left; margin: 6px 3px" class="fa fa-user"></i> <h4 style="float: left; font-weight: bold;" class="modal-title" id="myModalLabel"></h4>
                 </div>
-                <div class="modal-body">    
-                    <table class="table table-bordered table-responsive">
-                        <tr>
-                            <td><strong>#</strong></td>
-                            <td><strong>Account No.</strong></td>
-                            <td><strong>Release Date</strong></td>
-                            <td><strong>Loan Type</strong></td>
-                            <td><strong>Unit</strong></td>
-                            <td><strong>View Ledger</strong></td>
-                        </tr>
-                        <tr>
-                            <td>1</td> 
-                            <td>TSJ15166FDGD</td> 
-                            <td>11/18/2016</td> 
-                            <td>ERP-CELP</td> 
-                            <td>T1</td> 
-                            <td><a href="#"><i class="fa fa-eye"></i></a></td> 
-                        </tr>
-                        <tr>
-                            <td>1</td> 
-                            <td>TSJ15166FDGD</td> 
-                            <td>11/18/2016</td> 
-                            <td>ERP-CELP</td> 
-                            <td>T1</td> 
-                            <td><a href="#"><i class="fa fa-eye"></i></a></td> 
-                        </tr>
-                        <tr>
-                            <td>1</td> 
-                            <td>TSJ15166FDGD</td> 
-                            <td>11/18/2016</td> 
-                            <td>ERP-CELP</td> 
-                            <td>T1</td> 
-                            <td><a href="#"><i class="fa fa-eye"></i></a></td> 
-                        </tr>
-                        <tr>
-                            <td>1</td> 
-                            <td>TSJ15166FDGD</td> 
-                            <td>11/18/2016</td> 
-                            <td>ERP-CELP</td> 
-                            <td>T1</td> 
-                            <td><a href="#"><i class="fa fa-eye"></i></a></td> 
-                        </tr>
-                        <tr>
-                            <td>1</td> 
-                            <td>TSJ15166FDGD</td> 
-                            <td>11/18/2016</td> 
-                            <td>ERP-CELP</td> 
-                            <td>T1</td> 
-                            <td><a href="#"><i class="fa fa-eye"></i></a></td> 
-                        </tr>
-                        <tr>
-                            <td>1</td> 
-                            <td>TSJ15166FDGD</td> 
-                            <td>11/18/2016</td> 
-                            <td>ERP-CELP</td> 
-                            <td>T1</td> 
-                            <td><a href="#"><i class="fa fa-eye"></i></a></td> 
-                        </tr>
-                        <tr>
-                            <td>1</td> 
-                            <td>TSJ15166FDGD</td> 
-                            <td>11/18/2016</td> 
-                            <td>ERP-CELP</td> 
-                            <td>T1</td> 
-                            <td><a href="#"><i class="fa fa-eye"></i></a></td> 
-                        </tr>
+                <div class="modal-body">  
+                    <table class="table table-striped table-responsive" id="account-list">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Account No.</th>
+                                <th>Release Date</th>
+                                <th>Maturity Date</th>
+                                <th>Loan Type</th>
+                                <th>Unit</th>
+                                <th>View Ledger</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
@@ -182,17 +131,46 @@ $this->registerJs($search);
 $this->registerJs("
     $('#myModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
-                var loan_id = button.data('loanid');
+                var borrower_id = button.data('borrowerid');
                 var borrower_name = button.data('name');
                 var modal = $(this);
                 
+                $('#account-list').find('tr:gt(0)').remove();
+                
+                var table = document.getElementById('account-list');
+                var ctr = 1;
+                
                 // ajax call to get loan details
-                $.get('index.php?r=site/loandetails',{id:loan_id},function(data){
+                $.get('index.php?r=site/loandetails',{id:borrower_id},function(data){
                     var loan = JSON.parse(data);
+                 
+                    for (var i = 0; i < loan.length; i++) {
+                       var row = table.insertRow(i+1); 
+                       var c1 = row.insertCell(0);
+                       var c2 = row.insertCell(1);
+                       var c3 = row.insertCell(2);
+                       var c4 = row.insertCell(3);
+                       var c5 = row.insertCell(4);
+                       var c6 = row.insertCell(5);
+                       var c7 = row.insertCell(6);
+                       
+                       c1.innerHTML = ctr;
+                       c2.innerHTML = loan[i].loan_no;
+                       c3.innerHTML = loan[i].release_date;
+                       c4.innerHTML = loan[i].maturity_date;
+                       c5.innerHTML = loan[i].loan_type;
+                       c6.innerHTML = loan[i].unit;
+                        
+                       c7.innerHTML = '<a>View</a>';
+                       
+                       ctr++;
+                    }
                     
-                    var r = $('<tr/>');
-                    
-                    
+                    if (loan.length == 0) {
+                       var row = table.insertRow(i+1); 
+                       var c1 = row.insertCell(0);
+                       c1.innerHTML = 'No data!';
+                    }
 
                     //modal . find('#title-text') . text(loan.loan_no);
                     //modal . find('#daily') . text(loan.daily);
