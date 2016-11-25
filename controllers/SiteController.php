@@ -490,13 +490,25 @@ class SiteController extends Controller {
     }
     
     /**
-     * 
+     *  ajax function to get loan details
      */
     public function actionLoandetails($id){
         
         $loan = Loan::find()->where(['borrower' => $id])->all(); // retrieve loan details
         
         echo Json::encode($loan);
+    }
+    
+    
+    public function actionLedger($id){
+        
+        $borrower = Borrower::findOne(['id' => $id]);
+        $loans = Loan::find()->where(['borrower' => $id])->all();
+        
+        return $this->render('accountinfo', [
+            'loans' => $loans,
+            'borrower' => $borrower
+        ]);
     }
 
 }
