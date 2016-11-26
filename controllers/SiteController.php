@@ -361,7 +361,7 @@ class SiteController extends Controller {
                 $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date);
 
                 // todo: generate account no.
-                $loan->loan_no = 'TEMPNO123456'; // todo: temp only
+                $loan->loan_no = Loan::generateLoanNumber($borrower->id, $borrower->branch_id); // todo: temp only
                 $loan->status = $loan::NEEDAPPROVAL;
 
                 if ($comaker->validate() && $loan->validate()) {
@@ -509,6 +509,11 @@ class SiteController extends Controller {
             'loans' => $loans,
             'borrower' => $borrower
         ]);
+    }
+    
+    public function actionTest() {
+        $loan = new Loan();
+        echo $loan::generateLoanNumber(3, 4);
     }
 
 }

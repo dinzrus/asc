@@ -60,7 +60,7 @@ $this->registerJs($search);
                     ?>
                 </center>
                 <br>
-                <table class="table table-hover">
+                <table class="table table-hover table-bordered">
                     <tr>
                         <td><strong>Name:</strong></td>
                         <td><?= $borrower->fullname ?></td>

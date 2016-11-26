@@ -29,7 +29,7 @@ $this->registerJs($search);
         </div>
 
         <br>
-        <table class="table table-condensed table-bordered table-responsive">
+        <table class="table table-condensed table-striped table-bordered">
             <thead>
                 <tr>
                     <th>No.</th>
