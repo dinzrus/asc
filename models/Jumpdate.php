@@ -22,5 +22,9 @@ class Jumpdate extends BaseJumpdate
             [['jump_description'], 'string', 'max' => 255]
         ]);
     }
+    
+    public static function checkJump(){
+        
+    }
 	
 }

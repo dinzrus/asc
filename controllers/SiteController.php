@@ -449,7 +449,7 @@ class SiteController extends Controller {
             throw new \yii\web\UnauthorizedHttpException();
         }
     }
-    
+
     // Borrowers account ledger
     public function actionAccountledger() {
         $borrowersearch = new BorrowerSfrSearch();
@@ -473,7 +473,6 @@ class SiteController extends Controller {
         return $this->render('about');
     }
 
-    
     public function actionDailyunits($id, $branch) {
 
         $data = Borrower::findOne($id); // retrieve borrowers info
@@ -488,32 +487,53 @@ class SiteController extends Controller {
 
         die();
     }
-    
+
     /**
      *  ajax function to get loan details
      */
-    public function actionLoandetails($id){
-        
+    public function actionLoandetails($id) {
+
         $loan = Loan::find()->where(['borrower' => $id])->all(); // retrieve loan details
-        
+
         echo Json::encode($loan);
     }
-    
-    
-    public function actionLedger($id){
-        
+
+    public function actionLedger($id) {
+
         $borrower = Borrower::findOne(['id' => $id]);
         $loans = Loan::find()->where(['borrower' => $id])->all();
-        
+
         return $this->render('accountinfo', [
-            'loans' => $loans,
-            'borrower' => $borrower
+                    'loans' => $loans,
+                    'borrower' => $borrower
         ]);
     }
     
-    public function actionTest() {
-        $loan = new Loan();
-        echo $loan::generateLoanNumber(3, 4);
+    public function actionTest2($date, $term) {
+        $rel_date = new \DateTime($date);
+        $dum_reldate = new \DateTime($date);
+        $mat_date = $dum_reldate->modify('+'. $term . 'days');
+        
+        $i = 0;
+        
+        $date_now = $rel_date->modify('+1 day');
+        $sundays = 0;
+        
+        while ($i < $term){
+           
+           if ($date_now->format('N') ==  7) {
+               $mat_date->modify('+1 day');
+               $sundays++;
+           } else {
+               $i++;  
+           }
+           $date_now = $rel_date->modify('+1 day');
+        }
+        
+        echo 'Release date: ' . $date . '<br>';
+        echo 'No. of Sundays: ' . $sundays. '<br>';
+        echo 'Maturity date: ';
+        echo $mat_date->format('m/d/Y');       
     }
 
 }

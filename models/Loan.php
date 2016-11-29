@@ -31,6 +31,12 @@ class Loan extends BaseLoan {
         return $reldate;
     }
     
+    /**
+     * 
+     * @param type $borrower_id
+     * @param type $branch_id
+     * @return type string
+     */
     public static function generateLoanNumber($borrower_id, $branch_id) {    
         return str_pad($borrower_id, 2, '0', STR_PAD_LEFT) . '-' . str_pad($branch_id, 4, '0', STR_PAD_LEFT) . '-' . date('Ymd');
     }
