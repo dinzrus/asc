@@ -411,7 +411,7 @@ class SiteController extends Controller {
 
             if (!(is_null($id))) {
                 $loan = \app\models\Loan::findOne($id);
-                $loan->status = \app\models\Loan::APPROVED;
+                $loan->status = \app\models\Loan::INITIALAPPROVED;
                 $loan->save();
                 Yii::$app->session->setFlash('loan_approved', "Loan approval success!");
             }
@@ -498,42 +498,88 @@ class SiteController extends Controller {
         echo Json::encode($loan);
     }
 
+    public function actionApprovedreleased($loan_id = null) {
+        if (Yii::$app->user->can('IT')) {
+            $loans = Yii::$app->db->createCommand("SELECT\n" .
+                            "borrower.id AS borrower_id,\n" .
+                            "CONCAT(borrower.last_name,', ', borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
+                            "borrower.suffix,\n" .
+                            "loan.id as loan_id,\n" .
+                            "loan.loan_no,\n" .
+                            "unit.unit_description,\n" .
+                            "branch.branch_description,\n" .
+                            "loan.daily,\n" .
+                            "loan_type.loan_description\n" .
+                            "FROM\n" .
+                            "loan\n" .
+                            "INNER JOIN borrower ON loan.borrower = borrower.id\n" .
+                            "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                            "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                            "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                            "WHERE\n" .
+                            "loan.status = 'IA'")->queryAll();
+            return $this->render('approvedreleased',[
+                                    'loans' => $loans,
+            ]);
+        } else {
+            throw new \yii\web\UnauthorizedHttpException();
+        }
+    }
+
     public function actionLedger($id) {
 
         $borrower = Borrower::findOne(['id' => $id]);
-        $loans = Loan::find()->where(['borrower' => $id])->all();
+        $loans = Loan::find()->where(['borrower' => $id, 'status' => 'A'])->all();
 
         return $this->render('accountinfo', [
                     'loans' => $loans,
                     'borrower' => $borrower
         ]);
     }
-    
+
+    // for testing only
     public function actionTest2($date, $term) {
+
+        $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
+
+        $jumps = [];
+
+        foreach ($jumpdates as $jump) {
+            array_push($jumps, $jump['jump_date']);
+        }
+
         $rel_date = new \DateTime($date);
         $dum_reldate = new \DateTime($date);
-        $mat_date = $dum_reldate->modify('+'. $term . 'days');
-        
+        $mat_date = $dum_reldate->modify('+' . $term . 'days');
+
         $i = 0;
-        
+
         $date_now = $rel_date->modify('+1 day');
         $sundays = 0;
-        
-        while ($i < $term){
-           
-           if ($date_now->format('N') ==  7) {
-               $mat_date->modify('+1 day');
-               $sundays++;
-           } else {
-               $i++;  
-           }
-           $date_now = $rel_date->modify('+1 day');
+
+        while ($i < $term) {
+
+            if (($date_now->format('N') == 7) || in_array($date_now->format('Y-m-d'), $jumps, true)) {
+                $mat_date->modify('+1 day');
+                $sundays++;
+                if (in_array($date_now->format('Y-m-d'), $jumps, true)) {
+                    echo '<span style="color: blue;">Jumpdate:' . $date_now->format('Y-m-d') . '</span>';
+                } else {
+                    echo '<span style="color: red;">Sunday:' . $date_now->format('Y-m-d') . '</span>';
+                }
+
+                echo '<br>';
+            } else {
+                $i++;
+            }
+            $date_now = $rel_date->modify('+1 day');
         }
-        
+
+        echo '<br>';
         echo 'Release date: ' . $date . '<br>';
-        echo 'No. of Sundays: ' . $sundays. '<br>';
+        echo 'No. of Jumpdates: ' . $sundays . '<br>';
         echo 'Maturity date: ';
-        echo $mat_date->format('m/d/Y');       
+        echo $mat_date->format('m/d/Y');
     }
 
 }

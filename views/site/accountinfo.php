@@ -106,7 +106,7 @@ $this->registerJs($search);
                                 <td><?= Yii::$app->formatter->asDate($loan->maturity_date) ?></td>
                                 <td><?= Yii::$app->formatter->asCurrency($loan->daily) ?></td>
                                 <td><?= Yii::$app->formatter->asCurrency($loan->gross_amount) ?></td>
-                                <td><a href="" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a></td>
+                                <td><a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i></a></td>
                             </tr>
                             <?php $counter++; ?>
                         <?php  endforeach; ?>
@@ -157,7 +157,7 @@ $this->registerJs($search);
 </div>
 
 <?php
-$this->registerJsFile('@web/js/ledger.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+//$this->registerJsFile('@web/js/ledger.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
 

@@ -8,8 +8,11 @@ use \app\models\base\Loan as BaseLoan;
  * This is the model class for table "loan".
  */
 class Loan extends BaseLoan {
+
     const NEEDAPPROVAL = 'NA';
+    const INITIALAPPROVED = 'IA';
     const APPROVED = 'A';
+
     /**
      * @inheritdoc
      */
@@ -24,20 +27,53 @@ class Loan extends BaseLoan {
         ]);
     }
 
+    
     /**
      * This will return the maturity date of the loan
+     * @param type $date
+     * @param type $term
+     * @return type string
      */
-    public static function getMaturityDate($reldate) {
-        return $reldate;
+    public static function getMaturityDate($date, $term) {
+
+        $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
+        $jumps = [];
+
+        foreach ($jumpdates as $jump) {
+            array_push($jumps, $jump['jump_date']);
+        }
+
+        $rel_date = new \DateTime($date);
+        $dum_reldate = new \DateTime($date);
+        $mat_date = $dum_reldate->modify('+' . $term . 'days');
+
+        $i = 0;
+
+        $date_now = $rel_date->modify('+1 day');
+        $sundays = 0;
+
+        while ($i < $term) {
+
+            if (($date_now->format('N') == 7) || in_array($date_now->format('Y-m-d'), $jumps, true)) {
+                $mat_date->modify('+1 day');
+                $sundays++;
+            } else {
+                $i++;
+            }
+            $date_now = $rel_date->modify('+1 day');
+        }
+        
+        return $mat_date->format('m/d/Y');
     }
-    
+
     /**
      * 
      * @param type $borrower_id
      * @param type $branch_id
      * @return type string
      */
-    public static function generateLoanNumber($borrower_id, $branch_id) {    
+    public static function generateLoanNumber($borrower_id, $branch_id) {
         return str_pad($borrower_id, 2, '0', STR_PAD_LEFT) . '-' . str_pad($branch_id, 4, '0', STR_PAD_LEFT) . '-' . date('Ymd');
     }
+
 }
