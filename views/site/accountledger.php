@@ -30,17 +30,14 @@ $this->registerJs($search);
 
         <br>
         <table class="table table-condensed table-striped table-bordered">
-            <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Name</th>
+                    <td class="col-md-1">No.</td>
+                    <td class="col-md-6">Name</td>
                     <?php if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN'): ?>
-                        <th>Branch</th>
+                        <td class="col-md-2">Branch</td>
                     <?php endif; ?>
-                    <th>Actions</th>
+                    <td class="col-md-2"></td>
                 </tr>
-            </thead>
-            <tbody>
                 <?php
                 $counter = 1;
                 if (count($borrowers) > 0) :
@@ -61,7 +58,6 @@ $this->registerJs($search);
                         <td class="alert-info" colspan="6" style="text-align: center;">No data to display</td>
                     </tr>
                 <?php endif; ?>
-            </tbody>
         </table>
         <?php Pjax::end(); ?>
     </div>

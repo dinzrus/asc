@@ -19,7 +19,7 @@
                         ['label' => 'Menu', 'options' => ['class' => 'header']],
                         ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                         [
-                            'label' => 'File',
+                            'label' => 'ADMIN',
                             'icon' => 'fa fa-tachometer',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => '#',
@@ -67,7 +67,7 @@
                             ],
                         ],
                         [
-                            'label' => 'Transaction',
+                            'label' => 'TRANSACTIONS',
                             'icon' => 'fa fa-briefcase',
                             'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => '#',
@@ -76,11 +76,11 @@
                                 ['label' => 'Hold for Scheduling', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/holdforsfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Schedule for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/sfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Approval for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/releasingapproval'], "visible" => Yii::$app->user->can('IT')],
-                                ['label' => 'Approved for Release', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/approvedreleased'], "visible" => Yii::$app->user->can('IT')],
+                                ['label' => 'Approved for Release', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/approvedrelease'], "visible" => Yii::$app->user->can('ORGANIZER')],
                             ],
                         ],
                         [
-                            'label' => 'Inquiries',
+                            'label' => 'INQUIRIES',
                             'icon' => 'fa fa-info',
                             'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => ['/report'],
@@ -89,13 +89,13 @@
                                     ],
                         ],
                         [
-                            'label' => 'Reports',
+                            'label' => 'REPORTS',
                             'icon' => 'fa fa-print',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => ['/report'],
                         ],
                         [
-                            'label' => 'Help',
+                            'label' => 'HELP',
                             'icon' => 'fa fa-book',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => ['/report'],

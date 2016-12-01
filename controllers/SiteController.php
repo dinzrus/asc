@@ -489,7 +489,7 @@ class SiteController extends Controller {
     }
 
     /**
-     *  ajax function to get loan details
+     *  ajax action to get loan details
      */
     public function actionLoandetails($id) {
 
@@ -498,28 +498,70 @@ class SiteController extends Controller {
         echo Json::encode($loan);
     }
 
-    public function actionApprovedreleased($loan_id = null) {
-        if (Yii::$app->user->can('IT')) {
-            $loans = Yii::$app->db->createCommand("SELECT\n" .
-                            "borrower.id AS borrower_id,\n" .
-                            "CONCAT(borrower.last_name,', ', borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
-                            "borrower.suffix,\n" .
-                            "loan.id as loan_id,\n" .
-                            "loan.loan_no,\n" .
-                            "unit.unit_description,\n" .
-                            "branch.branch_description,\n" .
-                            "loan.daily,\n" .
-                            "loan_type.loan_description\n" .
-                            "FROM\n" .
-                            "loan\n" .
-                            "INNER JOIN borrower ON loan.borrower = borrower.id\n" .
-                            "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
-                            "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                            "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
-                            "WHERE\n" .
-                            "loan.status = 'IA'")->queryAll();
-            return $this->render('approvedreleased',[
-                                    'loans' => $loans,
+    public function actionApprovedrelease($loan_id = null, $action = null) {
+        if (Yii::$app->user->can('ORGANIZER')) {
+
+            if (!(is_null($loan_id))) {
+                if($action === 'approved') {
+                    $loan = \app\models\Loan::findOne($loan_id);
+                    $loan->status = \app\models\Loan::APPROVED;
+                    $loan->save();
+                    Yii::$app->session->setFlash('loan_approved', "Loan approval success!");
+                }
+                if($action === 'hold') {
+                    $loan = \app\models\Loan::findOne($loan_id);
+                    $loan->status = \app\models\Loan::NEEDAPPROVAL;
+                    $loan->save();
+                    Yii::$app->session->setFlash('hold_success', "Loan is hold!");
+                }
+                if($action === 'cancel') {
+                    $loan = \app\models\Loan::findOne($loan_id);
+                    $loan->delete(); // todo:: you need to delete also the comaker and etc.. pls note this one
+                    Yii::$app->session->setFlash('cancel_success', "Loan is cancelled!");
+                }
+            }
+
+            $sql_string = (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ?
+                    "SELECT\n" .
+                    "borrower.id AS borrower_id,\n" .
+                    "CONCAT(borrower.last_name,', ', borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
+                    "borrower.suffix,\n" .
+                    "loan.id as loan_id,\n" .
+                    "loan.loan_no,\n" .
+                    "unit.unit_description,\n" .
+                    "branch.branch_description,\n" .
+                    "loan.daily,\n" .
+                    "loan_type.loan_description\n" .
+                    "FROM\n" .
+                    "loan\n" .
+                    "INNER JOIN borrower ON loan.borrower = borrower.id\n" .
+                    "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                    "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                    "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                    "WHERE\n" .
+                    "loan.status = 'IA'" :
+                    "SELECT\n" .
+                    "borrower.id AS borrower_id,\n" .
+                    "CONCAT(borrower.last_name,', ', borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
+                    "borrower.suffix,\n" .
+                    "loan.id as loan_id,\n" .
+                    "loan.loan_no,\n" .
+                    "unit.unit_description,\n" .
+                    "branch.branch_description,\n" .
+                    "loan.daily,\n" .
+                    "loan_type.loan_description\n" .
+                    "FROM\n" .
+                    "loan\n" .
+                    "INNER JOIN borrower ON loan.borrower = borrower.id\n" .
+                    "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                    "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                    "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                    "WHERE\n" .
+                    "loan.status = 'IA' && borrower.branch_id = " . Yii::$app->user->identity->branch_id;
+
+            $loans = Yii::$app->db->createCommand($sql_string)->queryAll();
+            return $this->render('approvedrelease', [
+                        'loans' => $loans,
             ]);
         } else {
             throw new \yii\web\UnauthorizedHttpException();

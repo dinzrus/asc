@@ -21,10 +21,5 @@ class Jumpdate extends BaseJumpdate
             [['jump_date'], 'safe'],
             [['jump_description'], 'string', 'max' => 255]
         ]);
-    }
-    
-    public static function checkJump(){
-        
-    }
-	
+    }	
 }
