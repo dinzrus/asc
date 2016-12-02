@@ -505,6 +505,8 @@ class SiteController extends Controller {
                 if($action === 'approved') {
                     $loan = \app\models\Loan::findOne($loan_id);
                     $loan->status = \app\models\Loan::APPROVED;
+                    $loan->release_date = date('Y-m-d');
+                    $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date, $loan->term);
                     $loan->save();
                     Yii::$app->session->setFlash('loan_approved', "Loan approval success!");
                 }

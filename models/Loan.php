@@ -3,6 +3,7 @@
 namespace app\models;
 
 use \app\models\base\Loan as BaseLoan;
+use Yii;
 
 /**
  * This is the model class for table "loan".
@@ -12,6 +13,9 @@ class Loan extends BaseLoan {
     const NEEDAPPROVAL = 'NA';
     const INITIALAPPROVED = 'IA';
     const APPROVED = 'A';
+    const WAIVEDACCOUNT = 'WA';
+    const PASTDUE = 'PD';
+    const POUT = 'PO';
 
     /**
      * @inheritdoc
@@ -62,8 +66,8 @@ class Loan extends BaseLoan {
             }
             $date_now = $rel_date->modify('+1 day');
         }
-        
-        return $mat_date->format('m/d/Y');
+      
+        return $mat_date->format('Y-m-d');
     }
 
     /**
