@@ -9,7 +9,6 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Loan;
-use app\models\SignupForm;
 use app\models\BorrowerSfrSearch;
 use app\models\Borrower;
 use app\models\Log;
@@ -242,8 +241,8 @@ class SiteController extends Controller {
                         "borrower\n" .
                         "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
                         "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
-                        "WHERE borrower.status = 'C' AND borrower.branch_id = " . Yii::$app->user->identity->branch_id
-                )->queryAll();
+                        "WHERE borrower.status = 'C' AND borrower.branch_id =:branch_id"
+                )->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
         return $this->render('cicanvassapproval', [
                     'list' => $list,
         ]);
@@ -309,8 +308,8 @@ class SiteController extends Controller {
                         "borrower\n" .
                         "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
                         "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
-                        "WHERE borrower.status = 'CD' AND borrower.branch_id = " . Yii::$app->user->identity->branch_id
-                )->queryAll();
+                        "WHERE borrower.status = 'CD' AND borrower.branch_id =:branch_id"
+                )->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
         return $this->render('sfrholdlist', [
                     'list' => $list,
         ]);
@@ -541,7 +540,8 @@ class SiteController extends Controller {
                     "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
                     "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                     "WHERE\n" .
-                    "loan.status = 'IA'" :
+                    "loan.status = 'IA'" 
+                    :
                     "SELECT\n" .
                     "borrower.id AS borrower_id,\n" .
                     "CONCAT(borrower.last_name,', ', borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
@@ -559,9 +559,9 @@ class SiteController extends Controller {
                     "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
                     "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                     "WHERE\n" .
-                    "loan.status = 'IA' && borrower.branch_id = " . Yii::$app->user->identity->branch_id;
+                    "loan.status = 'IA' && borrower.branch_id =:branch_id ";
 
-            $loans = Yii::$app->db->createCommand($sql_string)->queryAll();
+            $loans = Yii::$app->db->createCommand($sql_string)->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
             return $this->render('approvedrelease', [
                         'loans' => $loans,
             ]);
@@ -581,7 +581,8 @@ class SiteController extends Controller {
         ]);
     }
 
-    // for testing only
+    // for testing only actions here..
+    
     public function actionTest2($date, $term) {
 
         $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
@@ -624,6 +625,10 @@ class SiteController extends Controller {
         echo 'No. of Jumpdates: ' . $sundays . '<br>';
         echo 'Maturity date: ';
         echo $mat_date->format('m/d/Y');
+    }
+    
+    public function actionTest4(){
+        $loans = Yii::$app->db->createCommand()->queryAll();
     }
 
 }

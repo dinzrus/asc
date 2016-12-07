@@ -89,6 +89,7 @@ $this->registerJs($search);
                         <td><strong>RELEASE DATE</strong></td>
                         <td><strong>MATURITY</strong></td>
                         <td><strong>DAILY PAY</strong></td>
+                        <td><strong>TERM</strong></td>
                         <td><strong>GROSS LOAN</strong></td>
                         <td><strong>VIEW LEDGER</strong></td>
                     </tr>
@@ -105,6 +106,7 @@ $this->registerJs($search);
                                 <td><?= Yii::$app->formatter->asDate($loan->release_date) ?></td>
                                 <td><?= Yii::$app->formatter->asDate($loan->maturity_date) ?></td>
                                 <td><?= Yii::$app->formatter->asCurrency($loan->daily) ?></td>
+                                <td><?= $loan->term ?></td>
                                 <td><?= Yii::$app->formatter->asCurrency($loan->gross_amount) ?></td>
                                 <td><a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i></a></td>
                             </tr>
@@ -112,7 +114,7 @@ $this->registerJs($search);
                         <?php  endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td class="alert-info" colspan="9" style="text-align: center;">No data to display</td>
+                            <td class="alert-info" colspan="10" style="text-align: center;">No data to display</td>
                         </tr>
                     <?php endif; ?>
                 </table>

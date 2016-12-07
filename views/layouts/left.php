@@ -83,22 +83,28 @@
                             'label' => 'INQUIRIES',
                             'icon' => 'fa fa-info',
                             'visible' => Yii::$app->user->can('ORGANIZER'),
-                            'url' => ['/report'],
+                            'url' => '#',
                             'items' => [
                                         ['label' => 'Borrowers Accounts Ledger', 'icon' => 'fa  fa-caret-right', 'url' => ['site/accountledger'],],
                                     ],
                         ],
                         [
                             'label' => 'REPORTS',
-                            'icon' => 'fa fa-print',
+                            'icon' => 'fa fa-file-text',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => ['/report'],
                         ],
                         [
-                            'label' => 'HELP',
-                            'icon' => 'fa fa-book',
+                            'label' => 'PRINTABLES',
+                            'icon' => 'fa fa-print',
                             'visible' => !Yii::$app->user->isGuest,
-                            'url' => ['/report'],
+                            'url' => '#',
+                        ],
+                        [
+                            'label' => 'HELP',
+                            'icon' => 'fa fa-question-circle-o',
+                            'visible' => !Yii::$app->user->isGuest,
+                            'url' => '#',
                         ],
                     ],
                 ]
