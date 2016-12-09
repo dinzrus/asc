@@ -76,8 +76,9 @@ class Loan extends BaseLoan {
      * @param type $branch_id
      * @return type string
      */
-    public static function generateLoanNumber($borrower_id, $branch_id) {
-        return str_pad($borrower_id, 2, '0', STR_PAD_LEFT) . '-' . str_pad($branch_id, 4, '0', STR_PAD_LEFT) . '-' . date('Ymd');
+    public static function generateLoanNumber($borrower_id, $loan) {
+        $digits = 3;
+        return   str_pad($borrower_id, 3, '0', STR_PAD_LEFT) . '-' . date('mdY') . rand(pow(10, $digits-1), pow(10, $digits)-1) . '-' . $loan->unit0->unit_description;
     }
 
 }

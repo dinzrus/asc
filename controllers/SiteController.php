@@ -66,6 +66,15 @@ class SiteController extends Controller {
     public function actionIndex() {
         return $this->render('index');
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function actionBorrowerscollection() {
+        
+        return $this->render('borrowerscollection');
+    }
 
     public function actionCanvassedapproval() {
         return;
@@ -353,14 +362,14 @@ class SiteController extends Controller {
                 $loan->unit = $unt->unit_id;
                 $loan->penalty = $loanscheme->penalty;
 
-                // todo: calculate age 
+                // calculate age 
                 $comaker->age = \app\models\Comaker::calculateAge($comaker->birthdate);
                 // todo: set release and maturity date 
                 $loan->release_date = date('m/d/y'); // get the date of the day
-                $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date);
+                $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date, $loan->term);
 
-                // todo: generate account no.
-                $loan->loan_no = Loan::generateLoanNumber($borrower->id, $borrower->branch_id); // todo: temp only
+                // generate account no.
+                $loan->loan_no = Loan::generateLoanNumber($borrower->id, $loan);
                 $loan->status = $loan::NEEDAPPROVAL;
 
                 if ($comaker->validate() && $loan->validate()) {
