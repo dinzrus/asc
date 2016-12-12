@@ -71,9 +71,11 @@ class SiteController extends Controller {
      * 
      * @return type
      */
-    public function actionBorrowerscollection() {
-        
-        return $this->render('borrowerscollection');
+    public function actionBorrowerscollection($branch_id = null, $unit_id = null) {
+        $money = new \app\models\Money;
+        return $this->render('borrowerscollection', [
+            'money' => $money,
+        ]);
     }
 
     public function actionCanvassedapproval() {

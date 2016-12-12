@@ -4,6 +4,7 @@
 use yii\bootstrap\Modal;
 use yii\web\view;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 $this->title = 'Borrowers Collection';
 
@@ -14,10 +15,23 @@ $this->params['breadcrumbs'][] = 'Borrowers Collection';
         font-size: 1.3em;
     }
 
+    .inputtext {
+        font-size: 1.3em;
+        text-align: center;
+    }
+
+    .inputcoin {
+        font-size: 1.3em;
+        text-align: right;
+    }
+
     .break-label {
         font-size: 1.2em;
     }
 </style>
+<?php
+$form = ActiveForm::begin();
+?>
 <div class="box box-primary">
     <div class="box-header">
         <a href="#myModal" class="btn btn-success btn-lg" data-toggle="modal"><i class="fa fa-bookmark"></i> Select Unit</a>
@@ -28,7 +42,8 @@ $this->params['breadcrumbs'][] = 'Borrowers Collection';
                 <li class="active"><a href="#breakdown" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Collection Breakdown</strong></a></li>
                 <li><a href="#collection" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Collection</strong></a></li>
             </ul>
-            <div class="tab-content">
+
+            <div class="tab-content">     
                 <div class="tab-pane active" id="breakdown">    
                     <div class="row">
                         <div class="col-md-12">
@@ -39,38 +54,38 @@ $this->params['breadcrumbs'][] = 'Borrowers Collection';
                                     <td class="break-label text-center"><strong>TOTAL COUNT</strong></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="break-text form form-control text-center"></td>
+                                    <td><?= $form->field($money, 'money_1000')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>1000</strong></td>
                                     <td class="text-right break-text">15,000.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="break-text form form-control text-center"></td>
+                                    <td><?= $form->field($money, 'money_500')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>500</strong></td>
                                     <td class="text-right break-text">15,000.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="break-text form form-control text-center"></td>
+                                    <td><?= $form->field($money, 'money_200')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>200</strong></td>
                                     <td class="text-right break-text">15,000.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="break-text form form-control text-center"></td>
+                                    <td><?= $form->field($money, 'money_100')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>100</strong></td>
                                     <td class="text-right break-text">15,000.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="break-text form form-control text-center"></td>
+                                    <td><?= $form->field($money, 'money_50')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>50</strong></td>
                                     <td class="text-right break-text">15,000.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="break-text form form-control text-center"></td>
+                                    <td><?= $form->field($money, 'money_20')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>20</strong></td>
                                     <td class="text-right break-text">15,000.00</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><strong><p class="pull-right break-label">TOTAL COINS</p></strong></td>
-                                    <td><input type="text" class="break-text form form-control text-right"></td>
+                                    <td><?= $form->field($money, 'money_coin')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputcoin form-control'])->label(false) ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><strong><p class="pull-right break-label">TOTAL COLLECTION</p></strong></td>
@@ -81,17 +96,20 @@ $this->params['breadcrumbs'][] = 'Borrowers Collection';
                     </div>
                 </div>
                 <div class="tab-pane" id="collection"></div>
+
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <button value="submit" class="btn btn-primary btn-lg pull-right"><i class="fa fa-save"></i> Save</button>
+                <button type="submit" class="btn btn-primary btn-lg pull-right"><i class="fa fa-save"></i> Save</button>
             </div>
         </div>
 
     </div>     
 </div>
-
+<?php
+$form = ActiveForm::end();
+?>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -134,6 +152,15 @@ $this->params['breadcrumbs'][] = 'Borrowers Collection';
         $(window).load(function(){
             //$('#myModal').modal('show');
         });
+        
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
         ", View::POS_END); ?>
 
 
