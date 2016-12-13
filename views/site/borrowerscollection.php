@@ -16,17 +16,29 @@ $this->params['breadcrumbs'][] = 'Borrowers Collection';
     }
 
     .inputtext {
-        font-size: 1.3em;
+        font-size: 1.5em;
         text-align: center;
+        font-weight: bold;
     }
 
     .inputcoin {
+        font-size: 1.8em;
+        text-align: right;
+    }
+
+    .total_amount {
         font-size: 1.3em;
         text-align: right;
     }
 
     .break-label {
-        font-size: 1.2em;
+        font-size: 1.3em;
+    }
+    
+    .total-money {
+        font-size: 1.6em;
+        text-align: right;
+        font-weight: bolder;
     }
 </style>
 <?php
@@ -54,49 +66,48 @@ $form = ActiveForm::begin();
                                     <td class="break-label text-center"><strong>TOTAL COUNT</strong></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_1000')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_1000')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(1000, "#money-money_1000", "#money-total_1000")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>1000</strong></td>
-                                    <td class="text-right break-text">15,000.00</td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_1000')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_500')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_500')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(500, "#money-money_500", "#money-total_500")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>500</strong></td>
-                                    <td class="text-right break-text">15,000.00</td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_500')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_200')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_200')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(200, "#money-money_200", "#money-total_200")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>200</strong></td>
-                                    <td class="text-right break-text">15,000.00</td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_200')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_100')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_100')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(100, "#money-money_100", "#money-total_100")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>100</strong></td>
-                                    <td class="text-right break-text">15,000.00</td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_100')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_50')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_50')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(50, "#money-money_50", "#money-total_50")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>50</strong></td>
-                                    <td class="text-right break-text">15,000.00</td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_50')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_20')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_20')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(20, "#money-money_20", "#money-total_20")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>20</strong></td>
-                                    <td class="text-right break-text">15,000.00</td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_20')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><strong><p class="pull-right break-label">TOTAL COINS</p></strong></td>
-                                    <td><?= $form->field($money, 'money_coin')->textInput(['onkeypress' => 'return isNumber(event)', 'class' => 'inputcoin form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_coin')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(null, null, null)', 'class' => 'inputcoin form-control'])->label(false) ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><strong><p class="pull-right break-label">TOTAL COLLECTION</p></strong></td>
-                                    <td class="text-right break-text">15,000.00</td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'money_total_amount')->textInput(['class' => 'total-money form-control', 'disabled' => true])->label(false) ?></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane" id="collection"></div>
-
             </div>
         </div>
         <div class="row">
@@ -149,6 +160,8 @@ $form = ActiveForm::end();
 </div>
 
 <?php $this->registerJs("
+        
+        
         $(window).load(function(){
             //$('#myModal').modal('show');
         });
@@ -156,11 +169,33 @@ $form = ActiveForm::end();
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46) {
                 return false;
             }
             return true;
         }
+        
+        function calculateTotal(amount, eid, ttamt){
+        
+            var money_cnt = $(eid).val();
+            total = money_cnt * amount;
+            $(ttamt).val(parseFloat(total).toFixed(2));
+
+            var ttotal = 0;
+            var m1000 = $('#money-total_1000').val() || 0;
+            var m500 = $('#money-total_500').val() || 0;
+            var m200 = $('#money-total_200').val() || 0;
+            var m100 = $('#money-total_100').val() || 0;
+            var m50 = $('#money-total_50').val() || 0;
+            var m20 = $('#money-total_20').val() || 0;
+            var mcoin = $('#money-money_coin').val() || 0;
+                          
+            ttotal = parseInt(m1000) + parseFloat(m500) + parseFloat(m200) + parseFloat(m100) + parseFloat(m50) + parseFloat(m20) + parseFloat(mcoin);  
+            $('#money-money_total_amount').val(parseFloat(ttotal).toFixed(2));
+         
+        }
+        
+         
         ", View::POS_END); ?>
 
 
