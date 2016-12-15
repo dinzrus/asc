@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use \app\models\base\Payment as BasePayment;
 
 /**
@@ -17,9 +16,10 @@ class Payment extends BasePayment
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['pay_date'], 'safe'],
-            [['money'], 'integer'],
-            [['loan_no', 'pay_amount'], 'string', 'max' => 255]
+            [['loan_id', 'pay_amount', 'pay_date', 'money_id'], 'required'],
+            [['loan_id', 'money_id', 'created_by', 'updated_by'], 'integer'],
+            [['pay_amount'], 'number'],
+            [['pay_date', 'created_at', 'updated_at'], 'safe']
         ]);
     }
 	

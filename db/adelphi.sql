@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100113
 File Encoding         : 65001
 
-Date: 2016-12-12 17:39:21
+Date: 2016-12-15 17:18:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3178,8 +3178,8 @@ INSERT INTO `borrower` VALUES ('8', null, 'MILANILA', 'NAZARENO', 'EMBODO', '', 
 INSERT INTO `borrower` VALUES ('9', null, 'JERAME', 'FAMUAGAN', 'BANQUIL', '', '1988-12-03', '27', 'DUB-DOB, BOGO, ARGAO, CEBU', '4', '105', '1116', 'N/A', 'Single', '09273343935', '2016-08-28', '', '', '', '', '', '', '0', null, '1', 'CA', '2', null, 'B', '2016-09-30 10:05:32', '2016-09-30 10:05:32', 'Female', 'JOVENCIA FAMULAGAN BANQUIL', '52', '1964-06-01', 'LUCAS GELBOLINGO FAMULAGAN', '53', '1962-10-18', '2');
 INSERT INTO `borrower` VALUES ('10', null, 'MRIA TARA', 'MONDAREZ', 'CONDE', '', '2016-08-01', '0', 'Cebu City', '4', '6', '36', '576- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09267073405', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:13:12', '2016-09-30 10:13:12', 'Female', '', '0', null, 'MARY ANN M. SAQUIN', '53', '1962-10-01', '2');
 INSERT INTO `borrower` VALUES ('11', null, 'SPUDSCOTTIE', 'SAQUIN', 'MONDARES', '', '1992-12-31', '23', 'Cebu City', '4', '6', '36', '577- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09087659315', '1992-12-31', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:22:57', '2016-09-30 10:22:57', 'Male', '', '0', null, '', '0', null, '2');
-INSERT INTO `borrower` VALUES ('12', null, 'SIGFRED CHRISTIAN', 'GUAREN', 'REÑA', '', '1981-05-10', '35', 'BULACAO', '4', '6', '57', '132', 'Single', '09434416589', '2016-09-30', '', '', '', '', '', '', '0', null, '1', 'C', '4', null, 'B', '2016-09-30 10:31:31', '2016-09-30 10:31:31', 'Male', 'ASUNCION REÑA', '0', '2016-08-10', 'REYNALDO GUAREN', '52', '1964-06-10', '2');
-INSERT INTO `borrower` VALUES ('13', null, 'SOFIAH STARLA', 'BAYRON ', 'FAMULAGAN', '', '2015-09-28', '1', 'DR IDELFONSO ALCANTARA MEMORIAL HOSPITAL DALAGUETE CEBU', '4', '105', '1116', 'SITIO LOWER DUB-DOB ', 'Single', '09087659315', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'CD', '4', null, 'B', '2016-09-30 10:48:09', '2016-09-30 13:23:27', 'Female', 'FAMULAGAN JERAME B', '27', '1988-12-03', 'JAMES BAYRON', '43', '1973-09-14', '1');
+INSERT INTO `borrower` VALUES ('12', null, 'SIGFRED CHRISTIAN', 'GUAREN', 'REÑA', '', '1981-05-10', '35', 'BULACAO', '4', '6', '57', '132', 'Single', '09434416589', '2016-09-30', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:31:31', '2016-09-30 10:31:31', 'Male', 'ASUNCION REÑA', '0', '2016-08-10', 'REYNALDO GUAREN', '52', '1964-06-10', '2');
+INSERT INTO `borrower` VALUES ('13', null, 'SOFIAH STARLA', 'BAYRON ', 'FAMULAGAN', '', '2015-09-28', '1', 'DR IDELFONSO ALCANTARA MEMORIAL HOSPITAL DALAGUETE CEBU', '4', '105', '1116', 'SITIO LOWER DUB-DOB ', 'Single', '09087659315', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:48:09', '2016-09-30 13:23:27', 'Female', 'FAMULAGAN JERAME B', '27', '1988-12-03', 'JAMES BAYRON', '43', '1973-09-14', '1');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -3334,55 +3334,27 @@ INSERT INTO `business_type` VALUES ('37', 'Agrivet Supply');
 INSERT INTO `business_type` VALUES ('38', 'Others');
 
 -- ----------------------------
--- Table structure for canvasser
+-- Table structure for collectorunit
 -- ----------------------------
-DROP TABLE IF EXISTS `canvasser`;
-CREATE TABLE `canvasser` (
+DROP TABLE IF EXISTS `collectorunit`;
+CREATE TABLE `collectorunit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fname` varchar(255) NOT NULL,
-  `lname` varchar(255) NOT NULL,
-  `middlename` varchar(255) NOT NULL,
-  `age` int(11) NOT NULL,
-  `birthdate` date NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
+  `collector_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `branch_id` (`branch_id`),
-  CONSTRAINT `canvasser_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  KEY `collector_id` (`collector_id`),
+  KEY `unit_id` (`unit_id`),
+  CONSTRAINT `collectorunit_ibfk_1` FOREIGN KEY (`collector_id`) REFERENCES `emposition` (`id`),
+  CONSTRAINT `collectorunit_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of canvasser
+-- Records of collectorunit
 -- ----------------------------
-INSERT INTO `canvasser` VALUES ('1', 'Russel', 'Dinoy', 'Wahing', '25', '1991-09-15', 'Carmen, Bohol', '1', '2016-09-02 10:09:52', '2016-08-31 10:07:27');
-INSERT INTO `canvasser` VALUES ('2', 'Benson', 'Gabutan', 'Lala', '45', '2016-08-31', 'Villamanga', '2', '2016-08-31 10:36:14', '2016-08-31 10:36:14');
-
--- ----------------------------
--- Table structure for ci
--- ----------------------------
-DROP TABLE IF EXISTS `ci`;
-CREATE TABLE `ci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fname` varchar(255) NOT NULL,
-  `lname` varchar(255) NOT NULL,
-  `middlename` varchar(255) NOT NULL,
-  `age` int(11) NOT NULL,
-  `birthdate` date NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `branch_id` (`branch_id`),
-  CONSTRAINT `ci_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of ci
--- ----------------------------
-INSERT INTO `ci` VALUES ('1', 'Russel ', 'Dinoy', 'Wahing', '24', '1991-09-15', 'Villaflor, Carmen, Bohol', '1', '2016-10-28 13:32:48', '2016-10-28 13:32:48');
 
 -- ----------------------------
 -- Table structure for comaker
@@ -3418,12 +3390,13 @@ CREATE TABLE `comaker` (
   KEY `status` (`status`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2420 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=764722 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of comaker
 -- ----------------------------
 INSERT INTO `comaker` VALUES ('3', null, 'fsdf', 'fsdf', 'fsdf', null, '2016-11-24', '0', 'fsdfs', '4', '6', '5', 'fsdf', 'Single', '1316165', null, null, null, 'Female', '2016-11-18 11:44:03', '2016-11-18 11:44:03', '10', '10');
+INSERT INTO `comaker` VALUES ('5', null, 'Ronald', 'Lacno', 'Sotol', null, '2016-12-21', '0', 'Tagbilaran City', '4', '102', '1066', '#8 casa feneza ubay', 'Single', '0669854111', null, null, null, 'Male', '2016-12-15 13:21:38', '2016-12-15 13:21:38', '10', '10');
 INSERT INTO `comaker` VALUES ('6', null, 'fsd', 'fsd', 'fsd', null, '2016-11-15', '0', 'fsdfsdf', '4', '8', '739', 'fsfsdf', 'Married', '364563543', null, null, null, 'Male', '2016-11-26 13:58:56', '2016-11-26 13:58:56', '10', '10');
 INSERT INTO `comaker` VALUES ('8', null, 'Mary Joy', 'Asis', 'Hinacay', null, '1992-10-19', '24', 'Guindulman Bohol', '4', '6', '6', '#67 Lugo Apartment', 'Married', '0944521587', null, null, null, 'Female', '2016-11-18 16:03:50', '2016-11-18 16:03:50', '10', '10');
 INSERT INTO `comaker` VALUES ('622', null, 'fdsf', 'fsdf', 'fdsf', null, '2016-11-23', '0', 'fdsfsd', '4', '7', '557', 'fsdf', 'Married', '4654646', null, null, null, 'Male', '2016-11-18 11:45:01', '2016-11-18 11:45:01', '10', '10');
@@ -3433,6 +3406,8 @@ INSERT INTO `comaker` VALUES ('2416', null, 'Mark', 'Ajoc', 'S', null, '2016-12-
 INSERT INTO `comaker` VALUES ('2417', null, 'fsdf', 'fsdf', 'fsdf', null, '2016-12-14', '0', 'Villaflor,  Carmen, Bohol', '4', '6', '4', 'Suba II', 'Married', '0988754', null, null, null, 'Male', '2016-12-09 10:11:14', '2016-12-09 10:11:14', '10', '10');
 INSERT INTO `comaker` VALUES ('2418', null, 'Jason', 'Bourne', 'Legacy', null, '2016-12-09', '0', 'Villaflor, Carmen, Bohol', '4', '150', '661', '138 Street', 'Single', '03454512156', null, null, null, 'Male', '2016-12-09 10:25:38', '2016-12-09 10:25:38', '10', '10');
 INSERT INTO `comaker` VALUES ('2419', null, 'Nimo', 'Igot', 'joke', null, '2016-12-09', '0', 'Vifsdfsd', '4', '8', '739', 'fsdfsdfdsf', 'Single', '494646', null, null, null, 'Male', '2016-12-09 10:32:17', '2016-12-09 10:32:17', '10', '10');
+INSERT INTO `comaker` VALUES ('764720', null, 'Cruda', 'Jecyl', 'Xerox', null, '2016-12-21', '0', 'Villaflor,  Carmen, Bohol', '4', '6', '6', 'Centro 1', 'Married', '09877544521', null, null, null, 'Female', '2016-12-15 12:17:59', '2016-12-15 12:17:59', '10', '10');
+INSERT INTO `comaker` VALUES ('764721', null, 'Jason', 'Tulang', 'Tikla', null, '2016-12-20', '0', 'Villaflor,  Carmen, Bohol', '4', '8', '740', 'Centro 4', 'Single', '0954551211', null, null, null, 'Male', '2016-12-15 13:32:23', '2016-12-15 13:32:23', '10', '10');
 
 -- ----------------------------
 -- Table structure for dependent
@@ -3469,6 +3444,60 @@ INSERT INTO `dependent` VALUES ('16', 'MARY ANN SAQUIN', '53', '1962-10-01', '10
 INSERT INTO `dependent` VALUES ('17', 'NICOLE SAQUIN', '0', '2016-10-09', '11');
 INSERT INTO `dependent` VALUES ('18', 'ASCUNSION REÑA', '67', '1949-08-15', '12');
 INSERT INTO `dependent` VALUES ('19', 'FAMULAGAN JERAME B.', '27', '1988-12-03', '13');
+
+-- ----------------------------
+-- Table structure for employee
+-- ----------------------------
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE `employee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `date_birth` date NOT NULL DEFAULT '0000-00-00',
+  `age` int(11) DEFAULT NULL,
+  `gender` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of employee
+-- ----------------------------
+INSERT INTO `employee` VALUES ('1', 'Joseph', 'Baldoza', 'Wahing', '1981-06-17', '25', 'Male', '2016-12-15 12:02:17', '2016-12-15 12:02:17', '2147483647', '2147483647');
+INSERT INTO `employee` VALUES ('2', 'Robinson ', 'Gabutan', 'Suryaga', '1980-02-05', '25', 'Male', '2016-12-15 12:01:51', '2016-12-15 12:01:51', '2147483647', '2147483647');
+
+-- ----------------------------
+-- Table structure for emposition
+-- ----------------------------
+DROP TABLE IF EXISTS `emposition`;
+CREATE TABLE `emposition` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `employee_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `position_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `position_id` (`position_id`),
+  KEY `branch_id` (`branch_id`),
+  CONSTRAINT `emposition_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`),
+  CONSTRAINT `emposition_ibfk_3` FOREIGN KEY (`position_id`) REFERENCES `position` (`id`),
+  CONSTRAINT `emposition_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of emposition
+-- ----------------------------
+INSERT INTO `emposition` VALUES ('12', '2', '2', '3', '2016-12-15 12:01:52', '2016-12-15 12:01:52', '2147483647', '2147483647');
+INSERT INTO `emposition` VALUES ('13', '1', '2', '1', '2016-12-15 12:02:17', '2016-12-15 12:02:17', '2147483647', '2147483647');
+INSERT INTO `emposition` VALUES ('14', '1', '2', '3', '2016-12-15 12:02:17', '2016-12-15 12:02:17', '2147483647', '2147483647');
 
 -- ----------------------------
 -- Table structure for exceltest
@@ -3575,19 +3604,14 @@ CREATE TABLE `loan` (
   KEY `loan_ibfk_3` (`borrower`),
   CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`loan_type`) REFERENCES `loan_type` (`loan_id`) ON UPDATE CASCADE,
   CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`unit`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=62386512 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=76561 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
-INSERT INTO `loan` VALUES ('3', 'TEMPNO123456', '1', '5', '6', '2016-12-06', '2017-02-06', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'fsdfsdf', '1', '2016-11-02', 'NA', '2016-11-18 11:44:03', '2016-12-09 11:05:49', '10', '10');
-INSERT INTO `loan` VALUES ('6', '05-0002-20161126', '1', '5', '6', '2016-12-06', '2017-02-06', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'fsdfdsfsdf', '1', '2016-11-23', 'NA', '2016-11-26 13:58:56', '2016-12-09 11:05:51', '10', '10');
-INSERT INTO `loan` VALUES ('24213025', 'TEMPNO123456', '3', '13', '9', '2016-12-09', '2017-02-08', '320', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'HONDA Motrocycle', '1', '2016-11-18', 'NA', '2016-11-18 11:50:26', '2016-12-09 11:05:54', '10', '10');
-INSERT INTO `loan` VALUES ('62386507', 'TEMPNO123456', '1', '6', '18', '2016-12-06', '2017-02-06', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'fsdfsdfsdf', '1', '2016-11-23', 'NA', '2016-11-18 11:45:01', '2016-12-09 11:14:13', '10', '10');
-INSERT INTO `loan` VALUES ('62386508', '09-0002-20161209448', '1', '9', '6', '2016-12-09', '2017-02-08', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'TV PLASMA ', '1', '2016-12-08', 'NA', '2016-12-09 09:49:39', '2016-12-09 11:06:31', '10', '10');
-INSERT INTO `loan` VALUES ('62386509', 'N-CELP-070004-20161209369-M1', '1', '7', '15', '2016-12-09', '2017-02-08', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'Angle Grinder\r\n', '1', '2016-12-08', 'NA', '2016-12-09 10:11:14', '2016-12-09 11:06:03', '10', '10');
-INSERT INTO `loan` VALUES ('62386510', '4-11-12092016825-M1', '4', '11', '15', '2016-12-09', '2017-02-08', '200', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'fsdfdsfdsfsdf', '1', '2016-12-21', 'NA', '2016-12-09 10:25:38', '2016-12-09 11:05:58', '10', '10');
-INSERT INTO `loan` VALUES ('62386511', '06-12092016512-I1', '1', '6', '18', '2016-12-09', '2017-02-08', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'fsdfashdfgsd', '1', '2016-12-08', 'NA', '2016-12-09 10:32:17', '2016-12-09 11:06:00', '10', '10');
+INSERT INTO `loan` VALUES ('5', '005-12152016858-B1', '1', '5', '6', '2016-12-15', '2017-02-14', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'Isuzu 150fz', '2', '2016-11-16', 'NA', '2016-12-15 13:21:39', '2016-12-15 13:21:39', '10', '10');
+INSERT INTO `loan` VALUES ('76559', '005-12152016141-B1', '1', '5', '6', '0000-00-00', '2017-02-14', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'LED TV - SAMSUNG', '1', '2016-06-07', 'NA', '2016-12-15 12:17:59', '2016-12-15 12:17:59', '10', '10');
+INSERT INTO `loan` VALUES ('76560', '009-12152016656-B1', '1', '9', '6', '2016-12-15', '2017-02-14', '100', '51', '4566', '5000.56', '50', '50', '150.75', '75.56', '50.36', '0', '5477.73', '3', '1000', '7089.5', '25.5', 'Honda Rs150', '1', '2016-12-07', 'NA', '2016-12-15 13:32:23', '2016-12-15 13:32:23', '10', '10');
 
 -- ----------------------------
 -- Table structure for loanscheme
@@ -3701,21 +3725,13 @@ CREATE TABLE `loan_comaker` (
   `loan_id` int(11) NOT NULL,
   `comaker_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loan_comaker
 -- ----------------------------
-INSERT INTO `loan_comaker` VALUES ('1', '3', '3');
-INSERT INTO `loan_comaker` VALUES ('2', '62386507', '622');
-INSERT INTO `loan_comaker` VALUES ('3', '24213025', '2414');
-INSERT INTO `loan_comaker` VALUES ('4', '8', '8');
-INSERT INTO `loan_comaker` VALUES ('5', '62386508', '2415');
-INSERT INTO `loan_comaker` VALUES ('6', '6', '6');
-INSERT INTO `loan_comaker` VALUES ('7', '62386508', '2416');
-INSERT INTO `loan_comaker` VALUES ('8', '62386509', '2417');
-INSERT INTO `loan_comaker` VALUES ('9', '62386510', '2418');
-INSERT INTO `loan_comaker` VALUES ('10', '62386511', '2419');
+INSERT INTO `loan_comaker` VALUES ('1', '76559', '764720');
+INSERT INTO `loan_comaker` VALUES ('2', '5', '5');
 
 -- ----------------------------
 -- Table structure for loan_type
@@ -3748,7 +3764,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3879,6 +3895,10 @@ INSERT INTO `log` VALUES ('123', 'login', 'user login: russel', '2016-12-01 16:4
 INSERT INTO `log` VALUES ('124', 'logout', 'user logout: russel', '2016-12-09 11:21:35', '10', '9');
 INSERT INTO `log` VALUES ('125', 'login', 'user login: russel', '2016-12-09 11:22:04', '10', '9');
 INSERT INTO `log` VALUES ('126', 'login', 'user login: russel', '2016-12-10 09:45:27', '10', '9');
+INSERT INTO `log` VALUES ('127', 'logout', 'user logout: russel', '2016-12-15 12:20:46', '10', '9');
+INSERT INTO `log` VALUES ('128', 'login', 'user login: jing', '2016-12-15 12:20:54', '14', '2');
+INSERT INTO `log` VALUES ('129', 'logout', 'user logout: jing', '2016-12-15 12:23:31', '14', '2');
+INSERT INTO `log` VALUES ('130', 'login', 'user login: russel', '2016-12-15 12:23:39', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration
@@ -3905,22 +3925,21 @@ CREATE TABLE `money` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `branch_id` int(11) NOT NULL,
   `unit_id` int(11) NOT NULL,
-  `money_1000` float(255,0) NOT NULL,
-  `total_1000` float(255,0) NOT NULL,
-  `money_500` float(255,0) NOT NULL,
-  `total_500` float(255,0) NOT NULL,
-  `money_200` float(255,0) NOT NULL,
-  `total_200` float(255,0) NOT NULL,
-  `money_100` float(255,0) NOT NULL,
-  `total_100` float(255,0) NOT NULL,
-  `money_50` float(255,0) NOT NULL,
-  `total_50` float(255,0) NOT NULL,
-  `money_20` float(255,0) NOT NULL,
-  `total_20` float(255,0) NOT NULL,
-  `money_10` float(255,0) NOT NULL,
-  `money_coin` float(255,0) NOT NULL,
-  `money_bill` float(255,0) NOT NULL,
-  `money_total_amount` float(255,0) NOT NULL,
+  `money_1000` float(255,2) NOT NULL,
+  `total_1000` float(255,2) NOT NULL,
+  `money_500` float(255,2) NOT NULL,
+  `total_500` float(255,2) NOT NULL,
+  `money_200` float(255,2) NOT NULL,
+  `total_200` float NOT NULL,
+  `money_100` float NOT NULL,
+  `total_100` float NOT NULL,
+  `money_50` float NOT NULL,
+  `total_50` float NOT NULL,
+  `money_20` float NOT NULL,
+  `total_20` float NOT NULL,
+  `money_coin` float NOT NULL,
+  `money_bill` float DEFAULT NULL,
+  `money_total_amount` float NOT NULL,
   `collection_date` date NOT NULL,
   `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -3929,11 +3948,15 @@ CREATE TABLE `money` (
   PRIMARY KEY (`id`),
   KEY `money_ibfk_1` (`branch_id`),
   KEY `money_unit` (`unit_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of money
 -- ----------------------------
+INSERT INTO `money` VALUES ('1', '1', '1', '1.00', '1000.00', '1.00', '500.00', '1.00', '200', '1', '100', '1', '50', '1', '20', '1500', null, '3370', '2016-12-14', '2016-12-14 09:10:20', '2016-12-14 09:10:20', '2147483647', '2147483647');
+INSERT INTO `money` VALUES ('2', '1', '1', '1.00', '1000.00', '2.00', '1000.00', '3.00', '600', '4', '400', '5', '250', '6', '120', '600', null, '3970', '2016-12-14', '2016-12-14 09:11:36', '2016-12-14 09:11:36', '2147483647', '2147483647');
+INSERT INTO `money` VALUES ('3', '1', '1', '2.00', '2000.00', '56.00', '28000.00', '23.00', '4600', '78', '7800', '12', '600', '34', '680', '557', null, '44237', '2016-12-14', '2016-12-14 09:15:30', '2016-12-14 09:15:30', '2147483647', '2147483647');
+INSERT INTO `money` VALUES ('4', '1', '1', '23.00', '23000.00', '23.00', '11500.00', '23.00', '4600', '23', '2300', '23', '1150', '23', '460', '563.12', null, '43573.1', '2016-12-14', '2016-12-14 09:17:11', '2016-12-14 09:17:11', '2147483647', '2147483647');
 
 -- ----------------------------
 -- Table structure for municipality_city
@@ -4102,10 +4125,10 @@ INSERT INTO `municipality_city` VALUES ('153', 'Danao City', '4');
 DROP TABLE IF EXISTS `payment`;
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `loan_id` int(11) DEFAULT NULL,
-  `pay_amount` varchar(255) DEFAULT NULL,
-  `pay_date` date DEFAULT NULL,
-  `money_id` int(11) DEFAULT NULL,
+  `loan_id` int(11) NOT NULL,
+  `pay_amount` float(255,2) NOT NULL,
+  `pay_date` date NOT NULL,
+  `money_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
@@ -4118,6 +4141,23 @@ CREATE TABLE `payment` (
 -- ----------------------------
 -- Records of payment
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for position
+-- ----------------------------
+DROP TABLE IF EXISTS `position`;
+CREATE TABLE `position` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `position` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of position
+-- ----------------------------
+INSERT INTO `position` VALUES ('1', 'Collector');
+INSERT INTO `position` VALUES ('2', 'Canvasser');
+INSERT INTO `position` VALUES ('3', 'Credit Investigator');
 
 -- ----------------------------
 -- Table structure for province

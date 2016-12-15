@@ -7,21 +7,20 @@ use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 
 /**
- * This is the base model class for table "payment".
+ * This is the base model class for table "collectorunit".
  *
  * @property integer $id
- * @property integer $loan_id
- * @property double $pay_amount
- * @property string $pay_date
- * @property integer $money_id
+ * @property integer $collector_id
+ * @property integer $unit_id
  * @property string $created_at
  * @property string $updated_at
  * @property integer $created_by
  * @property integer $updated_by
  *
- * @property \app\models\Money $money
+ * @property \app\models\Emposition $collector
+ * @property \app\models\Unit $unit
  */
-class Payment extends \yii\db\ActiveRecord
+class Collectorunit extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
@@ -31,10 +30,9 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['loan_id', 'pay_amount', 'pay_date', 'money_id'], 'required'],
-            [['loan_id', 'money_id', 'created_by', 'updated_by'], 'integer'],
-            [['pay_amount'], 'number'],
-            [['pay_date', 'created_at', 'updated_at'], 'safe']
+            [['collector_id', 'unit_id'], 'required'],
+            [['collector_id', 'unit_id', 'created_by', 'updated_by'], 'integer'],
+            [['created_at', 'updated_at'], 'safe']
         ];
     }
     
@@ -43,7 +41,7 @@ class Payment extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'payment';
+        return 'collectorunit';
     }
 
     /**
@@ -53,19 +51,25 @@ class Payment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'loan_id' => 'Loan ID',
-            'pay_amount' => 'Pay Amount',
-            'pay_date' => 'Pay Date',
-            'money_id' => 'Money ID',
+            'collector_id' => 'Collector ID',
+            'unit_id' => 'Unit ID',
         ];
     }
     
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMoney()
+    public function getCollector()
     {
-        return $this->hasOne(\app\models\Money::className(), ['id' => 'money_id']);
+        return $this->hasOne(\app\models\Emposition::className(), ['id' => 'collector_id']);
+    }
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUnit()
+    {
+        return $this->hasOne(\app\models\Unit::className(), ['unit_id' => 'unit_id']);
     }
     
 /**
@@ -92,10 +96,10 @@ class Payment extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \app\models\PaymentQuery the active query used by this AR class.
+     * @return \app\models\CollectorunitQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\models\PaymentQuery(get_called_class());
+        return new \app\models\CollectorunitQuery(get_called_class());
     }
 }

@@ -66,16 +66,31 @@ class SiteController extends Controller {
     public function actionIndex() {
         return $this->render('index');
     }
-    
+
     /**
      * 
      * @return type
      */
     public function actionBorrowerscollection($branch_id = null, $unit_id = null) {
+
         $money = new \app\models\Money;
-        return $this->render('borrowerscollection', [
-            'money' => $money,
-        ]);
+
+        if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
+            $money->collection_date = date('Y-m-d');
+            $money->branch_id = 1;
+            $money->unit_id = 1;
+            if ($money->save()) {
+                echo 'save';
+            } else {
+                return $this->render('borrowerscollection', [
+                            'money' => $money,
+                ]);
+            }
+        } else {
+            return $this->render('borrowerscollection', [
+                        'money' => $money,
+            ]);
+        }
     }
 
     public function actionCanvassedapproval() {
@@ -94,7 +109,7 @@ class SiteController extends Controller {
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            // log action
+// log action
             $log = new Log();
             $description = "user login: " . Yii::$app->user->identity->username;
             $log->logMe(Log::LOGIN, $description);
@@ -112,7 +127,7 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
 
-        // log action
+// log action
         $log = new Log();
         $description = "user logout: " . Yii::$app->user->identity->username;
         $log->logMe(Log::LOGOUT, $description);
@@ -149,7 +164,7 @@ class SiteController extends Controller {
         if (Yii::$app->request->isPost) {
             $model->excelfile = UploadedFile::getInstance($model, 'excelfile');
             if ($model->upload()) {
-                // file is uploaded successfully
+// file is uploaded successfully
                 $inputFile = 'fileupload/LOANSCHEME.xlsx';
                 try {
                     $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
@@ -164,7 +179,7 @@ class SiteController extends Controller {
                 $highestColumn = $sheet->getHighestColumn();
 
                 $maxCell = $sheet->getHighestRowAndColumn();
-                //$data = $sheet->rangeToArray('A1:' . $maxCell['column'] . $maxCell['row']);
+//$data = $sheet->rangeToArray('A1:' . $maxCell['column'] . $maxCell['row']);
 
                 for ($row = 1; $row <= $highestRow; $row++) {
                     $rowData = $sheet->rangeToArray('A' . $row . ':' . $maxCell['column'] . $maxCell['row']);
@@ -220,16 +235,16 @@ class SiteController extends Controller {
                         "borrower.canvass_date,\n" .
                         "borrower.`status`,\n" .
                         "borrower.branch_id,\n" .
-                        "borrower.canvass_by,\n" .
                         "branch.branch_description,\n" .
-                        "canvasser.fname,\n" .
-                        "canvasser.lname,\n" .
-                        "canvasser.middlename\n" .
+                        "employee.first_name AS canvasser_fname,\n" .
+                        "employee.last_name AS canvasser_lname,\n" .
+                        "employee.middle_name AS canvasser_middlename\n" .
                         "FROM\n" .
                         "borrower\n" .
                         "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
-                        "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
-                        "WHERE borrower.status = 'C'"
+                        "INNER JOIN employee ON borrower.canvass_by = employee.id\n" .
+                        "WHERE\n" .
+                        "borrower.`status` = 'C'"
                 )->queryAll() :
                 Yii::$app->db->createCommand(
                         "SELECT\n" .
@@ -243,16 +258,16 @@ class SiteController extends Controller {
                         "borrower.canvass_date,\n" .
                         "borrower.`status`,\n" .
                         "borrower.branch_id,\n" .
-                        "borrower.canvass_by,\n" .
                         "branch.branch_description,\n" .
-                        "canvasser.fname,\n" .
-                        "canvasser.lname,\n" .
-                        "canvasser.middlename\n" .
+                        "employee.first_name AS canvasser_fname,\n" .
+                        "employee.last_name AS canvasser_lname,\n" .
+                        "employee.middle_name AS canvasser_middlename\n" .
                         "FROM\n" .
                         "borrower\n" .
                         "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
-                        "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
-                        "WHERE borrower.status = 'C' AND borrower.branch_id =:branch_id"
+                        "INNER JOIN employee ON borrower.canvass_by = employee.id\n" .
+                        "WHERE\n" .
+                        "borrower.`status` = 'C' AND borrower.branch_id = :branch_id"
                 )->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
         return $this->render('cicanvassapproval', [
                     'list' => $list,
@@ -287,16 +302,16 @@ class SiteController extends Controller {
                         "borrower.canvass_date,\n" .
                         "borrower.`status`,\n" .
                         "borrower.branch_id,\n" .
-                        "borrower.canvass_by,\n" .
                         "branch.branch_description,\n" .
-                        "canvasser.fname,\n" .
-                        "canvasser.lname,\n" .
-                        "canvasser.middlename\n" .
+                        "employee.first_name AS canvasser_fname,\n" .
+                        "employee.last_name AS canvasser_lname,\n" .
+                        "employee.middle_name AS canvasser_middlename\n" .
                         "FROM\n" .
                         "borrower\n" .
                         "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
-                        "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
-                        "WHERE borrower.status = 'CD'"
+                        "INNER JOIN employee ON borrower.canvass_by = employee.id\n" .
+                        "WHERE\n" .
+                        "borrower.`status` = 'CD'"
                 )->queryAll() :
                 Yii::$app->db->createCommand(
                         "SELECT\n" .
@@ -310,16 +325,16 @@ class SiteController extends Controller {
                         "borrower.canvass_date,\n" .
                         "borrower.`status`,\n" .
                         "borrower.branch_id,\n" .
-                        "borrower.canvass_by,\n" .
                         "branch.branch_description,\n" .
-                        "canvasser.fname,\n" .
-                        "canvasser.lname,\n" .
-                        "canvasser.middlename\n" .
+                        "employee.first_name AS canvasser_fname,\n" .
+                        "employee.last_name AS canvasser_lname,\n" .
+                        "employee.middle_name AS canvasser_middlename\n" .
                         "FROM\n" .
                         "borrower\n" .
                         "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
-                        "INNER JOIN canvasser ON borrower.canvass_by = canvasser.id\n" .
-                        "WHERE borrower.status = 'CD' AND borrower.branch_id =:branch_id"
+                        "INNER JOIN employee ON borrower.canvass_by = employee.id\n" .
+                        "WHERE\n" .
+                        "borrower.`status` = 'CD' AND borrower.branch_id = :branch_id"
                 )->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
         return $this->render('sfrholdlist', [
                     'list' => $list,
@@ -339,6 +354,19 @@ class SiteController extends Controller {
             $unt = \app\models\Unit::findOne(['unit_id' => $unit]);
             $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
             $loanscheme = \app\models\LoanschemeValues::findOne(['id' => $daily]);
+
+            // get the ci officer
+            $ci = Yii::$app->db->createCommand("SELECT\n" .
+                            "employee.id,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                            "position.position\n" .
+                            "FROM\n" .
+                            "employee\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                            "INNER JOIN position ON emposition.position_id = position.id\n" .
+                            "WHERE\n" .
+                            "position.position = 'credit investigator' AND\n" .
+                            "emposition.branch_id =:branch_id")->bindValue(':branch_id', $borrower->branch_id)->queryAll();
 
             $loan = new \app\models\Loan();
             $comaker = new \app\models\Comaker();
@@ -367,7 +395,7 @@ class SiteController extends Controller {
                 // calculate age 
                 $comaker->age = \app\models\Comaker::calculateAge($comaker->birthdate);
                 // todo: set release and maturity date 
-                $loan->release_date = date('m/d/y'); // get the date of the day
+                $loan->release_date = date('Y-m-d'); // get the date of the day
                 $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date, $loan->term);
 
                 // generate account no.
@@ -375,14 +403,19 @@ class SiteController extends Controller {
                 $loan->status = $loan::NEEDAPPROVAL;
 
                 if ($comaker->validate() && $loan->validate()) {
-                    $comaker->save();
-                    $loan->save();
-
-                    $loan_comaker = new \app\models\Loancomaker();
-                    $loan_comaker->loan_id = $loan->id;
-                    $loan_comaker->comaker_id = $comaker->id;
-                    $loan_comaker->save();
-
+                    $transaction = Yii::$app->db->beginTransaction();
+                    try {
+                        $comaker->save();
+                        $loan->save();
+                        $loan_comaker = new \app\models\Loancomaker();
+                        //$loan_comaker->loan_id = $loan->id;
+                        //$loan_comaker->comaker_id = $comaker->id;
+                        $loan_comaker->save();                  
+                        $transaction->commit();
+                    } catch (Exception $ex) {
+                        $transaction->rollBack();
+                        throw $ex;
+                    }
                     $session = Yii::$app->session;
                     $message = $borrower->fullname . ' has been scheduled!';
                     $session->setFlash('loanReleased', $message);
@@ -397,6 +430,7 @@ class SiteController extends Controller {
                                 'loanscheme' => $loanscheme,
                                 'comaker' => $comaker,
                                 'loan' => $loan,
+                                'ci' => $ci,
                     ]);
                 }
             } else {
@@ -408,6 +442,7 @@ class SiteController extends Controller {
                             'loanscheme' => $loanscheme,
                             'comaker' => $comaker,
                             'loan' => $loan,
+                            'ci' => $ci,
                 ]);
             }
         } else {
@@ -427,23 +462,23 @@ class SiteController extends Controller {
             }
 
             $loan_for_approval = Yii::$app->db->createCommand("SELECT\n" .
-                            "borrower.id,\n" .
-                            "borrower.first_name,\n" .
-                            "borrower.last_name,\n" .
-                            "borrower.middle_name,\n" .
-                            "borrower.suffix,\n" .
-                            "loan.id AS loan_id,\n" .
-                            "loan.loan_no,\n" .
-                            "loan.loan_type,\n" .
-                            "loan.release_date,\n" .
-                            "loan.maturity_date,\n" .
-                            "loan.daily,\n" .
-                            "unit.unit_description,\n" .
-                            "loan_type.loan_description,\n" .
-                            "branch.branch_description,\n" .
-                            "ci.fname AS ci_fname,\n" .
-                            "ci.lname AS ci_lname,\n" .
-                            "ci.middlename AS ci_middlename,\n" .
+                            "borrower.id, \n" .
+                            "borrower.first_name, \n" .
+                            "borrower.last_name, \n" .
+                            "borrower.middle_name, \n" .
+                            "borrower.suffix, \n" .
+                            "loan.id AS loan_id, \n" .
+                            "loan.loan_no, \n" .
+                            "loan.loan_type, \n" .
+                            "loan.release_date, \n" .
+                            "loan.maturity_date, \n" .
+                            "loan.daily, \n" .
+                            "unit.unit_description, \n" .
+                            "loan_type.loan_description, \n" .
+                            "branch.branch_description, \n" .
+                            "ci.fname AS ci_fname, \n" .
+                            "ci.lname AS ci_lname, \n" .
+                            "ci.middlename AS ci_middlename, \n" .
                             "loan.ci_date\n" .
                             "FROM\n" .
                             "borrower\n" .
@@ -512,7 +547,7 @@ class SiteController extends Controller {
         if (Yii::$app->user->can('ORGANIZER')) {
 
             if (!(is_null($loan_id))) {
-                if($action === 'approved') {
+                if ($action === 'approved') {
                     $loan = \app\models\Loan::findOne($loan_id);
                     $loan->status = \app\models\Loan::APPROVED;
                     $loan->release_date = date('Y-m-d');
@@ -520,13 +555,13 @@ class SiteController extends Controller {
                     $loan->save();
                     Yii::$app->session->setFlash('loan_approved', "Loan approval success!");
                 }
-                if($action === 'hold') {
+                if ($action === 'hold') {
                     $loan = \app\models\Loan::findOne($loan_id);
                     $loan->status = \app\models\Loan::NEEDAPPROVAL;
                     $loan->save();
                     Yii::$app->session->setFlash('hold_success', "Loan is hold!");
                 }
-                if($action === 'cancel') {
+                if ($action === 'cancel') {
                     $loan = \app\models\Loan::findOne($loan_id);
                     $loan->delete(); // todo:: you need to delete also the comaker and etc.. pls note this one
                     Yii::$app->session->setFlash('cancel_success', "Loan is cancelled!");
@@ -535,14 +570,14 @@ class SiteController extends Controller {
 
             $sql_string = (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ?
                     "SELECT\n" .
-                    "borrower.id AS borrower_id,\n" .
-                    "CONCAT(borrower.last_name,', ', borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
-                    "borrower.suffix,\n" .
-                    "loan.id as loan_id,\n" .
-                    "loan.loan_no,\n" .
-                    "unit.unit_description,\n" .
-                    "branch.branch_description,\n" .
-                    "loan.daily,\n" .
+                    "borrower.id AS borrower_id, \n" .
+                    "CONCAT(borrower.last_name, ', ', borrower.first_name, ' ', borrower.middle_name) AS fullname, \n" .
+                    "borrower.suffix, \n" .
+                    "loan.id as loan_id, \n" .
+                    "loan.loan_no, \n" .
+                    "unit.unit_description, \n" .
+                    "branch.branch_description, \n" .
+                    "loan.daily, \n" .
                     "loan_type.loan_description\n" .
                     "FROM\n" .
                     "loan\n" .
@@ -551,17 +586,16 @@ class SiteController extends Controller {
                     "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
                     "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                     "WHERE\n" .
-                    "loan.status = 'IA'" 
-                    :
+                    "loan.status = 'IA'" :
                     "SELECT\n" .
-                    "borrower.id AS borrower_id,\n" .
-                    "CONCAT(borrower.last_name,', ', borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
-                    "borrower.suffix,\n" .
-                    "loan.id as loan_id,\n" .
-                    "loan.loan_no,\n" .
-                    "unit.unit_description,\n" .
-                    "branch.branch_description,\n" .
-                    "loan.daily,\n" .
+                    "borrower.id AS borrower_id, \n" .
+                    "CONCAT(borrower.last_name, ', ', borrower.first_name, ' ', borrower.middle_name) AS fullname, \n" .
+                    "borrower.suffix, \n" .
+                    "loan.id as loan_id, \n" .
+                    "loan.loan_no, \n" .
+                    "unit.unit_description, \n" .
+                    "branch.branch_description, \n" .
+                    "loan.daily, \n" .
                     "loan_type.loan_description\n" .
                     "FROM\n" .
                     "loan\n" .
@@ -570,7 +604,7 @@ class SiteController extends Controller {
                     "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
                     "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                     "WHERE\n" .
-                    "loan.status = 'IA' && borrower.branch_id =:branch_id ";
+                    "loan.status = 'IA' && borrower.branch_id = :branch_id ";
 
             $loans = Yii::$app->db->createCommand($sql_string)->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
             return $this->render('approvedrelease', [
@@ -593,7 +627,7 @@ class SiteController extends Controller {
     }
 
     // for testing only actions here..
-    
+
     public function actionTest2($date, $term) {
 
         $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
@@ -619,9 +653,11 @@ class SiteController extends Controller {
                 $mat_date->modify('+1 day');
                 $sundays++;
                 if (in_array($date_now->format('Y-m-d'), $jumps, true)) {
-                    echo '<span style="color: blue;">Jumpdate:' . $date_now->format('Y-m-d') . '</span>';
+                    echo '<span style="color: blue;
+">Jumpdate:' . $date_now->format('Y-m-d') . '</span>';
                 } else {
-                    echo '<span style="color: red;">Sunday:' . $date_now->format('Y-m-d') . '</span>';
+                    echo '<span style="color: red;
+">Sunday:' . $date_now->format('Y-m-d') . '</span>';
                 }
 
                 echo '<br>';
@@ -637,8 +673,8 @@ class SiteController extends Controller {
         echo 'Maturity date: ';
         echo $mat_date->format('m/d/Y');
     }
-    
-    public function actionTest4(){
+
+    public function actionTest4() {
         $loans = Yii::$app->db->createCommand()->queryAll();
     }
 

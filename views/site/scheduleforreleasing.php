@@ -60,8 +60,6 @@ $this->registerJs($search);
                     <?php if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN'): ?>
                         <th>Branch</th>
                     <?php endif; ?>
-                    <th>Canvasser</th>
-                    <th>Canvass Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -72,14 +70,12 @@ $this->registerJs($search);
                     foreach ($borrowers as $li):
                         ?>
                         <tr>
-                            <td><?= $counter ?></td>
-                            <td><?= strtoupper($li->fullname) ?></td>
+                            <td class="col-md-1"><?= $counter ?></td>
+                            <td class="col-md-7"><?= strtoupper($li->fullname) ?></td>
                             <?php if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN'): ?>
                                 <td><?= $li->branch->branch_description ?></td>
                             <?php endif; ?>
-                            <td><?= $li->canvasser->lname . ', ' . $li->canvasser->fname ?></td>
-                            <td><?= Yii::$app->formatter->asDate($li['canvass_date']) ?></td>
-                            <td><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-instagram btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
+                            <td class="col-md-2"><a data-idd="<?= $li->id ?>" data-branch = "<?= $li->branch_id ?>" data-name="<?= $li->fullname ?>" type="button" class="btn btn-instagram btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-ok"></i>&nbsp; Schedule</a></td>
                             <?php $counter++; ?>
                         </tr>
                     <?php endforeach; ?>

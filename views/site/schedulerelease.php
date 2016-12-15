@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-6">
                         <?=
                         $form->field($loan, 'ci_officer')->widget(\kartik\widgets\Select2::classname(), [
-                            'data' => (!(strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN')) ? \yii\helpers\ArrayHelper::map(\app\models\base\Ci::find()->orderBy('lname')->where(['branch_id' => Yii::$app->user->identity->branch_id])->orderBy('id')->all(), 'id', 'fullname') : \yii\helpers\ArrayHelper::map(\app\models\base\Ci::find()->orderBy('lname')->all(), 'id', 'fullname'),
+                            'data' => \yii\helpers\ArrayHelper::map($ci , 'id', 'fullname'),
                             'options' => ['placeholder' => 'Canvasser'],
                             'pluginOptions' => [
                                 'allowClear' => true

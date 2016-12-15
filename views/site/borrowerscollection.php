@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = 'Borrowers Collection';
     .break-label {
         font-size: 1.3em;
     }
-    
+
     .total-money {
         font-size: 1.6em;
         text-align: right;
@@ -59,6 +59,7 @@ $form = ActiveForm::begin();
                 <div class="tab-pane active" id="breakdown">    
                     <div class="row">
                         <div class="col-md-12">
+                            <?= $form->errorSummary($money) ?> 
                             <table class="table table-condensed table-hover">
                                 <tr>
                                     <td class="break-label text-center"><strong>NO.</strong></td>
@@ -68,32 +69,32 @@ $form = ActiveForm::begin();
                                 <tr>
                                     <td><?= $form->field($money, 'money_1000')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(1000, "#money-money_1000", "#money-total_1000")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>1000</strong></td>
-                                    <td class="text-right break-text"><?= $form->field($money, 'total_1000')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_1000')->textInput(['class' => 'total_amount form-control', 'readonly' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_500')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(500, "#money-money_500", "#money-total_500")', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_500')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(500, "#money-money_500", "#money-total_500")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>500</strong></td>
-                                    <td class="text-right break-text"><?= $form->field($money, 'total_500')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_500')->textInput(['class' => 'total_amount form-control', 'readonly' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_200')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(200, "#money-money_200", "#money-total_200")', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_200')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(200, "#money-money_200", "#money-total_200")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>200</strong></td>
-                                    <td class="text-right break-text"><?= $form->field($money, 'total_200')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_200')->textInput(['class' => 'total_amount form-control', 'readonly' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_100')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(100, "#money-money_100", "#money-total_100")', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_100')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(100, "#money-money_100", "#money-total_100")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>100</strong></td>
-                                    <td class="text-right break-text"><?= $form->field($money, 'total_100')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_100')->textInput(['class' => 'total_amount form-control', 'readonly' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_50')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(50, "#money-money_50", "#money-total_50")', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_50')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(50, "#money-money_50", "#money-total_50")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>50</strong></td>
-                                    <td class="text-right break-text"><?= $form->field($money, 'total_50')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_50')->textInput(['class' => 'total_amount form-control', 'readonly' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?= $form->field($money, 'money_20')->textInput(['onkeypress' => 'return isNumber(event)','onchange' => 'calculateTotal(20, "#money-money_20", "#money-total_20")', 'class' => 'inputtext form-control'])->label(false) ?></td>
+                                    <td><?= $form->field($money, 'money_20')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(20, "#money-money_20", "#money-total_20")', 'class' => 'inputtext form-control'])->label(false) ?></td>
                                     <td class="text-center break-text"><strong>20</strong></td>
-                                    <td class="text-right break-text"><?= $form->field($money, 'total_20')->textInput(['class' => 'total_amount form-control', 'disabled' => true])->label(false) ?></td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'total_20')->textInput(['class' => 'total_amount form-control', 'readonly' => true])->label(false) ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><strong><p class="pull-right break-label">TOTAL COINS</p></strong></td>
@@ -101,7 +102,7 @@ $form = ActiveForm::begin();
                                 </tr>
                                 <tr>
                                     <td colspan="2"><strong><p class="pull-right break-label">TOTAL COLLECTION</p></strong></td>
-                                    <td class="text-right break-text"><?= $form->field($money, 'money_total_amount')->textInput(['class' => 'total-money form-control', 'disabled' => true])->label(false) ?></td>
+                                    <td class="text-right break-text"><?= $form->field($money, 'money_total_amount')->textInput(['class' => 'total-money form-control', 'readonly' => true])->label(false) ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -128,14 +129,26 @@ $form = ActiveForm::end();
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel" style="float: left; font-weight: bold;">Collection Breakdown</h4>
-                    <p class="break-text text-right" style="float: right;"><strong>Transaction date:</strong> <?= date('m/d/Y'); ?> &nbsp;</p>
                 </div>
                 <div class="modal-body">  
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="break-text pull-right">Unit</label>
+                            <?=
+                            $form->field($money, 'collection_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+                                'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                'saveFormat' => 'php:Y-m-d',
+                                'ajaxConversion' => true,
+                                'options' => [
+                                    'pluginOptions' => [
+                                        'placeholder' => 'Collection Date',
+                                        'autoclose' => true,
+                                    ],
+                                ],
+                            ]);
+                            ?>
                         </div>
                         <div class="col-md-6">
+                            <label class="break-text">Unit</label>
                             <select class="form-control break-text" name="unit">
                                 <option value="1">A1</option>
                                 <option value="2">A2</option>

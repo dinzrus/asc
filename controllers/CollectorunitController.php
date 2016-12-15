@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Employee;
-use app\models\EmployeeSearch;
+use app\models\Collectorunit;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * EmployeeController implements the CRUD actions for Employee model.
+ * CollectorunitController implements the CRUD actions for Collectorunit model.
  */
-class EmployeeController extends Controller
+class CollectorunitController extends Controller
 {
     public function behaviors()
     {
@@ -28,7 +28,7 @@ class EmployeeController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'add-emposition'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['@']
                     ],
                     [
@@ -40,45 +40,41 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Lists all Employee models.
+     * Lists all Collectorunit models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new EmployeeSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Collectorunit::find(),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Employee model.
+     * Displays a single Collectorunit model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $providerEmposition = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->empositions,
-        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'providerEmposition' => $providerEmposition,
         ]);
     }
 
     /**
-     * Creates a new Employee model.
+     * Creates a new Collectorunit model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Employee();
+        $model = new Collectorunit();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -90,7 +86,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Updates an existing Employee model.
+     * Updates an existing Collectorunit model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -109,7 +105,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Deletes an existing Employee model.
+     * Deletes an existing Collectorunit model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -123,36 +119,16 @@ class EmployeeController extends Controller
 
     
     /**
-     * Finds the Employee model based on its primary key value.
+     * Finds the Collectorunit model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Employee the loaded model
+     * @return Collectorunit the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Employee::findOne($id)) !== null) {
+        if (($model = Collectorunit::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-    
-    /**
-    * Action to load a tabular form grid
-    * for Emposition
-    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
-    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
-    *
-    * @return mixed
-    */
-    public function actionAddEmposition()
-    {
-        if (Yii::$app->request->isAjax) {
-            $row = Yii::$app->request->post('Emposition');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
-                $row[] = [];
-            return $this->renderAjax('_formEmposition', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

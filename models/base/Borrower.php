@@ -152,8 +152,8 @@ class Borrower extends \yii\db\ActiveRecord {
         return $this->hasOne(\app\models\MunicipalityCity::className(), ['id' => 'address_city_municipality_id']);
     }
     
-    public function getCanvasser() {
-        return $this->hasOne(\app\models\base\Canvasser::className(), ['id' => 'canvass_by']);
+    public function getEmployee() {
+        return $this->hasOne(\app\models\Employee::className(), ['id' => 'canvass_by']);
     }
 
     /**

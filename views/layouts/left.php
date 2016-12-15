@@ -29,8 +29,9 @@
                                 ['label' => 'Business Type', 'icon' => 'fa  fa-caret-right', 'url' => ['/businesstype'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Branches', 'icon' => 'fa  fa-caret-right', 'url' => ['/branch'], 'visible' => Yii::$app->user->can('IT')],
                                 ['label' => 'Jumpdate', 'icon' => 'fa  fa-caret-right', 'url' => ['/jumpdate'], 'visible' => Yii::$app->user->can('IT')],
-                                ['label' => 'Canvasser', 'icon' => 'fa  fa-caret-right', 'url' => ['/canvasser'], 'visible' => Yii::$app->user->can('IT')],
-                                ['label' => 'Credit Invistigator', 'icon' => 'fa  fa-caret-right', 'url' => ['/ci'], 'visible' => Yii::$app->user->can('IT')],
+                                ['label' => 'Employee', 'icon' => 'fa  fa-caret-right', 'url' => ['/employee'], 'visible' => Yii::$app->user->can('IT')],
+                                ['label' => 'Employee Positions', 'icon' => 'fa  fa-caret-right', 'url' => ['/position'], 'visible' => Yii::$app->user->can('IT')],
+                                ['label' => 'Collector Assignment', 'icon' => 'fa  fa-caret-right', 'url' => ['/collectorunit'], 'visible' => Yii::$app->user->can('IT')],
                                 [
                                     'label' => 'Loanscheme',
                                     'icon' => 'fa  fa-caret-right',
