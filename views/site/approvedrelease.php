@@ -83,6 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <tr>
                         <td><strong>#</strong></td>
                         <td><strong>Name</strong></td>
+                        <td><strong>Unit</strong></td>
                         <td><strong>Daily</strong></td>
                         <td></td>
                     </tr>
@@ -90,9 +91,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php $cnt = 1; ?>
                         <?php foreach ($loans as $loan): ?>
                             <tr>
-                                <td class="col-md-1"><?= $cnt ?></td>
-                                <td class="col-md-4"><?= strtoupper($loan['fullname']) ?></td>
-                                <td class="col-md-4"><?= $loan['daily'] ?></td>
+                                <td><?= $cnt ?></td>
+                                <td><?= strtoupper($loan['fullname']) ?></td>
+                                <td><?= $loan['unit_description'] ?></td>
+                                <td><?= $loan['daily'] ?></td>
                                 <td class="col-md-3">
                                     <a href="<?= Url::to(['site/approvedrelease', 'loan_id' => $loan['loan_id'], 'action' => 'approved']) ?>" onclick="return confirm('Released loan to system?')" class="btn btn-success btn-sm"><i class="fa fa-thumbs-o-up"></i> Released</a>
                                     <a href="<?= Url::to(['site/approvedrelease', 'loan_id' => $loan['loan_id'], 'action' => 'hold']) ?>" onclick="return confirm('Hold this loan? Note: Hold accounts will be added to your sfr.')" class="btn btn-warning btn-sm"><i class="fa fa-hand-stop-o"></i> Hold</a>

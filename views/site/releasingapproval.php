@@ -51,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <th>#</th>
                     <th>Name</th>
                     <th>Branch</th>
-                    <th>C.I. Officer</th>
-                    <th>C.I. Date</th>
+                    <th>Unit</th>
+                    <th>Daily</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -66,9 +66,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td><?= $counter ?></td>
                             <td><?= strtoupper($loan['last_name'] . ', ' . $loan['first_name'] . ' ' . $loan['suffix'] . ' ' . $loan['middle_name']) ?></td>
                             <td><?= $loan['branch_description'] ?></td>
-                            <td><?= strtoupper($loan['ci_lname'] . ', ' . $loan['ci_fname'] . ' ' . $loan['ci_middlename']) ?></td>
-                            <td><?= Yii::$app->formatter->asDate($loan['ci_date']) ?></td>
-                            <td>
+                            <td><?= $loan['unit'] ?></td>
+                            <td><?= Yii::$app->formatter->asCurrency($loan['daily']) ?></td>
+                            <td class="col-md-2">
                                 <a class="btn btn-primary btn-sm" data-fullname="<?= strtoupper($loan['last_name'] . ', ' . $loan['first_name'] . ' ' . $loan['suffix'] . ' ' . $loan['middle_name']) ?>" data-loanid="<?= $loan['loan_id'] ?>" type="button" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i> View</a>
                                 <a href="<?= Url::to(['site/releasingapproval', 'id' => $loan['loan_id']]) ?>" class="btn btn-success btn-sm" onclick="return confirm('Are you sure to approve this loan?')"><i class="fa fa-check"></i> Approve</a>
                             </td>

@@ -89,10 +89,6 @@ class Employee extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getBorrowers() {
-        return $this->hasMany(\app\models\Borrower::className(), ['canvass_by' => 'id']);
-    }
-
     /**
      * @inheritdoc
      * @return \app\models\EmployeeQuery the active query used by this AR class.

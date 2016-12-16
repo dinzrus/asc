@@ -28,7 +28,7 @@ $this->registerJs($search);
                 'attribute' => 'collector_id',
                 'label' => 'Collector',
                 'value' => function($model){
-                    return $model->collector->id;
+                    return $model->collector->employee->last_name . ', ' . $model->collector->employee->first_name ;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
                 'filter' => \yii\helpers\ArrayHelper::map(\app\models\Emposition::find()->asArray()->all(), 'id', 'id'),
@@ -41,7 +41,7 @@ $this->registerJs($search);
                 'attribute' => 'unit_id',
                 'label' => 'Unit',
                 'value' => function($model){
-                    return $model->unit->unit_id;
+                    return $model->unit->unit_description;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
                 'filter' => \yii\helpers\ArrayHelper::map(\app\models\Unit::find()->asArray()->all(), 'unit_id', 'unit_id'),

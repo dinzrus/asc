@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\DepDrop;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Collectorunit */
@@ -19,7 +21,7 @@ use yii\widgets\ActiveForm;
 
             <?=
             $form->field($model, 'collector_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\app\models\Emposition::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
+                'data' => \yii\helpers\ArrayHelper::map($collectors, 'emp_id', 'fullname'),
                 'options' => ['placeholder' => 'Choose Emposition'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -28,12 +30,14 @@ use yii\widgets\ActiveForm;
             ?>
 
             <?=
-            $form->field($model, 'unit_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\app\models\Unit::find()->orderBy('unit_id')->asArray()->all(), 'unit_id', 'unit_id'),
-                'options' => ['placeholder' => 'Choose Unit'],
+            $form->field($model, 'unit_id')->widget(DepDrop::classname(), [
+                'options' => ['id' => Html::getInputId($model, 'unit_id')],
+                'type' => DepDrop::TYPE_SELECT2,
                 'pluginOptions' => [
-                    'allowClear' => true
-                ],
+                    'depends' => [Html::getInputId($model, 'collector_id')],
+                    'placeholder' => 'Select city/municipality',
+                    'url' => Url::to(['/collectorunit/getunits'])
+                ]
             ]);
             ?>
 

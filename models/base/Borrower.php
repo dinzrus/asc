@@ -151,11 +151,7 @@ class Borrower extends \yii\db\ActiveRecord {
     public function getAddressCityMunicipality() {
         return $this->hasOne(\app\models\MunicipalityCity::className(), ['id' => 'address_city_municipality_id']);
     }
-    
-    public function getEmployee() {
-        return $this->hasOne(\app\models\Employee::className(), ['id' => 'canvass_by']);
-    }
-
+   
     /**
      * @inheritdoc
      * @return \app\models\BorrowerQuery the active query used by this AR class.

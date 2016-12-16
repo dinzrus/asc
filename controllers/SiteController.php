@@ -355,7 +355,7 @@ class SiteController extends Controller {
             $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
             $loanscheme = \app\models\LoanschemeValues::findOne(['id' => $daily]);
 
-            // get the ci officer
+// get the ci officer
             $ci = Yii::$app->db->createCommand("SELECT\n" .
                             "employee.id,\n" .
                             "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
@@ -408,9 +408,9 @@ class SiteController extends Controller {
                         $comaker->save();
                         $loan->save();
                         $loan_comaker = new \app\models\Loancomaker();
-                        //$loan_comaker->loan_id = $loan->id;
-                        //$loan_comaker->comaker_id = $comaker->id;
-                        $loan_comaker->save();                  
+                        $loan_comaker->loan_id = $loan->id;
+                        $loan_comaker->comaker_id = $comaker->id;
+                        $loan_comaker->save();
                         $transaction->commit();
                     } catch (Exception $ex) {
                         $transaction->rollBack();
@@ -462,31 +462,26 @@ class SiteController extends Controller {
             }
 
             $loan_for_approval = Yii::$app->db->createCommand("SELECT\n" .
-                            "borrower.id, \n" .
+                            "borrower.id AS borrower_id, \n" .
+                            "borrower.profile_pic, \n" .
                             "borrower.first_name, \n" .
                             "borrower.last_name, \n" .
                             "borrower.middle_name, \n" .
                             "borrower.suffix, \n" .
                             "loan.id AS loan_id, \n" .
                             "loan.loan_no, \n" .
-                            "loan.loan_type, \n" .
-                            "loan.release_date, \n" .
-                            "loan.maturity_date, \n" .
-                            "loan.daily, \n" .
-                            "unit.unit_description, \n" .
                             "loan_type.loan_description, \n" .
+                            "unit.unit_description, \n" .
                             "branch.branch_description, \n" .
-                            "ci.fname AS ci_fname, \n" .
-                            "ci.lname AS ci_lname, \n" .
-                            "ci.middlename AS ci_middlename, \n" .
-                            "loan.ci_date\n" .
+                            "loan.daily, \n" .
+                            "loan.ci_date, \n" .
+                            "unit.unit_description AS unit \n" .
                             "FROM\n" .
                             "borrower\n" .
                             "INNER JOIN loan ON loan.borrower = borrower.id\n" .
                             "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
                             "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                             "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                            "INNER JOIN ci ON loan.ci_officer = ci.id\n" .
                             "WHERE loan.status = 'NA'")->queryAll();
 
             return $this->render('releasingapproval', ['loan_for_approval' => $loan_for_approval]);

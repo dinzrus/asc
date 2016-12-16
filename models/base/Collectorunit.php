@@ -51,8 +51,8 @@ class Collectorunit extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'collector_id' => 'Collector ID',
-            'unit_id' => 'Unit ID',
+            'collector_id' => 'Collector',
+            'unit_id' => 'Unit',
         ];
     }
     
