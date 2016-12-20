@@ -137,10 +137,10 @@ class CollectorunitController extends Controller {
                         "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
                         "INNER JOIN position ON emposition.position_id = position.id\n" .
                         "WHERE\n" .
-                        "position.position = 'collector' AND emposition.employee_id = :id")->bindValue(':id', $model->collector_id)->queryOne();
+                        "position.position = 'collector' AND emposition.id = :id")->bindValue(':id', $model->collector_id)->queryOne();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['collectorunit/index']);
         } else {
             return $this->render('update', [
                         'model' => $model,

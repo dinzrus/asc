@@ -17,6 +17,7 @@ class Collectorunit extends BaseCollectorunit
         return array_replace_recursive(parent::rules(),
 	    [
             [['collector_id', 'unit_id'], 'required'],
+            ['collector_id', 'unique', 'message' => 'Collector is already assigned!'],
             [['collector_id', 'unit_id', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe']
         ]);

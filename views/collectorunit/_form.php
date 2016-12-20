@@ -21,7 +21,7 @@ use yii\helpers\Url;
 
             <?=
             $form->field($model, 'collector_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map($collectors, 'emp_id', 'fullname'),
+                'data' => (!$model->isNewRecord) ?  [$collectors['emp_id'] => $collectors['fullname']] : \yii\helpers\ArrayHelper::map($collectors, 'emp_id', 'fullname'),
                 'options' => ['placeholder' => 'Choose Emposition'],
                 'pluginOptions' => [
                     'allowClear' => true

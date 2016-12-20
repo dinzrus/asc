@@ -27,7 +27,7 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'index'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -71,25 +71,49 @@ class SiteController extends Controller {
      * 
      * @return type
      */
-    public function actionBorrowerscollection($branch_id = null, $unit_id = null) {
-
-        $money = new \app\models\Money;
-
-        if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
-            $money->collection_date = date('Y-m-d');
-            $money->branch_id = 1;
-            $money->unit_id = 1;
-            if ($money->save()) {
-                echo 'save';
+    public function actionBorrowerscollection($collection_date = null, $branch_id = null, $unit_id = null) {
+        //check if money exist
+        $money_exist = \app\models\Money::find()->where(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id])->one();
+        if (count($money_exist) == 1) {
+            if (Yii::$app->request->post() && $money_exist->load(Yii::$app->request->post())) {
+                $money_exist->collection_date = date('Y-m-d');
+                $money_exist->branch_id = 1;
+                $money_exist->unit_id = 1;
+                if ($money_exist->save()) {
+                    return $this->render('borrowerscollection', [
+                                'money' => $money_exist,
+                    ]);
+                } else {
+                    return $this->render('borrowerscollection', [
+                                'money' => $money_exist,
+                    ]);
+                }
+            } else {
+                return $this->render('borrowerscollection', [
+                            'money' => $money_exist,
+                ]);
+            }
+        } else {
+            $money = new \app\models\Money;
+            if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
+                $money->collection_date = date('Y-m-d');
+                $money->branch_id = 1;
+                $money->unit_id = 1;
+                if ($money->save()) {
+                    return $this->render('borrowerscollection', [
+                                'money' => $money,
+                    ]);
+                } else {
+                    return $this->render('borrowerscollection', [
+                                'money' => $money,
+                    ]);
+                }
             } else {
                 return $this->render('borrowerscollection', [
                             'money' => $money,
                 ]);
             }
-        } else {
-            return $this->render('borrowerscollection', [
-                        'money' => $money,
-            ]);
+
         }
     }
 
@@ -621,7 +645,29 @@ class SiteController extends Controller {
         ]);
     }
 
-    // for testing only actions here..
+    // ajax action use in borrowers collection 
+    public function actionGetunits() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $branch_id = $parents[0];
+                $list = \app\models\Unit::find()->andWhere(['branch_id' => $branch_id])->asArray()->all();
+                $selected = null;
+                foreach ($list as $i => $value) {
+                    $out[] = ['id' => $value['unit_id'], 'name' => $value['unit_description']];
+                    if ($i == 0) {
+                        $selected = $value['unit_id'];
+                    }
+                }
+                echo Json::encode(['output' => $out, 'selected' => '']);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    // for testing only actions here ================================================================================
 
     public function actionTest2($date, $term) {
 
@@ -648,11 +694,9 @@ class SiteController extends Controller {
                 $mat_date->modify('+1 day');
                 $sundays++;
                 if (in_array($date_now->format('Y-m-d'), $jumps, true)) {
-                    echo '<span style="color: blue;
-">Jumpdate:' . $date_now->format('Y-m-d') . '</span>';
+                    echo '<span style="color: blue;">Jumpdate:' . $date_now->format('Y-m-d') . '</span>';
                 } else {
-                    echo '<span style="color: red;
-">Sunday:' . $date_now->format('Y-m-d') . '</span>';
+                    echo '<span style="color: red;">Sunday:' . $date_now->format('Y-m-d') . '</span>';
                 }
 
                 echo '<br>';
@@ -667,10 +711,6 @@ class SiteController extends Controller {
         echo 'No. of Jumpdates: ' . $sundays . '<br>';
         echo 'Maturity date: ';
         echo $mat_date->format('m/d/Y');
-    }
-
-    public function actionTest4() {
-        $loans = Yii::$app->db->createCommand()->queryAll();
     }
 
 }

@@ -3,8 +3,10 @@
 
 use yii\bootstrap\Modal;
 use yii\web\view;
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\DepDrop;
 
 $this->title = 'Borrowers Collection';
 
@@ -49,13 +51,13 @@ $form = ActiveForm::begin();
         <a href="#myModal" class="btn btn-success btn-lg" data-toggle="modal"><i class="fa fa-bookmark"></i> Select Unit</a>
     </div>
     <div class="box-body">
+        <?php if (!$money->isNewRecord): ?>
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#breakdown" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Collection Breakdown</strong></a></li>
                 <li><a href="#collection" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Collection</strong></a></li>
             </ul>
-
-            <div class="tab-content">     
+            <div class="tab-content">                
                 <div class="tab-pane active" id="breakdown">    
                     <div class="row">
                         <div class="col-md-12">
@@ -116,8 +118,8 @@ $form = ActiveForm::begin();
                 <button type="submit" class="btn btn-primary btn-lg pull-right"><i class="fa fa-save"></i> Save</button>
             </div>
         </div>
-
-    </div>     
+        <?php endif; ?>
+    </div>   
 </div>
 <?php
 $form = ActiveForm::end();
@@ -132,10 +134,12 @@ $form = ActiveForm::end();
                 </div>
                 <div class="modal-body">  
                     <div class="row">
-                        <div class="col-md-6">
-                            <?=
-                            $form->field($money, 'collection_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+                        <div class="col-md-5">
+                            <?php
+                            $money->collection_date = date('m/d/Y');
+                            echo $form->field($money, 'collection_date')->widget(\kartik\datecontrol\DateControl::classname(), [
                                 'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                                'displayFormat' => 'php:m/d/Y',
                                 'saveFormat' => 'php:Y-m-d',
                                 'ajaxConversion' => true,
                                 'options' => [
@@ -147,23 +151,40 @@ $form = ActiveForm::end();
                             ]);
                             ?>
                         </div>
-                        <div class="col-md-6">
-                            <label class="break-text">Unit</label>
-                            <select class="form-control break-text" name="unit">
-                                <option value="1">A1</option>
-                                <option value="2">A2</option>
-                                <option value="3">A3</option>
-                            </select>
+                        <div class="col-md-4">
+                            <?=
+                            $form->field($money, 'branch_id')->widget(\kartik\widgets\Select2::classname(), [
+                                'data' => (strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN') ? \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->orderBy('branch_id')->asArray()->all(), 'branch_id', 'branch_description') : \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->andWhere(['branch_id' => Yii::$app->user->identity->branch_id])->all(), 'branch_id', 'branch_description'),
+                                'options' => ['placeholder' => 'Select Branch'],
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]);
+                            ?>
+                        </div>
+                        <div class="col-md-3">
+                            <?=
+                            $form->field($money, 'unit_id')->widget(DepDrop::classname(), [
+                                'options' => ['id' => Html::getInputId($money, 'unit_id')],
+                                'type' => DepDrop::TYPE_SELECT2,
+                                'pluginOptions' => [
+                                    'depends' => [Html::getInputId($money, 'branch_id')],
+                                    'placeholder' => 'Select unit',
+                                    'url' => Url::to(['/site/getunits'])
+                                ]
+                            ]);
+                            ?>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-md-6">
-                            <button value="submit" class = 'btn btn-success btn-block'><i class="fa fa-save"></i> Submit</button>
+                            <?= Html::a('<i class="fa fa-save"></i> Submit', Url::to(['site/borrowerscollection']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);']) ?>
+
                         </div>
                         <div class="col-md-6">
-                            <button class = 'btn btn-success btn-danger btn-block'>Cancel</button>
+                            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
                         </div>
                     </div>
                 </div>
@@ -208,7 +229,14 @@ $form = ActiveForm::end();
          
         }
         
-         
+        // this function adds parameters to the url of the submit button in the modal
+        function addURL(element)
+            { 
+                $(element).attr('href', function() {
+                    return this.href + '&collection_date=' + $('input[name=collection_date-money-collection_date]').val() + '&branch_id=' + $('select[name=branch_id]').val() + '&unit_id=' + $('select[name=daily]').val() + '&unit=' + $('select[name=unit_id]').val();
+                });
+            }
+      
         ", View::POS_END); ?>
 
 
