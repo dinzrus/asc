@@ -22,5 +22,10 @@ class Unit extends BaseUnit
             [['unit_description'], 'string', 'max' => 255]
         ]);
     }
+    
+    public static  function idName ($id) {
+        $model = self::findOne(['unit_id' => $id]);
+        return $model->unit_description;
+    }
 	
 }

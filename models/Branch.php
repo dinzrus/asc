@@ -22,5 +22,10 @@ class Branch extends BaseBranch
             [['branch_description', 'address', 'telephone_no'], 'string', 'max' => 255]
         ]);
     }
+    
+    public static  function idName ($id) {
+        $model = self::findOne(['branch_id' => $id]);
+        return $model->branch_description;
+    }
 	
 }

@@ -72,45 +72,49 @@ class SiteController extends Controller {
      * @return type
      */
     public function actionBorrowerscollection($collection_date = null, $branch_id = null, $unit_id = null) {
+        
+        if ($collection_date == null) {
+            $isNew = false;
+        } else {
+            $isNew = true;
+        }
         //check if money exist
-        $money_exist = \app\models\Money::find()->where(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id])->one();
+        $money_exist = \app\models\Money::findOne(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id]);
         if (count($money_exist) == 1) {
             if (Yii::$app->request->post() && $money_exist->load(Yii::$app->request->post())) {
-                $money_exist->collection_date = date('Y-m-d');
-                $money_exist->branch_id = 1;
-                $money_exist->unit_id = 1;
                 if ($money_exist->save()) {
-                    return $this->render('borrowerscollection', [
-                                'money' => $money_exist,
-                    ]);
+                    return $this->redirect(['site/borrowerscollection']);
                 } else {
                     return $this->render('borrowerscollection', [
                                 'money' => $money_exist,
+                                'isNew' => $isNew,
                     ]);
                 }
             } else {
                 return $this->render('borrowerscollection', [
                             'money' => $money_exist,
+                            'isNew' => $isNew,
                 ]);
             }
         } else {
             $money = new \app\models\Money;
             if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
-                $money->collection_date = date('Y-m-d');
-                $money->branch_id = 1;
-                $money->unit_id = 1;
                 if ($money->save()) {
-                    return $this->render('borrowerscollection', [
-                                'money' => $money,
-                    ]);
+                    return $this->redirect(['site/borrowerscollection']);
                 } else {
                     return $this->render('borrowerscollection', [
                                 'money' => $money,
+                                'isNew' => $isNew,
                     ]);
                 }
             } else {
+                $money->collection_date = $collection_date;
+                $money->branch_id = $branch_id;
+                $money->unit_id = $unit_id;
+                
                 return $this->render('borrowerscollection', [
                             'money' => $money,
+                            'isNew' => $isNew,
                 ]);
             }
 
