@@ -4,13 +4,13 @@ use kartik\tabs\TabsX;
 use yii\helpers\Url;
 $items = [
     [
-        'label' => '<i class="glyphicon glyphicon-book"></i> '. Html::encode('Employee Details'),
+        'label' => '<i class="glyphicon glyphicon-book"></i> '. Html::encode('Employee'),
         'content' => $this->render('_detail', [
             'model' => $model,
         ]),
     ],
         [
-        'label' => '<i class="glyphicon glyphicon-book"></i> '. Html::encode('Position'),
+        'label' => '<i class="glyphicon glyphicon-book"></i> '. Html::encode('Emposition'),
         'content' => $this->render('_dataEmposition', [
             'model' => $model,
             'row' => $model->empositions,

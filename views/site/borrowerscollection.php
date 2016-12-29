@@ -47,7 +47,7 @@ $form = ActiveForm::begin();
 ?>
 <div class="box box-primary">
     <div class="box-header">
-        <a href="#myModal" class="btn btn-success btn-lg" data-toggle="modal"><i class="fa fa-bookmark"></i> New</a>
+        <a href="#myModal" class="btn btn-success btn-lg" data-toggle="modal"><i class="fa fa-bookmark"></i> Select Unit</a>
     </div>
     <div class="box-body">
         <?php if ($isNew == true): ?>

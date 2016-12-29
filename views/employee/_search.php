@@ -24,13 +24,13 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'middle_name')->textInput(['maxlength' => true, 'placeholder' => 'Middle Name']) ?>
 
     <?= $form->field($model, 'date_birth')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        'saveFormat' => 'php:Y-m-d H:i:s',
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+        'saveFormat' => 'php:Y-m-d',
         'ajaxConversion' => true,
         'options' => [
             'pluginOptions' => [
                 'placeholder' => 'Choose Date Birth',
-                'autoclose' => true,
+                'autoclose' => true
             ]
         ],
     ]); ?>

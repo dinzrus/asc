@@ -10,7 +10,7 @@ use yii\data\ArrayDataProvider;
         ['class' => 'yii\grid\SerialColumn'],
         ['attribute' => 'id', 'visible' => false],
         [
-                'attribute' => 'branch.branch_description',
+                'attribute' => 'branch.branch_id',
                 'label' => 'Branch'
             ],
         [

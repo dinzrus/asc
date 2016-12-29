@@ -72,7 +72,7 @@ class SiteController extends Controller {
      * @return type
      */
     public function actionBorrowerscollection($collection_date = null, $branch_id = null, $unit_id = null) {
-        
+
         if ($collection_date == null) {
             $isNew = false;
         } else {
@@ -81,9 +81,16 @@ class SiteController extends Controller {
         //check if money exist
         $money_exist = \app\models\Money::findOne(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id]);
         if (count($money_exist) == 1) {
-            if (Yii::$app->request->post() && $money_exist->load(Yii::$app->request->post())) {
-                if ($money_exist->save()) {
-                    return $this->redirect(['site/borrowerscollection']);
+            if (Yii::$app->user->can('IT')) {
+                if (Yii::$app->request->post() && $money_exist->load(Yii::$app->request->post())) {
+                    if ($money_exist->save()) {
+                        return $this->redirect(['site/borrowerscollection']);
+                    } else {
+                        return $this->render('borrowerscollection', [
+                                    'money' => $money_exist,
+                                    'isNew' => $isNew,
+                        ]);
+                    }
                 } else {
                     return $this->render('borrowerscollection', [
                                 'money' => $money_exist,
@@ -91,10 +98,7 @@ class SiteController extends Controller {
                     ]);
                 }
             } else {
-                return $this->render('borrowerscollection', [
-                            'money' => $money_exist,
-                            'isNew' => $isNew,
-                ]);
+                throw new \yii\web\UnauthorizedHttpException;
             }
         } else {
             $money = new \app\models\Money;
@@ -111,13 +115,12 @@ class SiteController extends Controller {
                 $money->collection_date = $collection_date;
                 $money->branch_id = $branch_id;
                 $money->unit_id = $unit_id;
-                
+
                 return $this->render('borrowerscollection', [
                             'money' => $money,
                             'isNew' => $isNew,
                 ]);
             }
-
         }
     }
 

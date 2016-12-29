@@ -12,10 +12,9 @@ use yii\filters\VerbFilter;
 /**
  * EmpositionController implements the CRUD actions for Emposition model.
  */
-class EmpositionController extends Controller
-{
-    public function behaviors()
-    {
+class EmpositionController extends Controller {
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -43,14 +42,19 @@ class EmpositionController extends Controller
      * Lists all Emposition models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new EmpositionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $employee = Yii::$app->db->createCommand("SELECT\n" .
+                        "employee.id,\n" .
+                        "CONCAT(employee.last_name, ', ',employee.first_name, ' ' ,employee.middle_name) as fullname\n" .
+                        "FROM\n" .
+                        "employee")->queryAll();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'employee' => $employee,
         ]);
     }
 
@@ -59,15 +63,14 @@ class EmpositionController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         $model = $this->findModel($id);
         $providerCollectorunit = new \yii\data\ArrayDataProvider([
             'allModels' => $model->collectorunits,
         ]);
         return $this->render('view', [
-            'model' => $this->findModel($id),
-            'providerCollectorunit' => $providerCollectorunit,
+                    'model' => $this->findModel($id),
+                    'providerCollectorunit' => $providerCollectorunit,
         ]);
     }
 
@@ -76,15 +79,21 @@ class EmpositionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Emposition();
+
+        $employee = Yii::$app->db->createCommand("SELECT\n" .
+                        "employee.id,\n" .
+                        "CONCAT(employee.last_name, ', ',employee.first_name, ' ' ,employee.middle_name) as fullname\n" .
+                        "FROM\n" .
+                        "employee")->queryAll();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
+                        'employee' => $employee,
             ]);
         }
     }
@@ -95,15 +104,21 @@ class EmpositionController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
+
+        $employee = Yii::$app->db->createCommand("SELECT\n" .
+                        "employee.id,\n" .
+                        "CONCAT(employee.last_name, ', ',employee.first_name, ' ' ,employee.middle_name) as fullname\n" .
+                        "FROM\n" .
+                        "employee")->queryAll();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
+                        'employee' => $employee,
             ]);
         }
     }
@@ -114,14 +129,12 @@ class EmpositionController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->deleteWithRelated();
 
         return $this->redirect(['index']);
     }
 
-    
     /**
      * Finds the Emposition model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -129,32 +142,31 @@ class EmpositionController extends Controller
      * @return Emposition the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Emposition::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
+
     /**
-    * Action to load a tabular form grid
-    * for Collectorunit
-    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
-    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
-    *
-    * @return mixed
-    */
-    public function actionAddCollectorunit()
-    {
+     * Action to load a tabular form grid
+     * for Collectorunit
+     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+     *
+     * @return mixed
+     */
+    public function actionAddCollectorunit() {
         if (Yii::$app->request->isAjax) {
             $row = Yii::$app->request->post('Collectorunit');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
                 $row[] = [];
             return $this->renderAjax('_formCollectorunit', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

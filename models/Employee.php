@@ -23,4 +23,7 @@ class Employee extends BaseEmployee
         ]);
     }
 	
+    public function getFullname() {
+        return $this->last_name . ', ' . $this->first_name; 
+    }
 }
