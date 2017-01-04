@@ -16,9 +16,21 @@ class Emposition extends BaseEmposition {
         return array_replace_recursive(parent::rules(), [
             [['employee_id', 'branch_id'], 'required'],
             [['employee_id', 'branch_id', 'position_id', 'created_by', 'updated_by'], 'integer'],
-            ['position_id', 'unique', 'targetAttribute' => ['employee_id','position_id'], 'message' => 'Employee already assigned!'],
+            ['position_id', 'unique', 'targetAttribute' => ['employee_id', 'position_id'], 'message' => 'Employee already assigned!'],
             [['created_at', 'updated_at'], 'safe']
         ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'employee_id' => 'Employee',
+            'branch_id' => 'Branch',
+            'position_id' => 'Position',
+        ];
     }
 
 }

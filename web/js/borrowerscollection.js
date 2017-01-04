@@ -4,6 +4,16 @@ $(window).load(function () {
     //$('#myModal').modal('show');
 });
 
+$('#myModal').on('hidden.bs.modal', function (e) {
+  var collectionDate = $('#money-collection_date').val();
+  var collectionUnit = $('#money-unit_id option:selected').text();
+  var branchName = $('#money-branch_id option:selected').text();
+  
+  $('#collectionDate').html(collectionDate);
+  $('#branchName').html(branchName);
+  $('#collectionUnit').html(collectionUnit);
+})
+
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;

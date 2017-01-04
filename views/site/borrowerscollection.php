@@ -50,16 +50,15 @@ $form = ActiveForm::begin();
         <a href="#myModal" class="btn btn-success btn-lg" data-toggle="modal"><i class="fa fa-bookmark"></i> Select Unit</a>
     </div>
     <div class="box-body">
-        <?php if ($isNew == true): ?>
-            <div class="row">
+        <div class="row">
                 <div class="col-md-12">
-                    <?php if (Yii::$app->session->hasFlash('loanReleased')): ?>
+                    <?php if (Yii::$app->session->hasFlash('collection')): ?>
                         <?php
                         echo Growl::widget([
                             'type' => Growl::TYPE_SUCCESS,
-                            'title' => 'Well done!',
+                            'title' => 'Success!',
                             'icon' => 'glyphicon glyphicon-ok-sign',
-                            'body' => Yii::$app->session->getFlash('loanReleased'),
+                            'body' => Yii::$app->session->getFlash('collection'),
                             'showSeparator' => true,
                             'delay' => 0,
                             'pluginOptions' => [
@@ -74,6 +73,7 @@ $form = ActiveForm::begin();
                     <?php endif; ?>   
                 </div>
             </div>
+        <?php if ($isNew == true): ?>
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#breakdown" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Collection Breakdown</strong></a></li>
@@ -82,9 +82,9 @@ $form = ActiveForm::begin();
                 <div class="tab-content">   
                     <table class="table table-bordered">
                         <tr>
-                            <td class="col-md-4 break-label"><strong>Collection Date: </strong><?= Yii::$app->formatter->asDate($money->collection_date) ?></td>
-                            <td class="col-md-4 break-label"><strong>Branch: </strong><?= \app\models\Branch::idName($money->branch_id) ?></td>
-                            <td class="col-md-4 break-label"><strong>Unit: </strong><?= \app\models\Unit::idName($money->unit_id) ?></td>
+                            <td class="col-md-4 break-label"><strong>Collection Date: </strong><p id = "collectionDate"><?= Yii::$app->formatter->asDate($money->collection_date) ?></p></td>
+                            <td class="col-md-4 break-label"><strong>Branch: </strong><p id = "branchName"><?= \app\models\Branch::idName($money->branch_id) ?></p></td>
+                            <td class="col-md-4 break-label"><strong>Unit: </strong><p id = "collectionUnit"><?= \app\models\Unit::idName($money->unit_id) ?></p></td>
                         </tr>
                     </table>
                     <div class="tab-pane active" id="breakdown">    
@@ -95,7 +95,7 @@ $form = ActiveForm::begin();
                                     <tr>
                                         <td class="break-label text-center"><strong>NO.</strong></td>
                                         <td class="break-label text-center"><strong>DENOMINATION</strong></td>
-                                        <td class="break-label text-center"><strong>TOTAL COUNT</strong></td>
+                                        <td class="break-label text-center"><strong>TOTAL AMOUNT</strong></td>
                                     </tr>
                                     <tr>
                                         <td><?= $form->field($money, 'money_1000')->textInput(['onkeypress' => 'return isNumber(event)', 'onchange' => 'calculateTotal(1000, "#money-money_1000", "#money-total_1000")', 'class' => 'inputtext form-control'])->label(false) ?></td>
@@ -164,6 +164,9 @@ $form = ActiveForm::begin();
                     <div class="row">
                         <div class="col-md-5">
                             <?php
+                            if(!$isNew) {
+                                $money->collection_date = date('Y-m-d');
+                            }
                             echo $form->field($money, 'collection_date')->widget(\kartik\datecontrol\DateControl::classname(), [
                                 'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
                                 'displayFormat' => 'php:Y-m-d',
@@ -172,7 +175,6 @@ $form = ActiveForm::begin();
                                 'options' => [
                                     'pluginOptions' => [
                                         'autoclose' => true,
-                                        'endDate' => '+0d'
                                     ],
                                 ],
                             ]);
@@ -208,8 +210,9 @@ $form = ActiveForm::begin();
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-md-6">
-                            <?= Html::a('<i class="fa fa-save"></i> Submit', Url::to(['site/borrowerscollection']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);']) ?>
-
+                            <?php if (!$isNew): ?>
+                                <?= Html::a('<i class="fa fa-save"></i> Submit', Url::to(['site/borrowerscollection']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);']) ?>
+                            <?php endif; ?>
                         </div>
                         <div class="col-md-6">
                             <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>

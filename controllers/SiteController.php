@@ -72,7 +72,7 @@ class SiteController extends Controller {
      * @return type
      */
     public function actionBorrowerscollection($collection_date = null, $branch_id = null, $unit_id = null) {
-
+        $session = Yii::$app->session;
         if ($collection_date == null) {
             $isNew = false;
         } else {
@@ -84,6 +84,7 @@ class SiteController extends Controller {
             if (Yii::$app->user->can('IT')) {
                 if (Yii::$app->request->post() && $money_exist->load(Yii::$app->request->post())) {
                     if ($money_exist->save()) {
+                        $session->setFlash('collection', "Collection updated successfully!");
                         return $this->redirect(['site/borrowerscollection']);
                     } else {
                         return $this->render('borrowerscollection', [
@@ -104,6 +105,7 @@ class SiteController extends Controller {
             $money = new \app\models\Money;
             if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
                 if ($money->save()) {
+                    $session->setFlash('collection', "Collection saved successfully!");
                     return $this->redirect(['site/borrowerscollection']);
                 } else {
                     return $this->render('borrowerscollection', [
@@ -718,6 +720,10 @@ class SiteController extends Controller {
         echo 'No. of Jumpdates: ' . $sundays . '<br>';
         echo 'Maturity date: ';
         echo $mat_date->format('m/d/Y');
+    }
+    
+    public function actionTest3() {
+        echo 'helo';
     }
 
 }
