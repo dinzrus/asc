@@ -51,33 +51,34 @@ $form = ActiveForm::begin();
     </div>
     <div class="box-body">
         <div class="row">
-                <div class="col-md-12">
-                    <?php if (Yii::$app->session->hasFlash('collection')): ?>
-                        <?php
-                        echo Growl::widget([
-                            'type' => Growl::TYPE_SUCCESS,
-                            'title' => 'Success!',
-                            'icon' => 'glyphicon glyphicon-ok-sign',
-                            'body' => Yii::$app->session->getFlash('collection'),
-                            'showSeparator' => true,
-                            'delay' => 0,
-                            'pluginOptions' => [
-                                'showProgressbar' => false,
-                                'placement' => [
-                                    'from' => 'top',
-                                    'align' => 'right',
-                                ]
+            <div class="col-md-12">
+                <?php if (Yii::$app->session->hasFlash('collection')): ?>
+                    <?php
+                    echo Growl::widget([
+                        'type' => Growl::TYPE_SUCCESS,
+                        'title' => 'Success!',
+                        'icon' => 'glyphicon glyphicon-ok-sign',
+                        'body' => Yii::$app->session->getFlash('collection'),
+                        'showSeparator' => true,
+                        'delay' => 0,
+                        'pluginOptions' => [
+                            'showProgressbar' => false,
+                            'placement' => [
+                                'from' => 'top',
+                                'align' => 'right',
                             ]
-                        ]);
-                        ?>
-                    <?php endif; ?>   
-                </div>
+                        ]
+                    ]);
+                    ?>
+                <?php endif; ?>   
             </div>
+        </div>
         <?php if ($isNew == true): ?>
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#breakdown" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Collection Breakdown</strong></a></li>
-                    <li><a href="#collection" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Collection</strong></a></li>
+                    <li><a href="#active-collection" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Active Collection</strong></a></li>
+                    <li><a href="#pastdue-collection" data-toggle="tab"><i class="fa fa-arrow-circle-o-right"></i> <strong>Pastdue Collection</strong></a></li>
                 </ul>
                 <div class="tab-content">   
                     <table class="table table-bordered">
@@ -139,7 +140,42 @@ $form = ActiveForm::begin();
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="collection"></div>
+                    <div class="tab-pane" id="active-collection">
+                        <table class="table table-condensed table-bordered">
+                            <tr>
+                                <td><strong>#</strong></td>
+                                <td><strong>Account. #</strong></td>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Balance</strong></td>
+                                <td><strong>Maturity Date</strong></td>
+                                <td><strong>Advance/Del.</strong></td>
+                                <td><strong>Penalty</strong></td>
+                                <td><strong>Last Pay</strong></td>
+                                <td><strong>Sched. Payment</strong></td>
+                                <td><strong>Payment Remitted</strong></td>
+                            </tr>
+                            <?php
+                                $no = 1;
+                                foreach ($active as $acac): ?>
+                            
+                            <tr>
+                                <td><?= $no ?></td>
+                                <td><?= $acac['loan_no'] ?></td>
+                                <td><?= strtoupper($acac['last_name'] . ', ' . $acac['first_name'] . ' ' . $acac['middle_name']) ?></td>
+                                <td></td>
+                                <td><?= $acac['maturity_date'] ?></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><?= $acac['daily'] ?></td>
+                                <td><input type="text" class="form-control" name="amt_remitted"></td>
+                            </tr>
+                            <?php
+                                $no++;
+                                endforeach; ?>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="pastdue-collection"></div>
                 </div>
             </div>
             <div class="row">
@@ -164,7 +200,7 @@ $form = ActiveForm::begin();
                     <div class="row">
                         <div class="col-md-5">
                             <?php
-                            if(!$isNew) {
+                            if (!$isNew) {
                                 $money->collection_date = date('Y-m-d');
                             }
                             echo $form->field($money, 'collection_date')->widget(\kartik\datecontrol\DateControl::classname(), [

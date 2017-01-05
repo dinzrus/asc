@@ -68,7 +68,7 @@ class SiteController extends Controller {
     }
 
     /**
-     * 
+     * Encoding of collection 
      * @return type
      */
     public function actionBorrowerscollection($collection_date = null, $branch_id = null, $unit_id = null) {
@@ -78,10 +78,34 @@ class SiteController extends Controller {
         } else {
             $isNew = true;
         }
+
+        // get all active accounts
+        $active = Yii::$app->db->createCommand("SELECT\n" .
+                        "borrower.id AS borrower_id,\n" .
+                        "borrower.first_name,\n" .
+                        "borrower.last_name,\n" .
+                        "borrower.middle_name,\n" .
+                        "loan.id AS loan_id,\n" .
+                        "loan.loan_no,\n" .
+                        "loan_type.loan_description,\n" .
+                        "unit.unit_description,\n" .
+                        "branch.branch_description,\n" .
+                        "loan.maturity_date,\n" .
+                        "loan.daily,\n" .
+                        "loan.term\n" .
+                        "FROM\n" .
+                        "borrower\n" .
+                        "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                        "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                        "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                        "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                        "WHERE loan.status = 'A' AND unit.unit_id = :unit")->bindValue(':unit', $unit_id)->queryAll();
+
         //check if money exist
         $money_exist = \app\models\Money::findOne(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id]);
+        // money record exist.. just load all the values from database
         if (count($money_exist) == 1) {
-            if (Yii::$app->user->can('IT')) {
+            if (Yii::$app->user->can('IT')) { // check permission to update..
                 if (Yii::$app->request->post() && $money_exist->load(Yii::$app->request->post())) {
                     if ($money_exist->save()) {
                         $session->setFlash('collection', "Collection updated successfully!");
@@ -98,11 +122,27 @@ class SiteController extends Controller {
                                 'isNew' => $isNew,
                     ]);
                 }
-            } else {
+            } else { // throw an unthorized exception if not allowed
                 throw new \yii\web\UnauthorizedHttpException;
             }
         } else {
             $money = new \app\models\Money;
+
+            $money->money_1000 = 0;
+            $money->money_500 = 0;
+            $money->money_200 = 0;
+            $money->money_100 = 0;
+            $money->money_50 = 0;
+            $money->money_20 = 0;
+            $money->total_1000 = 0;
+            $money->total_500 = 0;
+            $money->total_200 = 0;
+            $money->total_100 = 0;
+            $money->total_50 = 0;
+            $money->total_20 = 0;
+            $money->money_total_amount = 0;
+            $money->money_coin = 0;
+
             if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
                 if ($money->save()) {
                     $session->setFlash('collection', "Collection saved successfully!");
@@ -111,6 +151,7 @@ class SiteController extends Controller {
                     return $this->render('borrowerscollection', [
                                 'money' => $money,
                                 'isNew' => $isNew,
+                                'active' => $active,
                     ]);
                 }
             } else {
@@ -121,6 +162,7 @@ class SiteController extends Controller {
                 return $this->render('borrowerscollection', [
                             'money' => $money,
                             'isNew' => $isNew,
+                            'active' => $active,
                 ]);
             }
         }
@@ -721,7 +763,7 @@ class SiteController extends Controller {
         echo 'Maturity date: ';
         echo $mat_date->format('m/d/Y');
     }
-    
+
     public function actionTest3() {
         echo 'helo';
     }
