@@ -163,11 +163,11 @@ $form = ActiveForm::begin();
                                 <td><?= $acac['loan_no'] ?></td>
                                 <td><?= strtoupper($acac['last_name'] . ', ' . $acac['first_name'] . ' ' . $acac['middle_name']) ?></td>
                                 <td></td>
-                                <td><?= $acac['maturity_date'] ?></td>
+                                <td><?= Yii::$app->formatter->asDate($acac['maturity_date']) ?></td>
+                                <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::calDelAdv(date('Y-m-d' ,strtotime($acac['release_date'])), $acac['daily'], $acac['loan_id'])) ?></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td><?= $acac['daily'] ?></td>
+                                <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
                                 <td><input type="text" class="form-control" name="amt_remitted"></td>
                             </tr>
                             <?php

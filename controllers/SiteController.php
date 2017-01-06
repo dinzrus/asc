@@ -87,6 +87,7 @@ class SiteController extends Controller {
                         "borrower.middle_name,\n" .
                         "loan.id AS loan_id,\n" .
                         "loan.loan_no,\n" .
+                        "loan.release_date,\n" .
                         "loan_type.loan_description,\n" .
                         "unit.unit_description,\n" .
                         "branch.branch_description,\n" .
@@ -99,7 +100,8 @@ class SiteController extends Controller {
                         "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                         "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
                         "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                        "WHERE loan.status = 'A' AND unit.unit_id = :unit")->bindValue(':unit', $unit_id)->queryAll();
+                        "WHERE loan.status = 'A' AND unit.unit_id = :unit\n"
+                        . "ORDER BY borrower.last_name ASC")->bindValue(':unit', $unit_id)->queryAll();
 
         //check if money exist
         $money_exist = \app\models\Money::findOne(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id]);
@@ -766,6 +768,58 @@ class SiteController extends Controller {
 
     public function actionTest3() {
         echo 'helo';
+    }
+
+    public function actionTest111($release_date, $daily, $loan_id) {
+
+        $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
+        $jumps = [];
+
+        foreach ($jumpdates as $jump) {
+            array_push($jumps, $jump['jump_date']);
+        }
+
+        if ($release_date != '' && $daily != '' && $loan_id != '') {
+            $days_counter = 0;
+            $date_now = date('Y-m-d');
+
+            // get the numbers of days from date realesing until the current date
+            $rel_date = new \DateTime($release_date);
+            $current_date = date_create(date('Y-m-d'));
+            $days = date_diff($rel_date, $current_date);
+            $no_days = $days->format('%d');
+
+            $test_date = $rel_date->modify('+1 day');
+
+            //initialized 
+            $delamt = 0;
+            while ($days_counter < $no_days) {
+                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps, true)) {
+                    echo 'Jump=>';
+                } else {
+                    $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
+                    if ($paid_amt > 0) {
+                        $delamt = $delamt - $paid_amt;
+                    } else {
+                        $delamt = $delamt + $daily;
+                    }
+                }
+                $test_date = $rel_date->modify('+1 day');
+                $days_counter++;
+                echo $test_date->format('Y-m-d') . ' => ' . $delamt . '<br>';
+            }
+            echo '<br>Total Delqnt = ' . $delamt;
+        } else {
+            throw new \yii\base\InvalidParamException;
+        }
+    }
+
+    private function getPaidAmount($loan_id, $pay_date) {
+        $payment_count = \app\models\Payment::findOne(['loan_id' => $loan_id, 'pay_date' => $pay_date]);
+        if (count($payment_count) == 1) {
+            return $payment_count->pay_amount;
+        }
+        return 0;
     }
 
 }

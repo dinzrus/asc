@@ -22,16 +22,15 @@ class Loan extends BaseLoan {
      */
     public function rules() {
         return array_replace_recursive(parent::rules(), [
-                [['loan_no', 'loan_type', 'borrower', 'unit', 'release_date', 'maturity_date', 'daily', 'term', 'gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_days', 'add_coll', 'net_proceeds', 'penalty', 'collaterals', 'ci_date', 'ci_officer'], 'required'],
-                [['loan_type', 'borrower', 'unit', 'daily', 'term', 'add_days', 'ci_officer'], 'integer'],
-                [['release_date', 'maturity_date', 'created_at', 'updated_at', 'ci_date'], 'safe'],
-                [['gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_coll', 'net_proceeds', 'penalty'], 'number'],
-                [['loan_no'], 'string', 'max' => 50],
-                [['collaterals', 'created_by', 'updated_by'], 'string', 'max' => 255]
+            [['loan_no', 'loan_type', 'borrower', 'unit', 'release_date', 'maturity_date', 'daily', 'term', 'gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_days', 'add_coll', 'net_proceeds', 'penalty', 'collaterals', 'ci_date', 'ci_officer'], 'required'],
+            [['loan_type', 'borrower', 'unit', 'daily', 'term', 'add_days', 'ci_officer'], 'integer'],
+            [['release_date', 'maturity_date', 'created_at', 'updated_at', 'ci_date'], 'safe'],
+            [['gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_coll', 'net_proceeds', 'penalty'], 'number'],
+            [['loan_no'], 'string', 'max' => 50],
+            [['collaterals', 'created_by', 'updated_by'], 'string', 'max' => 255]
         ]);
     }
 
-    
     /**
      * This will return the maturity date of the loan
      * @param type $date
@@ -66,7 +65,7 @@ class Loan extends BaseLoan {
             }
             $date_now = $rel_date->modify('+1 day');
         }
-      
+
         return $mat_date->format('Y-m-d');
     }
 
@@ -78,7 +77,75 @@ class Loan extends BaseLoan {
      */
     public static function generateLoanNumber($borrower_id, $loan) {
         $digits = 3;
-        return   str_pad($borrower_id, 3, '0', STR_PAD_LEFT) . '-' . date('mdY') . rand(pow(10, $digits-1), pow(10, $digits)-1) . '-' . $loan->unit0->unit_description;
+        return str_pad($borrower_id, 3, '0', STR_PAD_LEFT) . '-' . date('mdY') . rand(pow(10, $digits - 1), pow(10, $digits) - 1) . '-' . $loan->unit0->unit_description;
+    }
+
+    public static function calDelAdv($release_date, $daily, $loan_id) {
+
+        $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
+        $jumps = [];
+
+        foreach ($jumpdates as $jump) {
+            array_push($jumps, $jump['jump_date']);
+        }
+
+        if ($release_date != '' && $daily != '' && $loan_id != '') {
+            $days_counter = 0;
+            $date_now = date('Y-m-d');
+
+            // get the numbers of days from date realesing until the current date
+            $rel_date = new \DateTime($release_date);
+            $current_date = date_create(date('Y-m-d'));
+            $days = date_diff($rel_date, $current_date);
+            $no_days = $days->format('%d');
+
+            $test_date = $rel_date->modify('+1 day');
+
+            //initialized 
+            $delamt = 0;
+            while ($days_counter < $no_days) {
+                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps, true)) {
+                    
+                } else {
+                    $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
+                    if ($paid_amt > 0) {
+                        $delamt = $delamt  - $paid_amt;
+                    } else {
+                        $delamt = $delamt + $daily;
+                    }
+                }
+                $test_date = $rel_date->modify('+1 day');
+                $days_counter++;
+            }
+            return $delamt;
+        } else {
+            throw new \yii\base\InvalidParamException;
+        }
+    }
+
+    private function hasPayments($loan_id, $pay_date) {
+        $payment_count = \app\models\Payment::findOne(['loan_id' => $loan_id, 'pay_date' => $pay_date]);
+        if (count($payment_count) == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function getPaidAmount($loan_id, $pay_date) {
+        $payment_count = \app\models\Payment::findOne(['loan_id' => $loan_id, 'pay_date' => $pay_date]);
+        if (count($payment_count) == 1) {
+            return $payment_count->pay_amount;
+        }
+        return 0;
+    }
+
+    private function getTotalPayments($loan_id) {
+        $total_amount = Yii::$app->db->createCommand("SELECT SUM(pay_amount) as total_payment\n" .
+                        "FROM\n" .
+                        "payment\n" .
+                        "WHERE loan_id = :id")->bindValue(':id', $loan_id)->queryScalar();
+        return $total_amount;
     }
 
 }

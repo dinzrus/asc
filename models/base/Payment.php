@@ -16,10 +16,8 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $money_id
  * @property string $created_at
  * @property string $updated_at
- * @property integer $created_by
- * @property integer $updated_by
- *
- * @property \app\models\Money $money
+ * @property string $created_by
+ * @property string $updated_by
  */
 class Payment extends \yii\db\ActiveRecord
 {
@@ -32,9 +30,10 @@ class Payment extends \yii\db\ActiveRecord
     {
         return [
             [['loan_id', 'pay_amount', 'pay_date', 'money_id'], 'required'],
-            [['loan_id', 'money_id', 'created_by', 'updated_by'], 'integer'],
+            [['loan_id', 'money_id'], 'integer'],
             [['pay_amount'], 'number'],
-            [['pay_date', 'created_at', 'updated_at'], 'safe']
+            [['pay_date', 'created_at', 'updated_at'], 'safe'],
+            [['created_by', 'updated_by'], 'string', 'max' => 255]
         ];
     }
     
@@ -59,15 +58,7 @@ class Payment extends \yii\db\ActiveRecord
             'money_id' => 'Money ID',
         ];
     }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMoney()
-    {
-        return $this->hasOne(\app\models\Money::className(), ['id' => 'money_id']);
-    }
-    
+
 /**
      * @inheritdoc
      * @return array mixed
