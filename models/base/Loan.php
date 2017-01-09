@@ -40,6 +40,7 @@ use mootensai\behaviors\UUIDBehavior;
  * @property string $updated_by
  * @property string $ci_date
  * @property integer $ci_officer
+ * @property integer $penalty_days
  *
  * @property \app\models\LoanType $loanType
  * @property \app\models\Unit $unit0
@@ -55,7 +56,7 @@ class Loan extends \yii\db\ActiveRecord
     {
         return [
             [['loan_no', 'loan_type', 'borrower', 'unit', 'release_date', 'maturity_date', 'daily', 'term', 'gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_days', 'add_coll', 'net_proceeds', 'penalty', 'collaterals', 'ci_date', 'ci_officer', 'status'], 'required'],
-            [['loan_type', 'borrower', 'unit', 'daily', 'term', 'add_days', 'ci_officer'], 'integer'],
+            [['loan_type', 'borrower', 'unit', 'daily', 'term', 'add_days', 'ci_officer', 'penalty_days'], 'integer'],
             [['release_date', 'maturity_date', 'created_at', 'updated_at', 'ci_date'], 'safe'],
             [['gross_amount', 'interest_bdays', 'gas', 'doc_stamp', 'misc', 'admin_fee', 'notarial_fee', 'additional_fee', 'total_deductions', 'add_coll', 'net_proceeds', 'penalty'], 'number'],
             [['loan_no'], 'string', 'max' => 50],

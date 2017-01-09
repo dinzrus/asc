@@ -88,6 +88,8 @@ class SiteController extends Controller {
                         "loan.id AS loan_id,\n" .
                         "loan.loan_no,\n" .
                         "loan.release_date,\n" .
+                        "loan.penalty_days,\n" .
+                        "loan.penalty,\n" .
                         "loan_type.loan_description,\n" .
                         "unit.unit_description,\n" .
                         "branch.branch_description,\n" .
@@ -766,11 +768,7 @@ class SiteController extends Controller {
         echo $mat_date->format('m/d/Y');
     }
 
-    public function actionTest3() {
-        echo 'helo';
-    }
-
-    public function actionTest111($release_date, $daily, $loan_id) {
+    public function actionAbsentpenalty($release_date, $daily, $loan_id, $penalty, $loan_penalty_days) {
 
         $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
         $jumps = [];
@@ -784,31 +782,43 @@ class SiteController extends Controller {
             $date_now = date('Y-m-d');
 
             // get the numbers of days from date realesing until the current date
-            $rel_date = new \DateTime($release_date);
+            $rel_date = date_create($release_date);
             $current_date = date_create(date('Y-m-d'));
-            $days = date_diff($rel_date, $current_date);
+            $days = date_diff($current_date, $rel_date);
             $no_days = $days->format('%d');
 
             $test_date = $rel_date->modify('+1 day');
-
             //initialized 
             $delamt = 0;
+            $paid_amt = 0;
+
+            $total_penalty = 0;
+            $pen_days = 0;
+            $cash = 0;
+
             while ($days_counter < $no_days) {
-                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps, true)) {
-                    echo 'Jump=>';
+                $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
+                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
+                    //printing
+                    echo '-------------------------------------<br>';
+                    echo '| Transaction Date: ' . $test_date->format('Y-m-d') . '<br>';
+                    echo '| <span style="color: red">JUMPDATE OR SUNDAY</span><br>';
+                    echo '-------------------------------------<br>';
                 } else {
-                    $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
                     if ($paid_amt > 0) {
-                        $delamt = $delamt - $paid_amt;
-                    } else {
-                        $delamt = $delamt + $daily;
+                        
                     }
+                    //printing
+                    echo '-------------------------------------<br>';
+                    echo '| Transaction Date: ' . $test_date->format('Y-m-d') . '<br>';
+                    echo '| Payment: ' . $paid_amt . '<br>';
+                    echo '| Delqnt/Advance Amt: ' . $delamt . '<br>';
+                    echo '| Penalty Amt: ' . $total_penalty . '<br>';
+                    echo '-------------------------------------<br>';
                 }
-                $test_date = $rel_date->modify('+1 day');
                 $days_counter++;
-                echo $test_date->format('Y-m-d') . ' => ' . $delamt . '<br>';
+                $test_date = $test_date->modify('+1 day');
             }
-            echo '<br>Total Delqnt = ' . $delamt;
         } else {
             throw new \yii\base\InvalidParamException;
         }

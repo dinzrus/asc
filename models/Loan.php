@@ -94,41 +94,33 @@ class Loan extends BaseLoan {
             $date_now = date('Y-m-d');
 
             // get the numbers of days from date realesing until the current date
-            $rel_date = new \DateTime($release_date);
+            $rel_date = date_create($release_date);
             $current_date = date_create(date('Y-m-d'));
-            $days = date_diff($rel_date, $current_date);
+            $days = date_diff($current_date, $rel_date);
             $no_days = $days->format('%d');
 
             $test_date = $rel_date->modify('+1 day');
-
             //initialized 
             $delamt = 0;
+            $paid_amt = 0;
+
             while ($days_counter < $no_days) {
-                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps, true)) {
+                $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
+                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
                     
                 } else {
-                    $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
                     if ($paid_amt > 0) {
-                        $delamt = $delamt  - $paid_amt;
+                        $delamt = $delamt + $daily - $paid_amt;
                     } else {
                         $delamt = $delamt + $daily;
                     }
                 }
-                $test_date = $rel_date->modify('+1 day');
                 $days_counter++;
+                $test_date = $test_date->modify('+1 day');
             }
-            return $delamt;
+            return ($delamt) * -1;
         } else {
             throw new \yii\base\InvalidParamException;
-        }
-    }
-
-    private function hasPayments($loan_id, $pay_date) {
-        $payment_count = \app\models\Payment::findOne(['loan_id' => $loan_id, 'pay_date' => $pay_date]);
-        if (count($payment_count) == 1) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -146,6 +138,65 @@ class Loan extends BaseLoan {
                         "payment\n" .
                         "WHERE loan_id = :id")->bindValue(':id', $loan_id)->queryScalar();
         return $total_amount;
+    }
+
+    public static function loanBalance() {
+        return 0;
+    }
+
+    public static function loanPenalty($release_date, $daily, $loan_id, $penalty_days, $penalty) {
+
+        $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
+        $jumps = [];
+
+        foreach ($jumpdates as $jump) {
+            array_push($jumps, $jump['jump_date']);
+        }
+
+        if ($release_date != '' && $daily != '' && $loan_id != '') {
+            $days_counter = 0;
+            $date_now = date('Y-m-d');
+
+            // get the numbers of days from date realesing until the current date
+            $rel_date = date_create($release_date);
+            $current_date = date_create(date('Y-m-d'));
+            $days = date_diff($current_date, $rel_date);
+            $no_days = $days->format('%d');
+
+            $test_date = $rel_date->modify('+1 day');
+            //initialized 
+            $delamt = 0;
+            $paid_amt = 0;   
+            
+            $del_days = 0;
+            $total_penalty = 0;
+
+            while ($days_counter < $no_days) {
+                $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
+                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
+                    
+                } else {
+                    if ($paid_amt > 0) {
+                        $delamt = $delamt + $daily  - $paid_amt;
+                    } else {
+                        $delamt = $delamt + $daily;
+                    }
+                }
+
+                if ($delamt >= 0) {
+                    $pen_days = abs($delamt / $daily);
+                    if ($pen_days >= $penalty_days) {
+                        $total_penalty = $total_penalty + $penalty;
+                    }
+                } 
+                $days_counter++;
+                $test_date = $test_date->modify('+1 day');
+            }
+
+            return $total_penalty;
+        } else {
+            throw new \yii\base\InvalidParamException;
+        }
     }
 
 }
