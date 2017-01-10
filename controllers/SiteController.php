@@ -89,6 +89,7 @@ class SiteController extends Controller {
                         "loan.loan_no,\n" .
                         "loan.release_date,\n" .
                         "loan.penalty_days,\n" .
+                        "loan.gross_amount,\n" .
                         "loan.penalty,\n" .
                         "loan_type.loan_description,\n" .
                         "unit.unit_description,\n" .
@@ -785,7 +786,7 @@ class SiteController extends Controller {
             $rel_date = date_create($release_date);
             $current_date = date_create(date('Y-m-d'));
             $days = date_diff($current_date, $rel_date);
-            $no_days = $days->format('%d');
+            $no_days = ($days->format('%d') - 1);
 
             $test_date = $rel_date->modify('+1 day');
             //initialized 
@@ -805,9 +806,29 @@ class SiteController extends Controller {
                     echo '| <span style="color: red">JUMPDATE OR SUNDAY</span><br>';
                     echo '-------------------------------------<br>';
                 } else {
-                    if ($paid_amt > 0) {
-                        
+                    if ($delamt >= 0) {
+                        $delamt = $delamt + $paid_amt - $daily; // delqnt calculation 
+                    } else {
+
+                        $delamt = $paid_amt - ($daily - $delamt); // delqnt calculation
                     }
+
+                    if ($delamt >= 0) {
+                        if (($total_penalty > 0) && ($delamt > 0)) {
+                            $delamt = $delamt - $total_penalty;
+                            if ($delamt < 0) {
+                                $total_penalty = $delamt * -1;
+                                $delamt = 0;
+                            }
+                            $total_penalty = 0;
+                        }
+                    } else {
+                        $pen_days = abs(($delamt * -1) / $daily);
+                        if ($pen_days >= $loan_penalty_days) {
+                            $total_penalty = $total_penalty + $penalty;
+                        }
+                    }
+
                     //printing
                     echo '-------------------------------------<br>';
                     echo '| Transaction Date: ' . $test_date->format('Y-m-d') . '<br>';
@@ -816,6 +837,8 @@ class SiteController extends Controller {
                     echo '| Penalty Amt: ' . $total_penalty . '<br>';
                     echo '-------------------------------------<br>';
                 }
+
+                // increment counters and date
                 $days_counter++;
                 $test_date = $test_date->modify('+1 day');
             }

@@ -159,13 +159,16 @@ $form = ActiveForm::begin();
                                 foreach ($active as $acac): ?>
                             
                             <tr>
+                                <?php
+                                    $calculations = \app\models\Loan::loanCalculation(date('Y-m-d' ,strtotime($acac['release_date'])), $acac['gross_amount'], $acac['daily'], $acac['loan_id'], $acac['penalty_days'], $acac['penalty']);
+                                ?>
                                 <td><?= $no ?></td>
                                 <td><?= $acac['loan_no'] ?></td>
                                 <td><?= strtoupper($acac['last_name'] . ', ' . $acac['first_name'] . ' ' . $acac['middle_name']) ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::loanBalance()) ?></td>
+                                <td><?= Yii::$app->formatter->asCurrency($calculations['balance']) ?></td>
                                 <td><?= Yii::$app->formatter->asDate($acac['maturity_date']) ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::calDelAdv(date('Y-m-d' ,strtotime($acac['release_date'])), $acac['daily'], $acac['loan_id'])) ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::loanPenalty(date('Y-m-d' ,strtotime($acac['release_date'])), $acac['daily'], $acac['loan_id'], $acac['penalty_days'], $acac['penalty'])) ?></td>
+                                <td><?= Yii::$app->formatter->asCurrency($calculations['delinquent_advance']) ?></td>
+                                <td><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
                                 <td></td>
                                 <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
                                 <td><input type="text" class="form-control" name="amt_remitted"></td>

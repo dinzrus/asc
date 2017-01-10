@@ -80,7 +80,7 @@ class Loan extends BaseLoan {
         return str_pad($borrower_id, 3, '0', STR_PAD_LEFT) . '-' . date('mdY') . rand(pow(10, $digits - 1), pow(10, $digits) - 1) . '-' . $loan->unit0->unit_description;
     }
 
-    public static function calDelAdv($release_date, $daily, $loan_id) {
+    public static function loanCalculation($release_date, $gross_amt, $daily, $loan_id, $penalty_days, $penalty_amt) {
 
         $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
         $jumps = [];
@@ -97,28 +97,52 @@ class Loan extends BaseLoan {
             $rel_date = date_create($release_date);
             $current_date = date_create(date('Y-m-d'));
             $days = date_diff($current_date, $rel_date);
-            $no_days = $days->format('%d');
+            $no_days = ($days->format('%d') - 1); // minus 1 day so that current date will not be included in checking
 
             $test_date = $rel_date->modify('+1 day');
             //initialized 
             $delamt = 0;
             $paid_amt = 0;
 
+            $total_penalty = 0;
+            $pen_days = 0;
+            $cash = 0;
             while ($days_counter < $no_days) {
                 $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
                 if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
                     
                 } else {
-                    if ($paid_amt > 0) {
-                        $delamt = $delamt + $daily - $paid_amt;
+                    if ($delamt >= 0) {
+                        $delamt = $delamt + $paid_amt - $daily; // delqnt calculation 
                     } else {
-                        $delamt = $delamt + $daily;
+                        $delamt = $paid_amt - ($daily - $delamt); // delqnt calculation
+                    }
+                    if ($delamt >= 0) { // if there is advance, minus the penalty
+                        if (($total_penalty > 0) && ($delamt > 0)) {
+                            $delamt = $delamt - $total_penalty;
+                            if ($delamt < 0) {
+                                $total_penalty = $delamt * -1;
+                                $delamt = 0;
+                            }
+                            $total_penalty = 0;
+                        }
+                    } else {
+                        $pen_days = abs(($delamt * -1) / $daily);
+                        if ($pen_days >= $penalty_days) {
+                            $total_penalty = $total_penalty + $penalty_amt;
+                        }
                     }
                 }
                 $days_counter++;
                 $test_date = $test_date->modify('+1 day');
             }
-            return ($delamt) * -1;
+            $payments = self::getTotalPayments($loan_id);
+            $total_balance = $gross_amt - $payments;
+            return [
+                'delinquent_advance' => $delamt,
+                'penalty' => $total_penalty,
+                'balance' => $total_balance,
+            ];
         } else {
             throw new \yii\base\InvalidParamException;
         }
@@ -138,65 +162,6 @@ class Loan extends BaseLoan {
                         "payment\n" .
                         "WHERE loan_id = :id")->bindValue(':id', $loan_id)->queryScalar();
         return $total_amount;
-    }
-
-    public static function loanBalance() {
-        return 0;
-    }
-
-    public static function loanPenalty($release_date, $daily, $loan_id, $penalty_days, $penalty) {
-
-        $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
-        $jumps = [];
-
-        foreach ($jumpdates as $jump) {
-            array_push($jumps, $jump['jump_date']);
-        }
-
-        if ($release_date != '' && $daily != '' && $loan_id != '') {
-            $days_counter = 0;
-            $date_now = date('Y-m-d');
-
-            // get the numbers of days from date realesing until the current date
-            $rel_date = date_create($release_date);
-            $current_date = date_create(date('Y-m-d'));
-            $days = date_diff($current_date, $rel_date);
-            $no_days = $days->format('%d');
-
-            $test_date = $rel_date->modify('+1 day');
-            //initialized 
-            $delamt = 0;
-            $paid_amt = 0;   
-            
-            $del_days = 0;
-            $total_penalty = 0;
-
-            while ($days_counter < $no_days) {
-                $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
-                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
-                    
-                } else {
-                    if ($paid_amt > 0) {
-                        $delamt = $delamt + $daily  - $paid_amt;
-                    } else {
-                        $delamt = $delamt + $daily;
-                    }
-                }
-
-                if ($delamt >= 0) {
-                    $pen_days = abs($delamt / $daily);
-                    if ($pen_days >= $penalty_days) {
-                        $total_penalty = $total_penalty + $penalty;
-                    }
-                } 
-                $days_counter++;
-                $test_date = $test_date->modify('+1 day');
-            }
-
-            return $total_penalty;
-        } else {
-            throw new \yii\base\InvalidParamException;
-        }
     }
 
 }
