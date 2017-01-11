@@ -137,7 +137,7 @@ class Loan extends BaseLoan {
                 $test_date = $test_date->modify('+1 day');
             }
             $payments = self::getTotalPayments($loan_id);
-            $total_balance = $gross_amt - $payments;
+            $total_balance = ($gross_amt + $total_penalty) - $payments;
             return [
                 'delinquent_advance' => $delamt,
                 'penalty' => $total_penalty,
@@ -162,6 +162,22 @@ class Loan extends BaseLoan {
                         "payment\n" .
                         "WHERE loan_id = :id")->bindValue(':id', $loan_id)->queryScalar();
         return $total_amount;
+    }
+
+    public static function getLastPay($loan_id) {
+        $last_pay = Yii::$app->db->createCommand("SELECT\n" .
+                        "payment.pay_amount\n" .
+                        "FROM\n" .
+                        "payment\n" .
+                        "WHERE loan_id = :loanid \n" .
+                        "ORDER BY payment.id DESC\n" .
+                        "LIMIT 1")->bindValue(':loanid', $loan_id)->queryScalar();
+
+        if ($last_pay == false) {
+            return 0;
+        } else {
+            return $last_pay;
+        }
     }
 
 }

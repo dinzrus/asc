@@ -55,7 +55,7 @@ $config = [
             'dateFormat' => 'MM/dd/yyyy',
             'decimalSeparator' => '.',
             'thousandSeparator' => ',',
-            'currencyCode' => 'PHP',
+            'currencyCode' => '&#8369;',
         ],
     ],
     'modules' => [

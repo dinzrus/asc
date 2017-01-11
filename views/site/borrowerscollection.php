@@ -48,6 +48,7 @@ $form = ActiveForm::begin();
 <div class="box box-primary">
     <div class="box-header">
         <a href="#myModal" class="btn btn-success btn-lg" data-toggle="modal"><i class="fa fa-bookmark"></i> Select Unit</a>
+        <a href="<?= Url::to(['site/borrowerscollection']) ?>" class="btn btn-primary btn-lg" onclick="return confirm('New Collection?  ')"><i class="fa fa-bookmark"></i> New</a>
     </div>
     <div class="box-body">
         <div class="row">
@@ -141,7 +142,7 @@ $form = ActiveForm::begin();
                         </div>
                     </div>
                     <div class="tab-pane" id="active-collection">
-                        <table class="table table-condensed table-bordered">
+                        <table class="table table-condensed table-bordered table-hover">
                             <tr>
                                 <td><strong>#</strong></td>
                                 <td><strong>Account. #</strong></td>
@@ -155,30 +156,73 @@ $form = ActiveForm::begin();
                                 <td><strong>Payment Remitted</strong></td>
                             </tr>
                             <?php
-                                $no = 1;
-                                foreach ($active as $acac): ?>
-                            
-                            <tr>
-                                <?php
-                                    $calculations = \app\models\Loan::loanCalculation(date('Y-m-d' ,strtotime($acac['release_date'])), $acac['gross_amount'], $acac['daily'], $acac['loan_id'], $acac['penalty_days'], $acac['penalty']);
-                                ?>
-                                <td><?= $no ?></td>
-                                <td><?= $acac['loan_no'] ?></td>
-                                <td><?= strtoupper($acac['last_name'] . ', ' . $acac['first_name'] . ' ' . $acac['middle_name']) ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency($calculations['balance']) ?></td>
-                                <td><?= Yii::$app->formatter->asDate($acac['maturity_date']) ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency($calculations['delinquent_advance']) ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
-                                <td></td>
-                                <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
-                                <td><input type="text" class="form-control" name="amt_remitted"></td>
-                            </tr>
-                            <?php
-                                $no++;
-                                endforeach; ?>
+                            $no = 1;
+                            foreach ($accounts as $acac):
+                                if ($acac['status'] === 'A') : // check if account is active
+                                    ?>
+                                    <tr>
+                                        <?php
+                                        $calculations = \app\models\Loan::loanCalculation(date('Y-m-d', strtotime($acac['release_date'])), $acac['gross_amount'], $acac['daily'], $acac['loan_id'], $acac['penalty_days'], $acac['penalty']);
+                                        ?>
+                                        <td><?= $no ?></td>
+                                        <td><?= $acac['loan_no'] ?></td>
+                                        <td><?= strtoupper($acac['last_name'] . ', ' . $acac['first_name'] . ' ' . $acac['middle_name']) ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency($calculations['balance']) ?></td>
+                                        <td><?= Yii::$app->formatter->asDate($acac['maturity_date']) ?></td>
+                                        <td <?= ($calculations['delinquent_advance'] < 0) ? "style='color: red'" : "style='color: blue'"; ?>><?= Yii::$app->formatter->asCurrency($calculations['delinquent_advance']) ?></td>
+                                        <td <?= ($calculations['penalty'] > 0) ? "style='color: red'" : ""; ?>><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::getLastPay($acac['loan_id'])) ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
+                                        <td class="col-md-1"><input style="text-align: right" type="text" class="form-control" name="amt_remitted"></td>
+                                    </tr>
+                                    <?php
+                                    $no++;
+                                endif;
+                            endforeach;
+                            ?>
                         </table>
                     </div>
-                    <div class="tab-pane" id="pastdue-collection"></div>
+                    <div class="tab-pane" id="pastdue-collection">
+                        <table class="table table-condensed table-bordered table-hover">
+                            <tr>
+                                <td><strong>#</strong></td>
+                                <td><strong>Account. #</strong></td>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Balance</strong></td>
+                                <td><strong>Maturity Date</strong></td>
+                                <td><strong>Advance/Del.</strong></td>
+                                <td><strong>Penalty</strong></td>
+                                <td><strong>Last Pay</strong></td>
+                                <td><strong>Sched. Payment</strong></td>
+                                <td><strong>Payment Remitted</strong></td>
+                            </tr>
+                            <?php
+                            $no = 1;
+                            foreach ($accounts as $acac):
+                                if ($acac['status'] === 'PD') : // check if account is active
+                                    ?>
+                                    <tr>
+                                        <?php
+                                        $calculations = \app\models\Loan::loanCalculation(date('Y-m-d', strtotime($acac['release_date'])), $acac['gross_amount'], $acac['daily'], $acac['loan_id'], $acac['penalty_days'], $acac['penalty']);
+                                        ?>
+                                        <td><?= $no ?></td>
+                                        <td><?= $acac['loan_no'] ?></td>
+                                        <td><?= strtoupper($acac['last_name'] . ', ' . $acac['first_name'] . ' ' . $acac['middle_name']) ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency($calculations['balance']) ?></td>
+                                        <td><?= Yii::$app->formatter->asDate($acac['maturity_date']) ?></td>
+                                        <td <?= ($calculations['delinquent_advance'] < 0) ? "style='color: red'" : "style='color: blue'"; ?>><?= Yii::$app->formatter->asCurrency($calculations['delinquent_advance']) ?></td>
+                                        <td <?= ($calculations['penalty'] > 0) ? "style='color: red'" : ""; ?>><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::getLastPay($acac['loan_id'])) ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
+                                        <td class="col-md-1"><input style="text-align: right" type="text" class="form-control" name="amt_remitted"></td>
+                                    </tr>
+                                    <?php
+                                    $no++;
+                                endif;
+                            endforeach;
+                            ?>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -186,7 +230,7 @@ $form = ActiveForm::begin();
                     <button type="submit" class="btn btn-primary btn-lg pull-right"><i class="fa fa-save"></i> Save</button>
                 </div>
             </div>
-        <?php endif; ?>
+<?php endif; ?>
     </div>   
 
 </div>
@@ -251,7 +295,7 @@ $form = ActiveForm::begin();
                         <div class="col-md-6">
                             <?php if (!$isNew): ?>
                                 <?= Html::a('<i class="fa fa-save"></i> Submit', Url::to(['site/borrowerscollection']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);']) ?>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                         <div class="col-md-6">
                             <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>

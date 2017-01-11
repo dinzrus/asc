@@ -80,7 +80,7 @@ class SiteController extends Controller {
         }
 
         // get all active accounts
-        $active = Yii::$app->db->createCommand("SELECT\n" .
+        $accounts = Yii::$app->db->createCommand("SELECT\n" .
                         "borrower.id AS borrower_id,\n" .
                         "borrower.first_name,\n" .
                         "borrower.last_name,\n" .
@@ -96,6 +96,7 @@ class SiteController extends Controller {
                         "branch.branch_description,\n" .
                         "loan.maturity_date,\n" .
                         "loan.daily,\n" .
+                        "loan.status,\n" .
                         "loan.term\n" .
                         "FROM\n" .
                         "borrower\n" .
@@ -103,7 +104,7 @@ class SiteController extends Controller {
                         "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                         "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
                         "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                        "WHERE loan.status = 'A' AND unit.unit_id = :unit\n"
+                        "WHERE (loan.status = 'A' OR loan.status = 'PD') AND unit.unit_id = :unit\n"
                         . "ORDER BY borrower.last_name ASC")->bindValue(':unit', $unit_id)->queryAll();
 
         //check if money exist
@@ -119,12 +120,14 @@ class SiteController extends Controller {
                         return $this->render('borrowerscollection', [
                                     'money' => $money_exist,
                                     'isNew' => $isNew,
+                                    'accounts' => $accounts,
                         ]);
                     }
                 } else {
                     return $this->render('borrowerscollection', [
                                 'money' => $money_exist,
                                 'isNew' => $isNew,
+                                'accounts' => $accounts,
                     ]);
                 }
             } else { // throw an unthorized exception if not allowed
@@ -156,7 +159,7 @@ class SiteController extends Controller {
                     return $this->render('borrowerscollection', [
                                 'money' => $money,
                                 'isNew' => $isNew,
-                                'active' => $active,
+                                'accounts' => $accounts,
                     ]);
                 }
             } else {
@@ -167,7 +170,7 @@ class SiteController extends Controller {
                 return $this->render('borrowerscollection', [
                             'money' => $money,
                             'isNew' => $isNew,
-                            'active' => $active,
+                            'accounts' => $accounts,
                 ]);
             }
         }
