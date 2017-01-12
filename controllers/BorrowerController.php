@@ -37,7 +37,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['sfr','deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
+                        'actions' => ['sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -112,6 +112,33 @@ class BorrowerController extends Controller {
             $update = false;
             $dependent = new Dependent;
             $business = new Business();
+            
+            //get canvasser
+            if (Yii::$app->user->identity->branch->branch_description === 'MAIN') {
+                $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+                            "employee.id,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                            "position.position\n" .
+                            "FROM\n" .
+                            "employee\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                            "INNER JOIN position ON emposition.position_id = position.id\n" .
+                            "WHERE\n" .
+                            "emposition.branch_id = :branch_id AND\n" .
+                            "position.position = 'canvasser'")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
+            } else {
+                $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+                            "employee.id,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                            "position.position\n" .
+                            "FROM\n" .
+                            "employee\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                            "INNER JOIN position ON emposition.position_id = position.id\n" .
+                            "WHERE\n" .
+                            "position.position = 'canvasser'")->queryAll();
+            }
+            
 
             // use for ajax validation
             if (Yii::$app->request->isAjax && $borrower->load(Yii::$app->request->post())) {
@@ -198,6 +225,7 @@ class BorrowerController extends Controller {
                                 'dependent' => $dependent,
                                 'update' => $update,
                                 'business' => $business,
+                                'canvassers' => $canvassers,
                     ]);
                 }
             } else {
@@ -206,6 +234,7 @@ class BorrowerController extends Controller {
                             'dependent' => $dependent,
                             'update' => $update,
                             'business' => $business,
+                            'canvassers' => $canvassers,
                 ]);
             }
         } else {

@@ -438,7 +438,7 @@ class SiteController extends Controller {
             $ltype = \app\models\LoanType::findOne(['loan_id' => $loantype]);
             $loanscheme = \app\models\LoanschemeValues::findOne(['id' => $daily]);
 
-// get the ci officer
+            // get the ci officer
             $ci = Yii::$app->db->createCommand("SELECT\n" .
                             "employee.id,\n" .
                             "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
@@ -696,7 +696,7 @@ class SiteController extends Controller {
     public function actionLedger($id) {
 
         $borrower = Borrower::findOne(['id' => $id]);
-        $loans = Loan::find()->where(['borrower' => $id, 'status' => 'A'])->all();
+        $loans = Loan::find()->where(['borrower' => $id])->andWhere(['or',"status='A'", "status='PD'", "status='WA'", "status='PO'"])->orderBy('id DESC')->all();
 
         return $this->render('accountinfo', [
                     'loans' => $loans,

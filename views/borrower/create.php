@@ -16,5 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dependent' => $dependent,
         'update' => $update,
         'business' => $business,
+        'canvassers' => $canvassers,
     ]) ?>
 </div>

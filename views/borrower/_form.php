@@ -143,10 +143,9 @@ use yii\helpers\Url;
                                                     'Separated' => 'Separated'
                                                         ], ['prompt' => '- Select - '])
                                                 ?>
-
                                                 <?=
                                                 $form->field($borrower, 'canvass_by')->widget(\kartik\widgets\Select2::classname(), [
-                                                    'data' => (!(strtoupper(Yii::$app->user->identity->branch->branch_description) === 'MAIN')) ? \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->where(['branch_id' => Yii::$app->user->identity->branch_id])->orderBy('id')->all(), 'id', 'fullname') : \yii\helpers\ArrayHelper::map(\app\models\base\Canvasser::find()->orderBy('lname')->all(), 'id', 'fullname'),
+                                                    'data' => \yii\helpers\ArrayHelper::map($canvassers, 'id', 'fullname'),
                                                     'options' => ['placeholder' => 'Canvasser'],
                                                     'pluginOptions' => [
                                                         'allowClear' => true

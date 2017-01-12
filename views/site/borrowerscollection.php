@@ -157,8 +157,9 @@ $form = ActiveForm::begin();
                             </tr>
                             <?php
                             $no = 1;
+                            $date_now = date('Y-m-d');
                             foreach ($accounts as $acac):
-                                if ($acac['status'] === 'A') : // check if account is active
+                                if (($acac['status'] === 'A') && $acac['release_date'] != $date_now) : // check if account is active
                                     ?>
                                     <tr>
                                         <?php

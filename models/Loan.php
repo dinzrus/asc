@@ -138,6 +138,7 @@ class Loan extends BaseLoan {
             }
             $payments = self::getTotalPayments($loan_id);
             $total_balance = ($gross_amt + $total_penalty) - $payments;
+            
             return [
                 'delinquent_advance' => $delamt,
                 'penalty' => $total_penalty,

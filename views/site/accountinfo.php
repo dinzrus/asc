@@ -90,7 +90,7 @@ $this->registerJs($search);
                         <td><strong>MATURITY</strong></td>
                         <td><strong>DAILY PAY</strong></td>
                         <td><strong>TERM</strong></td>
-                        <td><strong>GROSS LOAN</strong></td>
+                        <td><strong>Status</strong></td>
                         <td><strong>VIEW LEDGER</strong></td>
                     </tr>
                     <?php
@@ -107,11 +107,28 @@ $this->registerJs($search);
                                 <td><?= Yii::$app->formatter->asDate($loan->maturity_date) ?></td>
                                 <td><?= Yii::$app->formatter->asCurrency($loan->daily) ?></td>
                                 <td><?= $loan->term ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency($loan->gross_amount) ?></td>
+                                <td>
+                                    <?php
+                                    switch ($loan->status) {
+                                        case 'A':
+                                            echo "<span class='label label-success'>Active</span>";
+                                            break;
+                                        case 'PD':
+                                            echo "<span class='label label-danger'>Pastdue</span>";
+                                            break;
+                                        case 'WA':
+                                            echo "<span class='label label-default'>Waived</span>";
+                                            break;
+                                        case 'PO':
+                                            echo "<span class='label label-info'>Payout</span>";
+                                            break;
+                                    }
+                                    ?>
+                                </td>
                                 <td><a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i></a></td>
                             </tr>
                             <?php $counter++; ?>
-                        <?php  endforeach; ?>
+                        <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
                             <td class="alert-info" colspan="10" style="text-align: center;">No data to display</td>
