@@ -10,7 +10,7 @@ use yii\web\View;
 use yii\widgets\Pjax;
 use kartik\widgets\Growl;
 
-$this->title = 'Accounts Details';
+$this->title = 'Accounts';
 $this->params['breadcrumbs'][] = ['label' => 'Borrowers', 'url' => ['site/accountledger']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -20,6 +20,17 @@ $search = "$('.search-button').click(function(){
 });";
 $this->registerJs($search);
 ?>
+<style>
+
+    /* Important part */
+    .modal-dialog{
+        overflow-y: initial !important;
+    }
+    .modal-body{
+        height: 250px;
+        overflow-y: auto;
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
         <?php if (Yii::$app->session->hasFlash('loanReleased')): ?>
@@ -125,7 +136,7 @@ $this->registerJs($search);
                                     }
                                     ?>
                                 </td>
-                                <td><a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i></a></td>
+                                <td><a type="button" data-loanid="<?= $loan->id ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i></a></td>
                             </tr>
                             <?php $counter++; ?>
                         <?php endforeach; ?>
@@ -145,38 +156,98 @@ $this->registerJs($search);
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="get">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 style="font-weight: bold; color: blue;">LOAN HISTORY</h3>
-                    <i style="float: left; margin: 6px 3px" class="fa fa-user"></i> <h4 style="float: left; font-weight: bold;" class="modal-title" id="myModalLabel"></h4>
+                    <h4 style="font-weight: bold;">LOAN LEDGER 
+                        <a role="button" data-toggle="collapse" href="#accdetails" aria-expanded="false" aria-controls="collapseExample">
+                            / Account Details <i class='glyphicon glyphicon-info-sign'></i>
+                        </a>
+                    </h4>
+                    <div class='collapse' id='accdetails'>
+                        <div class="well well-sm">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <tr>
+                                    <td><strong>Acc. No.</strong></td>
+                                    <td id="accno"></td>
+                                    <td><strong>Daily</strong></td>
+                                    <td id="daily"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Name</strong></td>
+                                    <td id="name"></td>
+                                    <td><strong>Beg. Balance</strong></td>
+                                    <td id="begbalance"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Business Type</strong></td>
+                                    <td id="storetype"></td>
+                                    <td><strong>Total Payment</strong></td>
+                                    <td id="totalpay"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contact No.</strong></td>
+                                    <td id="contact"></td>
+                                    <td><strong>Del. Balance</strong></td>
+                                    <td id="balance"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Released Date</strong></td>
+                                    <td id="reldate"></td>
+                                    <td><strong>Penalty</strong></td>
+                                    <td id="penalty"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Maturity Date</strong></td>
+                                    <td id="matdate"></td>
+                                    <td><strong>Last Pay</strong></td>
+                                    <td id="lastpay"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Canvasser</strong></td>
+                                    <td id="canvasser"></td>
+                                    <td><strong>Ending Bal.</strong></td>
+                                    <td id="endingbalance"></td>
+                                </tr>
+                            </table> 
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-body">  
-                    <table class="table table-striped table-responsive" id="account-list">
+                    <table class="table table-bordered table-condensed table-hover" id="account-list">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Account No.</th>
-                                <th>Release Date</th>
-                                <th>Maturity Date</th>
-                                <th>Loan Type</th>
-                                <th>Unit</th>
-                                <th>View Ledger</th>
+                                <th><strong>PAY DATE</strong></th>
+                                <th><strong>SCHDL. BAL.</strong></th>
+                                <th><strong>PAYMENT</strong></th>
+                                <th><strong>DLQNT.& ADV.</strong></th>
+                                <th><strong>PENALTY</strong></th>
+                                <th><strong>DEBIT</strong></th>
+                                <th><strong>BALANCE</strong></th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php for ($i = 0; $i < 50; $i++): ?>
+                                <tr>
+                                    <td>12/22/2016</td>
+                                    <td>5,000.00</td>
+                                    <td>100.00</td>
+                                    <td>150.00</td>
+                                    <td>500.00</td>
+                                    <td>500.00</td>
+                                    <td>10,000.00</td>
+                                </tr>
+                            <?php endfor; ?>
                         </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
                 </div>
-            </form>
         </div>
     </div>
 </div>
 
 <?php
-//$this->registerJsFile('@web/js/ledger.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('@web/js/loaninfo.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
 

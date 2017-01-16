@@ -696,12 +696,41 @@ class SiteController extends Controller {
     public function actionLedger($id) {
 
         $borrower = Borrower::findOne(['id' => $id]);
-        $loans = Loan::find()->where(['borrower' => $id])->andWhere(['or',"status='A'", "status='PD'", "status='WA'", "status='PO'"])->orderBy('id DESC')->all();
+        $loans = Loan::find()->where(['borrower' => $id])->andWhere(['or', "status='A'", "status='PD'", "status='WA'", "status='PO'"])->orderBy('id DESC')->all();
 
         return $this->render('accountinfo', [
                     'loans' => $loans,
                     'borrower' => $borrower
         ]);
+    }
+
+    // ajax action for getting the loan info
+    public function actionLoaninfo($loanid) {
+        $loaninfo = Yii::$app->db->createCommand("SELECT\n" .
+                        "CONCAT(borrower.last_name,', ',borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
+                        "borrower.suffix,\n" .
+                        "loan.id as loanid,\n" .
+                        "loan.loan_no,\n" .
+                        "loan.unit,\n" .
+                        "loan.release_date,\n" .
+                        "loan.maturity_date,\n" .
+                        "loan.daily,\n" .
+                        "loan.term,\n" .
+                        "loan.interest_bdays,\n" .
+                        "loan_type.loan_description,\n" .
+                        "borrower.contact_no,\n" .
+                        "loan.penalty,\n" .
+                        "loan.penalty_days,\n" .
+                        "loan.net_proceeds,\n" .
+                        "IFNULL((SELECT SUM(pay_amount) FROM payment WHERE loan_id = loan.id),0) as total_payments\n" .
+                        "FROM\n" .
+                        "borrower\n" .
+                        "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                        "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                        "LEFT JOIN payment ON payment.loan_id = loan.id\n" .
+                        "WHERE loan.id = :loanid GROUP BY loanid")->bindValue(':loanid', $loanid)->queryAll();
+        
+        echo Json::encode($loaninfo);
     }
 
     // ajax action use in borrowers collection 
