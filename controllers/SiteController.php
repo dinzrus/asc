@@ -656,6 +656,7 @@ class SiteController extends Controller {
                     "unit.unit_description, \n" .
                     "branch.branch_description, \n" .
                     "loan.daily, \n" .
+                    "loan.status, \n" .
                     "loan_type.loan_description\n" .
                     "FROM\n" .
                     "loan\n" .
@@ -709,6 +710,8 @@ class SiteController extends Controller {
         $loaninfo = Yii::$app->db->createCommand("SELECT\n" .
                         "CONCAT(borrower.last_name,', ',borrower.first_name,' ',borrower.middle_name) AS fullname,\n" .
                         "borrower.suffix,\n" .
+                        "borrower.id as borrowerid,\n" .
+                        "borrower.canvass_by,\n" .
                         "loan.id as loanid,\n" .
                         "loan.loan_no,\n" .
                         "loan.unit,\n" .
@@ -716,6 +719,7 @@ class SiteController extends Controller {
                         "loan.maturity_date,\n" .
                         "loan.daily,\n" .
                         "loan.term,\n" .
+                        "loan.status,\n" .
                         "loan.interest_bdays,\n" .
                         "loan_type.loan_description,\n" .
                         "borrower.contact_no,\n" .
@@ -729,8 +733,108 @@ class SiteController extends Controller {
                         "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                         "LEFT JOIN payment ON payment.loan_id = loan.id\n" .
                         "WHERE loan.id = :loanid GROUP BY loanid")->bindValue(':loanid', $loanid)->queryAll();
+
+        $canvasser = Yii::$app->db->createCommand("SELECT\n" .
+                        "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                        "position.position\n" .
+                        "FROM\n" .
+                        "employee\n" .
+                        "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                        "INNER JOIN position ON emposition.position_id = position.id\n" .
+                        "WHERE employee.id = :id")->bindValue(':id', $loaninfo[0]['canvass_by'])->queryAll();
+
+        $business = Yii::$app->db->createCommand("SELECT\n" .
+                        "business_type.business_description\n" .
+                        "FROM\n" .
+                        "business\n" .
+                        "INNER JOIN business_type ON business.business_type_id = business_type.id\n" .
+                        "WHERE business.borrower_id = :id")->bindValue(':id', $loaninfo[0]['borrowerid'])->queryScalar();
+
+        // get the penalty and delinquent //==================================================
+        $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
+        $jumps = [];
+
+        foreach ($jumpdates as $jump) {
+            array_push($jumps, $jump['jump_date']);
+        }
+
+        $days_counter = 0;
+        $date_now = date('Y-m-d');
+
+        // get the numbers of days from date realesing until the current date
+        $rel_date = date_create($loaninfo[0]['release_date']);
+        $current_date = date_create(date('Y-m-d'));
+        $days = $current_date->diff($rel_date)->format("%a");
+        $no_days = $days - 1;
+
+        $test_date = $rel_date->modify('+1 day');
+
+        // get total payments
+        $total_amount_paid = Yii::$app->db->createCommand("SELECT SUM(pay_amount) as total_payment\n" .
+                        "FROM\n" .
+                        "payment\n" .
+                        "WHERE loan_id = :id")->bindValue(':id', $loanid)->queryScalar();
+
+
+        //initialized 
+        $delamt = 0;
+        $paid_amt = 0;
+
+        $total_penalty = 0;
+        $pen_days = 0;
+        $total_balance = 0;
+
+        if (($loaninfo[0]['status'] == 'A') || ($loaninfo[0]['status'] == 'PD')) {
+            while ($days_counter < $no_days) {
+                $paid_amt = \app\models\Loan::getPaidAmount($loanid, $test_date->format('Y-m-d'));
+                if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
+                    //holiday or Sunday
+                } else {
+                    if ($delamt >= 0) {
+                        $delamt = $delamt + $paid_amt - $loaninfo[0]['daily']; // delqnt calculation 
+                    } else {
+                        $delamt = $paid_amt - ($loaninfo[0]['daily'] - $delamt); // delqnt calculation
+                    }
+                    if ($delamt >= 0) {
+                        if (($loaninfo[0]['penalty'] > 0) && ($delamt > 0)) {
+                            $delamt = $delamt - $total_penalty;
+                            if ($delamt < 0) {
+                                $total_penalty = $delamt * -1;
+                                $delamt = 0;
+                            }
+                            $total_penalty = 0;
+                        }
+                    } else {
+                        $pen_days = abs(($delamt * -1) / $loaninfo[0]['daily']);
+                        if ($pen_days >= $loaninfo[0]['penalty_days']) {
+                            $total_penalty = $total_penalty + $loaninfo[0]['penalty'];
+                        }
+                    }
+                }
+                // increment counters and date
+                $days_counter++;
+                $test_date = $test_date->modify('+1 day');
+            }
+
+            $gross_amt = $loaninfo[0]['daily'] * $loaninfo[0]['term'];
+            $total_balance = ($gross_amt + $total_penalty) - $total_amount_paid;
+        }
+        // get the last pay date
+        $last_pay_date = Yii::$app->db->createCommand("SELECT\n" .
+                        "payment.pay_date\n" .
+                        "FROM\n" .
+                        "payment\n" .
+                        "WHERE loan_id = :loanid \n" .
+                        "ORDER BY payment.id DESC\n" .
+                        "LIMIT 1")->bindValue(':loanid', $loanid)->queryScalar();
+        if ($last_pay_date == false) {
+            $last_pay_date = "";
+        }
         
-        echo Json::encode($loaninfo);
+        $calculations = array($total_penalty, $delamt, $total_balance, $total_amount_paid, $last_pay_date);
+        // end of calculation // =================================================================
+        // return as values as json 
+        return Json::encode(array($loaninfo, $canvasser, $business, $calculations));
     }
 
     // ajax action use in borrowers collection 
@@ -874,6 +978,7 @@ class SiteController extends Controller {
                 $days_counter++;
                 $test_date = $test_date->modify('+1 day');
             }
+            echo "Opps something isn't right!!";
         } else {
             throw new \yii\base\InvalidParamException;
         }
@@ -885,6 +990,14 @@ class SiteController extends Controller {
             return $payment_count->pay_amount;
         }
         return 0;
+    }
+
+    public function actionTestdate() {
+
+        $date = date_create('2017-1-17');
+        $rel_date = date_create('2016-12-17');
+
+        echo $rel_date->diff($date)->format('%a');
     }
 
 }

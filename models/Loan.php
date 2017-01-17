@@ -96,8 +96,8 @@ class Loan extends BaseLoan {
             // get the numbers of days from date realesing until the current date
             $rel_date = date_create($release_date);
             $current_date = date_create(date('Y-m-d'));
-            $days = date_diff($current_date, $rel_date);
-            $no_days = ($days->format('%d') - 1); // minus 1 day so that current date will not be included in checking
+            $days = $current_date->diff($rel_date)->format("%a");
+            $no_days = $days - 1; // minus 1 day so that current date will not be included in checking
 
             $test_date = $rel_date->modify('+1 day');
             //initialized 
@@ -149,7 +149,7 @@ class Loan extends BaseLoan {
         }
     }
 
-    private function getPaidAmount($loan_id, $pay_date) {
+    public static function getPaidAmount($loan_id, $pay_date) {
         $payment_count = \app\models\Payment::findOne(['loan_id' => $loan_id, 'pay_date' => $pay_date]);
         if (count($payment_count) == 1) {
             return $payment_count->pay_amount;
@@ -157,7 +157,7 @@ class Loan extends BaseLoan {
         return 0;
     }
 
-    private function getTotalPayments($loan_id) {
+    public static function getTotalPayments($loan_id) {
         $total_amount = Yii::$app->db->createCommand("SELECT SUM(pay_amount) as total_payment\n" .
                         "FROM\n" .
                         "payment\n" .
@@ -165,7 +165,7 @@ class Loan extends BaseLoan {
         return $total_amount;
     }
 
-    public static function getLastPay($loan_id) {
+    public function getLastPay($loan_id) {
         $last_pay = Yii::$app->db->createCommand("SELECT\n" .
                         "payment.pay_amount\n" .
                         "FROM\n" .

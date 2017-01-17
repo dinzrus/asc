@@ -187,8 +187,8 @@ $this->registerJs($search);
                                 <tr>
                                     <td><strong>Contact No.</strong></td>
                                     <td id="contact"></td>
-                                    <td><strong>Del. Balance</strong></td>
-                                    <td id="balance"></td>
+                                    <td><strong>Del. / Adv.</strong></td>
+                                    <td id="delbalance"></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Released Date</strong></td>
@@ -206,7 +206,7 @@ $this->registerJs($search);
                                     <td><strong>Canvasser</strong></td>
                                     <td id="canvasser"></td>
                                     <td><strong>Ending Bal.</strong></td>
-                                    <td id="endingbalance"></td>
+                                    <td id="totalbalance"></td>
                                 </tr>
                             </table> 
                         </div>
