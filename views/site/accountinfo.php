@@ -156,92 +156,108 @@ $this->registerJs($search);
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 style="font-weight: bold;">LOAN LEDGER 
-                        <a role="button" data-toggle="collapse" href="#accdetails" aria-expanded="false" aria-controls="collapseExample">
-                            / Account Details <i class='glyphicon glyphicon-info-sign'></i>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="font-weight: bold;">LOAN LEDGER 
+                    <a role="button" data-toggle="collapse" href="#accdetails" aria-expanded="false" aria-controls="collapseExample">
+                        | Account Details <i class='glyphicon glyphicon-info-sign'></i>
+                    </a>
+                    <?php if (Yii::$app->user->can('IT')): ?>
+                        <a role="button" data-toggle="collapse" href="#accoptions" aria-expanded="false" aria-controls="collapseExample">
+                            | Account Options <i class='glyphicon glyphicon-option-vertical'></i>
                         </a>
-                    </h4>
-                    <div class='collapse' id='accdetails'>
-                        <div class="well well-sm">
-                            <table class="table table-bordered table-condensed table-hover">
-                                <tr>
-                                    <td><strong>Acc. No.</strong></td>
-                                    <td id="accno"></td>
-                                    <td><strong>Daily</strong></td>
-                                    <td id="daily"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Name</strong></td>
-                                    <td id="name"></td>
-                                    <td><strong>Beg. Balance</strong></td>
-                                    <td id="begbalance"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Business Type</strong></td>
-                                    <td id="storetype"></td>
-                                    <td><strong>Total Payment</strong></td>
-                                    <td id="totalpay"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Contact No.</strong></td>
-                                    <td id="contact"></td>
-                                    <td><strong>Del. / Adv.</strong></td>
-                                    <td id="delbalance"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Released Date</strong></td>
-                                    <td id="reldate"></td>
-                                    <td><strong>Penalty</strong></td>
-                                    <td id="penalty"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Maturity Date</strong></td>
-                                    <td id="matdate"></td>
-                                    <td><strong>Last Pay</strong></td>
-                                    <td id="lastpay"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Canvasser</strong></td>
-                                    <td id="canvasser"></td>
-                                    <td><strong>Ending Bal.</strong></td>
-                                    <td id="totalbalance"></td>
-                                </tr>
-                            </table> 
-                        </div>
+                    <?php endif; ?>
+                </h4>
+                <?php if (Yii::$app->user->can('IT')): ?>
+                    <div class="collapse" id="accoptions">
+                        <table class="table table-condensed table-bordered">
+                            <tr>
+                                <td><a href="#" class="btn btn-success btn-block" role="button" href=""><strong><i class="fa fa-edit"></i> Change Unit</strong></a></td>
+                                <td><a href="#" class="btn btn-success btn-block" role="button" href=""><strong><i class="fa fa-edit"></i> Change Daily</strong></a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="btn btn-primary btn-block" onclick="return confirm('Are you sure to waive balances on this account?')" role="button" href=""><strong><i class="fa fa-eraser"></i> Waive</strong></a></td>
+                                <td><a href="#" class="btn btn-danger btn-block" onclick="return confirm('Are you sure to delete this account? This action is unrevokeable.')" role="button" href=""><strong><i class="fa fa-remove"></i> Delete Account</strong></a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="btn btn-success btn-block" role="button" href=""><strong><i class="fa fa-edit"></i> Change Release Date</strong></a></td>
+                                <td><a href="#" class="btn btn-success btn-block" role="button" href=""><strong><i class="fa fa-edit"></i> Change Maturity Date</strong></a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="btn btn-success btn-block" role="button" href=""><strong><i class="fa fa-edit"></i> Change Branch</strong></a></td>
+                                <td><a href="#" class="btn btn-success btn-block" role="button" href=""><strong><i class="fa fa-edit"></i> Change Loan Type</strong></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                <?php endif; ?>
+                <div class='collapse' id='accdetails'>
+                    <div class="well well-sm">
+                        <table class="table table-bordered table-condensed table-hover">
+                            <tr>
+                                <td><strong>Acc. No.</strong></td>
+                                <td id="accno"></td>
+                                <td><strong>Daily</strong></td>
+                                <td id="daily"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Name</strong></td>
+                                <td id="name"></td>
+                                <td><strong>Beg. Balance</strong></td>
+                                <td id="begbalance"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Business Type</strong></td>
+                                <td id="storetype"></td>
+                                <td><strong>Total Payment</strong></td>
+                                <td id="totalpay"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Contact No.</strong></td>
+                                <td id="contact"></td>
+                                <td><strong>Del. / Adv.</strong></td>
+                                <td id="delbalance"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Released Date</strong></td>
+                                <td id="reldate"></td>
+                                <td><strong>Penalty</strong></td>
+                                <td id="penalty"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maturity Date</strong></td>
+                                <td id="matdate"></td>
+                                <td><strong>Last Pay</strong></td>
+                                <td id="lastpay"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Canvasser</strong></td>
+                                <td id="canvasser"></td>
+                                <td><strong>Ending Bal.</strong></td>
+                                <td id="totalbalance"></td>
+                            </tr>
+                        </table> 
                     </div>
                 </div>
-                <div class="modal-body">  
-                    <table class="table table-bordered table-condensed table-hover" id="account-list">
-                        <thead>
-                            <tr>
-                                <th><strong>PAY DATE</strong></th>
-                                <th><strong>SCHDL. BAL.</strong></th>
-                                <th><strong>PAYMENT</strong></th>
-                                <th><strong>DLQNT.& ADV.</strong></th>
-                                <th><strong>PENALTY</strong></th>
-                                <th><strong>DEBIT</strong></th>
-                                <th><strong>BALANCE</strong></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php for ($i = 0; $i < 50; $i++): ?>
-                                <tr>
-                                    <td>12/22/2016</td>
-                                    <td>5,000.00</td>
-                                    <td>100.00</td>
-                                    <td>150.00</td>
-                                    <td>500.00</td>
-                                    <td>500.00</td>
-                                    <td>10,000.00</td>
-                                </tr>
-                            <?php endfor; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                </div>
+            </div>
+            <div class="modal-body">  
+                <table class="table table-bordered table-condensed table-hover" id="account-table">
+                    <thead>
+                        <tr>
+                            <th><strong>PAY DATE</strong></th>
+                            <th><strong>PAYMENT</strong></th>
+                            <th><strong>DLQNT.& ADV.</strong></th>
+                            <th><strong>PENALTY</strong></th>
+                            <th><strong>DEBIT</strong></th>
+                            <th><strong>BALANCE</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody id="pay-list">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+            </div>
         </div>
     </div>
 </div>
