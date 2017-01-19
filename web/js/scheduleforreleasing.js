@@ -11,29 +11,39 @@ $('#myModal').on('show.bs.modal', function (event) {
         var d1 = jsn[0];
         var d2 = jsn[1];
 
-        // dropdown for daily and unit 
-        var s = $('<select/>');
-        var x = $('<select/>');
+        if (jsn.active === true) {
+            $("#loanoptions").hide();
+            $("#activedetected").show();
+            $("#schedbutton").hide();
+        } else {
+            // dropdown for daily and unit 
+            var s = $('<select/>');
+            var x = $('<select/>');
+            
+            $("#schedbutton").show();
+            $("#loanoptions").show();
+            $("#activedetected").hide();
+            
+            s.addClass('form-control daily');
+            s.attr('name', 'daily');
 
-        s.addClass('form-control daily');
-        s.attr('name', 'daily');
+            x.addClass('form-control unit');
+            x.attr('name', 'unit');
 
-        x.addClass('form-control unit');
-        x.attr('name', 'unit');
+            for (var key in d1) {
+                $('<option />', {value: d1[key].id, text: d1[key].daily}).appendTo(s);
+            }
 
-        for (var key in d1) {
-            $('<option />', {value: d1[key].id, text: d1[key].daily}).appendTo(s);
+            for (var key in d2) {
+                $('<option />', {value: d2[key].unit_id, text: d2[key].unit_description}).appendTo(x);
+            }
+
+            $('.daily').remove();
+            s.appendTo('#daily');
+
+            $('.unit').remove();
+            x.appendTo('#unit');
         }
-
-        for (var key in d2) {
-            $('<option />', {value: d2[key].unit_id, text: d2[key].unit_description}).appendTo(x);
-        }
-
-        $('.daily').remove();
-        s.appendTo('#daily');
-
-        $('.unit').remove();
-        x.appendTo('#unit');
 
     });
 

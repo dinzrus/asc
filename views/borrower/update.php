@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'dependents' => $dependents,
         'update' => $update,
         'business' => $business,
+        'canvassers' => $canvassers,
     ])
     ?>
 

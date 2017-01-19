@@ -73,10 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <td><strong>Unit:</strong></td>
                                 <td><?= $unt->unit_description ?></td>
                             </tr>
-                            <tr>
-                                <td><strong>Release Date:</strong></td>
-                                <td><?= date('m/d/y') ?></td>
-                            </tr>
                         </table>
                     </div>
                     <div class="col-md-6">

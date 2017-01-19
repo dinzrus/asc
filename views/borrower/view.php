@@ -157,14 +157,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                         ?>
                         <?php
-                        $gridColumn = [
-                            'canvasser.fullname',
-                            'canvass_date',
-                        ];
-                        echo DetailView::widget([
-                            'model' => $borrower,
-                            'attributes' => $gridColumn
-                        ]);
+//                        $gridColumn = [
+//                            'canvasser.fullname',
+//                            'canvass_date',
+//                        ];
+//                        echo DetailView::widget([
+//                            'model' => $borrower,
+//                            'attributes' => $gridColumn
+//                        ]);
                         ?>
                     </div>
                 </div>

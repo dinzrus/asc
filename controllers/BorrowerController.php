@@ -251,6 +251,33 @@ class BorrowerController extends Controller {
     public function actionUpdate($id) {
 
         if (Yii::$app->user->can('IT')) {
+            
+            //get canvasser
+            if (Yii::$app->user->identity->branch->branch_description === 'MAIN') {
+                $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+                            "employee.id,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                            "position.position\n" .
+                            "FROM\n" .
+                            "employee\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                            "INNER JOIN position ON emposition.position_id = position.id\n" .
+                            "WHERE\n" .
+                            "emposition.branch_id = :branch_id AND\n" .
+                            "position.position = 'canvasser'")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
+            } else {
+                $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+                            "employee.id,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                            "position.position\n" .
+                            "FROM\n" .
+                            "employee\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                            "INNER JOIN position ON emposition.position_id = position.id\n" .
+                            "WHERE\n" .
+                            "position.position = 'canvasser'")->queryAll();
+            }
+            
             $update = true;
             if (Yii::$app->request->post('_asnew') == '1') {
                 $borrower = new Borrower();
@@ -335,6 +362,7 @@ class BorrowerController extends Controller {
                             'dependents' => (empty($dependents)) ? [new Dependent] : $dependents,
                             'update' => $update,
                             'business' => $business,
+                            'canvassers' => $canvassers,
                 ]);
             }
         } else {

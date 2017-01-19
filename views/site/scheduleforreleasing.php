@@ -24,7 +24,7 @@ $this->registerJs($search);
         <div class="row">
             <div class="col-md-12">
                 <?php if (Yii::$app->session->hasFlash('loanReleased')): ?>
-                     <?php
+                    <?php
                     echo Growl::widget([
                         'type' => Growl::TYPE_SUCCESS,
                         'title' => 'Well done!',
@@ -103,22 +103,27 @@ $this->registerJs($search);
                 </div>
                 <div class="modal-body">    
                     <div class="row">
-                        <div class="col-md-4">
-                            <?= Html::hiddenInput('id', null, ['class' => 'clnts_id']) ?>
-                            <label for="">Loan Type</label>
-                            <select class="form-control" name="loantype">
-                                <?php foreach ($loantype as $lt): ?>
-                                    <option value="<?= $lt->loan_id ?>"><?= $lt->loan_description ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                        <div class="well well-sm" id="activedetected">
+                            <h3 class="alert alert-warning">Active account detected!</h3>
                         </div>
-                        <div class="col-md-4">
-                            <label for="">Daily</label>
-                            <div  id="daily"></div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Unit</label>
-                            <div id="unit"></div>
+                        <div id="loanoptions">
+                            <div class="col-md-4">
+                                <?= Html::hiddenInput('id', null, ['class' => 'clnts_id']) ?>
+                                <label for="">Loan Type</label>
+                                <select class="form-control" name="loantype">
+                                    <?php foreach ($loantype as $lt): ?>
+                                        <option value="<?= $lt->loan_id ?>"><?= $lt->loan_description ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="">Daily</label>
+                                <div  id="daily"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="">Unit</label>
+                                <div id="unit"></div>
+                            </div>
                         </div>
                     </div>  
                 </div>
@@ -129,7 +134,7 @@ $this->registerJs($search);
 
                         </div>
                         <div class="col-md-6">
-                            <?= Html::a('<i class="fa fa-calendar"></i> Schedule', Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);']) ?>
+                            <?= Html::a('<i class="fa fa-calendar"></i> Schedule', Url::to(['site/schedulerelease']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);', 'id' => 'schedbutton']) ?>
                         </div>
                     </div>
                 </div>

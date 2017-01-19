@@ -598,17 +598,26 @@ class SiteController extends Controller {
 
     public function actionDailyunits($id, $branch) {
 
-        $data = Borrower::findOne($id); // retrieve borrowers info
+        // check if has active account
+        $active = Yii::$app->db->createCommand("SELECT\n" .
+                        "loan.id\n" .
+                        "FROM\n" .
+                        "loan\n" .
+                        "WHERE loan.borrower = :bor_id AND loan.status = 'A'")->bindValue(':bor_id', $id)->queryOne();
+        if (!$active) {
 
-        $la = \app\models\LoanschemeAssignment::find()->where(['branch_id' => $data->branch_id])->one(); // retrieve loanscheme through borrowers branch id
+            $data = Borrower::findOne($id); // retrieve borrowers info
 
-        $dailys = \app\models\LoanschemeValues::find()->where(['loanscheme_id' => $la['loanscheme_id']])->all(); // get loanscheme values
+            $la = \app\models\LoanschemeAssignment::find()->where(['branch_id' => $data->branch_id])->one(); // retrieve loanscheme through borrowers branch id
 
-        $units = \app\models\Unit::find()->where(['branch_id' => $branch])->all(); // retrieve units
+            $dailys = \app\models\LoanschemeValues::find()->where(['loanscheme_id' => $la['loanscheme_id']])->all(); // get loanscheme values
 
-        echo Json::encode(array($dailys, $units));
+            $units = \app\models\Unit::find()->where(['branch_id' => $branch])->all(); // retrieve units
 
-        die();
+            return Json::encode(array($dailys, $units));
+        } else {
+            return Json::encode(['active' => true]);
+        }
     }
 
     /**
