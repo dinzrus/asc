@@ -50,6 +50,9 @@ $('#myModal').on('show.bs.modal', function (event) {
             if (loaninfo[4][i].delamt < 0) {
                 delcolor = "#f41a1a";
             }
+            if (loaninfo[4][i].delamt > 0) {
+                delcolor = "#0869E0";
+            }
             if (loaninfo[4][i].penalty > 0) {
                 var pencolor = "#f41a1a";
             }

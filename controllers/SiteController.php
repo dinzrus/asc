@@ -810,21 +810,25 @@ class SiteController extends Controller {
                     $jump = true;
                 }
             } else {
+
                 if ($delamt >= 0) {
                     $delamt = $delamt + $paid_amt - $loaninfo[0]['daily']; // delqnt calculation 
                 } else {
                     $delamt = $paid_amt - ($loaninfo[0]['daily'] - $delamt); // delqnt calculation
                 }
-                if ($delamt >= 0) {
+
+                if ($delamt > 0) {
                     if (($loaninfo[0]['penalty'] > 0) && ($delamt > 0)) {
                         $delamt = $delamt - $total_penalty;
                         if ($delamt < 0) {
                             $total_penalty = $delamt * -1;
                             $delamt = 0;
+                        } else {
+                            $total_penalty = 0;
                         }
-                        $total_penalty = 0;
                     }
                 } else {
+                    // add penalty if delqnt amt is equal to 3 or greater
                     $pen_days = abs(($delamt * -1) / $loaninfo[0]['daily']);
                     if ($pen_days >= $loaninfo[0]['penalty_days']) {
                         $total_penalty = $total_penalty + $loaninfo[0]['penalty'];
@@ -845,6 +849,10 @@ class SiteController extends Controller {
             $grossamt = $loaninfo[0]['daily'] * $loaninfo[0]['term'];
             $totalbalance = ($grossamt + $total_penalty) - $totalpayasdate;
 
+//            if ($totalbalance == 0) {
+//                $delamt = 0;
+//            }
+            
             // put values to array
             $payments[] = ['paydate' => $test_date->format('Y-m-d'), 'payamount' => $payAmountThisDate, 'delamt' => $delamt, 'penalty' => $total_penalty, 'balance' => $totalbalance, 'sunday' => $sunday, 'jump' => $jump];
 
