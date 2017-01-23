@@ -5,13 +5,13 @@ $(window).load(function () {
 });
 
 $('#myModal').on('hidden.bs.modal', function (e) {
-  var collectionDate = $('#money-collection_date').val();
-  var collectionUnit = $('#money-unit_id option:selected').text();
-  var branchName = $('#money-branch_id option:selected').text();
-  
-  $('#collectionDate').html(collectionDate);
-  $('#branchName').html(branchName);
-  $('#collectionUnit').html(collectionUnit);
+    var collectionDate = $('#money-collection_date').val();
+    var collectionUnit = $('#money-unit_id option:selected').text();
+    var branchName = $('#money-branch_id option:selected').text();
+
+    $('#collectionDate').html(collectionDate);
+    $('#branchName').html(branchName);
+    $('#collectionUnit').html(collectionUnit);
 })
 
 function isNumber(evt) {
@@ -44,9 +44,17 @@ function calculateTotal(amount, eid, ttamt) {
 }
 
 // this function adds parameters to the url of the submit button in the modal
-function addURL(element)
+function addURL(element, loanid)
 {
     $(element).attr('href', function () {
         return this.href + '&collection_date=' + $('input[name=collection_date-money-collection_date]').val() + '&branch_id=' + $('#money-branch_id').val() + '&unit_id=' + $('#money-unit_id').val();
     });
+}
+
+// this function will call ajax request to update the payment remitted by the borrower
+function updatePayment(inputojt, loanid) {
+   var collectiondate = $('#money-collection_date').val();
+   $.post('index.php?r=site/ajaxcall&loanid=' + loanid + '&amtrem=' + inputojt.value + '&collectiondate=' + collectiondate, function (data) {
+        
+   });
 }

@@ -19,11 +19,11 @@ $('#myModal').on('show.bs.modal', function (event) {
             // dropdown for daily and unit 
             var s = $('<select/>');
             var x = $('<select/>');
-            
+
             $("#schedbutton").show();
             $("#loanoptions").show();
             $("#activedetected").hide();
-            
+
             s.addClass('form-control daily');
             s.attr('name', 'daily');
 

@@ -177,7 +177,7 @@ class SiteController extends Controller {
     }
 
     public function actionCanvassedapproval() {
-        return;
+        
     }
 
     /**
@@ -791,12 +791,14 @@ class SiteController extends Controller {
 
         $total_penalty = 0;
         $pen_days = 0;
-        $total_balance = 0;
 
         $payments = [];
         $totalpayasdate = 0;
         $jump = false;
         $sunday = false;
+
+        // get the beggining balance
+        $totalbalance = $loaninfo[0]['daily'] * $loaninfo[0]['term'];
 
         while ($days_counter < $no_days) {
             $paid_amt = \app\models\Loan::getPaidAmount($loanid, $test_date->format('Y-m-d'));
@@ -818,41 +820,40 @@ class SiteController extends Controller {
                 }
 
                 if ($delamt > 0) {
-                    if (($loaninfo[0]['penalty'] > 0) && ($delamt > 0)) {
-                        $delamt = $delamt - $total_penalty;
-                        if ($delamt < 0) {
-                            $total_penalty = $delamt * -1;
-                            $delamt = 0;
-                        } else {
-                            $total_penalty = 0;
-                        }
+                    $delamt = $delamt - $total_penalty;
+                    if ($delamt < 0) {
+                        $total_penalty = $delamt * -1;
+                        $delamt = 0;
+                    } else {
+                        $total_penalty = 0;
                     }
                 } else {
                     // add penalty if delqnt amt is equal to 3 or greater
                     $pen_days = abs(($delamt * -1) / $loaninfo[0]['daily']);
                     if ($pen_days >= $loaninfo[0]['penalty_days']) {
                         $total_penalty = $total_penalty + $loaninfo[0]['penalty'];
+                        $totalbalance = $totalbalance + $loaninfo[0]['penalty'];
                     }
                 }
             }
 
+            if ($total_penalty == 0 && $totalbalance == 0) {
+                $delamt = 0;
+            }
+
+            // get the amount paid to date
             $payAmountThisDate = Yii::$app->db->createCommand("SELECT IFNULL(pay_amount, 0) as pay_amount\n" .
                             "FROM\n" .
                             "payment\n" .
                             "WHERE loan_id = :id AND pay_date = :paydate")->bindValues([':id' => $loanid, ':paydate' => $test_date->format('Y-m-d')])->queryScalar();
             if ($payAmountThisDate == false) {
-                $payAmountThisDate = 0;
+                $payAmountThisDate = 0; // set payment to zero if no payment
             }
 
-            $totalpayasdate = $totalpayasdate + $payAmountThisDate;
+            $totalpayasdate = $totalpayasdate + $payAmountThisDate; // get total amount paid from releasing up to present date
 
-            $grossamt = $loaninfo[0]['daily'] * $loaninfo[0]['term'];
-            $totalbalance = ($grossamt + $total_penalty) - $totalpayasdate;
+            $totalbalance = $totalbalance - $payAmountThisDate;
 
-//            if ($totalbalance == 0) {
-//                $delamt = 0;
-//            }
-            
             // put values to array
             $payments[] = ['paydate' => $test_date->format('Y-m-d'), 'payamount' => $payAmountThisDate, 'delamt' => $delamt, 'penalty' => $total_penalty, 'balance' => $totalbalance, 'sunday' => $sunday, 'jump' => $jump];
 
@@ -861,14 +862,12 @@ class SiteController extends Controller {
             $test_date = $test_date->modify('+1 day');
             $jump = false;
             $sunday = false;
-        }
+        } // END OF WHILE LOOP
 
-        $gross_amt = $loaninfo[0]['daily'] * $loaninfo[0]['term'];
-        $total_balance = ($gross_amt + $total_penalty) - $totalpayasdate;
 
         if (($loaninfo[0]['status'] == 'PO') || ($loaninfo[0]['status'] == 'WA')) {
             $delamt = 0;
-            $total_balance = 0;
+            $totalbalance = 0;
             $total_penalty = 0;
         }
 
@@ -884,7 +883,7 @@ class SiteController extends Controller {
             $last_pay_date = "";
         }
 
-        $calculations = array($total_penalty, $delamt, $total_balance, $total_amount_paid, $last_pay_date);
+        $calculations = array($total_penalty, $delamt, $totalbalance, $total_amount_paid, $last_pay_date);
         // end of calculation // =================================================================
         // return values as json 
         return Json::encode(array($loaninfo, $canvasser, $business, $calculations, $payments));
@@ -911,6 +910,32 @@ class SiteController extends Controller {
             }
         }
         echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    // ajax action to submit remitted amount
+    public function actionAjaxcall($loanid, $amtrem, $collectiondate) {
+
+        // check if payment already in the database
+        $payment = \app\models\Payment::findOne(['loan_id' => $loanid, 'pay_date' => $collectiondate]);
+
+        // if already in the database 
+        // do update
+        if ($payment != null) {
+            $payment->pay_amount = $amtrem;
+            $payment->pay_date = $collectiondate;
+            $payment->loan_id = $loanid;
+            $payment->money_id = 1; //  temporay only
+            $payment->save();
+        } else {
+            // else 
+            // do insert  
+            $payment = new \app\models\Payment;
+            $payment->pay_amount = $amtrem;
+            $payment->pay_date = $collectiondate;
+            $payment->loan_id = $loanid;
+            $payment->money_id = 1; //  temporay only
+            $payment->save();
+        }
     }
 
     // for testing only actions here ================================================================================

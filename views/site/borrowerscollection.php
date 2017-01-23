@@ -174,7 +174,7 @@ $form = ActiveForm::begin();
                                         <td <?= ($calculations['penalty'] > 0) ? "style='color: red'" : ""; ?>><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::getLastPay($acac['loan_id'])) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
-                                        <td class="col-md-1"><input style="text-align: right" type="text" class="form-control" name="amt_remitted"></td>
+                                        <td class="col-md-1"><input style="text-align: right" onkeypress="return isNumber(event)" onchange="updatePayment(this, <?= $acac['loan_id'] ?>)" type="text" class="form-control" name="amt_remitted"></td>
                                     </tr>
                                     <?php
                                     $no++;
@@ -215,7 +215,7 @@ $form = ActiveForm::begin();
                                         <td <?= ($calculations['penalty'] > 0) ? "style='color: red'" : ""; ?>><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::getLastPay($acac['loan_id'])) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
-                                        <td class="col-md-1"><input style="text-align: right" type="text" class="form-control" name="amt_remitted"></td>
+                                        <td class="col-md-1"><input style="text-align: right" type="text" onkeypress="return isNumber(event)" onchange="updatePayment(this, <?= $acac['loan_id'] ?>)" class="form-control" name="amt_remitted"></td>
                                     </tr>
                                     <?php
                                     $no++;
@@ -231,7 +231,7 @@ $form = ActiveForm::begin();
                     <button type="submit" class="btn btn-primary btn-lg pull-right"><i class="fa fa-save"></i> Save</button>
                 </div>
             </div>
-<?php endif; ?>
+        <?php endif; ?>
     </div>   
 
 </div>
@@ -296,7 +296,7 @@ $form = ActiveForm::begin();
                         <div class="col-md-6">
                             <?php if (!$isNew): ?>
                                 <?= Html::a('<i class="fa fa-save"></i> Submit', Url::to(['site/borrowerscollection']), ['class' => 'btn btn-primary btn-block', 'onclick' => 'javascript:addURL(this);']) ?>
-<?php endif; ?>
+                            <?php endif; ?>
                         </div>
                         <div class="col-md-6">
                             <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
