@@ -107,42 +107,47 @@ class Loan extends BaseLoan {
             $total_penalty = 0;
             $pen_days = 0;
             $cash = 0;
+            $totalbalance = $gross_amt;
             while ($days_counter < $no_days) {
                 $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
                 if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
                     
                 } else {
+
                     if ($delamt >= 0) {
                         $delamt = $delamt + $paid_amt - $daily; // delqnt calculation 
                     } else {
                         $delamt = $paid_amt - ($daily - $delamt); // delqnt calculation
                     }
-                    if ($delamt >= 0) { // if there is advance, minus the penalty
-                        if (($total_penalty > 0) && ($delamt > 0)) {
-                            $delamt = $delamt - $total_penalty;
-                            if ($delamt < 0) {
-                                $total_penalty = $delamt * -1;
-                                $delamt = 0;
-                            }
+
+                    if ($delamt > 0) {
+                        $delamt = $delamt - $total_penalty;
+                        if ($delamt < 0) {
+                            $total_penalty = $delamt * -1;
+                            $delamt = 0;
+                        } else {
                             $total_penalty = 0;
                         }
                     } else {
+                        // add penalty if delqnt amt is equal to 3 or greater
                         $pen_days = abs(($delamt * -1) / $daily);
                         if ($pen_days >= $penalty_days) {
                             $total_penalty = $total_penalty + $penalty_amt;
+                            $totalbalance = $totalbalance + $penalty_amt;
                         }
                     }
                 }
                 $days_counter++;
                 $test_date = $test_date->modify('+1 day');
-            }
-            $payments = self::getTotalPayments($loan_id);
-            $total_balance = ($gross_amt + $total_penalty) - $payments;
+            } // END OF WHILE LOOP
             
+            $payments = self::getTotalPayments($loan_id);
+            $totalbalance = $totalbalance - $payments;
+
             return [
                 'delinquent_advance' => $delamt,
                 'penalty' => $total_penalty,
-                'balance' => $total_balance,
+                'balance' => $totalbalance,
             ];
         } else {
             throw new \yii\base\InvalidParamException;

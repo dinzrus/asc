@@ -93,9 +93,8 @@ class Canvasser extends \yii\db\ActiveRecord
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'created_at',
-                'updatedByAttribute' => 'updated_at',
-                'value' => new Expression('NOW()'),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
             ],
         ];
     }

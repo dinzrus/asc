@@ -174,7 +174,7 @@ $form = ActiveForm::begin();
                                         <td <?= ($calculations['penalty'] > 0) ? "style='color: red'" : ""; ?>><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::getLastPay($acac['loan_id'])) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
-                                        <td class="col-md-1"><input style="text-align: right" onkeypress="return isNumber(event)" onchange="updatePayment(this, <?= $acac['loan_id'] ?>)" type="text" class="form-control" name="amt_remitted"></td>
+                                        <td class="col-md-1"><input style="text-align: right" onkeypress="return isNumber(event)" onchange="updatePayment(this, <?= $acac['loan_id'] ?>)" value="<?= $acac['pay_amount'] ?>" type="text" class="form-control" name="amt_remitted"></td>
                                     </tr>
                                     <?php
                                     $no++;
@@ -215,7 +215,7 @@ $form = ActiveForm::begin();
                                         <td <?= ($calculations['penalty'] > 0) ? "style='color: red'" : ""; ?>><?= Yii::$app->formatter->asCurrency($calculations['penalty']) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency(\app\models\Loan::getLastPay($acac['loan_id'])) ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency($acac['daily']) ?></td>
-                                        <td class="col-md-1"><input style="text-align: right" type="text" onkeypress="return isNumber(event)" onchange="updatePayment(this, <?= $acac['loan_id'] ?>)" class="form-control" name="amt_remitted"></td>
+                                        <td class="col-md-1"><input style="text-align: right" type="text" onkeypress="return isNumber(event)" onchange="updatePayment(this, <?= $acac['loan_id'] ?>)"  value="<?= $acac['pay_amount'] ?>" class="form-control" name="amt_remitted"></td>
                                     </tr>
                                     <?php
                                     $no++;

@@ -88,9 +88,8 @@ class Branch extends \yii\db\ActiveRecord
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'created_up',
-                'updatedByAttribute' => 'updated_at',
-                'value' => new \yii\db\Expression('Now()'),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
             ],
             'uuid' => [
                 'class' => UUIDBehavior::className(),

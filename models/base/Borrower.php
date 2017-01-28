@@ -120,9 +120,9 @@ class Borrower extends \yii\db\ActiveRecord {
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'created_at',
-                'updatedByAttribute' => 'updated_at',
-                'value' => new \yii\db\Expression('Now()'),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+                'value' => Yii::$app->user->identity->id,
             ],
         ];
     }

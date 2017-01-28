@@ -97,15 +97,18 @@ class SiteController extends Controller {
                         "loan.maturity_date,\n" .
                         "loan.daily,\n" .
                         "loan.status,\n" .
-                        "loan.term\n" .
+                        "loan.term,\n" .
+                        "(SELECT pay_amount FROM payment WHERE loan_id = loan.id AND pay_date = :colldate) as pay_amount\n" .
                         "FROM\n" .
                         "borrower\n" .
                         "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                        "LEFT JOIN payment ON loan.id = payment.loan_id\n" .
                         "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                         "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
                         "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                        "WHERE (loan.status = 'A' OR loan.status = 'PD') AND unit.unit_id = :unit\n"
-                        . "ORDER BY borrower.last_name ASC")->bindValue(':unit', $unit_id)->queryAll();
+                        "WHERE (loan.status = :active OR loan.status = :pastdue) AND unit.unit_id = :unit\n" .
+                        "GROUP BY loan.id\n" .
+                        "ORDER BY borrower.last_name ASC")->bindValues([':unit' => $unit_id, ':active' => Loan::APPROVED, ':pastdue' => Loan::PASTDUE, ':colldate' => $collection_date])->queryAll();
 
         //check if money exist
         $money_exist = \app\models\Money::findOne(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id]);
@@ -135,21 +138,6 @@ class SiteController extends Controller {
             }
         } else {
             $money = new \app\models\Money;
-
-            $money->money_1000 = 0;
-            $money->money_500 = 0;
-            $money->money_200 = 0;
-            $money->money_100 = 0;
-            $money->money_50 = 0;
-            $money->money_20 = 0;
-            $money->total_1000 = 0;
-            $money->total_500 = 0;
-            $money->total_200 = 0;
-            $money->total_100 = 0;
-            $money->total_50 = 0;
-            $money->total_20 = 0;
-            $money->money_total_amount = 0;
-            $money->money_coin = 0;
 
             if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
                 if ($money->save()) {
