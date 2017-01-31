@@ -101,11 +101,13 @@ $this->registerJs($search);
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel"></h4>
                 </div>
-                <div class="modal-body">    
+                <div class="modal-body">   
                     <div class="row">
-                        <div class="well well-sm" id="activedetected">
-                            <h3 class="alert alert-warning">Active account detected!</h3>
+                        <div class="col-md-12" id="activedetected">
+                            <h3 style="text-align: center;" class="alert alert-warning">Active account detected!</h3>
                         </div>
+                    </div>  
+                    <div class="row">
                         <div id="loanoptions">
                             <div class="col-md-4">
                                 <?= Html::hiddenInput('id', null, ['class' => 'clnts_id']) ?>

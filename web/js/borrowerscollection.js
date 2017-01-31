@@ -53,8 +53,13 @@ function addURL(element, loanid)
 
 // this function will call ajax request to update the payment remitted by the borrower
 function updatePayment(inputojt, loanid) {
-   var collectiondate = $('#money-collection_date').val();
-   $.post('index.php?r=site/ajaxcall&loanid=' + loanid + '&amtrem=' + inputojt.value + '&collectiondate=' + collectiondate, function (data) {
-        
-   });
+    var collectiondate = $('#money-collection_date').val();
+    $.post('index.php?r=site/ajaxcall&loanid=' + loanid + '&amtrem=' + inputojt.value + '&collectiondate=' + collectiondate, function (data) {
+
+    });
+}
+
+function submit() {
+    alert("Check balance!");
+    return false;
 }

@@ -47,8 +47,8 @@ $form = ActiveForm::begin();
 ?>
 <div class="box box-primary">
     <div class="box-header">
-        <a href="#myModal" class="btn btn-success btn-lg" data-toggle="modal"><i class="fa fa-bookmark"></i> Select Unit</a>
-        <a href="<?= Url::to(['site/borrowerscollection']) ?>" class="btn btn-primary btn-lg" onclick="return confirm('New Collection?  ')"><i class="fa fa-bookmark"></i> New</a>
+        <a href="#myModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-bookmark"></i> Select Unit</a>
+        <a href="<?= Url::to(['site/borrowerscollection']) ?>" class="btn btn-primary" onclick="return confirm('New Collection?  ')"><i class="fa fa-bookmark"></i> New</a>
     </div>
     <div class="box-body">
         <div class="row">
@@ -228,7 +228,7 @@ $form = ActiveForm::begin();
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary btn-lg pull-right"><i class="fa fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-primary btn-lg pull-right" onsubmit="return submit();"><i class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         <?php endif; ?>

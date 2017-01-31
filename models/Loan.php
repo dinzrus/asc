@@ -103,7 +103,8 @@ class Loan extends BaseLoan {
             //initialized 
             $delamt = 0;
             $paid_amt = 0;
-
+            
+            $totalpayasdate = 0;
             $total_penalty = 0;
             $pen_days = 0;
             $cash = 0;
@@ -137,13 +138,18 @@ class Loan extends BaseLoan {
                         }
                     }
                 }
+
+                // get the amount paid to date
+                $payAmountThisDate = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
+                if ($payAmountThisDate == false) {
+                    $payAmountThisDate = 0; // set payment to zero if no payment
+                }
+                $totalpayasdate = $totalpayasdate + $payAmountThisDate; // get total amount paid from releasing up to present date
+                $totalbalance = $totalbalance - $payAmountThisDate;
+
                 $days_counter++;
                 $test_date = $test_date->modify('+1 day');
-            } // END OF WHILE LOOP
-            
-            $payments = self::getTotalPayments($loan_id);
-            $totalbalance = $totalbalance - $payments;
-
+            } // end of the loop
             return [
                 'delinquent_advance' => $delamt,
                 'penalty' => $total_penalty,
@@ -159,7 +165,7 @@ class Loan extends BaseLoan {
         if (count($payment_count) == 1) {
             return $payment_count->pay_amount;
         }
-        return 0;
+        return false;
     }
 
     public static function getTotalPayments($loan_id) {

@@ -465,7 +465,7 @@ class SiteController extends Controller {
 
                 // calculate age 
                 $comaker->age = \app\models\Comaker::calculateAge($comaker->birthdate);
-                // todo: set release and maturity date 
+                // set release and maturity date 
                 $loan->release_date = date('Y-m-d'); // get the date of the day
                 $loan->maturity_date = \app\models\Loan::getMaturityDate($loan->release_date, $loan->term);
 
@@ -771,8 +771,6 @@ class SiteController extends Controller {
                         "FROM\n" .
                         "payment\n" .
                         "WHERE loan_id = :id")->bindValue(':id', $loanid)->queryScalar();
-
-
         //initialized 
         $delamt = 0;
         $paid_amt = 0;
@@ -788,6 +786,7 @@ class SiteController extends Controller {
         // get the beggining balance
         $totalbalance = $loaninfo[0]['daily'] * $loaninfo[0]['term'];
 
+        // looping to do calculations
         while ($days_counter < $no_days) {
             $paid_amt = \app\models\Loan::getPaidAmount($loanid, $test_date->format('Y-m-d'));
             if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
@@ -800,13 +799,11 @@ class SiteController extends Controller {
                     $jump = true;
                 }
             } else {
-
                 if ($delamt >= 0) {
                     $delamt = $delamt + $paid_amt - $loaninfo[0]['daily']; // delqnt calculation 
                 } else {
                     $delamt = $paid_amt - ($loaninfo[0]['daily'] - $delamt); // delqnt calculation
                 }
-
                 if ($delamt > 0) {
                     $delamt = $delamt - $total_penalty;
                     if ($delamt < 0) {
@@ -824,11 +821,9 @@ class SiteController extends Controller {
                     }
                 }
             }
-
             if ($total_penalty == 0 && $totalbalance == 0) {
                 $delamt = 0;
             }
-
             // get the amount paid to date
             $payAmountThisDate = Yii::$app->db->createCommand("SELECT IFNULL(pay_amount, 0) as pay_amount\n" .
                             "FROM\n" .
@@ -837,20 +832,16 @@ class SiteController extends Controller {
             if ($payAmountThisDate == false) {
                 $payAmountThisDate = 0; // set payment to zero if no payment
             }
-
             $totalpayasdate = $totalpayasdate + $payAmountThisDate; // get total amount paid from releasing up to present date
-
             $totalbalance = $totalbalance - $payAmountThisDate;
-
             // put values to array
             $payments[] = ['paydate' => $test_date->format('Y-m-d'), 'payamount' => $payAmountThisDate, 'delamt' => $delamt, 'penalty' => $total_penalty, 'balance' => $totalbalance, 'sunday' => $sunday, 'jump' => $jump];
-
             // increment counters and date
             $days_counter++;
             $test_date = $test_date->modify('+1 day');
             $jump = false;
             $sunday = false;
-        } // END OF WHILE LOOP
+        } // end of the looping
 
 
         if (($loaninfo[0]['status'] == 'PO') || ($loaninfo[0]['status'] == 'WA')) {
@@ -1065,6 +1056,10 @@ class SiteController extends Controller {
         $rel_date = date_create('2016-12-17');
 
         echo $rel_date->diff($date)->format('%a');
+    }
+    
+    public function actionTestsumpayment($id){
+        echo \app\models\loan::getTotalPayments($id);
     }
 
 }
