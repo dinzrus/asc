@@ -163,7 +163,7 @@ $form = ActiveForm::begin();
                                     ?>
                                     <tr>
                                         <?php
-                                        $calculations = \app\models\Loan::loanCalculation(date('Y-m-d', strtotime($acac['release_date'])), $acac['gross_amount'], $acac['daily'], $acac['loan_id'], $acac['penalty_days'], $acac['penalty']);
+                                        $calculations = \app\models\Loan::loanCalculation(date('Y-m-d', strtotime($acac['release_date'])), $acac['gross_amount'], $acac['daily'], $acac['loan_id'], $acac['penalty_days'], $acac['penalty'], $money->collection_date, $acac['term']);
                                         ?>
                                         <td><?= $no ?></td>
                                         <td><?= $acac['loan_no'] ?></td>
@@ -228,7 +228,7 @@ $form = ActiveForm::begin();
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary btn-lg pull-right" onsubmit="return submit();"><i class="fa fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-primary pull-right" onsubmit="return submit();"><i class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         <?php endif; ?>
@@ -310,7 +310,6 @@ $form = ActiveForm::begin();
 <?php
 $form = ActiveForm::end();
 ?>
-
 <?php $this->registerJsFile("@web/js/borrowerscollection.js", ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
 
 

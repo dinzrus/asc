@@ -93,6 +93,7 @@ $this->registerJs($search);
                 <br>
                 <table class="table table-bordered">
                     <tr>
+                        <td></td>
                         <td><strong>#</strong></td>
                         <td><strong>TYPE</strong></td>
                         <td><strong>UNIT</strong></td>
@@ -110,6 +111,7 @@ $this->registerJs($search);
                         foreach ($loans as $loan) :
                             ?>
                             <tr>
+                                <td><?= Html::checkbox('selected', false) ?></td>
                                 <td><?= $counter ?></td>
                                 <td><?= $loan->loanType->loan_description ?></td>
                                 <td><?= $loan->unit0->unit_description ?></td>

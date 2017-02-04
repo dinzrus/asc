@@ -15,6 +15,7 @@ use app\models\Log;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
 use yii\helpers\Json;
+use yii\data\ArrayDataProvider;
 
 class SiteController extends Controller {
 
@@ -340,6 +341,7 @@ class SiteController extends Controller {
                         "WHERE\n" .
                         "borrower.`status` = 'C' AND borrower.branch_id = :branch_id"
                 )->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
+       
         return $this->render('cicanvassapproval', [
                     'list' => $list,
         ]);
@@ -349,14 +351,10 @@ class SiteController extends Controller {
         $borrowersearch = new BorrowerSfrSearch();
         $borrower = $borrowersearch->search(Yii::$app->request->queryParams);
 
-        $borrowers = $borrower->getModels();
-
-        $loantype = \app\models\LoanType::find()->all();
-
         return $this->render('scheduleforreleasing', [
-                    'borrowers' => $borrowers,
+                    'borrowers' => $borrower->getModels(),
                     'borrowersearch' => $borrowersearch,
-                    'loantype' => $loantype,
+                    'loantype' => \app\models\LoanType::find()->all(),
         ]);
     }
 
@@ -462,6 +460,7 @@ class SiteController extends Controller {
                 $loan->borrower = $borrower->id;
                 $loan->unit = $unt->unit_id;
                 $loan->penalty = $loanscheme->penalty;
+                $loan->penalty_days = $loanscheme->pen_days;
 
                 // calculate age 
                 $comaker->age = \app\models\Comaker::calculateAge($comaker->birthdate);
@@ -1057,8 +1056,8 @@ class SiteController extends Controller {
 
         echo $rel_date->diff($date)->format('%a');
     }
-    
-    public function actionTestsumpayment($id){
+
+    public function actionTestsumpayment($id) {
         echo \app\models\loan::getTotalPayments($id);
     }
 

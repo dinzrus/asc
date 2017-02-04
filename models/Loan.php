@@ -80,7 +80,7 @@ class Loan extends BaseLoan {
         return str_pad($borrower_id, 3, '0', STR_PAD_LEFT) . '-' . date('mdY') . rand(pow(10, $digits - 1), pow(10, $digits) - 1) . '-' . $loan->unit0->unit_description;
     }
 
-    public static function loanCalculation($release_date, $gross_amt, $daily, $loan_id, $penalty_days, $penalty_amt) {
+    public static function loanCalculation($release_date, $gross_amt, $daily, $loan_id, $penalty_days, $penalty_amt, $collection_date, $term) {
 
         $jumpdates = Yii::$app->db->createCommand("SELECT jump_date FROM jumpdate")->queryAll();
         $jumps = [];
@@ -90,25 +90,24 @@ class Loan extends BaseLoan {
         }
 
         if ($release_date != '' && $daily != '' && $loan_id != '') {
-            $days_counter = 0;
-            $date_now = date('Y-m-d');
 
             // get the numbers of days from date realesing until the current date
             $rel_date = date_create($release_date);
-            $current_date = date_create(date('Y-m-d'));
+            $current_date = date_create($collection_date);
             $days = $current_date->diff($rel_date)->format("%a");
             $no_days = $days - 1; // minus 1 day so that current date will not be included in checking
 
             $test_date = $rel_date->modify('+1 day');
             //initialized 
+            $date_now = date('Y-m-d');
+            $days_counter = 0;
             $delamt = 0;
             $paid_amt = 0;
-            
             $totalpayasdate = 0;
             $total_penalty = 0;
             $pen_days = 0;
             $cash = 0;
-            $totalbalance = $gross_amt;
+            $totalbalance = $daily * $term;
             while ($days_counter < $no_days) {
                 $paid_amt = self::getPaidAmount($loan_id, $test_date->format('Y-m-d'));
                 if (($test_date->format('N') == 7) || in_array($test_date->format('Y-m-d'), $jumps)) {
@@ -130,13 +129,16 @@ class Loan extends BaseLoan {
                             $total_penalty = 0;
                         }
                     } else {
-                        // add penalty if delqnt amt is equal to 3 or greater
+                        // add penalty if delqnt amt is equal to penalty days
                         $pen_days = abs(($delamt * -1) / $daily);
                         if ($pen_days >= $penalty_days) {
                             $total_penalty = $total_penalty + $penalty_amt;
                             $totalbalance = $totalbalance + $penalty_amt;
                         }
                     }
+                }
+                if ($total_penalty == 0 && $totalbalance == 0) {
+                    $delamt = 0;
                 }
 
                 // get the amount paid to date

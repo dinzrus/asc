@@ -77,7 +77,7 @@ class LoanschemeassignmentController extends Controller
         $model = new LoanschemeAssignment();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,

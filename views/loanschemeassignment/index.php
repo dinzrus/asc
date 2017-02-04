@@ -17,8 +17,6 @@ $search = "$('.search-button').click(function(){
 $this->registerJs($search);
 ?>
 <div class="loanscheme-assignment-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -36,7 +34,7 @@ $this->registerJs($search);
                 'attribute' => 'loanscheme_id',
                 'label' => 'Loanscheme',
                 'value' => function($model){
-                    return $model->loanscheme->id;
+                    return $model->loanscheme->loanscheme_name;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
                 'filter' => \yii\helpers\ArrayHelper::map(\app\models\Loanscheme::find()->asArray()->all(), 'id', 'id'),
@@ -49,7 +47,7 @@ $this->registerJs($search);
                 'attribute' => 'branch_id',
                 'label' => 'Branch',
                 'value' => function($model){
-                    return $model->branch->branch_id;
+                    return $model->branch->branch_description;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
                 'filter' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->asArray()->all(), 'branch_id', 'branch_id'),
