@@ -37,7 +37,7 @@ $this->registerJs($search);
                     return $model->loanscheme->loanscheme_name;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Loanscheme::find()->asArray()->all(), 'id', 'id'),
+                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Loanscheme::find()->asArray()->all(), 'id', 'loanscheme_name'),
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
@@ -50,7 +50,7 @@ $this->registerJs($search);
                     return $model->branch->branch_description;
                 },
                 'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->asArray()->all(), 'branch_id', 'branch_id'),
+                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Branch::find()->asArray()->all(), 'branch_id', 'branch_description'),
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],

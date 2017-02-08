@@ -54,7 +54,7 @@ class Borrower extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['branch_id','canvass_by', 'gender', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no'], 'required'],
+            [['branch_id','first_name', 'last_name', 'middle_name', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status'], 'required'],
             [['father_birthdate', 'mother_birthdate', 'birthdate', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['canvass_by', 'age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id', 'mother_age', 'father_age'], 'integer'],
             [['attachment'], 'string'],

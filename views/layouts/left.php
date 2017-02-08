@@ -42,6 +42,7 @@
                                         ['label' => 'Upload Loanscheme', 'icon' => 'fa  fa-caret-right', 'url' => ['/loanscheme/uploadexcel'],],
                                         ['label' => 'Manage Loanscheme', 'icon' => 'fa  fa-caret-right', 'url' => ['/loanscheme'],],
                                         ['label' => 'Loanscheme Data', 'icon' => 'fa  fa-caret-right', 'url' => ['/loanschemevalues'],],
+                                        ['label' => 'Loanscheme Assignment', 'icon' => 'fa  fa-caret-right', 'url' => ['/loanschemeassignment'],],
                                     ],
                                 ],
                                 ['label' => 'User', 'icon' => 'fa  fa-caret-right', 'url' => ['/user'], 'visible' => Yii::$app->user->can('IT')],
@@ -74,6 +75,7 @@
                             'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => '#',
                             'items' => [
+                                ['label' => 'Canvassing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/canvassing'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'C.I. Canvass Approval', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Hold for Scheduling', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/holdforsfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Schedule for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/sfr'], "visible" => Yii::$app->user->can('ORGANIZER')],

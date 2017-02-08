@@ -341,10 +341,40 @@ class SiteController extends Controller {
                         "WHERE\n" .
                         "borrower.`status` = 'C' AND borrower.branch_id = :branch_id"
                 )->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
-       
+
         return $this->render('cicanvassapproval', [
                     'list' => $list,
         ]);
+    }
+
+    public function actionCanvass() {
+        $borrower = new Borrower();
+        //get canvasser
+        if (Yii::$app->user->identity->branch->branch_description === 'MAIN') {
+            $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+                            "employee.id,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                            "position.position\n" .
+                            "FROM\n" .
+                            "employee\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                            "INNER JOIN position ON emposition.position_id = position.id\n" .
+                            "WHERE\n" .
+                            "emposition.branch_id = :branch_id AND\n" .
+                            "position.position = 'canvasser'")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
+        } else {
+            $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+                            "employee.id,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                            "position.position\n" .
+                            "FROM\n" .
+                            "employee\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                            "INNER JOIN position ON emposition.position_id = position.id\n" .
+                            "WHERE\n" .
+                            "position.position = 'canvasser'")->queryAll();
+        }
+        return $this->render('canvass', ['borrower' => $borrower, 'canvassers' => $canvassers]);
     }
 
     public function actionSfr() {

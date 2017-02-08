@@ -26,7 +26,7 @@ class Borrower extends BaseBorrower {
      */
     public function rules() {
         return array_replace_recursive(parent::rules(), [
-            [['branch_id' ,'canvass_by', 'gender', 'no_dependent', 'first_name', 'last_name', 'middle_name', 'birthdate', 'age', 'birthplace', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'canvass_date'], 'required'],
+            [['branch_id' , 'gender','first_name', 'last_name', 'middle_name', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'canvass_date'], 'required'],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
             [['father_birthdate', 'mother_birthdate','birthdate','canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['canvass_by', 'age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id', 'mother_age', 'father_age'], 'integer'],
