@@ -15,7 +15,7 @@ use app\models\Log;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
 use yii\helpers\Json;
-use yii\data\ArrayDataProvider;
+use yii\data\SqlDataProvider;
 
 class SiteController extends Controller {
 
@@ -377,6 +377,19 @@ class SiteController extends Controller {
         return $this->render('canvass', ['borrower' => $borrower, 'canvassers' => $canvassers]);
     }
 
+    public function actionNewapplicant() {
+        $count = Yii::$app->db->createCommand('SELECT COUNT(*) FROM borrower WHERE status=:status', [':status' => 'C'])->queryScalar();
+        $newborrowers = new SqlDataProvider([
+            'sql' => "select * FROM borrower WHERE status = :status",
+            'params' => [':status' => 'C'],
+            'totalCount' => $count,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('newborrowers', ['newborrowers' => $newborrowers]);
+    }
+
     public function actionSfr() {
         $borrowersearch = new BorrowerSfrSearch();
         $borrower = $borrowersearch->search(Yii::$app->request->queryParams);
@@ -595,10 +608,10 @@ class SiteController extends Controller {
         $borrowersearch = new BorrowerSfrSearch();
         $borrower = $borrowersearch->search(Yii::$app->request->queryParams);
 
-        $borrowers = $borrower->getModels();
+        //$borrowers = $borrower->getModels();
 
         return $this->render('accountledger', [
-                    'borrowers' => $borrowers,
+                    'borrowers' => $borrower,
                     'borrowersearch' => $borrowersearch,
         ]);
     }

@@ -21,7 +21,7 @@
                         [
                             'label' => 'ADMIN',
                             'icon' => 'fa fa-tachometer',
-                            'visible' => !Yii::$app->user->isGuest,
+                            'visible' => Yii::$app->user->can('IT'),
                             'url' => '#',
                             'items' => [
                                 ['label' => 'Loan Type', 'icon' => 'fa  fa-caret-right', 'url' => ['/loantype'], 'visible' => Yii::$app->user->can('IT')],
@@ -66,7 +66,7 @@
                                         ['label' => 'User Assignment', 'icon' => 'fa  fa-caret-right', 'url' => ['/authassignment'],],
                                     ],
                                 ],
-                                ['label' => 'Borrowers Info.', 'icon' => 'fa  fa-caret-right', 'url' => ['/borrower'], 'visible' => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Borrowers Info.', 'icon' => 'fa  fa-caret-right', 'url' => ['/borrower'], 'visible' => Yii::$app->user->can('IT')],
                             ],
                         ],
                         [
@@ -75,8 +75,8 @@
                             'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => '#',
                             'items' => [
-                                ['label' => 'Canvassing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/canvassing'], "visible" => Yii::$app->user->can('ORGANIZER')],
-                                ['label' => 'C.I. Canvass Approval', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'New Applicants', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/newapplicant'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'C.I. Approval', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Hold for Scheduling', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/holdforsfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Schedule for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/sfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Approval for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/releasingapproval'], "visible" => Yii::$app->user->can('IT')],
