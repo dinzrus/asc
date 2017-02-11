@@ -14,6 +14,7 @@ class Borrower extends BaseBorrower {
     public $borrower_pic;
     public $attachfiles;
     
+    const RENEWAL = 'RN';
     const CANVASSED = 'C';
     const CI_DENIED = 'CD';
     const CI_APPROVED = 'CA';

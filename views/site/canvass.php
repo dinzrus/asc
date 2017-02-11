@@ -6,7 +6,10 @@ use kartik\widgets\DepDrop;
 use yii\helpers\Url;
 
 $this->title = 'New Borrower';
-$form = ActiveForm::begin();
+$form = ActiveForm::begin([
+    'action' => Url::to(['site/saveborrower']),
+    'id' => 'newcanvass'
+]);
 ?>
 <div class="row form-group">
     <div class="col-xs-12">
@@ -22,6 +25,7 @@ $form = ActiveForm::begin();
         </ul>
     </div>
 </div>
+<?= $form->errorSummary($borrower) ?>
 <div class="box box-primary setup-content" id="step-1">
     <div class="box-header">
         <h3 class="box-title">Borrowers Information</h3>

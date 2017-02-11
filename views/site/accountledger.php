@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?=
         GridView::widget([
             'dataProvider' => $borrowers,
+            'filterModel' => $borrowerSearch,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'last_name',

@@ -3,10 +3,7 @@
 /* @var $searchModel app\models\BorrowerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\LinkPager;
-use yii\web\View;
 use yii\widgets\Pjax;
 use kartik\widgets\Growl;
 

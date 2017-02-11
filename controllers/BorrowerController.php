@@ -6,10 +6,8 @@ use Yii;
 use app\models\Model;
 use app\models\Log;
 use app\models\Borrower;
-use app\models\Comaker;
 use app\models\Barangay;
 use app\models\Business;
-use app\models\BorrowerComaker;
 use app\models\Dependent;
 use app\models\BorrowerSearch;
 use yii\web\Controller;
@@ -37,7 +35,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
+                        'actions' => ['renewapplicant' ,'removerenewal', 'removenew', 'sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -80,6 +78,28 @@ class BorrowerController extends Controller {
         }
     }
 
+    public function actionRemovenew($id) {
+        $borrower = Borrower::findOne($id);
+        $borrower->delete();
+        Yii::$app->session->setFlash('borrower_new_delete', "Deleted Successfully!");
+        return $this->redirect(['site/newapplicants']);
+    }
+
+    public function actionRemoverenewal($id) {
+        Yii::$app->db->createCommand()->update('borrower', ['status' => 'AR'], 'id = :id')->bindValue(':id', $id)->execute();
+        Yii::$app->session->setFlash('borrower_renewal_remove', "Renewal Remove Successfully!");
+        return $this->redirect(['site/newapplicants']);
+    }
+
+    public function actionRenewapplicant() {
+        $borrowers = Yii::$app->request->post('borrowers');
+        foreach ($borrowers as $borrower) {
+            Yii::$app->db->createCommand()->update('borrower', ['status' => 'RN'], 'id = :id')->bindValue(':id', $borrower)->execute();
+        }
+        Yii::$app->session->setFlash('borrower_renewal_added', "Renewal Added Successfully!");
+        return $this->redirect(['site/newapplicants']);
+    }
+
     /**
      * Displays a single Borrower model.
      * @param integer $id
@@ -112,33 +132,33 @@ class BorrowerController extends Controller {
             $update = false;
             $dependent = new Dependent;
             $business = new Business();
-            
+
             //get canvasser
             if (Yii::$app->user->identity->branch->branch_description === 'MAIN') {
                 $canvassers = Yii::$app->db->createCommand("SELECT\n" .
-                            "employee.id,\n" .
-                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
-                            "position.position\n" .
-                            "FROM\n" .
-                            "employee\n" .
-                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
-                            "INNER JOIN position ON emposition.position_id = position.id\n" .
-                            "WHERE\n" .
-                            "emposition.branch_id = :branch_id AND\n" .
-                            "position.position = 'canvasser'")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
+                                "employee.id,\n" .
+                                "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                                "position.position\n" .
+                                "FROM\n" .
+                                "employee\n" .
+                                "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                                "INNER JOIN position ON emposition.position_id = position.id\n" .
+                                "WHERE\n" .
+                                "emposition.branch_id = :branch_id AND\n" .
+                                "position.position = 'canvasser'")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
             } else {
                 $canvassers = Yii::$app->db->createCommand("SELECT\n" .
-                            "employee.id,\n" .
-                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
-                            "position.position\n" .
-                            "FROM\n" .
-                            "employee\n" .
-                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
-                            "INNER JOIN position ON emposition.position_id = position.id\n" .
-                            "WHERE\n" .
-                            "position.position = 'canvasser'")->queryAll();
+                                "employee.id,\n" .
+                                "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                                "position.position\n" .
+                                "FROM\n" .
+                                "employee\n" .
+                                "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                                "INNER JOIN position ON emposition.position_id = position.id\n" .
+                                "WHERE\n" .
+                                "position.position = 'canvasser'")->queryAll();
             }
-            
+
 
             // use for ajax validation
             if (Yii::$app->request->isAjax && $borrower->load(Yii::$app->request->post())) {
@@ -251,33 +271,33 @@ class BorrowerController extends Controller {
     public function actionUpdate($id) {
 
         if (Yii::$app->user->can('IT')) {
-            
+
             //get canvasser
             if (Yii::$app->user->identity->branch->branch_description === 'MAIN') {
                 $canvassers = Yii::$app->db->createCommand("SELECT\n" .
-                            "employee.id,\n" .
-                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
-                            "position.position\n" .
-                            "FROM\n" .
-                            "employee\n" .
-                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
-                            "INNER JOIN position ON emposition.position_id = position.id\n" .
-                            "WHERE\n" .
-                            "emposition.branch_id = :branch_id AND\n" .
-                            "position.position = 'canvasser'")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
+                                "employee.id,\n" .
+                                "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                                "position.position\n" .
+                                "FROM\n" .
+                                "employee\n" .
+                                "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                                "INNER JOIN position ON emposition.position_id = position.id\n" .
+                                "WHERE\n" .
+                                "emposition.branch_id = :branch_id AND\n" .
+                                "position.position = 'canvasser'")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
             } else {
                 $canvassers = Yii::$app->db->createCommand("SELECT\n" .
-                            "employee.id,\n" .
-                            "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
-                            "position.position\n" .
-                            "FROM\n" .
-                            "employee\n" .
-                            "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
-                            "INNER JOIN position ON emposition.position_id = position.id\n" .
-                            "WHERE\n" .
-                            "position.position = 'canvasser'")->queryAll();
+                                "employee.id,\n" .
+                                "CONCAT(employee.last_name,', ',employee.first_name,' ',employee.middle_name) as fullname,\n" .
+                                "position.position\n" .
+                                "FROM\n" .
+                                "employee\n" .
+                                "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                                "INNER JOIN position ON emposition.position_id = position.id\n" .
+                                "WHERE\n" .
+                                "position.position = 'canvasser'")->queryAll();
             }
-            
+
             $update = true;
             if (Yii::$app->request->post('_asnew') == '1') {
                 $borrower = new Borrower();

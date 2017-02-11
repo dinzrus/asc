@@ -96,7 +96,9 @@ class BorrowerSfrSearch extends Borrower {
             'branch_id' => (strtoupper(Yii::$app->user->identity->branch->branch_description) === "MAIN") ? $this->branch_id : Yii::$app->user->identity->branch_id,
         ]);
 
-        $query->andFilterWhere(['like', 'last_name', $this->keyword]);
+        $query->andFilterWhere(['like', 'last_name', $this->last_name]);
+        $query->andFilterWhere(['like', 'first_name', $this->first_name]);
+        $query->andFilterWhere(['like', 'middle_name', $this->middle_name]);
 
         return $dataProvider;
     }

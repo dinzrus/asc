@@ -75,7 +75,7 @@
                             'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => '#',
                             'items' => [
-                                ['label' => 'New Applicants', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/newapplicant'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Loan Applicants', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/newapplicants'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'C.I. Approval', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Hold for Scheduling', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/holdforsfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Schedule for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/sfr'], "visible" => Yii::$app->user->can('ORGANIZER')],

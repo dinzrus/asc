@@ -1,8 +1,8 @@
 <?php
 /* @var $this yii\web\View */
 
-use yii\bootstrap\Modal;
-use yii\helpers\Url;
+use yii\grid\GridView;
+use yii\helpers\Html;
 
 $this->title = 'C.I. Canvass Approval';
 
@@ -10,40 +10,37 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box box-primary">
     <div class="box-body">
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Name</th>
-                    <th>Branch</th>
-                    <th>Canvasser</th>
-                    <th>Canvass Date</th>
-                    <th><a href="#" class="btn btn-social"><i class="fa fa-lg fa-thumbs-o-up "></i> Approve All</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $counter = 1;
-
-                if (count($list) > 0) :
-                    foreach ($list as $li):
-                        ?>
-                        <tr>
-                            <td><?= $counter ?></td>
-                            <td><?= $li['last_name'] . ', ' . $li['first_name'] . ' ' . $li['middle_name'] ?></td>
-                            <td><?= $li['branch_description'] ?></td>
-                            <td><?= $li['canvasser_lname'] . ', ' . $li['canvasser_fname'] . ' ' . $li['canvasser_middlename'] ?></td>
-                            <td><?= Yii::$app->formatter->asDate($li['canvass_date']) ?></td>
-                            <td><a href="<?= Url::to(['/borrower/view', 'id' => $li['id']]); ?>" class="btn btn-success"><i class="glyphicon glyphicon-eye-open"></i></a> | <a href="<?= Url::to(['borrower/approvedcicanvass', 'id' => $li['id']]); ?>" class="btn btn-primary" onclick="return confirm('Approved canvass?')"><i class="fa fa-thumbs-o-up "></i></a> | <a href="<?= Url::to(['borrower/deniedcicanvass', 'id' => $li['id']]); ?>" class="btn btn-danger" onclick="return confirm('Deny canvass?')"><i class="fa fa-thumbs-o-down "></i></a></td>
-                                    <?php $counter++; ?>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                        <tr>
-                            <td class="alert-info" colspan="6" style="text-align: center;">No data to display</td>
-                        </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+        <?=
+        GridView::widget([
+            'dataProvider' => $borrowerProvider,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'last_name',
+                'first_name',
+                'middle_name',
+                'canvass_date:date',
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{approve}',
+                    'controller' => 'borrower',
+                    'buttons' => [
+                        'approve' => function ($url, $model) {
+                            return Html::a(
+                                            '<span class="fa fa-thumbs-up"></span> Approve', $url, [
+                                        'title' => Yii::t('app', 'Approve'),
+                                        'class' => 'btn btn-primary btn-xs',]
+                            );
+                        },
+                        'urlCreator' => function ($action, $model, $key, $index) {
+                            if ($action === 'approve') {
+                                $url = 'approve?id=' . $model->id;
+                                return $url;
+                            }
+                        },
+                    ]
+                ]
+            ]
+        ])
+        ?>
     </div>
 </div>
