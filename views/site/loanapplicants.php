@@ -8,7 +8,9 @@ use kartik\widgets\Select2;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
-$this->title = 'LOAN APPLICANTS';
+$this->title = 'Loan Applicants';
+$this->params['breadcrumbs'][] = ['label' => 'Transactions'];
+$this->params['breadcrumbs'][] = $this->title;
 
 $newborrowers->pagination->pageParam = 'new-page';
 $newborrowers->sort->sortParam = 'new-sort';
@@ -17,21 +19,21 @@ $renewalborrowers->pagination->pageParam = 'renewal-page';
 $renewalborrowers->sort->sortParam = 'renewal-sort';
 ?>
 
-    <?php
-    $flash = null;
-    if (Yii::$app->session->getFlash('borrower_save')) {
-        $flash = Yii::$app->session->getFlash('borrower_save');
-    }
-    if (Yii::$app->session->getFlash('borrower_new_delete')) {
-        $flash = Yii::$app->session->getFlash('borrower_new_delete');
-    }
-    if (Yii::$app->session->getFlash('borrower_renewal_remove')) {
-        $flash = Yii::$app->session->getFlash('borrower_renewal_remove');
-    }
-    if (Yii::$app->session->getFlash('borrower_renewal_added')) {
-        $flash = Yii::$app->session->getFlash('borrower_renewal_added');
-    }
-    if($flash != null){
+<?php
+$flash = null;
+if (Yii::$app->session->getFlash('borrower_save')) {
+    $flash = Yii::$app->session->getFlash('borrower_save');
+}
+if (Yii::$app->session->getFlash('borrower_new_delete')) {
+    $flash = Yii::$app->session->getFlash('borrower_new_delete');
+}
+if (Yii::$app->session->getFlash('borrower_renewal_remove')) {
+    $flash = Yii::$app->session->getFlash('borrower_renewal_remove');
+}
+if (Yii::$app->session->getFlash('borrower_renewal_added')) {
+    $flash = Yii::$app->session->getFlash('borrower_renewal_added');
+}
+if ($flash != null) {
     echo Growl::widget([
         'type' => Growl::TYPE_SUCCESS,
         'title' => 'Well done!',
@@ -47,20 +49,20 @@ $renewalborrowers->sort->sortParam = 'renewal-sort';
             ]
         ]
     ]);
-    }
-    ?>
+}
+?>
 <?php Pjax::begin() ?>
 <div class="row">
     <div class="col-md-12">
-        <div class="box  box-solid">
+        <div class="box  box-primary">
             <div class="box-header">
-                <h3 class="box-title">New Borrowers</h3>
+                <h3 class="box-title"><i class="fa fa-user"></i> New Borrowers</h3>
                 <br><br>
                 <div class="row">
                     <div class="col-md-12">
                         <?=
                         Html::a('<span class="fa fa-plus"></span> Add New', Url::to(['site/canvass']), [
-                            'class' => 'btn btn-success' 
+                            'class' => 'btn btn-success'
                         ])
                         ?>
                     </div>  
@@ -91,9 +93,9 @@ $renewalborrowers->sort->sortParam = 'renewal-sort';
                 ?>
             </div>
         </div>
-        <div class="box  box-solid">
+        <div class="box  box-primary">
             <div class="box-header">
-                <h3 class="box-title">Renewal</h3>
+                <h3 class="box-title"><i class="fa fa-user"></i> Renewal Borrowers</h3>
                 <br><br>
                 <div class="row">
                     <div class="col-md-12">
@@ -160,7 +162,7 @@ $renewalborrowers->sort->sortParam = 'renewal-sort';
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
             </div>
-<?php ActiveForm::end() ?>
+            <?php ActiveForm::end() ?>
         </div>
     </div>
 </div>

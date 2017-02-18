@@ -1,3 +1,4 @@
+<?php use yii\helpers\Url ?>
 <aside class="main-sidebar">
     <section class="sidebar">
         <!-- search form -->
@@ -81,8 +82,13 @@
                                 ['label' => 'Schedule for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/sfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Approval for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/releasingapproval'], "visible" => Yii::$app->user->can('IT')],
                                 ['label' => 'Approved for Release', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/approvedrelease'], "visible" => Yii::$app->user->can('ORGANIZER')],
-                                ['label' => 'Borrowers Collection', 'icon' => 'fa  fa-caret-right', 'url' => ['site/borrowerscollection'], "visible" => Yii::$app->user->can('ORGANIZER')],
                             ],
+                        ],
+                        [
+                            'label' => 'BORROWERS COLLECTION',
+                            'icon' => 'fa fa-money',
+                            'visible' => Yii::$app->user->can('ORGANIZER'),
+                            'url' => Url::to(['/site/borrowerscollection']),
                         ],
                         [
                             'label' => 'INQUIRIES',
