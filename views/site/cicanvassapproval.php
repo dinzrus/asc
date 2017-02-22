@@ -30,10 +30,10 @@ $renewalborrowerProvider->sort->sortParam = 'renewal-sort';
                 'canvass_date:date',
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{approve}',
+                    'template' => '{ciapprovalnew}',
                     'controller' => 'borrower',
                     'buttons' => [
-                        'approve' => function ($url, $model) {
+                        'ciapprovalnew' => function ($url, $model) {
                             return Html::a(
                                             '<span class="fa fa-thumbs-up"></span> Approve', $url, [
                                         'title' => Yii::t('app', 'Approve'),
@@ -41,8 +41,8 @@ $renewalborrowerProvider->sort->sortParam = 'renewal-sort';
                             );
                         },
                         'urlCreator' => function ($action, $model, $key, $index) {
-                            if ($action === 'approve') {
-                                $url = 'approve?id=' . $model->id;
+                            if ($action === 'ciapprovalnew') {
+                                $url = 'ciapproval';
                                 return $url;
                             }
                         },

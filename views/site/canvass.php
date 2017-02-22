@@ -10,9 +10,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Transactions'];
 $this->params['breadcrumbs'][] = ['label' => 'Loan Applicants', 'url' => ['site/newapplicants']];
 $this->params['breadcrumbs'][] = $this->title;
 $form = ActiveForm::begin([
-    'action' => Url::to(['site/saveborrower']),
-    'id' => 'newcanvass'
-]);
+            'action' => Url::to(['site/saveborrower']),
+            'id' => 'newcanvass'
+        ]);
 ?>
 <div class="row form-group">
     <div class="col-xs-12">
@@ -93,8 +93,8 @@ $form = ActiveForm::begin([
                 ]);
                 ?>
             </div>
-            <div class="col-md-3">                <?= $form->field($borrower, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
-
+            <div class="col-md-3">                
+                <?= $form->field($borrower, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Address Street House No']) ?>
             </div>
         </div>  
         <div class="box-footer">

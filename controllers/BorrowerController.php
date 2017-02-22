@@ -35,7 +35,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['renewapplicant' ,'removerenewal', 'removenew', 'sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
+                        'actions' => ['ciapprovalnew', 'renewapplicant', 'removerenewal', 'removenew', 'sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -445,6 +445,17 @@ class BorrowerController extends Controller {
     public function actionApprovedcicanvass($id) {
         Yii::$app->db->createCommand()->update('borrower', ['status' => \app\models\Borrower::CI_APPROVED], "id = $id")->execute();
         return $this->redirect(['site/cicanvassapproval']);
+    }
+
+    public function actionCiapprovalnew($id) {
+        $borrower = Borrower::findOne($id);
+        $dependent = new Dependent();
+        $business = new Business();
+        return $this->render('ciapprovalnew', [
+                    'borrower' => $borrower,
+                    'dependent' => $dependent,
+                    'business' => $business,
+        ]);
     }
 
     public function actionDeniedcicanvass($id) {
