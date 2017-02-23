@@ -5,6 +5,7 @@ use kartik\widgets\DepDrop;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\widgets\FileInput;
+use kartik\widgets\Select2;
 
 $this->title = 'C.I. Approval New';
 
@@ -29,40 +30,42 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 </a></li> 
             <li class="disabled"><a href="#step-4">
                     <h4 class="list-group-item-heading">Step 4</h4>
-                    <p class="list-group-item-text">Loan Information</p>
+                    <p class="list-group-item-text">Loan Info. / Scheduling</p>
                 </a></li> 
         </ul>
     </div>
 </div>
+
+<!-- step-1 -->
 <div class="box box-primary setup-content" id="step-1">
     <div class="box-header">
     </div>
     <div class="box-body">
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-body">
                         <h4><i class="fa fa-info-circle"></i> Borrowers Additional Info.</h4>
                         <hr>
-                            <?=
-                            $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
-                                'pluginOptions' => [
-                                    'initialPreview' => [
-                                        empty($borrower->profile_pic) ? 'fileupload/default.jpg' : $borrower->profile_pic
-                                    ],
-                                    'initialPreviewAsData' => true,
-                                    'overwriteInitial' => true,
-                                    'showCaption' => false,
-                                    'showRemove' => false,
-                                    'showUpload' => false,
-                                    'browseClass' => 'btn btn-primary btn-block',
-                                    'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                    'browseLabel' => 'Select Photo',
-                                    'maxFileSize' => 500,
+                        <?=
+                        $form->field($borrower, 'borrower_pic')->widget(FileInput::classname(), [
+                            'pluginOptions' => [
+                                'initialPreview' => [
+                                    empty($borrower->profile_pic) ? 'fileupload/default.jpg' : $borrower->profile_pic
                                 ],
-                                'options' => ['accept' => 'image/*']
-                            ]);
-                            ?>
+                                'initialPreviewAsData' => true,
+                                'overwriteInitial' => true,
+                                'showCaption' => false,
+                                'showRemove' => false,
+                                'showUpload' => false,
+                                'browseClass' => 'btn btn-primary btn-block',
+                                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                                'browseLabel' => 'Select Photo',
+                                'maxFileSize' => 500,
+                            ],
+                            'options' => ['accept' => 'image/*']
+                        ]);
+                        ?>
                         <?=
                         $form->field($borrower, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
                             'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
@@ -80,7 +83,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                     </div>
                 </div>
 
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-body">
                         <h4><i class="fa fa-info-circle"></i> Dependents</h4>
                         <hr>
@@ -111,7 +114,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-body">
                         <h4><i class="fa fa-info-circle"></i> Spouse</h4>
                         <div class="row">
@@ -137,7 +140,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         <?= $form->field($borrower, 'spouse_occupation')->textInput() ?>
                     </div>
                 </div>
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-body">
                         <h4><i class="fa fa-info-circle"></i> Parents</h4>
                         <hr>
@@ -184,7 +187,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                     </div>
                 </div> 
 
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-body">
                         <h4><i class="fa fa-info-circle"></i> Borrowers Valid ID</h4>
                         <hr>
@@ -218,10 +221,13 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         </div>
     </div>
 </div>
+<!-- step-1 end -->
+
+<!-- step-2 -->
 <div class="box box-primary setup-content" id="step-2">
     <div class="box-header"></div>  
     <div class="box-body">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-body">
                 <h4><i class="fa fa-info-circle"></i> Business Information</h4>
                 <hr>
@@ -302,10 +308,13 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         </div>
     </div>
 </div>
+<!-- step-2 end -->
+
+<!-- step-3 -->
 <div class="box box-primary setup-content" id="step-3">
     <div class="box-header"></div>  
     <div class="box-body">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-body">
                 <?php
                 echo FileInput::widget([
@@ -329,8 +338,189 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 ?>
             </div>
         </div>
+        <div class="box-footer">
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <button id="activate-step-4" class="btn btn-primary btn-md"><i class="fa fa-arrow-circle-right"></i> Next</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<!-- step-3 end -->
+
+<!-- step-4 -->
+<div class="box box-primary setup-content" id="step-4">
+    <div class="box-header"></div>  
+    <div class="box-body">
+        <!-- Loan Information -->
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <h4><i class="fa fa-info-circle"></i> Loan Information</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Daily</label>
+                        <?=
+                        Select2::widget([
+                            'name' => 'Daily',
+                            'data' => yii\helpers\ArrayHelper::map($daily, 'id', 'daily'),
+                            'size' => Select2::MEDIUM,
+                            'options' => [
+                                'placeholder' => 'Select Daily',
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-3">
+                        
+                    </div>
+                </div>
+                <br>
+                <br>
+                <!-- show when daily is selected -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Loan Info.
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-condensed table-hover">
+                                    <tr>
+                                        <td><strong>ACCOUNT TYPE:</strong></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>NO. OF DAYS:</strong></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DATE OF RELEASED:</strong></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DATE OF MATURING:</strong></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Loan Breakdown
+                            </div>
+                            <div class="panel-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- comaker -->
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <h4><i class="fa fa-info-circle"></i> Loan Comaker</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'last_name') ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'first_name') ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'middle_name') ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'gender')->dropDownList([null => '-- SELECT --', 'M' => 'MALE', 'F' => 'FEMALE']) ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($comaker, 'civil_status')->dropDownList([null => '-- SELECT --', 'single' => 'SINGLE']) ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?=
+                        $form->field($comaker, 'birthdate')->widget(\kartik\datecontrol\DateControl::classname(), [
+                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                            'saveFormat' => 'php:Y-m-d',
+                            'ajaxConversion' => true,
+                            'options' => [
+                                'pluginOptions' => [
+                                    'placeholder' => 'Choose Birthdate',
+                                    'autoclose' => true,
+                                ],
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($comaker, 'birthplace') ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($comaker, 'contact_no') ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <?=
+                        $form->field($comaker, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
+                            'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
+                            'options' => ['placeholder' => 'Choose Province'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-3">
+                        <?=
+                        $form->field($comaker, 'address_city_municipality_id')->widget(DepDrop::classname(), [
+                            'options' => ['id' => Html::getInputId($comaker, 'address_city_municipality_id')],
+                            'type' => DepDrop::TYPE_SELECT2,
+                            'pluginOptions' => [
+                                'depends' => [Html::getInputId($comaker, 'address_province_id')],
+                                'placeholder' => 'Select city/municipality',
+                                'url' => Url::to(['/borrower/getmunicipalitycity'])
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-3">
+                        <?=
+                        $form->field($comaker, 'address_barangay_id')->widget(DepDrop::classname(), [
+                            //'options' => ['id' => 'address-barangay-id'],
+                            'type' => DepDrop::TYPE_SELECT2,
+                            'pluginOptions' => [
+                                'depends' => [Html::getInputId($comaker, 'address_city_municipality_id')],
+                                'placeholder' => 'Select barangay',
+                                'url' => Url::to(['/borrower/getbarangay'])
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-3">
+                        <?= $form->field($comaker, 'address_street_house_no')->textInput(['maxlength' => true, 'placeholder' => 'Street/House No./Building No.']) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <?= Html::submitButton('<i class="fa fa-save"></i>  Save', ['class' => 'btn btn-primary']) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- step-4 end -->
 
 <?php ActiveForm::end() ?>
 <?php $this->registerJsFile("@web/js/ciapprovalnew.js", ['depends' => [\yii\web\JqueryAsset::className()]]); ?>

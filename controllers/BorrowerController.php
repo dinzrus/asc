@@ -8,6 +8,7 @@ use app\models\Log;
 use app\models\Borrower;
 use app\models\Barangay;
 use app\models\Business;
+use app\models\Comaker;
 use app\models\Dependent;
 use app\models\BorrowerSearch;
 use yii\web\Controller;
@@ -448,13 +449,28 @@ class BorrowerController extends Controller {
     }
 
     public function actionCiapprovalnew($id) {
+
         $borrower = Borrower::findOne($id);
         $dependent = new Dependent();
         $business = new Business();
+        $comaker = new Comaker();
+
+        // get loanschemes
+        $daily = Yii::$app->db->createCommand("SELECT\n" .
+                        "loanscheme_values.id,\n" .
+                        "loanscheme_values.daily\n" .
+                        "FROM\n" .
+                        "loanscheme\n" .
+                        "INNER JOIN loanscheme_values ON loanscheme_values.loanscheme_id = loanscheme.id\n" .
+                        "INNER JOIN loanscheme_assignment ON loanscheme_assignment.loanscheme_id = loanscheme.id\n" .
+                        "GROUP BY loanscheme_values.id")->queryAll();
+
         return $this->render('ciapprovalnew', [
                     'borrower' => $borrower,
                     'dependent' => $dependent,
                     'business' => $business,
+                    'comaker' => $comaker,
+                    'daily' => $daily,
         ]);
     }
 
