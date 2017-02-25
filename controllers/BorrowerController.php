@@ -36,7 +36,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['ciapprovalnew', 'renewapplicant', 'removerenewal', 'removenew', 'sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
+                        'actions' => ['scheduleborrowernew', 'getloaninfo', 'ciapprovalnew', 'renewapplicant', 'removerenewal', 'removenew', 'sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -455,23 +455,64 @@ class BorrowerController extends Controller {
         $business = new Business();
         $comaker = new Comaker();
 
-        // get loanschemes
-        $daily = Yii::$app->db->createCommand("SELECT\n" .
-                        "loanscheme_values.id,\n" .
-                        "loanscheme_values.daily\n" .
-                        "FROM\n" .
-                        "loanscheme\n" .
-                        "INNER JOIN loanscheme_values ON loanscheme_values.loanscheme_id = loanscheme.id\n" .
-                        "INNER JOIN loanscheme_assignment ON loanscheme_assignment.loanscheme_id = loanscheme.id\n" .
-                        "GROUP BY loanscheme_values.id")->queryAll();
+        if (Yii::$app->request->post()) {
+            if ($borrower->load(Yii::$app->request->post()) && $dependent->loadAll(Yii::$app->request->post()) && $business->load(Yii::$app->request->post()) && $comaker->load(Yii::$app->request->post())) {
+                
+                if ($borrower->save()) {
+                    return $this->redirect(['site/cicanvassapproval']);
+                }
+            }
+        } else {
+            // get loanschemes
+            $daily = Yii::$app->db->createCommand("SELECT\n" .
+                            "loanscheme_values.id,\n" .
+                            "loanscheme_values.daily\n" .
+                            "FROM\n" .
+                            "loanscheme\n" .
+                            "INNER JOIN loanscheme_values ON loanscheme_values.loanscheme_id = loanscheme.id\n" .
+                            "INNER JOIN loanscheme_assignment ON loanscheme_assignment.loanscheme_id = loanscheme.id\n" .
+                            "GROUP BY loanscheme_values.id")->queryAll();
 
-        return $this->render('ciapprovalnew', [
-                    'borrower' => $borrower,
-                    'dependent' => $dependent,
-                    'business' => $business,
-                    'comaker' => $comaker,
-                    'daily' => $daily,
-        ]);
+            return $this->render('ciapprovalnew', [
+                        'borrower' => $borrower,
+                        'dependent' => $dependent,
+                        'business' => $business,
+                        'comaker' => $comaker,
+                        'daily' => $daily,
+            ]);
+        }
+    }
+
+    //ajax action - loan information
+    public function actionGetloaninfo($daily_id) {
+        $loan_info = Yii::$app->db->createCommand("SELECT\n" .
+                        "loanscheme_values.id,\n" .
+                        "loanscheme_values.loanscheme_id,\n" .
+                        "loanscheme_values.daily,\n" .
+                        "loanscheme_values.term,\n" .
+                        "loanscheme_values.gross_amt,\n" .
+                        "loanscheme_values.interest,\n" .
+                        "loanscheme_values.vat,\n" .
+                        "loanscheme_values.admin_fee,\n" .
+                        "loanscheme_values.notary_fee,\n" .
+                        "loanscheme_values.misc,\n" .
+                        "loanscheme_values.doc_stamp,\n" .
+                        "loanscheme_values.gas,\n" .
+                        "loanscheme_values.total_deductions,\n" .
+                        "loanscheme_values.add_days,\n" .
+                        "loanscheme_values.add_coll,\n" .
+                        "loanscheme_values.net_proceeds,\n" .
+                        "loanscheme_values.penalty,\n" .
+                        "loanscheme_values.pen_days\n" .
+                        "FROM\n" .
+                        "loanscheme_values\n" .
+                        "INNER JOIN loanscheme ON loanscheme_values.loanscheme_id = loanscheme.id\n" .
+                        "INNER JOIN loanscheme_assignment ON loanscheme_assignment.loanscheme_id = loanscheme.id\n" .
+                        "WHERE loanscheme_values.id = :id\n" .
+                        "GROUP BY loanscheme_values.id")->bindValue(':id', $daily_id)->queryAll();
+
+        echo Json::encode($loan_info);
+        return;
     }
 
     public function actionDeniedcicanvass($id) {

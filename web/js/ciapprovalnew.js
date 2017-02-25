@@ -42,10 +42,28 @@ $(document).ready(function () {
         $(this).remove();
         $('#loan_info').yiiActiveForm('validate', true);
     })
-    
+
     $('#w1').change(function () {
         // get loan_info from database
-        
+        $.get('index.php?r=borrower/getloaninfo', {daily_id: $(this).val()}, function (data) {
+            var loaninfo = JSON.parse(data);
+
+            $('#gross_amt').html('<strong>' + (parseInt(loaninfo[0].gross_amt)).toFixed(2) + '</strong>');
+            $('#interest').text((parseInt(loaninfo[0].interest)).toFixed(2));
+            $('#processing_admin').text((parseInt(loaninfo[0].gas) + 325).toFixed(2));
+            $('#notary').text((parseInt(loaninfo[0].notary_fee)).toFixed(2));
+            $('#gas').text((parseInt(loaninfo[0].gas)).toFixed(2));
+            $('#docs').text((parseInt(loaninfo[0].doc_stamp)).toFixed(2));
+            $('#netproceeds').html('<strong>' + (parseInt(loaninfo[0].net_proceeds)).toFixed(2) + '</strong>');
+            $('#no_days').text(loaninfo[0].term);
+
+        });
+    });
+    
+    $('#borrower-birthplace').change(function () {
+        //your code here
+        //$('#w0').yiiActiveForm('updateAttribute', 'birthplace', ["I have an error..."]);
+        alert('Yes');
     });
 
 })

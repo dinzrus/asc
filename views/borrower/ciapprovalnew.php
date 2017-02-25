@@ -373,35 +373,48 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         ?>
                     </div>
                     <div class="col-md-3">
-                        
+                        <label>Unit</label>
+                        <?=
+                        Select2::widget([
+                            'name' => 'Daily',
+                            'data' => yii\helpers\ArrayHelper::map($daily, 'id', 'daily'),
+                            'size' => Select2::MEDIUM,
+                            'options' => [
+                                'placeholder' => 'Select Unit',
+                            ],
+                        ]);
+                        ?>
                     </div>
                 </div>
                 <br>
                 <br>
                 <!-- show when daily is selected -->
+                <style>
+                    .align-right { text-align: right }
+                </style>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Loan Info.
+                                <strong>LOAN INFORMATION</strong>
                             </div>
                             <div class="panel-body">
                                 <table class="table table-condensed table-hover">
                                     <tr>
                                         <td><strong>ACCOUNT TYPE:</strong></td>
-                                        <td></td>
+                                        <td class="align-right">N - CELP</td>
                                     </tr>
                                     <tr>
                                         <td><strong>NO. OF DAYS:</strong></td>
-                                        <td></td>
+                                        <td class="align-right" id="no_days">0</td>
                                     </tr>
                                     <tr>
                                         <td><strong>DATE OF RELEASED:</strong></td>
-                                        <td></td>
+                                        <td class="align-right">0</td>
                                     </tr>
                                     <tr>
                                         <td><strong>DATE OF MATURING:</strong></td>
-                                        <td></td>
+                                        <td class="align-right">0</td>
                                     </tr>
                                 </table>
                             </div>
@@ -410,10 +423,40 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Loan Breakdown
+                                <strong>LOAN BREAKDOWN</strong>
                             </div>
                             <div class="panel-body">
 
+                                <table class="table table-condensed table-hover">
+                                    <tr bgcolor="#cdf4e5">
+                                        <td><strong>GROSS AMOUNT:</strong></td>
+                                        <td class="align-right" id="gross_amt"><strong>0</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;&nbsp; - INTEREST DEDUCTION:</td>
+                                        <td class="align-right" id="interest">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;&nbsp; - PROCESSING / ADMIN FEE:</td>
+                                        <td class="align-right" id="processing_admin">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;&nbsp; - NOTARY FEES:</td>
+                                        <td class="align-right" id="notary">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;&nbsp; - GAS SURCHARGE:</td>
+                                        <td class="align-right" id="gas">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;&nbsp; - DOCUMENTARY STAMP:</td>
+                                        <td class="align-right" id="docs">0</td>
+                                    </tr>
+                                    <tr bgcolor="#cdf4e5">
+                                        <td><strong>NET PROCEEDS:</strong></td>
+                                        <td class="align-right" id="netproceeds">0</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
