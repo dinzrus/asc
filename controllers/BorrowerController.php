@@ -450,17 +450,31 @@ class BorrowerController extends Controller {
 
     public function actionCiapprovalnew($id) {
 
-        $borrower = Borrower::findOne($id);
-        $dependent = new Dependent();
+        $borrower = Borrower::findOne($id); 
+        $borrower->additional_required = 1;
+
+        $dependents = [new Dependent()];
+        for ($i = 1; $i < 3; $i++) {
+            $dependents[] = new Dependent();
+        }
+
         $business = new Business();
         $comaker = new Comaker();
 
         if (Yii::$app->request->post()) {
-            if ($borrower->load(Yii::$app->request->post()) && $dependent->loadAll(Yii::$app->request->post()) && $business->load(Yii::$app->request->post()) && $comaker->load(Yii::$app->request->post())) {
-                
-                if ($borrower->save()) {
-                    return $this->redirect(['site/cicanvassapproval']);
+            if ($borrower->load(Yii::$app->request->post()) && Model::loadMultiple($dependents, Yii::$app->request->post()) && $business->load(Yii::$app->request->post()) && $comaker->load(Yii::$app->request->post())) {
+
+                // save multiple dependents
+                foreach ($dependents as $dependent) {
+                    //calculate age
+                    $dependent->save();
                 }
+
+                //save borrower
+                $borrower->save();
+               
+                //redirect to canvass list
+                return $this->redirect(['site/cicanvassapproval']);
             }
         } else {
             // get loanschemes
@@ -475,7 +489,7 @@ class BorrowerController extends Controller {
 
             return $this->render('ciapprovalnew', [
                         'borrower' => $borrower,
-                        'dependent' => $dependent,
+                        'dependent' => $dependents,
                         'business' => $business,
                         'comaker' => $comaker,
                         'daily' => $daily,

@@ -13,7 +13,8 @@ class Borrower extends BaseBorrower {
 
     public $borrower_pic;
     public $attachfiles;
-    
+    public $additional_required;
+
     const RENEWAL = 'RN';
     const CANVASSED = 'C';
     const CI_DENIED = 'CD';
@@ -21,15 +22,17 @@ class Borrower extends BaseBorrower {
     const APPROVED_RELEASING = 'AR';
     const DENIED_RELEASING = 'DR';
 
-
     /**
      * @inheritdoc
      */
     public function rules() {
         return array_replace_recursive(parent::rules(), [
-            [['branch_id' , 'gender','first_name', 'last_name', 'middle_name', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'canvass_date'], 'required'],
+            [['branch_id', 'gender', 'first_name', 'last_name', 'middle_name', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status', 'contact_no', 'canvass_date'], 'required'],
+            [['birthplace','birthdate'], 'required', 'when' => function ($model) {
+                    return $model->additional_required == 1;
+                }],
             ['middle_name', 'unique', 'targetAttribute' => ['last_name', 'first_name', 'middle_name']],
-            [['father_birthdate', 'mother_birthdate','birthdate','canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
+            [['father_birthdate', 'mother_birthdate', 'birthdate', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['canvass_by', 'age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id', 'mother_age', 'father_age'], 'integer'],
             [['attachment'], 'string'],
             [['profile_pic', 'first_name', 'last_name', 'middle_name', 'suffix', 'birthplace', 'address_street_house_no', 'civil_status', 'contact_no', 'tin_no', 'sss_no', 'ctc_no', 'license_no', 'spouse_name', 'spouse_occupation', 'status', 'acount_type', 'mother_name', 'father_name'], 'string', 'max' => 255],
@@ -77,7 +80,7 @@ class Borrower extends BaseBorrower {
             'canvass_by' => 'Canvasser',
         ];
     }
-    
+
     public function getBranch() {
         return $this->hasOne(\app\models\Branch::className(), ['branch_id' => 'branch_id']);
     }
@@ -122,7 +125,7 @@ class Borrower extends BaseBorrower {
             for ($i = 0; $i < $attachcount; $i++) {
                 $attachmentobject = $this->attachfiles[$i];
                 $tpname = $this->birthdate . '-' . $this->last_name . '-' . $this->first_name . '-' . $this->middle_name . '-attachment' . $i . '.' . $attachmentobject->extension;
-                $attachnames = ($i == 0)? $attachnames . 'fileupload/' . $tpname : $attachnames . ';' . 'fileupload/' . $tpname;
+                $attachnames = ($i == 0) ? $attachnames . 'fileupload/' . $tpname : $attachnames . ';' . 'fileupload/' . $tpname;
             }
             $this->attachment = trim($attachnames);
             return true;
@@ -149,7 +152,7 @@ class Borrower extends BaseBorrower {
             return false;
         }
     }
-    
+
     /**
      * This will calculate the age 
      * @param type $dob

@@ -60,10 +60,4 @@ $(document).ready(function () {
         });
     });
     
-    $('#borrower-birthplace').change(function () {
-        //your code here
-        //$('#w0').yiiActiveForm('updateAttribute', 'birthplace', ["I have an error..."]);
-        alert('Yes');
-    });
-
 })

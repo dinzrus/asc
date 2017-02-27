@@ -88,14 +88,14 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         <h4><i class="fa fa-info-circle"></i> Dependents</h4>
                         <hr>
                         <?= $form->field($borrower, 'no_dependent')->textInput(['type' => 'number']) ?>
-                        <?php for ($i = 0; $i < 3; $i++): ?>
+                        <?php foreach ($dependent as $index => $dep) : ?>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($dependent, "[$i]name")->textInput() ?>
+                                    <?= $form->field($dep, "[$index]name")->textInput() ?>
                                 </div>
                                 <div class="col-md-6">
                                     <?=
-                                    $form->field($dependent, "[$i]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
+                                    $form->field($dep, "[$index]birthdate")->widget(\kartik\datecontrol\DateControl::classname(), [
                                         'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
                                         'saveFormat' => 'php:Y-m-d',
                                         'ajaxConversion' => true,
@@ -109,7 +109,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                                     ?>
                                 </div>
                             </div>
-                        <?php endfor; ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
