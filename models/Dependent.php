@@ -28,8 +28,8 @@ class Dependent extends BaseDependent
      * @param type $dob
      * @return int age
      */
-    public function calculateAge($dob) {
-        $birthdate = new \DateTime($dob);
+    public function calculateAge() {
+        $birthdate = new \DateTime($this->birthdate);
         $dtoday = new \DateTime('today');
         $age = $birthdate->diff($dtoday)->y;
         return $age;

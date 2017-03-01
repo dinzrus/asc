@@ -9,7 +9,10 @@ use app\models\Borrower;
 use app\models\Barangay;
 use app\models\Business;
 use app\models\Comaker;
+use app\models\Loan;
+use app\models\Loancomaker;
 use app\models\Dependent;
+use app\models\Unit;
 use app\models\BorrowerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -169,7 +172,7 @@ class BorrowerController extends Controller {
 
             if ($borrower->loadAll(Yii::$app->request->post()) && $business->loadAll(Yii::$app->request->post())) {
 
-                //get the instance of borrower_pic and comaker_pic
+                //get the instance of borrower_pic
                 $borrower->borrower_pic = UploadedFile::getInstance($borrower, 'borrower_pic');
                 $borrower->attachfiles = UploadedFile::getInstances($borrower, 'attachfiles');
 
@@ -182,7 +185,7 @@ class BorrowerController extends Controller {
                     $borrower->setAttachUrls();
                 }
 
-                // set the account type of borrower and comaker
+                // set the account type of borrower 
                 $borrower->acount_type = Borrower::ACCOUNT_TYPE1;
 
                 // set status
@@ -450,7 +453,11 @@ class BorrowerController extends Controller {
 
     public function actionCiapprovalnew($id) {
 
-        $borrower = Borrower::findOne($id); 
+        $borrower = Borrower::findOne($id);
+
+        // get the units
+        $units = Unit::findAll(['branch_id' => $borrower->branch_id]);
+
         $borrower->additional_required = 1;
 
         $dependents = [new Dependent()];
@@ -464,15 +471,49 @@ class BorrowerController extends Controller {
         if (Yii::$app->request->post()) {
             if ($borrower->load(Yii::$app->request->post()) && Model::loadMultiple($dependents, Yii::$app->request->post()) && $business->load(Yii::$app->request->post()) && $comaker->load(Yii::$app->request->post())) {
 
-                // save multiple dependents
-                foreach ($dependents as $dependent) {
-                    //calculate age
-                    $dependent->save();
+                //calculate ages
+                if (isset($borrower->birthdate)) {
+                    $borrower->age = $borrower->calculateAge($borrower->birthdate);
                 }
 
-                //save borrower
+                if (isset($borrower->spouse_birthdate)) {
+                    $borrower->spouse_age = $borrower->calculateAge($borrower->spouse_birthdate);
+                }
+
+                if (isset($borrower->mother_birthdate)) {
+                    $borrower->mother_age = $borrower->calculateAge($borrower->mother_birthdate);
+                }
+
+                if (isset($borrower->father_birthdate)) {
+                    $borrower->father_age = $borrower->calculateAge($borrower->father_birthdate);
+                }
+                
+                $loan = new Loan();
+                
+
+                // save borrower
                 $borrower->save();
-               
+
+                // save comaker
+                $comaker->save();
+                
+                $loancomaker = new Loancomaker();
+                $loancomaker->borrower_id = $borrower->id;
+                //$loancomaker->loan_id = ;
+
+                // save business
+                $business->borrower_id = $borrower->id;
+                $business->save();
+
+                // save multiple dependents
+                foreach ($dependents as $dependent) {
+                    $dependent->age = $dependent->calculateAge();
+                    $dependent->borrower_id = $borrower->id;
+                    $dependent->save();
+                }
+                
+                Yii::$app->session->setFlash('ciapprovalsuccess', 'Borrower successfully scheduled.');
+
                 //redirect to canvass list
                 return $this->redirect(['site/cicanvassapproval']);
             }
@@ -493,6 +534,7 @@ class BorrowerController extends Controller {
                         'business' => $business,
                         'comaker' => $comaker,
                         'daily' => $daily,
+                        'units' => $units,
             ]);
         }
     }

@@ -54,7 +54,7 @@ class Borrower extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['branch_id','first_name', 'last_name', 'middle_name', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status'], 'required'],
+            [['branch_id', 'first_name', 'last_name', 'middle_name', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'address_street_house_no', 'civil_status'], 'required'],
             [['father_birthdate', 'mother_birthdate', 'birthdate', 'canvass_date', 'spouse_birthdate', 'created_at', 'updated_at'], 'safe'],
             [['canvass_by', 'age', 'address_province_id', 'address_city_municipality_id', 'address_barangay_id', 'spouse_age', 'no_dependent', 'branch_id', 'mother_age', 'father_age'], 'integer'],
             [['attachment'], 'string'],
@@ -133,9 +133,9 @@ class Borrower extends \yii\db\ActiveRecord {
     public function getAddressProvince() {
         return $this->hasOne(\app\models\Province::className(), ['id' => 'address_province_id']);
     }
-    
-    public function getFullname(){
-        return $this->last_name. ', ' . $this->first_name . ' ' . $this->middle_name;
+
+    public function getFullname() {
+        return $this->last_name . ', ' . $this->first_name . ' ' . $this->middle_name;
     }
 
     /**
@@ -151,7 +151,7 @@ class Borrower extends \yii\db\ActiveRecord {
     public function getAddressCityMunicipality() {
         return $this->hasOne(\app\models\MunicipalityCity::className(), ['id' => 'address_city_municipality_id']);
     }
-   
+
     /**
      * @inheritdoc
      * @return \app\models\BorrowerQuery the active query used by this AR class.

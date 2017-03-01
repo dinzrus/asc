@@ -359,7 +359,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 <h4><i class="fa fa-info-circle"></i> Loan Information</h4>
                 <hr>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>Daily</label>
                         <?=
                         Select2::widget([
@@ -372,12 +372,25 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         ]);
                         ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>Unit</label>
                         <?=
                         Select2::widget([
-                            'name' => 'Daily',
-                            'data' => yii\helpers\ArrayHelper::map($daily, 'id', 'daily'),
+                            'name' => 'Unit',
+                            'data' => yii\helpers\ArrayHelper::map($units, 'unit_id', 'unit_description'),
+                            'size' => Select2::MEDIUM,
+                            'options' => [
+                                'placeholder' => 'Select Unit',
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Unit</label>
+                        <?=
+                        Select2::widget([
+                            'name' => 'Unit',
+                            'data' => yii\helpers\ArrayHelper::map($units, 'unit_id', 'unit_description'),
                             'size' => Select2::MEDIUM,
                             'options' => [
                                 'placeholder' => 'Select Unit',
