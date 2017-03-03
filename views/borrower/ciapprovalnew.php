@@ -386,14 +386,14 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         ?>
                     </div>
                     <div class="col-md-4">
-                        <label>Unit</label>
+                        <label>Canvasser</label>
                         <?=
                         Select2::widget([
                             'name' => 'Unit',
-                            'data' => yii\helpers\ArrayHelper::map($units, 'unit_id', 'unit_description'),
+                            'data' => yii\helpers\ArrayHelper::map($canvassers, 'id', 'fullname'),
                             'size' => Select2::MEDIUM,
                             'options' => [
-                                'placeholder' => 'Select Unit',
+                                'placeholder' => 'Select C.I.',
                             ],
                         ]);
                         ?>

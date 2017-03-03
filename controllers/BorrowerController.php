@@ -460,6 +460,16 @@ class BorrowerController extends Controller {
 
         $borrower->additional_required = 1;
 
+        // get canvassers
+        $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+                        "employee.id,\n" .
+                        "CONCAT(employee.last_name,', ',employee.first_name) as fullname\n" .
+                        "FROM\n" .
+                        "employee\n" .
+                        "INNER JOIN emposition ON emposition.employee_id = employee.id\n" .
+                        "INNER JOIN position ON emposition.position_id = position.id\n" .
+                        "WHERE position.position = 'Credit Investigator' && emposition.branch_id = :branch_id")->bindValue(':branch_id', $borrower->branch_id)->queryAll();
+
         $dependents = [new Dependent()];
         for ($i = 1; $i < 3; $i++) {
             $dependents[] = new Dependent();
@@ -487,20 +497,19 @@ class BorrowerController extends Controller {
                 if (isset($borrower->father_birthdate)) {
                     $borrower->father_age = $borrower->calculateAge($borrower->father_birthdate);
                 }
-                
+
                 $loan = new Loan();
-                
+
 
                 // save borrower
                 $borrower->save();
 
                 // save comaker
                 $comaker->save();
-                
+
                 $loancomaker = new Loancomaker();
                 $loancomaker->borrower_id = $borrower->id;
                 //$loancomaker->loan_id = ;
-
                 // save business
                 $business->borrower_id = $borrower->id;
                 $business->save();
@@ -511,7 +520,7 @@ class BorrowerController extends Controller {
                     $dependent->borrower_id = $borrower->id;
                     $dependent->save();
                 }
-                
+
                 Yii::$app->session->setFlash('ciapprovalsuccess', 'Borrower successfully scheduled.');
 
                 //redirect to canvass list
@@ -535,6 +544,7 @@ class BorrowerController extends Controller {
                         'comaker' => $comaker,
                         'daily' => $daily,
                         'units' => $units,
+                        'canvassers' => $canvassers,
             ]);
         }
     }
