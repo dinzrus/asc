@@ -11,6 +11,7 @@ use app\models\Business;
 use app\models\Comaker;
 use app\models\Loan;
 use app\models\Loancomaker;
+use app\models\LoanschemeValues;
 use app\models\Dependent;
 use app\models\Unit;
 use app\models\BorrowerSearch;
@@ -498,29 +499,52 @@ class BorrowerController extends Controller {
                     $borrower->father_age = $borrower->calculateAge($borrower->father_birthdate);
                 }
 
-                $loan = new Loan();
-
-
                 // save borrower
-                $borrower->save();
+                $borrower->save(false);
 
                 // save comaker
-                $comaker->save();
+                $comaker->save(false);
 
                 $loancomaker = new Loancomaker();
-                $loancomaker->borrower_id = $borrower->id;
-                //$loancomaker->loan_id = ;
+                $loancomaker->comaker_id = $comaker->id;
+                $loancomaker->loan_id = Yii::$app->request->post('Daily');
+                $loancomaker->save(false);
+                
                 // save business
                 $business->borrower_id = $borrower->id;
-                $business->save();
+                $business->save(false);
 
                 // save multiple dependents
                 foreach ($dependents as $dependent) {
                     $dependent->age = $dependent->calculateAge();
                     $dependent->borrower_id = $borrower->id;
-                    $dependent->save();
+                    $dependent->save(false);
                 }
-
+                
+                // save loan
+                $loanscheme = LoanschemeValues::findOne(['id' => Yii::$app->request->post('Daily')]);
+                $loan = new Loan();
+                $loan = Loan::generateLoanNumber($borrower->id, );
+                $loan->daily = $loanscheme->daily;
+                $loan->term = $loanscheme->term;
+                $loan->gross_amount = $loanscheme->gross_amt;
+                $loan->interest_bdays = $loanscheme->interest;
+                $loan->admin_fee = $loanscheme->admin_fee;
+                $loan->doc_stamp = $loanscheme->doc_stamp;
+                $loan->notarial_fee = $loanscheme->notary_fee;
+                $loan->total_deductions = $loanscheme->total_deductions;
+                $loan->add_days  = $loanscheme->add_days;
+                $loan->add_coll = $loanscheme->add_coll;
+                $loan->collaterals = Yii::$app->request->post('collaterals');
+                $loan->borrower = $borrower->id;
+                $loan->status = $loan::NEEDAPPROVAL;
+                $loan->misc = 0; // check this one 
+                $loan->ci_date = Yii::$app->request->post('cidate');
+                $loan->ci_officer = Yii::$app->request->post('Ci');
+                
+                $loan->save(false);
+                
+                // set flash message
                 Yii::$app->session->setFlash('ciapprovalsuccess', 'Borrower successfully scheduled.');
 
                 //redirect to canvass list

@@ -359,7 +359,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 <h4><i class="fa fa-info-circle"></i> Loan Information</h4>
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Daily</label>
                         <?=
                         Select2::widget([
@@ -372,7 +372,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         ]);
                         ?>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Unit</label>
                         <?=
                         Select2::widget([
@@ -385,16 +385,28 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         ]);
                         ?>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Canvasser</label>
                         <?=
                         Select2::widget([
-                            'name' => 'Unit',
+                            'name' => 'Ci',
                             'data' => yii\helpers\ArrayHelper::map($canvassers, 'id', 'fullname'),
                             'size' => Select2::MEDIUM,
                             'options' => [
                                 'placeholder' => 'Select C.I.',
                             ],
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cidate">C.I. Date</label>
+                        <?=
+                        kartik\datecontrol\DateControl::widget([
+                            'name' => 'cidate',
+                            'value' => date('MM/dd/yyyy'),
+                            'displayFormat' => 'MM/dd/yyyy',
+                            'displayTimezone' => 'Asia/Singapore',
+                            'type' => kartik\datecontrol\DateControl::FORMAT_DATE,
                         ]);
                         ?>
                     </div>
@@ -431,6 +443,12 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                                     </tr>
                                 </table>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="collaterals">Collaterals</label>
+                            <textarea name="collaterals" class="form-control">
+                            
+                            </textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
