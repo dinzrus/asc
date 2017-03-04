@@ -40,7 +40,7 @@ class BorrowerController extends Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['scheduleborrowernew', 'getloaninfo', 'ciapprovalnew', 'renewapplicant', 'removerenewal', 'removenew', 'sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
+                        'actions' => ['ciapprovalrenewal' ,'scheduleborrowernew', 'getloaninfo', 'ciapprovalnew', 'renewapplicant', 'removerenewal', 'removenew', 'sfr', 'deniedcicanvass', 'approvedcicanvass', 'index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'getmunicipalitycity', 'getbarangay'],
                         'roles' => ['@']
                     ],
                     [
@@ -456,13 +456,15 @@ class BorrowerController extends Controller {
 
         $borrower = Borrower::findOne($id);
 
+        $loan = new Loan();
+
         // get the units
         $units = Unit::findAll(['branch_id' => $borrower->branch_id]);
 
         $borrower->additional_required = 1;
 
-        // get canvassers
-        $canvassers = Yii::$app->db->createCommand("SELECT\n" .
+        // get ci
+        $ci = Yii::$app->db->createCommand("SELECT\n" .
                         "employee.id,\n" .
                         "CONCAT(employee.last_name,', ',employee.first_name) as fullname\n" .
                         "FROM\n" .
@@ -480,51 +482,43 @@ class BorrowerController extends Controller {
         $comaker = new Comaker();
 
         if (Yii::$app->request->post()) {
-            if ($borrower->load(Yii::$app->request->post()) && Model::loadMultiple($dependents, Yii::$app->request->post()) && $business->load(Yii::$app->request->post()) && $comaker->load(Yii::$app->request->post())) {
+            if ($borrower->load(Yii::$app->request->post()) && Model::loadMultiple($dependents, Yii::$app->request->post()) && $loan->load(Yii::$app->request->post()) && $business->load(Yii::$app->request->post()) && $comaker->load(Yii::$app->request->post())) {
 
                 //calculate ages
                 if (isset($borrower->birthdate)) {
                     $borrower->age = $borrower->calculateAge($borrower->birthdate);
                 }
-
                 if (isset($borrower->spouse_birthdate)) {
                     $borrower->spouse_age = $borrower->calculateAge($borrower->spouse_birthdate);
                 }
-
                 if (isset($borrower->mother_birthdate)) {
                     $borrower->mother_age = $borrower->calculateAge($borrower->mother_birthdate);
                 }
-
                 if (isset($borrower->father_birthdate)) {
                     $borrower->father_age = $borrower->calculateAge($borrower->father_birthdate);
                 }
 
                 // save borrower
-                $borrower->save(false);
+                $borrower->status = $borrower::CI_APPROVED;
+                $borrower->save();
 
                 // save comaker
-                $comaker->save(false);
+                $comaker->save();
 
-                $loancomaker = new Loancomaker();
-                $loancomaker->comaker_id = $comaker->id;
-                $loancomaker->loan_id = Yii::$app->request->post('Daily');
-                $loancomaker->save(false);
-                
                 // save business
                 $business->borrower_id = $borrower->id;
-                $business->save(false);
+                $business->save();
 
                 // save multiple dependents
                 foreach ($dependents as $dependent) {
                     $dependent->age = $dependent->calculateAge();
                     $dependent->borrower_id = $borrower->id;
-                    $dependent->save(false);
+                    $dependent->save();
                 }
-                
+
                 // save loan
-                $loanscheme = LoanschemeValues::findOne(['id' => Yii::$app->request->post('Daily')]);
-                $loan = new Loan();
-                $loan = Loan::generateLoanNumber($borrower->id, );
+                $loanscheme = LoanschemeValues::findOne(['id' => $loan->daily]);
+                $loan->loan_no = Loan::generateLoanNumber($borrower->id, $loan);
                 $loan->daily = $loanscheme->daily;
                 $loan->term = $loanscheme->term;
                 $loan->gross_amount = $loanscheme->gross_amt;
@@ -533,17 +527,22 @@ class BorrowerController extends Controller {
                 $loan->doc_stamp = $loanscheme->doc_stamp;
                 $loan->notarial_fee = $loanscheme->notary_fee;
                 $loan->total_deductions = $loanscheme->total_deductions;
-                $loan->add_days  = $loanscheme->add_days;
+                $loan->add_days = $loanscheme->add_days;
                 $loan->add_coll = $loanscheme->add_coll;
-                $loan->collaterals = Yii::$app->request->post('collaterals');
                 $loan->borrower = $borrower->id;
                 $loan->status = $loan::NEEDAPPROVAL;
                 $loan->misc = 0; // check this one 
-                $loan->ci_date = Yii::$app->request->post('cidate');
-                $loan->ci_officer = Yii::$app->request->post('Ci');
-                
-                $loan->save(false);
-                
+                $loan->loan_type = 1; // N-CELP
+                $loan->penalty = $loanscheme->penalty;
+                $loan->penalty_days = $loanscheme->pen_days;
+                $loan->save();
+
+                // save loan comaker
+                $loancomaker = new Loancomaker();
+                $loancomaker->comaker_id = $comaker->id;
+                $loancomaker->loan_id = $loan->id;
+                $loancomaker->save();
+
                 // set flash message
                 Yii::$app->session->setFlash('ciapprovalsuccess', 'Borrower successfully scheduled.');
 
@@ -568,9 +567,16 @@ class BorrowerController extends Controller {
                         'comaker' => $comaker,
                         'daily' => $daily,
                         'units' => $units,
-                        'canvassers' => $canvassers,
+                        'ci' => $ci,
+                        'loan' => $loan,
             ]);
         }
+    }
+
+    public function actionCiapprovalrenewal($id) {
+        $borrower = Borrower::findOne($id);
+        return $this->render('ciapprovalrenewal', [
+        ]);
     }
 
     //ajax action - loan information

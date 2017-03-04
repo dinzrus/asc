@@ -360,53 +360,50 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 <hr>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Daily</label>
                         <?=
-                        Select2::widget([
-                            'name' => 'Daily',
-                            'data' => yii\helpers\ArrayHelper::map($daily, 'id', 'daily'),
-                            'size' => Select2::MEDIUM,
-                            'options' => [
-                                'placeholder' => 'Select Daily',
+                        $form->field($loan, 'daily')->widget(\kartik\widgets\Select2::classname(), [
+                            'data' => \yii\helpers\ArrayHelper::map($daily, 'id', 'daily'),
+                            'options' => ['placeholder' => 'Select Daily'],
+                            'pluginOptions' => [
+                                'allowClear' => true
                             ],
                         ]);
                         ?>
                     </div>
                     <div class="col-md-3">
-                        <label>Unit</label>
                         <?=
-                        Select2::widget([
-                            'name' => 'Unit',
-                            'data' => yii\helpers\ArrayHelper::map($units, 'unit_id', 'unit_description'),
-                            'size' => Select2::MEDIUM,
-                            'options' => [
-                                'placeholder' => 'Select Unit',
+                        $form->field($loan, 'unit')->widget(\kartik\widgets\Select2::classname(), [
+                            'data' => \yii\helpers\ArrayHelper::map($units, 'unit_id', 'unit_description'),
+                            'options' => ['placeholder' => 'Select Unit'],
+                            'pluginOptions' => [
+                                'allowClear' => true
                             ],
                         ]);
                         ?>
                     </div>
                     <div class="col-md-3">
-                        <label>Canvasser</label>
                         <?=
-                        Select2::widget([
-                            'name' => 'Ci',
-                            'data' => yii\helpers\ArrayHelper::map($canvassers, 'id', 'fullname'),
-                            'size' => Select2::MEDIUM,
-                            'options' => [
-                                'placeholder' => 'Select C.I.',
+                        $form->field($loan, 'ci_officer')->widget(\kartik\widgets\Select2::classname(), [
+                            'data' => \yii\helpers\ArrayHelper::map($ci, 'id', 'fullname'),
+                            'options' => ['placeholder' => 'Select C.I.'],
+                            'pluginOptions' => [
+                                'allowClear' => true
                             ],
                         ]);
                         ?>
                     </div>
                     <div class="col-md-3">
-                        <label for="cidate">C.I. Date</label>
                         <?=
-                        kartik\datecontrol\DateControl::widget([
-                            'name' => 'cidate',
-                            'value' => date('MM/dd/yyyy'),
-                            'displayFormat' => 'MM/dd/yyyy',
-                            'displayTimezone' => 'Asia/Singapore',
-                            'type' => kartik\datecontrol\DateControl::FORMAT_DATE,
+                        $form->field($loan, 'ci_date')->widget(\kartik\datecontrol\DateControl::classname(), [
+                            'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+                            'saveFormat' => 'php:Y-m-d',
+                            'ajaxConversion' => true,
+                            'options' => [
+                                'pluginOptions' => [
+                                    'placeholder' => 'CI Date',
+                                    'autoclose' => true,
+                                ],
+                            ],
                         ]);
                         ?>
                     </div>
@@ -445,10 +442,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="collaterals">Collaterals</label>
-                            <textarea name="collaterals" class="form-control">
-                            
-                            </textarea>
+                            <?= $form->field($loan, 'collaterals')->textarea() ?>
                         </div>
                     </div>
                     <div class="col-md-6">
