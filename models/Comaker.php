@@ -22,8 +22,8 @@ class Comaker extends BaseComaker {
         ]);
     }
 
-    public static function calculateAge($value) {
-        $birthdate = new \DateTime($value);
+    public static function calculateAge($date_birth) {
+        $birthdate = new \DateTime($date_birth);
         $dtoday = new \DateTime('today');
         $age = $birthdate->diff($dtoday)->y;
         return $age;

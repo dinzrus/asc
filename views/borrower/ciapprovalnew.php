@@ -35,7 +35,11 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         </ul>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-md-12">
+        <?= $form->errorSummary([$borrower, $loan, $business, $comaker])?>
+    </div>
+</div>
 <!-- step-1 -->
 <div class="box box-primary setup-content" id="step-1">
     <div class="box-header">

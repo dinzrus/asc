@@ -3,6 +3,7 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use kartik\widgets\Growl;
 
 $this->title = 'Credit Investigator Approval';
 $this->params['breadcrumbs'][] = ['label' => 'Transactions'];
@@ -13,6 +14,25 @@ $newborrowerProvider->sort->sortParam = 'new-sort';
 
 $renewalborrowerProvider->pagination->pageParam = 'renewal-page';
 $renewalborrowerProvider->sort->sortParam = 'renewal-sort';
+?>
+<?php
+if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
+    echo Growl::widget([
+        'type' => Growl::TYPE_SUCCESS,
+        'title' => 'Well done!',
+        'icon' => 'glyphicon glyphicon-ok-sign',
+        'body' => Yii::$app->session->getFlash('ciapprovalsuccess'),
+        'showSeparator' => true,
+        'delay' => 0,
+        'pluginOptions' => [
+            'showProgressbar' => false,
+            'placement' => [
+                'from' => 'top',
+                'align' => 'right',
+            ]
+        ]
+    ]);
+}
 ?>
 <div class="box box-primary">
     <div class="box-header">

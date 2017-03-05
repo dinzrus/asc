@@ -109,6 +109,7 @@ class Emposition extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
+                'value' => Yii::$app->user->id,
             ],
         ];
     }
