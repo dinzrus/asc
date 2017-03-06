@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     </div>
 </div>
 <!-- step-1 -->
-<div class="box box-primary setup-content" id="step-1">
+<div class="box box-default setup-content" id="step-1">
     <div class="box-header">
     </div>
     <div class="box-body">
@@ -228,7 +228,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 <!-- step-1 end -->
 
 <!-- step-2 -->
-<div class="box box-primary setup-content" id="step-2">
+<div class="box box-default setup-content" id="step-2">
     <div class="box-header"></div>  
     <div class="box-body">
         <div class="panel panel-primary">
@@ -242,7 +242,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         <?= $form->field($business, 'business_name')->textInput(['maxlength' => true, 'placeholder' => 'Business Name']) ?>
 
                         <?=
-                        $form->field($business, 'business_type_id')->widget(\kartik\widgets\Select2::classname(), [
+                        $form->field($business, 'business_type_id')->widget(Select2::classname(), [
                             'data' => \yii\helpers\ArrayHelper::map(\app\models\BusinessType::find()->orderBy('id')->asArray()->all(), 'id', 'business_description'),
                             'options' => ['placeholder' => 'Choose Business type'],
                             'pluginOptions' => [
@@ -252,7 +252,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         ?>
 
                         <?=
-                        $form->field($business, 'address_province_id')->widget(\kartik\widgets\Select2::classname(), [
+                        $form->field($business, 'address_province_id')->widget(Select2::classname(), [
                             'data' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->orderBy('id')->asArray()->all(), 'id', 'province'),
                             'options' => ['placeholder' => 'Choose Province'],
                             'pluginOptions' => [
@@ -315,7 +315,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 <!-- step-2 end -->
 
 <!-- step-3 -->
-<div class="box box-primary setup-content" id="step-3">
+<div class="box box-default setup-content" id="step-3">
     <div class="box-header"></div>  
     <div class="box-body">
         <div class="panel panel-primary">
@@ -354,7 +354,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 <!-- step-3 end -->
 
 <!-- step-4 -->
-<div class="box box-primary setup-content" id="step-4">
+<div class="box box-default setup-content" id="step-4">
     <div class="box-header"></div>  
     <div class="box-body">
         <!-- Loan Information -->
@@ -365,7 +365,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 <div class="row">
                     <div class="col-md-3">
                         <?=
-                        $form->field($loan, 'daily')->widget(\kartik\widgets\Select2::classname(), [
+                        $form->field($loan, 'daily')->widget(Select2::classname(), [
                             'data' => \yii\helpers\ArrayHelper::map($daily, 'id', 'daily'),
                             'options' => ['placeholder' => 'Select Daily'],
                             'pluginOptions' => [
@@ -376,7 +376,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                     </div>
                     <div class="col-md-3">
                         <?=
-                        $form->field($loan, 'unit')->widget(\kartik\widgets\Select2::classname(), [
+                        $form->field($loan, 'unit')->widget(Select2::classname(), [
                             'data' => \yii\helpers\ArrayHelper::map($units, 'unit_id', 'unit_description'),
                             'options' => ['placeholder' => 'Select Unit'],
                             'pluginOptions' => [
@@ -387,7 +387,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                     </div>
                     <div class="col-md-3">
                         <?=
-                        $form->field($loan, 'ci_officer')->widget(\kartik\widgets\Select2::classname(), [
+                        $form->field($loan, 'ci_officer')->widget(Select2::classname(), [
                             'data' => \yii\helpers\ArrayHelper::map($ci, 'id', 'fullname'),
                             'options' => ['placeholder' => 'Select C.I.'],
                             'pluginOptions' => [

@@ -54,7 +54,7 @@ if ($flash != null) {
 <?php Pjax::begin() ?>
 <div class="row">
     <div class="col-md-12">
-        <div class="box  box-primary">
+        <div class="box  box-default">
             <div class="box-header">
                 <h3 class="box-title"><i class="fa fa-user"></i> New Borrowers</h3>
                 <br><br>
@@ -93,7 +93,7 @@ if ($flash != null) {
                 ?>
             </div>
         </div>
-        <div class="box  box-primary">
+        <div class="box  box-default">
             <div class="box-header">
                 <h3 class="box-title"><i class="fa fa-user"></i> Renewal Borrowers</h3>
                 <br><br>

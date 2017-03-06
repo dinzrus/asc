@@ -79,7 +79,6 @@
                                 ['label' => 'Loan Applicants', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/newapplicants'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'C.I. Approval', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Hold for Scheduling', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/holdforsfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
-                                ['label' => 'Schedule for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/sfr'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Approval for Releasing', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/releasingapproval'], "visible" => Yii::$app->user->can('IT')],
                                 ['label' => 'Approved for Release', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/approvedrelease'], "visible" => Yii::$app->user->can('ORGANIZER')],
                             ],
@@ -101,15 +100,12 @@
                         ],
                         [
                             'label' => 'REPORTS',
-                            'icon' => 'fa fa-file-text',
+                            'icon' => 'fa fa fa-print',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => ['/report'],
-                        ],
-                        [
-                            'label' => 'PRINTABLES',
-                            'icon' => 'fa fa-print',
-                            'visible' => !Yii::$app->user->isGuest,
-                            'url' => '#',
+                            'items' => [
+                                ['label' => 'SFR', 'icon' => 'fa fa-file-text', 'url' => '#'],
+                            ],
                         ],
                         [
                             'label' => 'HELP',
