@@ -34,18 +34,6 @@ if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
     ]);
 }
 ?>
-<div class="row">
-    <div class="col-md-12">
-        <?=
-        Html::a('<i class="fa glyphicon glyphicon-hand-up"></i> Privacy Statement', ['/report'], [
-            'class' => 'btn btn-danger',
-            'target' => '_blank',
-            'data-toggle' => 'tooltip',
-            'title' => 'Will open the generated PDF file in a new window'
-        ]);
-        ?>
-    </div>
-</div>
 <div class="box box-default">
     <div class="box-header">
         <h4><i class="fa fa-user"></i> New Borrowers</h4>

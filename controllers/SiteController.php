@@ -12,7 +12,6 @@ use app\models\BorrowerSfrSearch;
 use app\models\Borrower;
 use app\models\Log;
 use yii\web\UploadedFile;
-use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\data\SqlDataProvider;
 

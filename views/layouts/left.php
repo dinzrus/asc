@@ -103,9 +103,6 @@
                             'icon' => 'fa fa fa-print',
                             'visible' => !Yii::$app->user->isGuest,
                             'url' => ['/report'],
-                            'items' => [
-                                ['label' => 'SFR', 'icon' => 'fa fa-file-text', 'url' => '#'],
-                            ],
                         ],
                         [
                             'label' => 'HELP',

@@ -12,7 +12,7 @@ $this->title = 'C.I. Approval New';
 $this->params['breadcrumbs'][] = ['label' => 'Canvass List', 'url' => ['site/cicanvassapproval']];
 $this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
-<?php $form = ActiveForm::begin() ?>
+<?php $form = ActiveForm::begin(['id' => 'ciapprovalnew']) ?>
 <div class="row form-group">
     <div class="col-xs-12">
         <ul class="nav nav-pills nav-justified thumbnail setup-panel">
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 </div>
 <div class="row">
     <div class="col-md-12">
-        <?= $form->errorSummary([$borrower, $loan, $business, $comaker])?>
+        <?php // $form->errorSummary([$borrower, $loan, $business, $comaker])?>
     </div>
 </div>
 <!-- step-1 -->

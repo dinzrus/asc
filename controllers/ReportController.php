@@ -5,8 +5,12 @@ namespace app\controllers;
 use kartik\mpdf\Pdf;
 
 class ReportController extends \yii\web\Controller {
-
+    
     public function actionIndex() {
+        return $this->render('index');
+    }
+
+    public function actionSfr() {
 
         // set response header
         \yii::$app->response->format = \yii\web\Response::FORMAT_RAW;

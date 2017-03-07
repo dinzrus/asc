@@ -20,16 +20,28 @@ $(document).ready(function () {
     $('ul.setup-panel li.active a').trigger('click');
     // Activate step 2
     $('#activate-step-2').on('click', function (e) {
-        $('ul.setup-panel li:eq(1)').removeClass('disabled');
-        $('ul.setup-panel li a[href="#step-2"]').trigger('click');
-        $(this).remove();
+        if ($('#borrower-birthplace').val() && $('#borrower-no_dependent').val()) {
+            $('ul.setup-panel li:eq(1)').removeClass('disabled');
+            $('ul.setup-panel li a[href="#step-2"]').trigger('click');
+            $(this).remove();
+            return true;
+        } else {
+            if ($('#borrower-no_dependent').val() == '')
+                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-no_dependent', ["Dependent cannot be empty (Put 0 if none)"]);
+            if ($('#borrower-birthplace').val() == '')
+                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-birthplace', ["Birthplace cannot be empty"]);
+            return false;
 
+        }
     })
     // Activate step 3
     $('#activate-step-3').on('click', function (e) {
-        $('ul.setup-panel li:eq(2)').removeClass('disabled');
-        $('ul.setup-panel li a[href="#step-3"]').trigger('click');
-        $(this).remove();
+        if ($('#business-business_name').val()) {
+            $('ul.setup-panel li:eq(2)').removeClass('disabled');
+            $('ul.setup-panel li a[href="#step-3"]').trigger('click');
+            $(this).remove();
+        }
+        $('#ciapprovalnew').yiiActiveForm('validate')
     })
     // Activate step 4
     $('#activate-step-4').on('click', function (e) {
@@ -54,5 +66,5 @@ $(document).ready(function () {
 
         });
     });
-    
+
 });
