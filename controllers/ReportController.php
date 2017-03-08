@@ -18,7 +18,7 @@ class ReportController extends \yii\web\Controller {
         
         
         // get your HTML raw content without any layouts or scripts
-        $content = $this->renderPartial('_privacy');
+        $content = $this->renderPartial('_sfr');
 
         // setup kartik\mpdf\Pdf component
         $pdf = new Pdf([
@@ -47,7 +47,7 @@ class ReportController extends \yii\web\Controller {
             'options' => ['title' => 'Schedule For Releasing'],
             // call mPDF methods on the fly
             'methods' => [
-                'SetHeader' => ['Schedule For Releasing'. ' - '. date('M/d/Y')],
+                'SetHeader' => ['Date: '. ' '. date('M/d/Y')],
                 'SetFooter' => ['{PAGENO}'],
             ]
         ]);

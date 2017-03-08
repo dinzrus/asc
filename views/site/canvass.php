@@ -28,7 +28,6 @@ $form = ActiveForm::begin([
         </ul>
     </div>
 </div>
-<?= $form->errorSummary($borrower) ?>
 <div class="box box-primary setup-content" id="step-1">
     <div class="box-header">
         <h3 class="box-title">Borrowers Information</h3>

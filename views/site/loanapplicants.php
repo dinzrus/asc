@@ -152,7 +152,8 @@ if ($flash != null) {
                     'data' => yii\helpers\ArrayHelper::map($borrowers, 'id', 'fullname'),
                     'options' => [
                         'placeholder' => 'Select borrower',
-                        'multiple' => true
+                        'multiple' => true,
+                        'required' => true,
                     ],
                 ]);
                 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace app\controllers;
 
 use Yii;
@@ -492,7 +493,8 @@ class SiteController extends Controller {
                 "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
                 "INNER JOIN employee ON borrower.canvass_by = employee.id\n" .
                 "WHERE\n" .
-                "borrower.`status` = 'C'" :
+                "borrower.`status` = 'C'" 
+                :
                 "SELECT\n" .
                 "borrower.id,\n" .
                 "borrower.profile_pic,\n" .
@@ -555,7 +557,7 @@ class SiteController extends Controller {
 
 
         $new_count = Yii::$app->db->createCommand((strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ? 'SELECT COUNT(*) FROM borrower WHERE status = "C"' : 'SELECT COUNT(*) FROM borrower WHERE status = "C" AND branch_id = :branch_id')->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryScalar();
-        $renewal_count = Yii::$app->db->createCommand((strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ? 'SELECT COUNT(*) FROM borrower WHERE status = "C"' : 'SELECT COUNT(*) FROM borrower WHERE status = "C" AND branch_id = :branch_id')->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryScalar();
+        $renewal_count = Yii::$app->db->createCommand((strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') ? 'SELECT COUNT(*) FROM borrower WHERE status = "RN"' : 'SELECT COUNT(*) FROM borrower WHERE status = "RN" AND branch_id = :branch_id')->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryScalar();
 
         $newborrowers = new SqlDataProvider([
             'sql' => $new_sql,
@@ -569,7 +571,6 @@ class SiteController extends Controller {
             ],
         ]);
 
-        $recount = Yii::$app->db->createCommand('SELECT COUNT(*) FROM borrower WHERE status="RN"')->queryScalar();
         $renewalborrowers = new SqlDataProvider([
             'sql' => $renewal_sql,
             'params' => [
@@ -582,16 +583,30 @@ class SiteController extends Controller {
             ],
         ]);
 
-        $borrowers = Yii::$app->db->createCommand("SELECT\n" .
-                        "borrower.id,\n" .
-                        "CONCAT(borrower.last_name, ', ',borrower.first_name, ' ', borrower.middle_name) as fullname,\n" .
-                        "borrower.canvass_date,\n" .
-                        "CONCAT(employee.last_name,', ',employee.first_name) AS canvasser\n" .
-                        "FROM\n" .
-                        "borrower\n" .
-                        "INNER JOIN emposition ON emposition.employee_id = borrower.canvass_by\n" .
-                        "LEFT JOIN employee ON emposition.employee_id = employee.id\n" .
-                        "WHERE borrower.status = 'AR    ' GROUP BY borrower.id")->queryAll();
+        if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') {
+            $borrowers = Yii::$app->db->createCommand("SELECT\n" .
+                            "borrower.id,\n" .
+                            "CONCAT(borrower.last_name, ', ',borrower.first_name, ' ', borrower.middle_name) as fullname,\n" .
+                            "borrower.canvass_date,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name) AS canvasser\n" .
+                            "FROM\n" .
+                            "borrower\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = borrower.canvass_by\n" .
+                            "LEFT JOIN employee ON emposition.employee_id = employee.id\n" .
+                            "WHERE borrower.status = 'AR' GROUP BY borrower.id")->queryAll();
+        } else {
+            $borrowers = Yii::$app->db->createCommand("SELECT\n" .
+                            "borrower.id,\n" .
+                            "CONCAT(borrower.last_name, ', ',borrower.first_name, ' ', borrower.middle_name) as fullname,\n" .
+                            "borrower.canvass_date,\n" .
+                            "CONCAT(employee.last_name,', ',employee.first_name) AS canvasser\n" .
+                            "FROM\n" .
+                            "borrower\n" .
+                            "INNER JOIN emposition ON emposition.employee_id = borrower.canvass_by\n" .
+                            "LEFT JOIN employee ON emposition.employee_id = employee.id\n" .
+                            "WHERE borrower.status = 'AR' AND borrower.branch_id = :branch_id GROUP BY borrower.id")->bindValue(':branch_id', Yii::$app->user->identity->branch_id)->queryAll();
+        }
+
         return $this->render('loanapplicants', [
                     'newborrowers' => $newborrowers,
                     'renewalborrowers' => $renewalborrowers,

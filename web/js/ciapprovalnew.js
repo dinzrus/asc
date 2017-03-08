@@ -20,16 +20,22 @@ $(document).ready(function () {
     $('ul.setup-panel li.active a').trigger('click');
     // Activate step 2
     $('#activate-step-2').on('click', function (e) {
-        if ($('#borrower-birthplace').val() && $('#borrower-no_dependent').val()) {
+        if ($('#borrower-birthplace').val() && $('#borrower-no_dependent').val() && $('#borrower-mother_name').val() && $('#borrower-father_name').val() && $('#borrower-birthdate-disp').val() && ($('#borrower-ctc_no').val() || $('#borrower-sss_no').val() || $('#borrower-license_no').val() || $('#borrower-tin_no').val())) {
             $('ul.setup-panel li:eq(1)').removeClass('disabled');
             $('ul.setup-panel li a[href="#step-2"]').trigger('click');
             $(this).remove();
             return true;
         } else {
-            if ($('#borrower-no_dependent').val() == '')
-                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-no_dependent', ["Dependent cannot be empty (Put 0 if none)"]);
-            if ($('#borrower-birthplace').val() == '')
-                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-birthplace', ["Birthplace cannot be empty"]);
+            if (!$('#borrower-no_dependent').val())
+                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-no_dependent', ["This cannot be empty (Put 0 if none)"]);
+            if (!$('#borrower-birthplace').val())
+                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-birthplace', ["This cannot be empty"]);
+            if (!$('#borrower-mother_name').val())
+                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-mother_name', ["This cannot be empty"]);
+            if (!$('#borrower-father_name').val())
+                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-father_name', ["This cannot be empty"]);
+            if (!$('#borrower-birthdate-disp').val())
+                $('#ciapprovalnew').yiiActiveForm('updateAttribute', 'borrower-birthdate-disp', ["This cannot be empty"]);
             return false;
 
         }

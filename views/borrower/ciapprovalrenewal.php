@@ -11,6 +11,11 @@ $this->title = 'C.I. Approval Renewal';
 $this->params['breadcrumbs'][] = ['label' => 'Canvass List', 'url' => ['site/cicanvassapproval']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="box box-default">
+    <div class="box-body">
+        <h4><i class="fa fa-user"></i> <strong>Name: <?= $borrower->fullname; ?></strong></h4>
+    </div>
+</div>
 <?php $form = ActiveForm::begin() ?>
 <div class="row form-group">
     <div class="col-xs-12">

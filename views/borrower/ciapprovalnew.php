@@ -12,6 +12,11 @@ $this->title = 'C.I. Approval New';
 $this->params['breadcrumbs'][] = ['label' => 'Canvass List', 'url' => ['site/cicanvassapproval']];
 $this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
+<div class="box box-default">
+    <div class="box-body">
+        <h4><i class="fa fa-user"></i> <strong>Name: <?= $borrower->fullname; ?></strong></h4>
+    </div>
+</div>
 <?php $form = ActiveForm::begin(['id' => 'ciapprovalnew']) ?>
 <div class="row form-group">
     <div class="col-xs-12">
@@ -40,6 +45,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <?php // $form->errorSummary([$borrower, $loan, $business, $comaker])?>
     </div>
 </div>
+
 <!-- step-1 -->
 <div class="box box-default setup-content" id="step-1">
     <div class="box-header">

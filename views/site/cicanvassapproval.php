@@ -50,7 +50,7 @@ if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
                 'canvass_date:date',
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{ciapprovalnew}',
+                    'template' => '{ciapprovalnew} {cideny}',
                     'controller' => 'borrower',
                     'buttons' => [
                         'ciapprovalnew' => function ($url, $model) {
@@ -60,11 +60,12 @@ if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
                                         'class' => 'btn btn-primary btn-xs',]
                             );
                         },
-                        'urlCreator' => function ($action, $model, $key, $index) {
-                            if ($action === 'ciapprovalnew') {
-                                $url = 'ciapprovalnew?id=' . $model->id;
-                                return $url;
-                            }
+                        'cideny' => function ($url, $model) {
+                            return Html::a(
+                                            '<span class="fa fa-thumbs-down"></span> Deny', $url, [
+                                        'title' => Yii::t('app', 'Approve'),
+                                        'class' => 'btn btn-danger btn-xs',]
+                            );
                         },
                     ]
                 ]
@@ -89,7 +90,7 @@ if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
                 'canvass_date:date',
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{ciapprovalrenewal}',
+                    'template' => '{ciapprovalrenewal} {cideny}',
                     'controller' => 'borrower',
                     'buttons' => [
                         'ciapprovalrenewal' => function ($url, $model) {
@@ -98,11 +99,13 @@ if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
                                         'title' => Yii::t('app', 'Approve'),
                                         'class' => 'btn btn-primary btn-xs',]
                             );
-                        }, 'urlCreator' => function ($action, $model, $key, $index) {
-                            if ($action === 'ciapprovalrenewal') {
-                                $url = 'ciapprovalrenewal?id=' . $model->id;
-                                return $url;
-                            }
+                        },
+                        'cideny' => function ($url, $model) {
+                            return Html::a(
+                                            '<span class="fa fa-thumbs-down"></span> Deny', $url, [
+                                        'title' => Yii::t('app', 'Approve'),
+                                        'class' => 'btn btn-danger btn-xs',]
+                            );
                         },
                     ],
                 ]

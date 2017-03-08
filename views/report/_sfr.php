@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title></title>
+        <title>Schedule For Releasing</title>
     </head>
     <body>
         <table class="table table-bordered table-condensed" style="font-size: 11px">
