@@ -493,8 +493,7 @@ class SiteController extends Controller {
                 "INNER JOIN branch ON borrower.branch_id = branch.branch_id\n" .
                 "INNER JOIN employee ON borrower.canvass_by = employee.id\n" .
                 "WHERE\n" .
-                "borrower.`status` = 'C'" 
-                :
+                "borrower.`status` = 'C'" :
                 "SELECT\n" .
                 "borrower.id,\n" .
                 "borrower.profile_pic,\n" .
@@ -798,30 +797,91 @@ class SiteController extends Controller {
                 Yii::$app->session->setFlash('loan_approved', "Loan approval success!");
             }
 
-            $loan_for_approval = Yii::$app->db->createCommand("SELECT\n" .
-                            "borrower.id AS borrower_id, \n" .
-                            "borrower.profile_pic, \n" .
-                            "borrower.first_name, \n" .
-                            "borrower.last_name, \n" .
-                            "borrower.middle_name, \n" .
-                            "borrower.suffix, \n" .
-                            "loan.id AS loan_id, \n" .
-                            "loan.loan_no, \n" .
-                            "loan_type.loan_description, \n" .
-                            "unit.unit_description, \n" .
-                            "branch.branch_description, \n" .
-                            "loan.daily, \n" .
-                            "loan.ci_date, \n" .
-                            "unit.unit_description AS unit \n" .
-                            "FROM\n" .
-                            "borrower\n" .
-                            "INNER JOIN loan ON loan.borrower = borrower.id\n" .
-                            "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
-                            "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
-                            "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                            "WHERE loan.status = 'NA'")->queryAll();
+            // sqldataprovider for new
+            if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') {
+                // if user is admin
+                $newcount = Yii::$app->db->createCommand("SELECT\n" .
+                                "COUNT(*)\n" .
+                                "FROM\n" .
+                                "borrower\n" .
+                                "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                                "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                                "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                                "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                                "WHERE loan.status = 'NNA'")->queryScalar();
 
-            return $this->render('releasingapproval', ['loan_for_approval' => $loan_for_approval]);
+                $newProvider = new SqlDataProvider([
+                    'sql' => "SELECT\n" .
+                    "borrower.id AS borrower_id, \n" .
+                    "borrower.profile_pic, \n" .
+                    "CONCAT(borrower.last_name, ', ',borrower.first_name,' ',borrower.middle_name,' ', borrower.suffix) as fullname,\n" .
+                    "loan.id AS loan_id, \n" .
+                    "loan.loan_no, \n" .
+                    "loan_type.loan_description, \n" .
+                    "unit.unit_description, \n" .
+                    "branch.branch_description, \n" .
+                    "loan.daily, \n" .
+                    "loan.ci_date, \n" .
+                    "unit.unit_description AS unit \n" .
+                    "FROM\n" .
+                    "borrower\n" .
+                    "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                    "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                    "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                    "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                    "WHERE loan.status = 'NNA'",
+                    'totalCount' => $newcount,
+                    'key' => 'borrower_id',
+                    'pagination' => [
+                        'pageSize' => 10
+                    ]
+                ]);
+
+                // renewal provider 
+                $renewalCount = Yii::$app->db->createCommand("SELECT\n" .
+                                "COUNT(*)\n" .
+                                "FROM\n" .
+                                "borrower\n" .
+                                "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                                "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                                "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                                "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                                "WHERE loan.status = 'RNA'")->queryScalar();
+                
+                $renewalProvider = new SqlDataProvider([
+                    'sql' => "SELECT\n" .
+                    "borrower.id AS borrower_id, \n" .
+                    "borrower.profile_pic, \n" .
+                    "CONCAT(borrower.last_name, ', ',borrower.first_name,' ',borrower.middle_name,' ', borrower.suffix) as fullname,\n" .
+                    "loan.id AS loan_id, \n" .
+                    "loan.loan_no, \n" .
+                    "loan_type.loan_description, \n" .
+                    "unit.unit_description, \n" .
+                    "branch.branch_description, \n" .
+                    "loan.daily, \n" .
+                    "loan.ci_date, \n" .
+                    "unit.unit_description AS unit \n" .
+                    "FROM\n" .
+                    "borrower\n" .
+                    "INNER JOIN loan ON loan.borrower = borrower.id\n" .
+                    "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
+                    "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
+                    "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
+                    "WHERE loan.status = 'RNA'",
+                    'totalCount' => $renewalCount,
+                    'key' => 'borrower_id',
+                    'pagination' => [
+                        'pageSize' => 10
+                    ]
+                ]);
+            } else {
+                // if user is branch
+            }
+
+            return $this->render('releasingapproval', [
+                        'newProvider' => $newProvider,
+                        'renewalProvider' => $renewalProvider,
+            ]);
         } else {
             throw new \yii\web\UnauthorizedHttpException();
         }

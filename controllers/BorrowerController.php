@@ -542,7 +542,7 @@ class BorrowerController extends Controller {
                     $loan->add_days = $loanscheme->add_days;
                     $loan->add_coll = $loanscheme->add_coll;
                     $loan->borrower = $borrower->id;
-                    $loan->status = $loan::NEEDAPPROVAL;
+                    $loan->status = $loan::NEWNEEDAPPROVAL;
                     $loan->misc = 0; // check this one 
                     $loan->additional_fee = 0; // check this one
                     $loan->loan_type = 1; // N-CELP
@@ -683,7 +683,7 @@ class BorrowerController extends Controller {
                 $loan->add_days = $loanscheme->add_days;
                 $loan->add_coll = $loanscheme->add_coll;
                 $loan->borrower = $borrower->id;
-                $loan->status = $loan::NEEDAPPROVAL;
+                $loan->status = $loan::RENEWALNEEDAPPROVAL;
                 $loan->misc = 0; // check this one 
                 $loan->additional_fee = 0; // check this one
                 $loan->loan_type = 1; // N-CELP
