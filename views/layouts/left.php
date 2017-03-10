@@ -68,6 +68,7 @@
                                     ],
                                 ],
                                 ['label' => 'Borrowers Info.', 'icon' => 'fa  fa-caret-right', 'url' => ['/borrower'], 'visible' => Yii::$app->user->can('IT')],
+                                ['label' => 'System Logs', 'icon' => 'fa  fa-bug', 'url' => ['/log'], 'visible' => Yii::$app->user->can('IT')],
                             ],
                         ],
                         [

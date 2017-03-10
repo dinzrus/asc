@@ -10,8 +10,7 @@ use Yii;
  */
 class Loan extends BaseLoan {
 
-    const NEWNEEDAPPROVAL = 'NNA';
-    const RENEWALNEEDAPPROVAL = 'RNA';
+    const NEEDAPPROVAL = 'NA';
     const INITIALAPPROVED = 'IA';
     const APPROVED = 'A';
     const WAIVEDACCOUNT = 'WA';
