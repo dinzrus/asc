@@ -53,6 +53,8 @@ Pjax::begin([
         <?=
         GridView::widget([
             'dataProvider' => $newProvider,
+            'condensed' => true,
+            'hover' => true,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'fullname',
@@ -112,6 +114,8 @@ Pjax::begin([
         <?=
         GridView::widget([
             'dataProvider' => $renewalProvider,
+            'condensed' => true,
+            'hover' => true,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'fullname',

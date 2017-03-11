@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Borrower;
+use app\models\Loan;
+
 class LoanController extends \yii\web\Controller {
 
     public function actionIndex() {
@@ -17,7 +20,12 @@ class LoanController extends \yii\web\Controller {
      * @param int $id - loan id
      */
     public function actionViewnew($borrowerid, $loanid) {
-        return $this->render('viewloan');
+        $borrower = Borrower::findOne(['id' => $borrowerid]);
+        $loan = Loan::findOne(['id' => $loanid]);
+        return $this->render('viewloan', [
+                    'borrower' => $borrower,
+                    'loan' => $loan,
+        ]);
     }
 
     /**
@@ -55,7 +63,12 @@ class LoanController extends \yii\web\Controller {
      * @param int $id - loan id
      */
     public function actionViewrenewal($borrowerid, $loanid) {
-        return $this->render('viewloan');
+        $borrower = Borrower::findOne(['id' => $borrowerid]);
+        $loan = Loan::findOne(['id' => $loanid]);
+        return $this->render('viewloan', [
+                    'borrower' => $borrower,
+                    'loan' => $loan,
+        ]);
     }
 
     /**

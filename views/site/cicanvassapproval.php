@@ -42,6 +42,8 @@ if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
         <?=
         GridView::widget([
             'dataProvider' => $newborrowerProvider,
+            'hover' => true,
+            'condensed' => true,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'last_name',
@@ -82,6 +84,8 @@ if (Yii::$app->session->hasFlash('ciapprovalsuccess')) {
         <?=
         GridView::widget([
             'dataProvider' => $renewalborrowerProvider,
+            'hover' => true,
+            'condensed' => true,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'last_name',

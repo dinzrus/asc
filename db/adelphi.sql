@@ -1,19 +1,37 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql_localhost
-Source Server Version : 100121
+Source Server         : local
+Source Server Version : 100113
 Source Host           : localhost:3306
 Source Database       : adelphi
 
 Target Server Type    : MYSQL
-Target Server Version : 100121
+Target Server Version : 100113
 File Encoding         : 65001
 
-Date: 2017-03-06 07:39:51
+Date: 2017-03-11 17:03:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for attachments
+-- ----------------------------
+DROP TABLE IF EXISTS `attachments`;
+CREATE TABLE `attachments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `attachments` text,
+  `loan_id` int(11) DEFAULT NULL,
+  `borrower_id` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of attachments
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for auth_assignment
@@ -3168,22 +3186,26 @@ CREATE TABLE `borrower` (
   KEY `status` (`status`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of borrower
 -- ----------------------------
-INSERT INTO `borrower` VALUES ('6', null, 'Mary Joy', 'Asis ', 'Hinacay', '', '1990-10-10', '25', 'Guildulman, Bohol', '4', '6', '6', 'UCMA Village', 'Single', '09101737965', '2016-09-16', '', '', '', '', 'Russel Dinoy', 'Programmer', '25', '1991-06-11', '0', 'RN', '5', null, 'B', '2016-09-16 13:22:28', '2016-09-20 10:34:18', 'Female', 'Norma W. Dinoy', '36', '1980-07-22', 'Olipio T. Dinoy', '27', '1989-09-13', '2', null, null);
-INSERT INTO `borrower` VALUES ('7', null, 'Joseph', 'Baldoza', 'Loso', '', '1985-07-18', '31', 'Apas, Cebu City, Cebu', '4', '6', '6', 'Kalibat', 'Married', '0945124885', '2016-09-22', '', '', '', '', 'Marlyn Baldoza', 'Teacher', '32', '1984-06-19', '3', 'RN', '4', null, 'B', '2016-09-22 14:51:45', '2016-09-22 14:51:45', 'Male', 'Mothername', '42', '1974-06-18', 'Fathername', '316', '1700-06-08', '2', null, null);
-INSERT INTO `borrower` VALUES ('8', null, 'MILANILA', 'NAZARENO', 'EMBODO', '', '1980-01-06', '36', 'SIBONGA CEBU', '4', '105', '1145', 'SUMAGUAN', 'Single', '09434416589', '2016-11-02', '', '', '', '', '', '', '0', null, '1', 'RN', '2', null, 'B', '2016-09-30 09:54:26', '2016-09-30 09:54:26', 'Female', 'FELICISIMA NAZARENO', '68', '1948-08-06', 'CIRILO NAZARENO', '67', '1949-07-09', '2', null, null);
-INSERT INTO `borrower` VALUES ('9', null, 'JERAME', 'FAMUAGAN', 'BANQUIL', '', '1988-12-03', '27', 'DUB-DOB, BOGO, ARGAO, CEBU', '4', '105', '1116', 'N/A', 'Single', '09273343935', '2016-08-28', '', '', '', '', '', '', '0', null, '1', 'AR', '2', null, 'B', '2016-09-30 10:05:32', '2016-09-30 10:05:32', 'Female', 'JOVENCIA FAMULAGAN BANQUIL', '52', '1964-06-01', 'LUCAS GELBOLINGO FAMULAGAN', '53', '1962-10-18', '2', null, null);
-INSERT INTO `borrower` VALUES ('10', null, 'MRIA TARA', 'MONDAREZ', 'CONDE', '', '2016-08-01', '0', 'Cebu City', '4', '6', '36', '576- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09267073405', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'RN', '4', null, 'B', '2016-09-30 10:13:12', '2016-09-30 10:13:12', 'Female', '', '0', null, 'MARY ANN M. SAQUIN', '53', '1962-10-01', '2', null, null);
-INSERT INTO `borrower` VALUES ('11', null, 'SPUDSCOTTIE', 'SAQUIN', 'MONDARES', '', '1992-12-31', '23', 'Cebu City', '4', '6', '36', '577- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09087659315', '1992-12-31', '', '', '', '', '', '', '0', null, '1', 'RN', '4', null, 'B', '2016-09-30 10:22:57', '2016-09-30 10:22:57', 'Male', '', '0', null, '', '0', null, '2', null, null);
-INSERT INTO `borrower` VALUES ('12', null, 'SIGFRED CHRISTIAN', 'GUAREN', 'REÑA', '', '1981-05-10', '35', 'BULACAO', '4', '6', '57', '132', 'Single', '09434416589', '2016-09-30', '', '', '', '', '', '', '0', null, '1', 'RN', '4', null, 'B', '2016-09-30 10:31:31', '2016-09-30 10:31:31', 'Male', 'ASUNCION REÑA', '0', '2016-08-10', 'REYNALDO GUAREN', '52', '1964-06-10', '2', null, null);
+INSERT INTO `borrower` VALUES ('6', null, 'Mary Joy', 'Asis ', 'Hinacay', '', '1990-10-10', '25', 'Guildulman, Bohol', '4', '6', '6', 'UCMA Village', 'Single', '09101737965', '2016-09-16', '', '', '', '', 'Russel Dinoy', 'Programmer', '25', '1991-06-11', '0', 'AR', '5', null, 'B', '2016-09-16 13:22:28', '2016-09-20 10:34:18', 'Female', 'Norma W. Dinoy', '36', '1980-07-22', 'Olipio T. Dinoy', '27', '1989-09-13', '2', null, null);
+INSERT INTO `borrower` VALUES ('7', null, 'Joseph', 'Baldoza', 'Loso', '', '1985-07-18', '31', 'Apas, Cebu City, Cebu', '4', '6', '6', 'Kalibat', 'Married', '0945124885', '2016-09-22', '', '', '', '', 'Marlyn Baldoza', 'Teacher', '32', '1984-06-19', '3', 'CA', '4', null, 'B', '2016-09-22 14:51:45', '2017-03-09 13:33:56', 'Male', 'Mothername', '42', '1974-06-18', 'Fathername', '316', '1700-06-08', '2', null, '10');
+INSERT INTO `borrower` VALUES ('8', null, 'MILANILA', 'NAZARENO', 'EMBODO', '', '1980-01-06', '37', 'SIBONGA CEBU', '4', '105', '1145', 'SUMAGUAN', 'Single', '09434416589', '2016-11-02', '', '', '', '', '', '', '0', null, '1', 'RN', '2', null, 'B', '2016-09-30 09:54:26', '2017-03-09 16:06:17', 'Female', 'FELICISIMA NAZARENO', '68', '1948-08-06', 'CIRILO NAZARENO', '67', '1949-07-09', '2', null, '10');
+INSERT INTO `borrower` VALUES ('9', null, 'JERAME', 'FAMUAGAN', 'BANQUIL', '', '1988-12-03', '28', 'DUB-DOB, BOGO, ARGAO, CEBU', '4', '105', '1116', 'N/A', 'Single', '09273343935', '2016-08-28', '', '', '', '', '', '', '0', null, '1', 'RN', '2', null, 'B', '2016-09-30 10:05:32', '2017-03-09 15:55:57', 'Female', 'JOVENCIA FAMULAGAN BANQUIL', '52', '1964-06-01', 'LUCAS GELBOLINGO FAMULAGAN', '54', '1962-10-18', '2', null, '10');
+INSERT INTO `borrower` VALUES ('10', null, 'MRIA TARA', 'MONDAREZ', 'CONDE', '', '2016-08-01', '0', 'Cebu City', '4', '6', '36', '576- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09267073405', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:13:12', '2017-03-06 10:32:18', 'Female', '', '0', null, 'MARY ANN M. SAQUIN', '54', '1962-10-01', '2', null, '10');
+INSERT INTO `borrower` VALUES ('11', null, 'SPUDSCOTTIE', 'SAQUIN', 'MONDARES', '', '1992-12-31', '23', 'Cebu City', '4', '6', '36', '577- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09087659315', '1992-12-31', '', '', '', '', '', '', '0', null, '1', 'AR', '4', null, 'B', '2016-09-30 10:22:57', '2016-09-30 10:22:57', 'Male', '', '0', null, '', '0', null, '2', null, null);
+INSERT INTO `borrower` VALUES ('12', null, 'SIGFRED CHRISTIAN', 'GUAREN', 'REÑA', '', '1981-05-10', '35', 'BULACAO', '4', '6', '57', '132', 'Single', '09434416589', '2016-09-30', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:31:31', '2017-03-06 09:28:38', 'Male', 'ASUNCION REÑA', '0', '2016-08-10', 'REYNALDO GUAREN', '52', '1964-06-10', '2', null, '10');
 INSERT INTO `borrower` VALUES ('14', null, 'Bercero', 'John Rey', 'N/a', 'Jr.', '1971-05-23', '45', 'Aut ut ut impedit excepturi voluptates aut ullamco incidunt culpa magni vitae recusandae Quis', '4', '6', '5', '#45 Piti Ra Street', 'Single', '0999989999', '2017-01-18', 'Dolores mollit a accusamus quam irure natus reprehenderit in ut accusamus culpa nihil exercitation at ullamco', 'Dolore odio ut ducimus et sit temporibus voluptatem Earum labore aperiam dolore aliquip voluptatibus labore qui', 'Accusantium amet dolore et quo rerum sunt obcaecati expedita quis sapiente', 'Ullam facilis voluptatibus doloremque omnis ad repudiandae tempore sed esse placeat facere ad tenetur nulla ut', 'Coby Kemp', 'Odit asperiores illo sunt deserunt consequuntur in recusandae Tempor eos officiis est', '8', '2008-04-17', '8', 'CA', '2', null, 'B', '2017-01-19 09:10:42', '2017-03-05 22:50:31', 'Male', 'Reagan Matthews', '8', '2008-11-15', 'Lois Simpson', '18', '1999-02-05', '1', null, '19');
 INSERT INTO `borrower` VALUES ('16', null, 'Olipio', 'Dinoy', 'Tura', '', '1997-02-10', '20', 'Quae sunt quibusdam perferendis quia', '4', '6', '64', 'Street lang jpon', 'Single', '09101737658', '2017-02-13', 'Ullam ullam aut amet non aspernatur duis velit atque adipisci omnis totam mollit ea aut asperiores', 'In accusamus est ipsam aut adipisci amet ipsa labore', 'Praesentium debitis voluptate excepteur dolor quia non in dolor aute omnis fuga', 'Eligendi iste rerum incididunt molestias ipsam', 'Bianca Fowler', 'Vero laborum voluptatibus et repudiandae anim minus illum est officiis ratione vero sed soluta dicta sit placeat earum voluptate', '4', '2012-10-02', '70', 'CA', '2', null, null, '2017-02-13 09:48:20', '2017-03-05 21:18:41', 'Male', 'Blake Wilson', '25', '1991-03-19', 'Minerva Fulton', '11', '2006-02-13', '1', '10', '19');
 INSERT INTO `borrower` VALUES ('17', null, 'Mary Jane', 'Ajoc', 'Buro', '', null, null, null, '4', '6', '5', 'fdfd', 'Married', '0000000000', '2017-02-13', null, null, null, null, null, null, null, null, null, 'C', '1', null, null, '2017-02-13 10:27:11', '2017-02-13 10:27:11', 'Female', null, null, null, null, null, null, '1', '19', '19');
-INSERT INTO `borrower` VALUES ('18', null, 'Nerisa', 'Sayson', 'Maslog', '', '2003-06-19', '13', 'Sunt amet ipsa excepteur autem magna sapiente temporibus nostrum', '4', '6', '64', 'Street no. 1 ', 'Single', '0000000', '2017-02-13', 'Nostrum sequi voluptas delectus non enim inventore duis est qui dolor dolor maxime debitis consequat Voluptatem sit beatae eaque quas', 'Atque quis nisi nulla velit minus numquam velit est corporis quia commodo', 'Ipsa enim voluptatem non voluptatibus omnis non ipsum dolor est expedita quae vel vel nihil occaecat doloremque aliquam omnis', 'Soluta id maiores ipsa consequatur rem quod vero praesentium maxime deleniti sed laborum aut quis do modi omnis', 'Aiko Hill', 'Nesciunt officia reprehenderit aperiam nisi doloribus inventore sunt ullam asperiores ipsam aut omnis', '21', '1995-07-07', '56', 'CA', '2', null, null, '2017-02-13 13:38:25', '2017-03-06 00:15:03', 'Female', 'Hayden Pearson', '26', '1990-05-27', 'Tiger Fuller', '1', '2016-01-03', '1', '19', '19');
+INSERT INTO `borrower` VALUES ('18', null, 'Nerisa', 'Sayson', 'Maslog', '', '2003-06-19', '13', 'Sunt amet ipsa excepteur autem magna sapiente temporibus nostrum', '4', '6', '64', 'Street no. 1 ', 'Single', '0000000', '2017-02-13', 'Nostrum sequi voluptas delectus non enim inventore duis est qui dolor dolor maxime debitis consequat Voluptatem sit beatae eaque quas', 'Atque quis nisi nulla velit minus numquam velit est corporis quia commodo', 'Ipsa enim voluptatem non voluptatibus omnis non ipsum dolor est expedita quae vel vel nihil occaecat doloremque aliquam omnis', 'Soluta id maiores ipsa consequatur rem quod vero praesentium maxime deleniti sed laborum aut quis do modi omnis', 'Aiko Hill', 'Nesciunt officia reprehenderit aperiam nisi doloribus inventore sunt ullam asperiores ipsam aut omnis', '21', '1995-07-07', '56', 'CA', '2', null, null, '2017-02-13 13:38:25', '2017-03-06 10:26:06', 'Female', 'Hayden Pearson', '26', '1990-05-27', 'Tiger Fuller', '1', '2016-01-03', '1', '19', '10');
+INSERT INTO `borrower` VALUES ('19', null, 'Palmer', 'Nielsen', 'Britanney Mccarty', '', null, null, null, '5', '11', '172', 'Omnis aut aute tempore saepe ad velit quia impedit velit ullam', 'Married', 'Exercitation Nam nostrum ut sunt minus cillum', '2017-03-08', null, null, null, null, null, null, null, null, null, 'C', '9', null, null, '2017-03-08 10:33:47', '2017-03-08 10:33:47', 'Male', null, null, null, null, null, null, null, '10', '10');
+INSERT INTO `borrower` VALUES ('24', null, 'Colt', 'Frederick', 'Lee Kirkland', '', null, null, null, '4', '6', '4', 'Optio consectetur quisquam fugiat eum temporibus officiis facilis laboriosam aut est aut tenetur lorem pariatur Quia', 'Married', 'Ullam repudiandae omnis dignissimos eos voluptas excepturi eu ut voluptatibus quis dolor sapiente et vel duis accusamus esse', '2017-03-08', null, null, null, null, null, null, null, null, null, 'C', '9', null, null, '2017-03-08 15:47:34', '2017-03-08 15:47:34', 'Male', null, null, null, null, null, null, '1', '10', '10');
+INSERT INTO `borrower` VALUES ('25', null, 'Hadley', 'Barrett', 'Xaviera Estrada', '', '2000-03-04', '17', 'Totam voluptatum necessitatibus voluptatem ducimus', '4', '6', '4', 'Qui qui aspernatur iste recusandae Explicabo Nulla voluptatem', 'Married', 'Doloremque et cum in ut nesciunt fugiat sed recusandae Dolorum irure ut', '2017-03-13', 'Culpa eos reiciendis cupiditate id velit perspiciatis', 'Illum tempora reprehenderit nulla dolore animi', 'Enim pariatur Voluptates qui adipisicing aut quis culpa mollit ea laboriosam voluptatem', 'Dolor veniam ducimus dolor quia molestias saepe odio omnis et', 'Zephania Castillo', 'Facilis quia veritatis sit aut itaque rerum placeat atque ab magni minima illum ut dolor minim velit ducimus', '26', '1991-01-13', '41', 'CA', '2', null, null, '2017-03-08 15:55:07', '2017-03-10 09:39:14', 'Male', 'Igor Leblanc', '26', '1990-09-08', 'Avram Mays', '33', '1983-12-21', '1', '19', '19');
+INSERT INTO `borrower` VALUES ('26', null, 'Dakota', 'Dickson', 'Pamela West', '', null, null, null, '4', '117', '1607', 'Block 14 VandJ', 'Married', 'Dignissimos a neque ex nisi', '2017-03-08', null, null, null, null, null, null, null, null, null, 'C', '9', null, null, '2017-03-08 16:26:53', '2017-03-08 16:26:53', 'Male', null, null, null, null, null, null, '1', '10', '10');
 
 -- ----------------------------
 -- Table structure for borrower_comaker
@@ -3267,14 +3289,16 @@ CREATE TABLE `business` (
   KEY `business_type_id` (`business_type_id`) USING BTREE,
   KEY `business_ibfk_6` (`address_province_id`),
   CONSTRAINT `business_ibfk_4` FOREIGN KEY (`business_type_id`) REFERENCES `business_type` (`id`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=459 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of business
 -- ----------------------------
-INSERT INTO `business` VALUES ('1', 'Kuame Tillman', '2', '4', '102', '1065', 'Cupiditate laboriosam voluptate accusamus expedita proident id', '1979', 'Eaque dolor atque iusto debitis qui duis et maiores nisi esse ipsa reiciendis ipsam sunt dolor dolor', '999', '999', 'Owned', '18');
-INSERT INTO `business` VALUES ('2', 'Jayme Rodriquez', '2', '4', '7', '556', 'Sed aut deserunt consequatur et voluptatum nemo sint et ex dolores rem nihil facere ut', '1981', 'Ullamco numquam modi ea non ipsum quis rerum quod', '888', '888', 'Owned', '18');
-INSERT INTO `business` VALUES ('3', 'Mercedes Thomas', '2', '4', '6', '4', 'Aperiam placeat eaque laudantium quas omnis illum ut', '1988', 'Ex aliqua Sed ratione labore aut qui aut quo porro nisi animi', '888888', '88888', 'Rented', '18');
+INSERT INTO `business` VALUES ('1', 'Kylee Calhoun', '1', '4', '6', '4', 'Et eaque in dolorem dignissimos non recusandae Laboris ipsam architecto', '2005', 'Magna dolor omnis qui pariatur Dolorem dicta at qui aut aut in et magni', '888', '8888', 'Owned', '10');
+INSERT INTO `business` VALUES ('2', 'Serina Carrillo', '1', '4', '6', '4', 'Laborum exercitationem nisi quis ratione', '1985', 'Necessitatibus dolore sequi adipisicing delectus sed enim dolore nisi ipsum itaque enim ratione sed elit omnis molestiae consequatur dolor', '8888', '8888', 'Owned', '7');
+INSERT INTO `business` VALUES ('3', 'Allegra Combs', '1', '4', '6', '4', 'Nesciunt expedita cum dolor quis enim veniam exercitation lorem vitae minim possimus sed iste sed dolorem', '2012', 'Earum qui qui ex quia perferendis autem consectetur magnam magna voluptatem deserunt corporis totam et', '8888', '8888', 'Rented', '9');
+INSERT INTO `business` VALUES ('5', 'Erin Hoffman', '1', '4', '6', '4', 'Commodi eaque beatae dolor quis cum error', '1979', 'In quaerat possimus enim doloribus officiis nesciunt ipsum', '8888', '8888', 'Rented', '25');
+INSERT INTO `business` VALUES ('458', 'Colorado Nolan', '1', '4', '6', '6', 'Et expedita aliquip dolor tempor cupidatat minus aliquid nobis veniam tempor ab ut voluptatem Rerum et ab ipsum elit ipsum', '2011', 'Reprehenderit non deserunt vel assumenda ea fuga', '8888', '8888', 'Rented', '8');
 
 -- ----------------------------
 -- Table structure for business_type
@@ -3386,19 +3410,16 @@ CREATE TABLE `comaker` (
   KEY `status` (`status`),
   KEY `address_barangay_id` (`address_barangay_id`),
   KEY `address_city_municipality_id` (`address_city_municipality_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=617 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of comaker
 -- ----------------------------
-INSERT INTO `comaker` VALUES ('1', null, 'Mary  Joy', 'Asis', 'Hinacay', null, '1992-10-10', '24', 'Guindulman Bohol', '4', '6', '6', 'UCMA Village', 'Married', '099999956', null, null, null, 'Female', '2017-02-01 11:43:54', '2017-02-01 11:43:54', '10', '10');
-INSERT INTO `comaker` VALUES ('9', null, 'fff', 'fff', 'ff', null, '2014-07-24', '2', 'fsdfsdfds', '4', '6', '5', 'fsdffsdf', 'Single', '1346465', null, null, null, 'Male', '2017-02-06 12:42:08', '2017-02-06 12:42:08', '10', '10');
-INSERT INTO `comaker` VALUES ('75', null, 'Phelan', 'Spencer', 'Colleen Mack', null, '2003-09-07', '13', 'Suscipit consequat Aut tempore sapiente est veniam eveniet nisi', '4', '6', '4', 'Vel odit sed corporis qui sunt inventore consectetur id iusto vero eum ea voluptates molestias odio exercitation', 'single', 'Ab eius magnam ut sint ea', null, null, null, 'M', '2017-03-05 23:00:24', '2017-03-05 23:00:24', '19', '19');
-INSERT INTO `comaker` VALUES ('79', null, 'Aurelia', 'Diaz', 'Tyrone Waters', null, '1989-01-10', '28', 'Commodo et et cillum omnis dolore laborum Qui ut', '4', '7', '557', 'Quos reprehenderit sunt sint iusto error dolores', 'single', 'Libero cupidatat commodo nulla laudantium aut ut libero ducimus dolor eveniet quidem accusantium laudantium', null, null, null, 'M', '2017-03-05 23:57:46', '2017-03-05 23:57:46', '19', '19');
-INSERT INTO `comaker` VALUES ('613', null, 'Kai', 'Wolfe', 'David English', null, '1981-07-13', '35', 'Exercitation dololorum nobis ut alias sed in', '5', '9', '87', 'Nesciunt aut nihil molestiae dolores aut dolore non exercitation natus saepe magnam ea omnis', 'single', 'se tempora unde excepturi nihil ut culpa qui culpa', null, null, null, 'M', '2017-03-05 23:06:59', '2017-03-05 23:06:59', '19', '19');
-INSERT INTO `comaker` VALUES ('614', null, 'Jameson', 'Duke', 'Vivien Schroeder', null, '1995-10-14', '21', 'Id unde veniam corporis maxime impedit sed velit fuga Fugiat irure id vero possimus', '4', '6', '4', 'Voluptates et assumenda quod cum cillum nulla ad voluptate itaque reprehenderit lorem cum sed quas itaque optio', 'single', 'Deserunt voluptatem proident fugiat voluptatem Est nostrum laboris commodi labore nemo mollitia fuga Quam et', null, null, null, 'F', '2017-03-06 00:00:06', '2017-03-06 00:00:06', '19', '19');
-INSERT INTO `comaker` VALUES ('615', null, 'Orla', 'Cooke', 'Tamara Witt', null, '2010-12-27', '6', 'Cupiditate voluptas voluptatum et quo sint vel voluptate voluptate quisquam et eum eos fuga Vero', '4', '102', '1066', 'Vero illum veritatis consequatur Sit quas est nulla ipsa in do ullamco pariatur Dolorem exercitationem nobis incididunt cum minus accusantium', 'single', 'Voluptatibus ipsam soluta enim dolorem dolore vero blanditiis voluptatem eius anim obcaecati', null, null, null, 'M', '2017-03-06 00:01:22', '2017-03-06 00:01:22', '19', '19');
-INSERT INTO `comaker` VALUES ('616', null, 'Cairo', 'Smith', 'Abraham Kirk', null, '1970-07-17', '46', 'Laudantium quia dolores vel eu do consequatur In autem dignissimos quos omnis dolor cumque dolore qui', '4', '6', '4', 'Quo et et est impedit veniam in sit laudantium', 'single', '9999999', null, null, null, 'F', '2017-03-06 00:15:05', '2017-03-06 00:15:05', '19', '19');
+INSERT INTO `comaker` VALUES ('1', null, 'Rashad', 'Burks', 'Dante Beasley', null, '1994-05-06', '22', 'Labore minus dolorem beatae nulla eos laborum quasi tempore est minim ut qui aliquip', '4', '6', '4', 'Officia delectus possimus necessitatibus modi quam repellendus Modi', 'single', 'Magnam exercitationem excepturi eum aut nulla deleniti sit voluptatum quia sit elit et velit nulla et quia deserunt elit', null, null, null, 'F', '2017-03-06 10:32:18', '2017-03-06 10:32:18', '10', '10');
+INSERT INTO `comaker` VALUES ('2', null, 'Rhonda', 'Dalton', 'Jada Hammond', null, '2006-07-18', '10', 'Fugiat earum rerum commodo qui officia', '4', '7', '556', 'Ullam nisi natus ducimus anim facilis quibusdam adipisicing molestiae blanditiis et iusto est explicabo In excepteur totam placeat nisi', 'single', 'Et minima ut duis ullam eu', null, null, null, 'F', '2017-03-09 13:33:56', '2017-03-09 13:33:56', '10', '10');
+INSERT INTO `comaker` VALUES ('3', null, 'Eden', 'Huff', 'Lars Lamb', null, '1973-09-11', '43', 'Animi numquam sunt iure ea voluptates ullam sunt tenetur ut non necessitatibus', '4', '6', '4', 'Maxime incidunt qui sint ut qui corporis necessitatibus in libero tempore maiores necessitatibus animi quaerat sequi optio consectetur accusantium', 'single', 'Corporis deleniti est aliquid pariatur Do ipsa ex anim necessitatibus et', null, null, null, 'M', '2017-03-09 15:55:57', '2017-03-09 15:55:57', '10', '10');
+INSERT INTO `comaker` VALUES ('5', null, 'Dillon', 'Reilly', 'Jakeem Avery', null, '1974-01-11', '43', 'Consequuntur iusto provident enim debitis aut enim dolores porro quo assumenda ab magni est non minima non et', '4', '6', '11', 'Numquam laborum autem adipisci ea in iste aliquid molestias', 'single', 'Nobis debitis molestiae molestiae veniam voluptas explicabo Excepteur itaque dolores sit nostrum rerum', null, null, null, 'M', '2017-03-10 09:39:14', '2017-03-10 09:39:14', '19', '19');
+INSERT INTO `comaker` VALUES ('45', null, 'Dahlia', 'Johnson', 'Dylan Cruz', null, '1980-12-18', '36', 'Earum qui id veniam et voluptatem Qui amet et magni commodo consectetur quidem incididunt ipsam qui', '4', '6', '4', 'Excepteur est doloribus repudiandae eos velit expedita aliquip officia', 'single', 'Autem vel laborum Commodi ut ducimus eiusmod quia esse numquam id nulla iusto ipsam', null, null, null, 'M', '2017-03-09 16:06:17', '2017-03-09 16:06:17', '10', '10');
 
 -- ----------------------------
 -- Table structure for dependent
@@ -3411,11 +3432,14 @@ CREATE TABLE `dependent` (
   `birthdate` date DEFAULT NULL,
   `borrower_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of dependent
 -- ----------------------------
+INSERT INTO `dependent` VALUES ('1', 'Fulton Taylor', '8', '2008-08-28', '25');
+INSERT INTO `dependent` VALUES ('2', 'Abigail Williamson', '45', '1971-03-20', '25');
+INSERT INTO `dependent` VALUES ('3', 'Rama Stokes', '13', '2003-11-03', '25');
 
 -- ----------------------------
 -- Table structure for employee
@@ -3583,14 +3607,16 @@ CREATE TABLE `loan` (
   KEY `loan_ibfk_3` (`borrower`),
   CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`loan_type`) REFERENCES `loan_type` (`loan_id`) ON UPDATE CASCADE,
   CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`unit`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4600 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
-INSERT INTO `loan` VALUES ('80', '018-03062017478-B2', '1', '18', '7', null, null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Optio, possimus, quis enim expedita sed eos, necessitatibus laudantium, eu doloribus aut omnis.', '2', '2017-03-03', 'NA', null, null, '2017-03-06 00:00:06', '2017-03-06 00:00:06', '19', '19');
-INSERT INTO `loan` VALUES ('81', '018-03062017490-B1', '1', '18', '6', null, null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Voluptatibus incidunt, esse quia qui est tempore, magnam in facilis totam eveniet, voluptatem consequuntur sed adipisci enim.', '2', '2017-02-22', 'NA', null, null, '2017-03-06 00:01:22', '2017-03-06 00:01:22', '19', '19');
-INSERT INTO `loan` VALUES ('82', '018-03062017718-B1', '1', '18', '6', null, null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Ullam voluptatibus ratione voluptatibus culpa laborum consequatur velit mollit laudantium, occaecat rerum lorem sed enim.', '2', '1997-08-20', 'NA', null, null, '2017-03-06 00:15:05', '2017-03-06 00:15:05', '19', '19');
+INSERT INTO `loan` VALUES ('1', '010-03062017693-M1', '1', '10', '15', null, null, '110', '52', '5170', '1034', '50', '50', '0', '285', '300', '0', '809.08', '3', '588.5', '3939.57', '15', '3', 'Totam aut aut in laudantium, reiciendis dolor tenetur sint explicabo. Est.', '1', '1978-11-22', 'NA', null, null, '2017-03-06 10:32:18', '2017-03-06 10:32:18', '10', '10');
+INSERT INTO `loan` VALUES ('2', '007-03092017571-M1', '1', '7', '15', null, null, '120', '52', '5640', '1128', '50', '50', '0', '295', '300', '0', '830.36', '3', '642', '4345.44', '20', '3', 'Itaque dicta sequi reprehenderit aut odit et modi laboriosam, sit, est rerum aut expedita sit, quia.', '1', '1991-02-25', 'NA', null, null, '2017-03-09 13:33:56', '2017-03-09 13:33:56', '10', '10');
+INSERT INTO `loan` VALUES ('3', '009-03092017552-B1', '3', '9', '6', null, null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Veritatis voluptate est in cupiditate minus minima dolore placeat, sunt.', '2', '1996-12-12', 'NA', null, null, '2017-03-09 15:55:57', '2017-03-09 15:55:57', '10', '10');
+INSERT INTO `loan` VALUES ('5', '025-03102017393-B4', '1', '25', '9', null, null, '600', '50', '28200', '5640', '50', '50', '0', '775', '300', '0', '1851.8', '2', '2328', '22945.2', '90', '3', 'Enim eligendi non deserunt excepturi nesciunt, ut vitae veniam, ut irure tempor lorem perspiciatis, tempora aut nostrud harum.', '2', '2012-12-17', 'NA', null, null, '2017-03-10 09:39:14', '2017-03-10 09:39:14', '19', '19');
+INSERT INTO `loan` VALUES ('4599', '008-03092017257-B1', '2', '8', '6', null, null, '100', '52', '4700', '940', '50', '50', '0', '275', '300', '0', '787.8', '3', '535', '3533.7', '15', '3', 'Sit fugit, officiis molestiae voluptatem, quia id ratione libero voluptas unde officiis commodo est qui sed consequat. Amet, beatae aspernatur.', '2', '1981-08-17', 'NA', null, null, '2017-03-09 16:06:17', '2017-03-09 16:06:17', '10', '10');
 
 -- ----------------------------
 -- Table structure for loanscheme
@@ -3714,7 +3740,7 @@ CREATE TABLE `loan_comaker` (
   `loan_id` int(11) NOT NULL,
   `comaker_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of loan_comaker
@@ -3725,6 +3751,15 @@ INSERT INTO `loan_comaker` VALUES ('3', '79', '79');
 INSERT INTO `loan_comaker` VALUES ('4', '80', '614');
 INSERT INTO `loan_comaker` VALUES ('5', '81', '615');
 INSERT INTO `loan_comaker` VALUES ('6', '82', '616');
+INSERT INTO `loan_comaker` VALUES ('7', '83', '617');
+INSERT INTO `loan_comaker` VALUES ('8', '160', '161');
+INSERT INTO `loan_comaker` VALUES ('9', '399', '39');
+INSERT INTO `loan_comaker` VALUES ('10', '41082', '411');
+INSERT INTO `loan_comaker` VALUES ('11', '1', '1');
+INSERT INTO `loan_comaker` VALUES ('12', '2', '2');
+INSERT INTO `loan_comaker` VALUES ('13', '3', '3');
+INSERT INTO `loan_comaker` VALUES ('14', '4599', '45');
+INSERT INTO `loan_comaker` VALUES ('15', '5', '5');
 
 -- ----------------------------
 -- Table structure for loan_type
@@ -3742,7 +3777,7 @@ CREATE TABLE `loan_type` (
 INSERT INTO `loan_type` VALUES ('1', 'N-CELP');
 INSERT INTO `loan_type` VALUES ('2', 'PD-CELP');
 INSERT INTO `loan_type` VALUES ('3', 'ERP-CELP');
-INSERT INTO `loan_type` VALUES ('4', 'PO - CELP');
+INSERT INTO `loan_type` VALUES ('4', 'PO-CELP');
 
 -- ----------------------------
 -- Table structure for log
@@ -3757,7 +3792,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=237 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -3960,6 +3995,44 @@ INSERT INTO `log` VALUES ('195', 'login', 'user login: russel', '2017-03-02 23:0
 INSERT INTO `log` VALUES ('196', 'login', 'user login: russel', '2017-03-05 20:31:58', '10', '9');
 INSERT INTO `log` VALUES ('197', 'logout', 'user logout: russel', '2017-03-05 20:35:21', '10', '9');
 INSERT INTO `log` VALUES ('198', 'login', 'user login: joseph', '2017-03-05 20:35:29', '19', '2');
+INSERT INTO `log` VALUES ('199', 'login', 'user login: russel', '2017-03-07 09:07:00', '10', '9');
+INSERT INTO `log` VALUES ('200', 'login', 'user login: russel', '2017-03-07 14:28:16', '10', '9');
+INSERT INTO `log` VALUES ('201', 'login', 'user login: russel', '2017-03-08 09:20:43', '10', '9');
+INSERT INTO `log` VALUES ('202', 'login', 'user login: russel', '2017-03-08 09:25:21', '10', '9');
+INSERT INTO `log` VALUES ('203', 'login', 'user login: russel', '2017-03-08 09:30:24', '10', '9');
+INSERT INTO `log` VALUES ('204', 'logout', 'user logout: russel', '2017-03-08 11:42:47', '10', '9');
+INSERT INTO `log` VALUES ('205', 'login', 'user login: joseph', '2017-03-08 11:42:57', '19', '2');
+INSERT INTO `log` VALUES ('206', 'logout', 'user logout: joseph', '2017-03-08 11:54:51', '19', '2');
+INSERT INTO `log` VALUES ('207', 'login', 'user login: russel', '2017-03-08 11:54:59', '10', '9');
+INSERT INTO `log` VALUES ('208', 'logout', 'user logout: russel', '2017-03-08 13:21:04', '10', '9');
+INSERT INTO `log` VALUES ('209', 'login', 'user login: joseph', '2017-03-08 13:21:12', '19', '2');
+INSERT INTO `log` VALUES ('210', 'logout', 'user logout: joseph', '2017-03-08 13:21:55', '19', '2');
+INSERT INTO `log` VALUES ('211', 'login', 'user login: russel', '2017-03-08 13:22:09', '10', '9');
+INSERT INTO `log` VALUES ('212', 'logout', 'user logout: russel', '2017-03-08 15:47:03', '10', '9');
+INSERT INTO `log` VALUES ('213', 'login', 'user login: russel', '2017-03-08 15:47:13', '10', '9');
+INSERT INTO `log` VALUES ('214', 'logout', 'user logout: russel', '2017-03-08 15:49:45', '10', '9');
+INSERT INTO `log` VALUES ('215', 'login', 'user login: joseph', '2017-03-08 15:49:57', '19', '2');
+INSERT INTO `log` VALUES ('216', 'logout', 'user logout: joseph', '2017-03-08 15:55:15', '19', '2');
+INSERT INTO `log` VALUES ('217', 'login', 'user login: russel', '2017-03-08 15:55:22', '10', '9');
+INSERT INTO `log` VALUES ('218', 'logout', 'user logout: russel', '2017-03-08 16:33:01', '10', '9');
+INSERT INTO `log` VALUES ('219', 'login', 'user login: joseph', '2017-03-08 16:33:08', '19', '2');
+INSERT INTO `log` VALUES ('220', 'login', 'user login: russel', '2017-03-09 09:15:42', '10', '9');
+INSERT INTO `log` VALUES ('221', 'logout', 'user logout: russel', '2017-03-09 09:29:30', '10', '9');
+INSERT INTO `log` VALUES ('222', 'login', 'user login: russel', '2017-03-09 09:29:41', '10', '9');
+INSERT INTO `log` VALUES ('223', 'logout', 'user logout: russel', '2017-03-09 09:29:46', '10', '9');
+INSERT INTO `log` VALUES ('224', 'login', 'user login: joseph', '2017-03-09 09:29:58', '19', '2');
+INSERT INTO `log` VALUES ('225', 'logout', 'user logout: joseph', '2017-03-09 13:32:40', '19', '2');
+INSERT INTO `log` VALUES ('226', 'login', 'user login: russel', '2017-03-09 13:32:48', '10', '9');
+INSERT INTO `log` VALUES ('227', 'login', 'user login: russel', '2017-03-10 08:39:23', '10', '9');
+INSERT INTO `log` VALUES ('228', 'logout', 'user logout: russel', '2017-03-10 09:31:27', '10', '9');
+INSERT INTO `log` VALUES ('229', 'login', 'user login: joseph', '2017-03-10 09:31:36', '19', '2');
+INSERT INTO `log` VALUES ('230', 'logout', 'user logout: joseph', '2017-03-10 09:35:55', '19', '2');
+INSERT INTO `log` VALUES ('231', 'login', 'user login: russel', '2017-03-10 09:36:04', '10', '9');
+INSERT INTO `log` VALUES ('232', 'logout', 'user logout: russel', '2017-03-10 09:37:37', '10', '9');
+INSERT INTO `log` VALUES ('233', 'login', 'user login: joseph', '2017-03-10 09:37:47', '19', '2');
+INSERT INTO `log` VALUES ('234', 'logout', 'user logout: joseph', '2017-03-10 09:39:20', '19', '2');
+INSERT INTO `log` VALUES ('235', 'login', 'user login: russel', '2017-03-10 09:39:32', '10', '9');
+INSERT INTO `log` VALUES ('236', 'login', 'user login: russel', '2017-03-11 08:50:45', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration

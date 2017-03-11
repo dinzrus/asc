@@ -72,12 +72,14 @@ if ($flash != null) {
                 <?=
                 GridView::widget([
                     'dataProvider' => $newborrowers,
+                    'condensed' => true,
+                    'hover' => true,
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         'last_name',
                         'first_name',
                         'canvass_date:date',
-                        'canvasser',
+                        'canvasser',    
                         [
                             'class' => 'yii\grid\ActionColumn',
                             'template' => '{removenew}',
@@ -107,6 +109,8 @@ if ($flash != null) {
                 <?=
                 GridView::widget([
                     'dataProvider' => $renewalborrowers,
+                    'condensed' => true,
+                    'hover' => true,
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         'last_name',
