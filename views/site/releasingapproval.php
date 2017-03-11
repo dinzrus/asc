@@ -5,10 +5,10 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
 use yii\web\View;
 use yii\widgets\Pjax;
 use kartik\growl\Growl;
+use kartik\grid\GridView;
 
 $this->title = 'Releasing Approval';
 $this->params['breadcrumbs'][] = $this->title;

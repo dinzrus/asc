@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\helpers\Html;
 use kartik\widgets\Growl;
 
