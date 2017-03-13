@@ -6,6 +6,8 @@
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 use kartik\widgets\Growl;
+use kartik\grid\GridView;
+use yii\helpers\Html;
 
 $this->title = 'Approved for Release';
 $this->params['breadcrumbs'][] = $this->title;
@@ -72,45 +74,129 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>   
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="box box-primary">
-            <div class="box-body">        
-                <table class="table table-bordered table-condensed table-striped">
-                    <tr>
-                        <td><strong>#</strong></td>
-                        <td><strong>Name</strong></td>
-                        <td><strong>Unit</strong></td>
-                        <td><strong>Daily</strong></td>
-                        <td></td>
-                    </tr>
-                    <?php if (count($loans) > 0): ?>
-                        <?php $cnt = 1; ?>
-                        <?php foreach ($loans as $loan): ?>
-                            <tr>
-                                <td><?= $cnt ?></td>
-                                <td><?= strtoupper($loan['fullname']) ?></td>
-                                <td><?= $loan['unit_description'] ?></td>
-                                <td><?= $loan['daily'] ?></td>
-                                <td class="col-md-3">
-                                    <a href="<?= Url::to(['site/approvedrelease', 'loan_id' => $loan['loan_id'], 'action' => 'approved']) ?>" onclick="return confirm('Released loan to system?')" class="btn btn-success btn-sm"><i class="fa fa-thumbs-o-up"></i> Released</a>
-                                    <a href="<?= Url::to(['site/approvedrelease', 'loan_id' => $loan['loan_id'], 'action' => 'hold']) ?>" onclick="return confirm('Hold this loan? Note: Hold accounts will be added to your sfr.')" class="btn btn-warning btn-sm"><i class="fa fa-hand-stop-o"></i> Hold</a>
-                                    <a href="<?= Url::to(['site/approvedrelease', 'loan_id' => $loan['loan_id'], 'action' => 'cancel']) ?>" onclick="return confirm('Cancel this loan?')" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
-                                </td>
-                            </tr>
-                            <?php $cnt++; ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td class="alert-info" colspan="6" style="text-align: center;">No data to display</td>
-                        </tr>
-                    <?php endif; ?>
-                </table>
-            </div>
-        </div>
+
+<div class="box box-default">
+    <div class="box-header">
+        <h4 class="box-title"><i class="fa fa-user"></i> New Borrowers</h4>
+    </div>
+    <div class="box-body">    
+        <!------ box-body ----------->
+        <?=
+        GridView::widget([
+            'dataProvider' => $newProvider,
+            'condensed' => true,
+            'hover' => true,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'fullname',
+                'branch_description',
+                'unit',
+                'daily',
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{viewnew} {newmainapprove} {newmainhold} {newmaindenied}',
+                    'buttons' => [
+                        'viewnew' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-eye"></i> View', $url, [
+                                        'title' => Yii::t('app', 'View loan Information'),
+                                        'class' => 'btn btn-primary btn-xs'
+                            ]);
+                        },
+                        'newmainapprove' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-thumbs-up"></i> Approve', $url, [
+                                        'title' => Yii::t('app', 'Approve the loan'),
+                                        'class' => 'btn btn-success btn-xs',
+                                        'onclick' => 'return confirm("Are you sure to approve this loan?")'
+                            ]);
+                        },
+                        'newmainhold' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-hand-stop-o"></i> Hold', $url, [
+                                        'title' => Yii::t('app', 'Hold the loan'),
+                                        'class' => 'btn btn-warning btn-xs',
+                            ]);
+                        },
+                        'newmaindenied' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-ban"></i> Deny', $url, [
+                                        'title' => Yii::t('app', 'Deny the loan'),
+                                        'class' => 'btn btn-danger btn-xs',
+                                        'onclick' => 'return confirm("Are you sure to deny this loan?")',
+                            ]);
+                        },
+                    ],
+                    'urlCreator' => function($action, $newProvider, $url) {
+                        if ($action == 'viewnew') {
+                            $url = Url::to(['loan/viewnew', 'borrowerid' => $newProvider['borrower_id'], 'loanid' => $newProvider['loan_id']]);
+                            return $url;
+                        }
+                    }
+                ],
+            ]
+        ]);
+        ?>
+    </div>
+    <?php Pjax::end(); ?>
+</div>
+
+<div class="box box-default">
+    <div class="box-header">
+        <h4 class="box-title"><i class="fa fa-user"></i> Renewal Borrowers</h4>
+    </div>
+    <div class="box-body">
+        <?=
+        GridView::widget([
+            'dataProvider' => $renewalProvider,
+            'condensed' => true,
+            'hover' => true,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'fullname',
+                'branch_description',
+                'unit',
+                'daily',
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{viewrenewal} {renewalmainapprove} {renewalmainhold} {renewalmaindenied}',
+                    'controller' => 'loan',
+                    'buttons' => [
+                        'viewrenewal' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-eye"></i> View', $url, [
+                                        'title' => Yii::t('app', 'View loan Information'),
+                                        'class' => 'btn btn-primary btn-xs',
+                            ]);
+                        },
+                        'renewalmainapprove' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-thumbs-up"></i> Approve', $url, [
+                                        'title' => Yii::t('app', 'Approve the loan'),
+                                        'class' => 'btn btn-success btn-xs',
+                                        'onclick' => 'return confirm("Are you sure to approve this loan?")'
+                            ]);
+                        },
+                        'renewalmainhold' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-hand-stop-o"></i> Hold', $url, [
+                                        'title' => Yii::t('app', 'Hold the loan'),
+                                        'class' => 'btn btn-warning btn-xs',
+                            ]);
+                        },
+                        'renewalmaindenied' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-ban"></i> Deny', $url, [
+                                        'title' => Yii::t('app', 'Deny the loan'),
+                                        'class' => 'btn btn-danger btn-xs',
+                                        'onclick' => 'return confirm("Are you sure to deny this loan?")',
+                            ]);
+                        },
+                    ],
+                    'urlCreator' => function($action, $newProvider, $url) {
+                        if ($action == 'viewrenewal') {
+                            $url = Url::to(['loan/viewrenewal', 'borrowerid' => $newProvider['borrower_id'], 'loanid' => $newProvider['loan_id']]);
+                            return $url;
+                        }
+                    }
+                ],
+            ]
+        ]);
+        ?>
     </div>
 </div>
-<?php Pjax::end() ?>
 
 
 
