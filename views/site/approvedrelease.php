@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'daily',
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{viewnew} {newmainapprove} {newmainhold} {newmaindenied}',
+                    'template' => '{viewnew} {newbranchrelease} {newbranchunrelease}',
                     'buttons' => [
                         'viewnew' => function ($url, $model) {
                             return Html::a('<i class="fa fa-eye"></i> View', $url, [
@@ -102,21 +102,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'class' => 'btn btn-primary btn-xs'
                             ]);
                         },
-                        'newmainapprove' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-thumbs-up"></i> Approve', $url, [
+                        'newbranchrelease' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-thumbs-up"></i> Releaase', $url, [
                                         'title' => Yii::t('app', 'Approve the loan'),
                                         'class' => 'btn btn-success btn-xs',
                                         'onclick' => 'return confirm("Are you sure to approve this loan?")'
                             ]);
                         },
-                        'newmainhold' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-hand-stop-o"></i> Hold', $url, [
-                                        'title' => Yii::t('app', 'Hold the loan'),
-                                        'class' => 'btn btn-warning btn-xs',
-                            ]);
-                        },
-                        'newmaindenied' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-ban"></i> Deny', $url, [
+                        'newbranchunrelease' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-ban"></i> Unrelease', $url, [
                                         'title' => Yii::t('app', 'Deny the loan'),
                                         'class' => 'btn btn-danger btn-xs',
                                         'onclick' => 'return confirm("Are you sure to deny this loan?")',
@@ -155,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'daily',
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{viewrenewal} {renewalmainapprove} {renewalmainhold} {renewalmaindenied}',
+                    'template' => '{viewrenewal} {renewalbranchrelease} {renewalbranchunrelease}',
                     'controller' => 'loan',
                     'buttons' => [
                         'viewrenewal' => function ($url, $model) {
@@ -164,21 +158,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'class' => 'btn btn-primary btn-xs',
                             ]);
                         },
-                        'renewalmainapprove' => function ($url, $model) {
+                        'renewalbranchrelease' => function ($url, $model) {
                             return Html::a('<i class="fa fa-thumbs-up"></i> Approve', $url, [
                                         'title' => Yii::t('app', 'Approve the loan'),
                                         'class' => 'btn btn-success btn-xs',
                                         'onclick' => 'return confirm("Are you sure to approve this loan?")'
                             ]);
                         },
-                        'renewalmainhold' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-hand-stop-o"></i> Hold', $url, [
-                                        'title' => Yii::t('app', 'Hold the loan'),
-                                        'class' => 'btn btn-warning btn-xs',
-                            ]);
-                        },
-                        'renewalmaindenied' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-ban"></i> Deny', $url, [
+                        'renewalbranchunrelease' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-ban"></i> Unrelease', $url, [
                                         'title' => Yii::t('app', 'Deny the loan'),
                                         'class' => 'btn btn-danger btn-xs',
                                         'onclick' => 'return confirm("Are you sure to deny this loan?")',
