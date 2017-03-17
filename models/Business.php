@@ -23,5 +23,9 @@ class Business extends BaseBusiness
             [['business_name', 'address_st_bldng_no', 'permit_no', 'ownership'], 'string', 'max' => 255]
         ]);
     }
+    
+    public function getFulladdress() {
+        return $this->address_st_bldng_no . ', ' . $this->addressBarangay->barangay . ', ' . $this->addressCityMunicipality->municipality_city . ', ' . $this->addressProvince->province;
+    }
 	
 }

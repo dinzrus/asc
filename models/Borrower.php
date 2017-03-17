@@ -81,6 +81,11 @@ class Borrower extends BaseBorrower {
     public function getBranch() {
         return $this->hasOne(\app\models\Branch::className(), ['branch_id' => 'branch_id']);
     }
+    
+    // get full address 
+    public function getFulladdress() {
+        return $this->address_street_house_no . ', ' . $this->addressBarangay->barangay . ', ' . $this->addressCityMunicipality->municipality_city . ', ' . $this->addressProvince->province;
+    }
 
     /**
      * This will set the url of the borrower image for saving into the database, if success this 
