@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'newbranchrelease' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-thumbs-up"></i> Releaase', $url, [
+                            return Html::a('<i class="fa fa-thumbs-up"></i> Release', $url, [
                                         'title' => Yii::t('app', 'Approve the loan'),
                                         'class' => 'btn btn-success btn-xs',
                                         'onclick' => 'return confirm("Are you sure to approve this loan?")'
@@ -159,7 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'renewalbranchrelease' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-thumbs-up"></i> Approve', $url, [
+                            return Html::a('<i class="fa fa-thumbs-up"></i> Release', $url, [
                                         'title' => Yii::t('app', 'Approve the loan'),
                                         'class' => 'btn btn-success btn-xs',
                                         'onclick' => 'return confirm("Are you sure to approve this loan?")'
