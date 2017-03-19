@@ -80,7 +80,7 @@
                                 ['label' => 'Loan Applicants (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/newapplicants'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'C.I. Approval/Releasing (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Approval for Releasing (m)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/releasingapproval'], "visible" => Yii::$app->user->can('IT')],
-                                ['label' => 'Approved for Release (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/approvedrelease'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Releasing Confirmation (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/approvedrelease'], "visible" => Yii::$app->user->can('ORGANIZER')],
                             ],
                         ],
                         [

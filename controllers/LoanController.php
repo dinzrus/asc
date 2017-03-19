@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use app\models\Borrower;
 use app\models\Loan;
+use app\models\Business;
+use app\models\Dependent;
+use yii\helpers\Url;
 
 class LoanController extends \yii\web\Controller {
 
@@ -12,7 +15,7 @@ class LoanController extends \yii\web\Controller {
     }
 
     /**
-     * Functions for new loan
+     * Functions for new loan   
      */
 
     /**
@@ -21,10 +24,18 @@ class LoanController extends \yii\web\Controller {
      */
     public function actionViewnew($borrowerid, $loanid) {
         $borrower = Borrower::findOne(['id' => $borrowerid]);
+        $business = Business::findOne(['borrower_id' => $borrowerid]);
+        $dependent = Dependent::findAll(['borrower_id' => $borrowerid]);
         $loan = Loan::findOne(['id' => $loanid]);
+        
+        Url::remember();
+        
+
         return $this->render('viewloan', [
                     'borrower' => $borrower,
                     'loan' => $loan,
+                    'business' => $business,
+                    'dependent' => $dependent,
         ]);
     }
 
@@ -64,10 +75,17 @@ class LoanController extends \yii\web\Controller {
      */
     public function actionViewrenewal($borrowerid, $loanid) {
         $borrower = Borrower::findOne(['id' => $borrowerid]);
+        $business = Business::findOne(['borrower_id' => $borrowerid]);
+        $dependent = Dependent::findAll(['borrower_id' => $borrowerid]);
         $loan = Loan::findOne(['id' => $loanid]);
+        
+        Url::remember();
+
         return $this->render('viewloan', [
                     'borrower' => $borrower,
                     'loan' => $loan,
+                    'business' => $business,
+                    'dependent' => $dependent,
         ]);
     }
 

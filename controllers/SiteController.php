@@ -15,6 +15,7 @@ use app\models\Log;
 use yii\web\UploadedFile;
 use yii\helpers\Json;
 use yii\data\SqlDataProvider;
+use yii\helpers\Url;
 
 class SiteController extends Controller {
 
@@ -932,6 +933,8 @@ class SiteController extends Controller {
 
     public function actionApprovedrelease($loan_id = null, $action = null) {
         if (Yii::$app->user->can('ORGANIZER')) {
+            
+            Url::remember();
 
             if (!(is_null($loan_id))) {
                 if ($action === 'approved') {
