@@ -14,13 +14,13 @@ $this->params['breadcrumbs'][] = ['label' => 'View: ' . $this->title];
 <!-- Custom Tabs -->
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-chevron-down"></i> Borrower</a></li>
+        <li class=""><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-chevron-down"></i> Borrower</a></li>
         <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Business Information</a></li>
-        <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Loan Information</a></li>
+        <li class="active"><a href="#tab_3" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Loan Information</a></li>
         <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Attachments</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="tab_1">
+        <div class="tab-pane" id="tab_1">
 
             <div class="row">
                 <div class="col-md-6">
@@ -210,8 +210,123 @@ $this->params['breadcrumbs'][] = ['label' => 'View: ' . $this->title];
             </div>
         </div>
         <!-- /.tab-pane -->
-        <div class="tab-pane" id="tab_3">
-            
+        <div class="tab-pane active" id="tab_3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Loan Details
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-condensed table-bordered table-hover">
+                                <tr>
+                                    <th>Daily</th>
+                                    <td><?= $loan->daily ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Account Type</th>
+                                    <td><?= $loan->loan_type ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Unit</th>
+                                    <td><?= $loan->unit?></td>
+                                </tr>
+                                <tr>
+                                    <th>Release Date</th>
+                                    <td><?= $loan->release_date ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Maturity Date</th>
+                                    <td><?= $loan->maturity_date ?></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-condensed table-bordered table-hover">
+                                <tr bgcolor="#bef4e1">
+                                    <th>GROSS AMOUNT</th>
+                                    <td><?= $loan->gross_amount ?></td>
+                                </tr>
+                                <tr>
+                                    <th>- Interest Deduction</th>
+                                    <td><?= $loan->interest_bdays ?></td>
+                                </tr>
+                                <tr>
+                                    <th>- Processing / Admin Fee</th>
+                                    <td><?= $loan->admin_fee ?></td>
+                                </tr>
+                                <tr>
+                                    <th>- Notary Fees</th>
+                                    <td><?= $loan->notarial_fee ?></td>
+                                </tr>
+                                <tr>
+                                    <th>- Gas Surcharge</th>
+                                    <td><?= $loan->gas ?></td>
+                                </tr>
+                                <tr>
+                                    <th>- Doc. Stamp</th>
+                                    <td><?= $loan->doc_stamp?></td>
+                                </tr>
+                                <tr bgcolor="#bef4e1">
+                                    <th>NET PROCEEDS</th>
+                                    <td><?= $loan->net_proceeds ?></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Comaker Info.
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <tr>
+                                    <th>Last Name</th>
+                                    <td><?= $comaker['last_name'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>First Name</th>
+                                    <td><?= $comaker['first_name'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Middle Name</th>
+                                    <td><?= $comaker['middle_name'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td><?= $comaker['full_address'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Contact No.</th>
+                                    <td><?= $comaker['contact_no'] ?></td>
+                                </tr>
+                            </table>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <tr>
+                                    <th>Gender</th>
+                                    <td><?= $comaker['gender'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Civil Status</th>
+                                    <td><?= $comaker['civil_status'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Date of Birth</th>
+                                    <td><?= $comaker['birthdate'] ?></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.tab-pane -->
         <div class="tab-pane" id="tab_4">
