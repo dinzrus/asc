@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100113
 File Encoding         : 65001
 
-Date: 2017-03-11 17:03:38
+Date: 2017-03-20 17:22:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3542,6 +3542,46 @@ INSERT INTO `exceltest` VALUES ('18', '350', '50', '16450', '3290', '477.05', '2
 INSERT INTO `exceltest` VALUES ('19', '400', '50', '18800', '3760', '545.2', '218', '625', '1388.2', '21', '9340', '22991.8', '15', '3');
 
 -- ----------------------------
+-- Table structure for imagemanager
+-- ----------------------------
+DROP TABLE IF EXISTS `imagemanager`;
+CREATE TABLE `imagemanager` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fileName` varchar(128) NOT NULL,
+  `fileHash` varchar(32) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
+  `createdBy` int(10) unsigned DEFAULT NULL,
+  `modifiedBy` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of imagemanager
+-- ----------------------------
+INSERT INTO `imagemanager` VALUES ('11', '5-handling-success.jpg', '1l-tW7RVyTylVq1GKCgTI0VBmZPGbqCM', '2017-03-18 09:31:34', '2017-03-18 09:31:34', null, null);
+INSERT INTO `imagemanager` VALUES ('12', 'AH-20121012--MG-9552-bikes-stanley-gg.jpg', 'frRNCcjk2_jj-lX0fh3sEBP5r3YlDT6z', '2017-03-18 09:31:34', '2017-03-18 09:31:34', null, null);
+INSERT INTO `imagemanager` VALUES ('13', 'do-something-scares-you-ways-challenge-yourself1.jpg', 'zjVcz--B6BMRS471O7QRihkQZ0qnslPT', '2017-03-18 09:31:34', '2017-03-18 09:31:34', null, null);
+INSERT INTO `imagemanager` VALUES ('14', 'failure-edited.jpg', '4IKpAp5z2UyDtRLXdqovpfiZlJw_iVLt', '2017-03-18 09:31:34', '2017-03-18 09:31:34', null, null);
+INSERT INTO `imagemanager` VALUES ('15', 'iStock-000021386796-Medium.jpg', 'Fo91pgJAanCOwe31MxIv0HCRL-RtcFFH', '2017-03-18 09:31:34', '2017-03-18 09:31:34', null, null);
+INSERT INTO `imagemanager` VALUES ('16', 'Man-And-Sunset.jpg', 'F_oiHJ40cv5Wrsvl8qGBxUoQqhMgk17b', '2017-03-18 09:31:34', '2017-03-18 09:31:34', null, null);
+INSERT INTO `imagemanager` VALUES ('17', 'mountain-climber-with-flag-pop-19603.jpg', 'VrtpXPupSS2BxRoe6BEVjDf9ZNrtRmX_', '2017-03-18 09:31:34', '2017-03-18 09:31:34', null, null);
+INSERT INTO `imagemanager` VALUES ('18', 'Obstacles.jpg', 'hjhv9UWmeg53MCgzvtAJQkoWe1UuzBkA', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('19', 'Persistence.jpg', 'seqZAnxPXw_sJ2-X8E0pO_HoPicY2zCX', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('21', 'q2.jpg', 'fNN8JjQyTUrCYtpE5L7RYYOC0u0yqpN0', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('22', 'q3.jpg', '6RoHDbcMhP9Y_v_SMjrWYN4l8G3mD0i_', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('23', 'q4.jpg', 'H9oSEvINRTqqzBSjSbvyTGFNQJTeoKVU', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('24', 'q5.jpg', 'W-QUQPW4aPxbaMahZi3dZeNtI2GRd_Dc', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('25', 'q6.jpg', 'cbTSzgeVSAX6Krea1eVdZ_wKjBxupKiD', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('26', 'q7.jpg', '-u199ceETJX62pQhncSYkl7wUs4Qt_IJ', '2017-03-18 09:31:35', '2017-03-18 09:31:35', null, null);
+INSERT INTO `imagemanager` VALUES ('27', 'q8.jpg', '88WttlLfKdzDuYnKg2EB261nlLrm1iOk', '2017-03-18 09:31:36', '2017-03-18 09:31:36', null, null);
+INSERT INTO `imagemanager` VALUES ('28', 'q9.jpg', 'NBVaeb3ZbCF3Kx2I6xte25ICRzN5bqyS', '2017-03-18 09:31:36', '2017-03-18 09:31:36', null, null);
+INSERT INTO `imagemanager` VALUES ('29', 'success.jpg', 'eQVjy-IKoK9Q4haj4Afh_4RjWRkOWo2p', '2017-03-18 09:31:36', '2017-03-18 09:31:36', null, null);
+INSERT INTO `imagemanager` VALUES ('30', 'template.jpg', '_rJZnmR4SIyjTsqBaalTolLrmDhkn2_g', '2017-03-18 09:31:36', '2017-03-18 09:31:36', null, null);
+INSERT INTO `imagemanager` VALUES ('31', 'iStock-000021386796-Medium_crop_583x925.jpg', '441SzAHIsc-sSkQ6bFgkUx6LIDNbf02v', '2017-03-18 09:34:41', '2017-03-18 09:34:41', null, null);
+INSERT INTO `imagemanager` VALUES ('32', 'q6_crop_400x137.jpg', 'c5d5SzdO4klzLESuObEOESipJcxRY0nt', '2017-03-18 09:35:16', '2017-03-18 09:35:16', null, null);
+
+-- ----------------------------
 -- Table structure for jumpdate
 -- ----------------------------
 DROP TABLE IF EXISTS `jumpdate`;
@@ -3613,10 +3653,10 @@ CREATE TABLE `loan` (
 -- Records of loan
 -- ----------------------------
 INSERT INTO `loan` VALUES ('1', '010-03062017693-M1', '1', '10', '15', null, null, '110', '52', '5170', '1034', '50', '50', '0', '285', '300', '0', '809.08', '3', '588.5', '3939.57', '15', '3', 'Totam aut aut in laudantium, reiciendis dolor tenetur sint explicabo. Est.', '1', '1978-11-22', 'NA', null, null, '2017-03-06 10:32:18', '2017-03-06 10:32:18', '10', '10');
-INSERT INTO `loan` VALUES ('2', '007-03092017571-M1', '1', '7', '15', null, null, '120', '52', '5640', '1128', '50', '50', '0', '295', '300', '0', '830.36', '3', '642', '4345.44', '20', '3', 'Itaque dicta sequi reprehenderit aut odit et modi laboriosam, sit, est rerum aut expedita sit, quia.', '1', '1991-02-25', 'NA', null, null, '2017-03-09 13:33:56', '2017-03-09 13:33:56', '10', '10');
-INSERT INTO `loan` VALUES ('3', '009-03092017552-B1', '3', '9', '6', null, null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Veritatis voluptate est in cupiditate minus minima dolore placeat, sunt.', '2', '1996-12-12', 'NA', null, null, '2017-03-09 15:55:57', '2017-03-09 15:55:57', '10', '10');
-INSERT INTO `loan` VALUES ('5', '025-03102017393-B4', '1', '25', '9', null, null, '600', '50', '28200', '5640', '50', '50', '0', '775', '300', '0', '1851.8', '2', '2328', '22945.2', '90', '3', 'Enim eligendi non deserunt excepturi nesciunt, ut vitae veniam, ut irure tempor lorem perspiciatis, tempora aut nostrud harum.', '2', '2012-12-17', 'NA', null, null, '2017-03-10 09:39:14', '2017-03-10 09:39:14', '19', '19');
-INSERT INTO `loan` VALUES ('4599', '008-03092017257-B1', '2', '8', '6', null, null, '100', '52', '4700', '940', '50', '50', '0', '275', '300', '0', '787.8', '3', '535', '3533.7', '15', '3', 'Sit fugit, officiis molestiae voluptatem, quia id ratione libero voluptas unde officiis commodo est qui sed consequat. Amet, beatae aspernatur.', '2', '1981-08-17', 'NA', null, null, '2017-03-09 16:06:17', '2017-03-09 16:06:17', '10', '10');
+INSERT INTO `loan` VALUES ('2', '007-03092017571-M1', '1', '7', '15', '2017-03-20', null, '120', '52', '5640', '1128', '50', '50', '0', '295', '300', '0', '830.36', '3', '642', '4345.44', '20', '3', 'Itaque dicta sequi reprehenderit aut odit et modi laboriosam, sit, est rerum aut expedita sit, quia.', '1', '1991-02-25', 'A', null, null, '2017-03-09 13:33:56', '2017-03-20 14:50:48', '10', '10');
+INSERT INTO `loan` VALUES ('3', '009-03092017552-B1', '3', '9', '6', null, null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Veritatis voluptate est in cupiditate minus minima dolore placeat, sunt.', '2', '1996-12-12', 'IA', null, null, '2017-03-09 15:55:57', '2017-03-09 15:55:57', '10', '10');
+INSERT INTO `loan` VALUES ('5', '025-03102017393-B4', '1', '25', '9', '2017-03-20', '2017-05-17', '600', '50', '28200', '5640', '50', '50', '0', '775', '300', '0', '1851.8', '2', '2328', '22945.2', '90', '3', 'Enim eligendi non deserunt excepturi nesciunt, ut vitae veniam, ut irure tempor lorem perspiciatis, tempora aut nostrud harum.', '2', '2012-12-17', 'A', null, null, '2017-03-10 09:39:14', '2017-03-20 14:48:15', '19', '10');
+INSERT INTO `loan` VALUES ('4599', '008-03092017257-B1', '2', '8', '6', '2017-03-20', '2017-05-19', '100', '52', '4700', '940', '50', '50', '0', '275', '300', '0', '787.8', '3', '535', '3533.7', '15', '3', 'Sit fugit, officiis molestiae voluptatem, quia id ratione libero voluptas unde officiis commodo est qui sed consequat. Amet, beatae aspernatur.', '2', '1981-08-17', 'A', null, null, '2017-03-09 16:06:17', '2017-03-20 14:49:26', '10', '10');
 
 -- ----------------------------
 -- Table structure for loanscheme
@@ -3792,7 +3832,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=237 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -4033,6 +4073,20 @@ INSERT INTO `log` VALUES ('233', 'login', 'user login: joseph', '2017-03-10 09:3
 INSERT INTO `log` VALUES ('234', 'logout', 'user logout: joseph', '2017-03-10 09:39:20', '19', '2');
 INSERT INTO `log` VALUES ('235', 'login', 'user login: russel', '2017-03-10 09:39:32', '10', '9');
 INSERT INTO `log` VALUES ('236', 'login', 'user login: russel', '2017-03-11 08:50:45', '10', '9');
+INSERT INTO `log` VALUES ('237', 'logout', 'user logout: russel', '2017-03-13 09:44:36', '10', '9');
+INSERT INTO `log` VALUES ('238', 'login', 'user login: joseph', '2017-03-13 09:44:51', '19', '2');
+INSERT INTO `log` VALUES ('239', 'logout', 'user logout: joseph', '2017-03-13 11:00:13', '19', '2');
+INSERT INTO `log` VALUES ('240', 'login', 'user login: russel', '2017-03-13 11:00:23', '10', '9');
+INSERT INTO `log` VALUES ('241', 'login', 'user login: russel', '2017-03-14 13:18:02', '10', '9');
+INSERT INTO `log` VALUES ('242', 'login', 'user login: russel', '2017-03-14 14:38:46', '10', '9');
+INSERT INTO `log` VALUES ('243', 'login', 'user login: russel', '2017-03-15 11:24:23', '10', '9');
+INSERT INTO `log` VALUES ('244', 'login', 'user login: russel', '2017-03-15 15:16:49', '10', '9');
+INSERT INTO `log` VALUES ('245', 'login', 'user login: russel', '2017-03-16 09:03:55', '10', '9');
+INSERT INTO `log` VALUES ('246', 'login', 'user login: russel', '2017-03-17 09:08:08', '10', '9');
+INSERT INTO `log` VALUES ('247', 'login', 'user login: joseph', '2017-03-17 09:18:07', '19', '2');
+INSERT INTO `log` VALUES ('248', 'logout', 'user logout: joseph', '2017-03-17 09:27:19', '19', '2');
+INSERT INTO `log` VALUES ('249', 'login', 'user login: russel', '2017-03-17 09:27:26', '10', '9');
+INSERT INTO `log` VALUES ('250', 'login', 'user login: russel', '2017-03-20 09:40:43', '10', '9');
 
 -- ----------------------------
 -- Table structure for migration
@@ -4050,6 +4104,8 @@ CREATE TABLE `migration` (
 INSERT INTO `migration` VALUES ('m000000_000000_base', '1468285768');
 INSERT INTO `migration` VALUES ('m130524_201442_init', '1468285776');
 INSERT INTO `migration` VALUES ('m140506_102106_rbac_init', '1468286735');
+INSERT INTO `migration` VALUES ('m160622_085710_create_ImageManager_table', '1489799877');
+INSERT INTO `migration` VALUES ('m170223_113221_addBlameableBehavior', '1489799878');
 
 -- ----------------------------
 -- Table structure for money

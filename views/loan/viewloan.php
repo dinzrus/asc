@@ -14,13 +14,13 @@ $this->params['breadcrumbs'][] = ['label' => 'View: ' . $this->title];
 <!-- Custom Tabs -->
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class=""><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-chevron-down"></i> Borrower</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-chevron-down"></i> Borrower</a></li>
         <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Business Information</a></li>
-        <li class="active"><a href="#tab_3" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Loan Information</a></li>
+        <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Loan Information</a></li>
         <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false"><i class="fa fa-chevron-down"></i> Attachments</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" id="tab_1">
+        <div class="tab-pane active" id="tab_1">
 
             <div class="row">
                 <div class="col-md-6">
@@ -210,7 +210,7 @@ $this->params['breadcrumbs'][] = ['label' => 'View: ' . $this->title];
             </div>
         </div>
         <!-- /.tab-pane -->
-        <div class="tab-pane active" id="tab_3">
+        <div class="tab-pane" id="tab_3">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Loan Details

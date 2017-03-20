@@ -68,7 +68,9 @@ class LoanController extends \yii\web\Controller {
      * @param int $id - loan id
      */
     public function actionNewmainapprove($id) {
-        
+        Yii::$app->db->createCommand("UPDATE loan SET loan.status = 'IA' WHERE id = :id")->bindValue(':id', $id)->execute();
+        Yii::$app->session->setFlash('newapproved', "New Successfully approve");
+        return $this->redirect(['site/releasingapproval']);
     }
 
     /**
@@ -103,7 +105,7 @@ class LoanController extends \yii\web\Controller {
         $dependent = Dependent::findAll(['borrower_id' => $borrowerid]);
         $loan = Loan::findOne(['id' => $loanid]);
 
-         $comaker = Yii::$app->db->createCommand("SELECT\n" .
+        $comaker = Yii::$app->db->createCommand("SELECT\n" .
                         "comaker.id,\n" .
                         "comaker.profile_pic,\n" .
                         "comaker.first_name,\n" .
@@ -141,7 +143,9 @@ class LoanController extends \yii\web\Controller {
      * @param int $id - loan id
      */
     public function actionRenewalmainapprove($id) {
-        
+        Yii::$app->db->createCommand("UPDATE loan SET loan.status = 'IA' WHERE id = :id")->bindValue(':id', $id)->execute();
+        Yii::$app->session->setFlash('renewalapproved', "Renewal Successfully approve");
+        return $this->redirect(['site/releasingapproval']);
     }
 
     /**
@@ -158,6 +162,28 @@ class LoanController extends \yii\web\Controller {
      */
     public function actionRenewalmaindenied($id) {
         
+    }
+
+    //================= Branch Releasing confirmation
+
+    public function actionNewreleased($loanid) {
+        $loan = Loan::findOne(['id' => $loanid]);
+        $loan->status = 'A';
+        $loan->release_date = date('Y-m-d');
+        $loan->save();
+
+        Yii::$app->session->setFlash('successreleasing', 'Successfully Released');
+        return $this->redirect(['site/approvedrelease']);
+    }
+
+    public function actionRenewalreleased($loanid) {
+        $loan = Loan::findOne(['id' => $loanid]);
+        $loan->status = 'A';
+        $loan->release_date = date('Y-m-d');
+        $loan->save();
+
+        Yii::$app->session->setFlash('successreleasing', 'Successfully Released');
+        return $this->redirect(['site/approvedrelease']);
     }
 
 }

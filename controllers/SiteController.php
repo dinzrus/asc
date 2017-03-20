@@ -16,6 +16,7 @@ use yii\web\UploadedFile;
 use yii\helpers\Json;
 use yii\data\SqlDataProvider;
 use yii\helpers\Url;
+use yii\data\ActiveDataProvider;
 
 class SiteController extends Controller {
 
@@ -933,7 +934,7 @@ class SiteController extends Controller {
 
     public function actionApprovedrelease($loan_id = null, $action = null) {
         if (Yii::$app->user->can('ORGANIZER')) {
-            
+
             Url::remember();
 
             if (!(is_null($loan_id))) {
@@ -1079,7 +1080,7 @@ class SiteController extends Controller {
                                 "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
                                 "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
                                 "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                                "WHERE borrower.branch_id = :branch_id AND  loan_type.loan_description != 'N-CELP' AND loan.status = 'IA'",[':branch_id' => Yii::$app->user->identity->branch->branch_id])->queryScalar();
+                                "WHERE borrower.branch_id = :branch_id AND  loan_type.loan_description != 'N-CELP' AND loan.status = 'IA'", [':branch_id' => Yii::$app->user->identity->branch->branch_id])->queryScalar();
 
                 $renewalProvider = new SqlDataProvider([
                     'sql' => "SELECT\n" .
@@ -1121,10 +1122,22 @@ class SiteController extends Controller {
     public function actionLedger($id) {
 
         $borrower = Borrower::findOne(['id' => $id]);
-        $loans = Loan::find()->where(['borrower' => $id])->andWhere(['or', "status='A'", "status='PD'", "status='WA'", "status='PO'"])->orderBy('id DESC')->all();
+
+        $loanquery = Loan::find()->where(['borrower' => $id])->andWhere(['or', "status='A'", "status='PD'", "status='WA'", "status='PO'"]);
+        $loanprovider = new ActiveDataProvider([
+            'query' => $loanquery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ]
+        ]);
 
         return $this->render('accountinfo', [
-                    'loans' => $loans,
+                    'loanprovider' => $loanprovider,
                     'borrower' => $borrower
         ]);
     }

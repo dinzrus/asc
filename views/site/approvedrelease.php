@@ -15,51 +15,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(['enablePushState' => false]) ?>
 <div class="row">
     <div class="col-md-12">
-        <?php if (Yii::$app->session->hasFlash('loan_approved')): ?>
+        <?php if (Yii::$app->session->hasFlash('successreleasing')): ?>
             <?php
             echo Growl::widget([
                 'type' => Growl::TYPE_SUCCESS,
                 'title' => 'Well done!',
                 'icon' => 'glyphicon glyphicon-ok-sign',
-                'body' => Yii::$app->session->getFlash('loan_approved'),
-                'showSeparator' => true,
-                'delay' => 0,
-                'pluginOptions' => [
-                    'showProgressbar' => false,
-                    'placement' => [
-                        'from' => 'top',
-                        'align' => 'right',
-                    ]
-                ]
-            ]);
-            ?>
-        <?php endif; ?>   
-        <?php if (Yii::$app->session->hasFlash('hold_success')): ?>
-            <?php
-            echo Growl::widget([
-                'type' => Growl::TYPE_INFO,
-                'title' => 'Information!',
-                'icon' => 'glyphicon glyphicon-ok-sign',
-                'body' => Yii::$app->session->getFlash('hold_success'),
-                'showSeparator' => true,
-                'delay' => 0,
-                'pluginOptions' => [
-                    'showProgressbar' => false,
-                    'placement' => [
-                        'from' => 'top',
-                        'align' => 'right',
-                    ]
-                ]
-            ]);
-            ?>
-        <?php endif; ?>   
-        <?php if (Yii::$app->session->hasFlash('cancel_success')): ?>
-            <?php
-            echo Growl::widget([
-                'type' => Growl::TYPE_DANGER,
-                'title' => 'Information!',
-                'icon' => 'glyphicon glyphicon-ok-sign',
-                'body' => Yii::$app->session->getFlash('cancel_success'),
+                'body' => Yii::$app->session->getFlash('successreleasing'),
                 'showSeparator' => true,
                 'delay' => 0,
                 'pluginOptions' => [
@@ -122,6 +84,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             $url = Url::to(['loan/viewnew', 'borrowerid' => $newProvider['borrower_id'], 'loanid' => $newProvider['loan_id']]);
                             return $url;
                         }
+                        if ($action == 'newbranchrelease') {
+                            $url = Url::to(['loan/newreleased', 'loanid' => $newProvider['loan_id']]);
+                            return $url;
+                        }
                     }
                 ],
             ]
@@ -176,6 +142,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'urlCreator' => function($action, $newProvider, $url) {
                         if ($action == 'viewrenewal') {
                             $url = Url::to(['loan/viewrenewal', 'borrowerid' => $newProvider['borrower_id'], 'loanid' => $newProvider['loan_id']]);
+                            return $url;
+                        }
+                        if ($action == 'renewalbranchrelease') {
+                            $url = Url::to(['loan/renewalreleased', 'loanid' => $newProvider['loan_id']]);
                             return $url;
                         }
                     }

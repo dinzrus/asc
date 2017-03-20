@@ -4,10 +4,7 @@
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\LinkPager;
-use yii\web\View;
-use yii\widgets\Pjax;
+use kartik\grid\GridView;
 use kartik\widgets\Growl;
 
 $this->title = 'Accounts';
@@ -90,64 +87,33 @@ $this->registerJs($search);
                 <center><h4><strong>Accounts</strong></h4></center>
             </div>
             <div class="box-body">
-                <br>
-                <table class="table table-bordered">
-                    <tr>
-                        <td></td>
-                        <td><strong>#</strong></td>
-                        <td><strong>TYPE</strong></td>
-                        <td><strong>UNIT</strong></td>
-                        <td><strong>ACCOUNT CODE</strong></td>
-                        <td><strong>RELEASE DATE</strong></td>
-                        <td><strong>MATURITY</strong></td>
-                        <td><strong>DAILY PAY</strong></td>
-                        <td><strong>TERM</strong></td>
-                        <td><strong>Status</strong></td>
-                        <td><strong>VIEW LEDGER</strong></td>
-                    </tr>
-                    <?php
-                    $counter = 1;
-                    if (count($loans) > 0) :
-                        foreach ($loans as $loan) :
-                            ?>
-                            <tr>
-                                <td><?= Html::checkbox('selected', false) ?></td>
-                                <td><?= $counter ?></td>
-                                <td><?= $loan->loanType->loan_description ?></td>
-                                <td><?= $loan->unit0->unit_description ?></td>
-                                <td><?= $loan->loan_no ?></td>
-                                <td><?= Yii::$app->formatter->asDate($loan->release_date) ?></td>
-                                <td><?= Yii::$app->formatter->asDate($loan->maturity_date) ?></td>
-                                <td><?= Yii::$app->formatter->asCurrency($loan->daily) ?></td>
-                                <td><?= $loan->term ?></td>
-                                <td>
-                                    <?php
-                                    switch ($loan->status) {
-                                        case 'A':
-                                            echo "<span class='label label-success'>Active</span>";
-                                            break;
-                                        case 'PD':
-                                            echo "<span class='label label-danger'>Pastdue</span>";
-                                            break;
-                                        case 'WA':
-                                            echo "<span class='label label-default'>Waived</span>";
-                                            break;
-                                        case 'PO':
-                                            echo "<span class='label label-info'>Payout</span>";
-                                            break;
-                                    }
-                                    ?>
-                                </td>
-                                <td><a type="button" data-loanid="<?= $loan->id ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye"></i></a></td>
-                            </tr>
-                            <?php $counter++; ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td class="alert-info" colspan="10" style="text-align: center;">No data to display</td>
-                        </tr>
-                    <?php endif; ?>
-                </table>
+                <?=
+                GridView::widget([
+                    'dataProvider' => $loanprovider,
+                    'condensed' => true,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'loan_no',
+                        'release_date',
+                        [
+                            'label' => 'Maturity Date',
+                            'value' => function($loanprovider) {
+                                if (!$loanprovider['maturity_date'])
+                                    return \app\models\Loan::getMaturityDate($loanprovider['release_date'], $loanprovider['term']);
+                                else
+                                    return $loanprovider['maturity_date'];
+                            },
+                        ],
+                        'daily',
+                        [
+                            'label' => 'Status',
+                            'value' => function ($loanprovider) {
+                                return ('p', Html::encode($loanprovider['status']), ['class' => 'alert alert-success']);
+                            }
+                        ],
+                    ]
+                ]);
+                ?>
             </div>
         </div>
     </div>
@@ -254,7 +220,7 @@ $this->registerJs($search);
                         </tr>
                     </thead>
                     <tbody id="pay-list">
-                        
+
                     </tbody>
                 </table>
             </div>

@@ -12,6 +12,13 @@ use kartik\grid\GridView;
 
 $this->title = 'Releasing Approval';
 $this->params['breadcrumbs'][] = $this->title;
+
+
+$newProvider->pagination->pageParam = 'new-page';
+$newProvider->sort->sortParam = 'new-sort';
+
+$renewalProvider->pagination->pageParam = 'renewal-page';
+$renewalProvider->sort->sortParam = 'renewal-sort';
 ?>
 <?php
 Pjax::begin([
@@ -22,13 +29,22 @@ Pjax::begin([
 <!------ flash message ------->
 <div class="row">
     <div class="col-md-12">
-        <?php if (Yii::$app->session->hasFlash('loan_approved')): ?>
-            <?php
+        <?php
+        $flash = null;
+
+        if (Yii::$app->session->hasFlash('newapproved')) {
+            $flash = Yii::$app->session->getFlash('newapproved');
+        }
+        if (Yii::$app->session->hasFlash('renewalapproved')) {
+            $flash = Yii::$app->session->getFlash('renewalapproved');
+        }
+
+        if ($flash) {
             echo Growl::widget([
                 'type' => Growl::TYPE_SUCCESS,
                 'title' => 'Well done!',
                 'icon' => 'glyphicon glyphicon-ok-sign',
-                'body' => Yii::$app->session->getFlash('loan_approved'),
+                'body' => $flash,
                 'showSeparator' => true,
                 'delay' => 0,
                 'pluginOptions' => [
@@ -39,8 +55,8 @@ Pjax::begin([
                     ]
                 ]
             ]);
-            ?>
-        <?php endif; ?>   
+        }
+        ?>   
     </div>
 </div> 
 
@@ -97,13 +113,17 @@ Pjax::begin([
                             $url = Url::to(['loan/viewnew', 'borrowerid' => $newProvider['borrower_id'], 'loanid' => $newProvider['loan_id']]);
                             return $url;
                         }
+                        if ($action == 'newmainapprove') {
+                            $url = Url::to(['loan/newmainapprove', 'id' => $newProvider['loan_id']]);
+                            return $url;
+                        }
                     }
                 ],
             ]
         ]);
         ?>
     </div>
-    <?php Pjax::end(); ?>
+
 </div>
 
 <div class="box box-default">
@@ -159,6 +179,10 @@ Pjax::begin([
                             $url = Url::to(['loan/viewrenewal', 'borrowerid' => $newProvider['borrower_id'], 'loanid' => $newProvider['loan_id']]);
                             return $url;
                         }
+                        if ($action == 'renewalmainapprove') {
+                            $url = Url::to(['loan/renewalmainapprove', 'id' => $newProvider['loan_id']]);
+                            return $url;
+                        }
                     }
                 ],
             ]
@@ -166,6 +190,7 @@ Pjax::begin([
         ?>
     </div>
 </div>
+<?php Pjax::end(); ?>
 <!-- Modal -->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
