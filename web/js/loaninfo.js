@@ -1,5 +1,6 @@
 $('#myModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
+    var matdate = button.data('maturitydate');
     var loanid = button.data('loanid');
     var modal = $(this);
 
@@ -11,7 +12,12 @@ $('#myModal').on('show.bs.modal', function (event) {
         $("#daily").text((parseInt(loaninfo[0][0].daily)).toFixed(2));
         $("#contact").text(loaninfo[0][0].contact_no);
         $("#reldate").text(loaninfo[0][0].release_date);
-        $("#matdate").text(loaninfo[0][0].maturity_date);
+        
+        if (loaninfo[0][0].maturity_date)
+            $("#matdate").text(loaninfo[0][0].maturity_date);
+        else
+            $("#matdate").text(matdate);
+        
         $("#begbalance").text((loaninfo[0][0].daily * loaninfo[0][0].term).toFixed(2));
         $("#canvasser").text(loaninfo[1][0].fullname);
         $("#storetype").text(loaninfo[2]);
@@ -57,7 +63,7 @@ $('#myModal').on('show.bs.modal', function (event) {
                 var pencolor = "#f41a1a";
             }
 
-            $("#pay-list").append("<tr bgcolor='" + color + "'><td>" + loaninfo[4][i].paydate + "</td><td>" + loaninfo[4][i].payamount + "</td><td style='color:" + delcolor + "'>" + (loaninfo[4][i].delamt).toFixed(2) + "</td><td style='color:"+ pencolor +"'>" + (loaninfo[4][i].penalty).toFixed(2) + "</td><td>" + 0 + "</td><td>" + (loaninfo[4][i].balance).toFixed(2) + "</td></tr>");
+            $("#pay-list").append("<tr bgcolor='" + color + "'><td>" + loaninfo[4][i].paydate + "</td><td>" + loaninfo[4][i].payamount + "</td><td style='color:" + delcolor + "'>" + (loaninfo[4][i].delamt).toFixed(2) + "</td><td style='color:" + pencolor + "'>" + (loaninfo[4][i].penalty).toFixed(2) + "</td><td>" + 0 + "</td><td>" + (loaninfo[4][i].balance).toFixed(2) + "</td></tr>");
 
             color = "#F9F9F9";
             delcolor = "#0f0d0d";

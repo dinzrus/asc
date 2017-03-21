@@ -79,7 +79,7 @@ if ($flash != null) {
                         'last_name',
                         'first_name',
                         'canvass_date:date',
-                        'canvasser',    
+                        'canvasser',
                         [
                             'class' => 'yii\grid\ActionColumn',
                             'template' => '{removenew}',
@@ -157,7 +157,7 @@ if ($flash != null) {
                     'options' => [
                         'placeholder' => 'Select borrower',
                         'multiple' => true,
-                        'required' => true,
+                        'required' => true, 
                     ],
                 ]);
                 ?>
@@ -167,7 +167,7 @@ if ($flash != null) {
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
             </div>
-            <?php ActiveForm::end() ?>
+<?php ActiveForm::end() ?>
         </div>
     </div>
 </div>

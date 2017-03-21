@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use kartik\widgets\Growl;
 
-$this->title = 'Accounts';
+$this->title = 'Borrower Accounts';
 $this->params['breadcrumbs'][] = ['label' => 'Borrowers', 'url' => ['site/accountledger']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -52,7 +52,7 @@ $this->registerJs($search);
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="box box-solid">
             <div class="box-header">
                 <center><h4><strong>Borrower</strong></h4></center>
@@ -70,18 +70,30 @@ $this->registerJs($search);
                 <br>
                 <table class="table table-hover table-bordered">
                     <tr>
-                        <td><strong>Name:</strong></td>
+                        <th>Name</th>
                         <td><?= $borrower->fullname ?></td>
                     </tr>
                     <tr>
-                        <td><strong>Address:</strong></td>
+                        <th>Gender</th>
+                        <td><?= $borrower->gender ?></td>
+                    </tr>
+                    <tr>
+                        <th>Civil Status</th>
+                        <td><?= $borrower->civil_status ?></td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
                         <td><?= $borrower->address_street_house_no . ', ' . $borrower->addressBarangay->barangay . ', ' . $borrower->addressCityMunicipality->municipality_city . ', ' . $borrower->addressProvince->province ?></td>
+                    </tr>
+                    <tr>
+                        <th>Contact No.</th>
+                        <td><?= $borrower->contact_no ?></td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
         <div class="box box-solid">
             <div class="box-header">
                 <center><h4><strong>Accounts</strong></h4></center>
@@ -94,9 +106,13 @@ $this->registerJs($search);
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         'loan_no',
-                        'release_date',
+                        [
+                            'attribute' => 'release_date',
+                            'format' => ['date', 'php:m/d/Y']
+                        ],
                         [
                             'label' => 'Maturity Date',
+                            'format' => ['date', 'php:m/d/Y'],
                             'value' => function($loanprovider) {
                                 if (!$loanprovider['maturity_date'])
                                     return \app\models\Loan::getMaturityDate($loanprovider['release_date'], $loanprovider['term']);
@@ -104,12 +120,44 @@ $this->registerJs($search);
                                     return $loanprovider['maturity_date'];
                             },
                         ],
-                        'daily',
+                        [
+                            'attribute' => 'daily',
+                            'format' => 'currency',
+                        ],
                         [
                             'label' => 'Status',
+                            'format' => 'html',
                             'value' => function ($loanprovider) {
-                                return ('p', Html::encode($loanprovider['status']), ['class' => 'alert alert-success']);
+                                if ($loanprovider['status'] == 'A') {
+                                    return Html::tag('small', 'Active', ['class' => 'label bg-green']);
+                                }
+                                if ($loanprovider['status'] == 'PD') {
+                                    return Html::tag('small', 'Pastdue', ['class' => 'label bg-red']);
+                                }
+                                if ($loanprovider['status'] == 'PO') {
+                                    return Html::tag('small', 'Pay out', ['class' => 'label bg-blue']);
+                                }
+                                if ($loanprovider['status'] == 'WA') {
+                                    return Html::tag('small', 'Waive', ['class' => 'label bg-blue']);
+                                }
                             }
+                        ],
+                        [
+                            'class' => '\kartik\grid\ActionColumn',
+                            'template' => '{viewledger}',
+                            'buttons' => [
+                                'viewledger' => function($url, $loanprovider) {
+                                    return Html::button('<i class="fa fa-eye"></i> View Ledger', [
+                                                'title' => Yii::t('app', 'View loan ledger'),
+                                                'class' => 'btn btn-primary btn-xs',
+                                                'type' => 'button',
+                                                'data-target' => '#myModal',
+                                                'data-toggle' => 'modal',
+                                                'data-loanid' => $loanprovider['id'],
+                                                'data-maturitydate' => app\models\Loan::getMaturityDate($loanprovider['release_date'], $loanprovider['term']),
+                                    ]);
+                                },
+                            ],
                         ],
                     ]
                 ]);
