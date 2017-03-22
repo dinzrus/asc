@@ -78,9 +78,11 @@
                             'url' => '#',
                             'items' => [
                                 ['label' => 'Loan Applicants (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/newapplicants'], "visible" => Yii::$app->user->can('ORGANIZER')],
-                                ['label' => 'C.I. Approval/Releasing (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'C.I. Approval & Scheduling (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/cicanvassapproval'], "visible" => Yii::$app->user->can('ORGANIZER')],
                                 ['label' => 'Approval for Releasing (m)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/releasingapproval'], "visible" => Yii::$app->user->can('IT')],
                                 ['label' => 'Releasing Confirmation (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['/site/approvedrelease'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Collection Posting (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['#'], "visible" => Yii::$app->user->can('ORGANIZER')],
+                                ['label' => 'Reposting Transaction (b)', 'icon' => 'fa  fa-caret-right', 'url' => ['#'], "visible" => Yii::$app->user->can('ORGANIZER')],
                             ],
                         ],
                         [
@@ -101,13 +103,13 @@
                         [
                             'label' => 'REPORTS',
                             'icon' => 'fa fa fa-print',
-                            'visible' => !Yii::$app->user->isGuest,
+                            'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => ['/report'],
                         ],
                         [
                             'label' => 'HELP',
                             'icon' => 'fa fa-question-circle-o',
-                            'visible' => !Yii::$app->user->isGuest,
+                            'visible' => Yii::$app->user->can('ORGANIZER'),
                             'url' => '#',
                         ],
                     ],

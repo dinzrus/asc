@@ -19,7 +19,7 @@ class Unit extends BaseUnit
 	    [
             [['unit_description', 'branch_id'], 'required'],
             [['branch_id'], 'integer'],
-            [['unit_description'], 'string', 'max' => 255]
+            [['unit_description'], 'string', 'max' => 255],
         ]);
     }
     

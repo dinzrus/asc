@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Loan;
+use app\models\Unit;
 use app\models\BorrowerSfrSearch;
 use app\models\Borrower;
 use app\models\Log;
@@ -73,97 +74,38 @@ class SiteController extends Controller {
      * Encoding of collection 
      * @return type
      */
-    public function actionBorrowerscollection($collection_date = null, $branch_id = null, $unit_id = null) {
-        $session = Yii::$app->session;
-        if ($collection_date == null) {
-            $isNew = false;
+    public function actionBorrowerscollection() {
+
+        if (strtoupper(Yii::$app->user->identity->branch->branch_description) == 'MAIN') {
+            $unitquery = Unit::find();
         } else {
-            $isNew = true;
+            $unitquery = Unit::find()->where(['branch_id' => Yii::$app->user->identity->branch->branch_id]);
         }
 
-        // get all active accounts
-        $accounts = Yii::$app->db->createCommand("SELECT\n" .
-                        "borrower.id AS borrower_id,\n" .
-                        "borrower.first_name,\n" .
-                        "borrower.last_name,\n" .
-                        "borrower.middle_name,\n" .
-                        "loan.id AS loan_id,\n" .
-                        "loan.loan_no,\n" .
-                        "loan.release_date,\n" .
-                        "loan.penalty_days,\n" .
-                        "loan.gross_amount,\n" .
-                        "loan.penalty,\n" .
-                        "loan_type.loan_description,\n" .
-                        "unit.unit_description,\n" .
-                        "branch.branch_description,\n" .
-                        "loan.maturity_date,\n" .
-                        "loan.daily,\n" .
-                        "loan.status,\n" .
-                        "loan.term,\n" .
-                        "(SELECT pay_amount FROM payment WHERE loan_id = loan.id AND pay_date = :colldate) as pay_amount\n" .
-                        "FROM\n" .
-                        "borrower\n" .
-                        "INNER JOIN loan ON loan.borrower = borrower.id\n" .
-                        "LEFT JOIN payment ON loan.id = payment.loan_id\n" .
-                        "INNER JOIN loan_type ON loan.loan_type = loan_type.loan_id\n" .
-                        "INNER JOIN unit ON loan.unit = unit.unit_id\n" .
-                        "INNER JOIN branch ON unit.branch_id = branch.branch_id\n" .
-                        "WHERE (loan.status = :active OR loan.status = :pastdue) AND unit.unit_id = :unit\n" .
-                        "GROUP BY loan.id\n" .
-                        "ORDER BY borrower.last_name ASC")->bindValues([':unit' => $unit_id, ':active' => Loan::APPROVED, ':pastdue' => Loan::PASTDUE, ':colldate' => $collection_date])->queryAll();
+        $unitProvider = new ActiveDataProvider([
+            'query' => $unitquery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'unit_description' => SORT_ASC,
+                ]
+            ],
+        ]);
 
-        //check if money exist
-        $money_exist = \app\models\Money::findOne(['collection_date' => $collection_date, 'branch_id' => $branch_id, 'unit_id' => $unit_id]);
-        // money record exist.. just load all the values from database
-        if (count($money_exist) == 1) {
-            if (Yii::$app->user->can('IT')) { // check permission to update..
-                if (Yii::$app->request->post() && $money_exist->load(Yii::$app->request->post())) {
-                    if ($money_exist->save()) {
-                        $session->setFlash('collection', "Collection updated successfully!");
-                        return $this->redirect(['site/borrowerscollection']);
-                    } else {
-                        return $this->render('borrowerscollection', [
-                                    'money' => $money_exist,
-                                    'isNew' => $isNew,
-                                    'accounts' => $accounts,
-                        ]);
-                    }
-                } else {
-                    return $this->render('borrowerscollection', [
-                                'money' => $money_exist,
-                                'isNew' => $isNew,
-                                'accounts' => $accounts,
-                    ]);
-                }
-            } else { // throw an unthorized exception if not allowed
-                throw new \yii\web\UnauthorizedHttpException;
-            }
-        } else {
-            $money = new \app\models\Money;
-
-            if (Yii::$app->request->post() && $money->load(Yii::$app->request->post())) {
-                if ($money->save()) {
-                    $session->setFlash('collection', "Collection saved successfully!");
-                    return $this->redirect(['site/borrowerscollection']);
-                } else {
-                    return $this->render('borrowerscollection', [
-                                'money' => $money,
-                                'isNew' => $isNew,
-                                'accounts' => $accounts,
-                    ]);
-                }
-            } else {
-                $money->collection_date = $collection_date;
-                $money->branch_id = $branch_id;
-                $money->unit_id = $unit_id;
-
-                return $this->render('borrowerscollection', [
-                            'money' => $money,
-                            'isNew' => $isNew,
-                            'accounts' => $accounts,
-                ]);
-            }
-        }
+        return $this->render('borrowerscollection', [
+                    'unitProvider' => $unitProvider,
+        ]);
+    }
+    
+    /**
+     * 
+     * @param int $id unit_id
+     */
+    public function actionEncodecollection($id) {
+        // get all the accounts 
+        return $this->render('unitcollection');
     }
 
     public function actionCanvassedapproval() {
