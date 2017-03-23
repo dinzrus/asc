@@ -3,7 +3,7 @@
 /* @var $searchModel app\models\BorrowerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\helpers\Html;
 
 $this->title = 'Borrowers';
@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         GridView::widget([
             'dataProvider' => $borrowers,
             'filterModel' => $borrowerSearch,
+            'pjax' => true,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'last_name',

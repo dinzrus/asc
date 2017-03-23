@@ -2,6 +2,7 @@
 $this->title = 'Borrowers Loan Collection';
 
 use yii\widgets\ActiveForm;
+use kartik\grid\GridView;
 use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = ['label' => 'Unit List', 'url' => ['site/borrowerscollection']];
@@ -39,61 +40,73 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <div class="panel panel-primary">
             <style>
                 table th {
+                    font-size: 1.2em;
+                    text-align: center;
+                }
+                .align-center {
+                    text-align: center;
+                    font-weight: bolder;
+                    font-size: 1.3em;
+                }
+
+                .align-right {
+                    text-align: right;
+                    font-weight: bolder;
                     font-size: 1.3em;
                 }
             </style>
             <div class="panel-body">
-                <table class="table table-bordered">
-                    <tr>
+                <table class="table table-bordered table-condensed">
+                    <tr bgcolor="#92e5be">
                         <th>Transaction Date</th>
-                        <td></td>
+                        <td class="align-center"><?= $money->collection_date ?></td>
                         <th>Unit Code</th>
-                        <td></td>
+                        <td class="align-center"><?= $unit->unit_description ?></td>
                     </tr>
                 </table>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-condensed table-striped">
                     <tr>
-                        <th>No. of Pieces</th>
-                        <th>Denomination</th>
-                        <th>Total Amount</th>
+                        <th><center>No. of Pieces</center></th>
+                    <th><center>Denomination</center></th>
+                    <th class="align-right">Total Amount</th>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>1000</td>
-                        <td></td>
+                        <td><?= $form->field($money, 'money_1000')->textInput(['class' => 'align-center form-control'])->label(false) ?></td>
+                        <td class="align-center">1000</td>
+                        <td><?= $form->field($money, 'total_1000')->textInput(['class' => 'align-right form-control', 'readonly' => true])->label(false) ?></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>500</td>
-                        <td></td>
+                        <td><?= $form->field($money, 'money_500')->textInput(['class' => 'align-center form-control'])->label(false) ?></td>
+                        <td class="align-center">500</td>
+                        <td><?= $form->field($money, 'total_500')->textInput(['class' => 'align-right form-control', 'readonly' => true])->label(false) ?></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>200</td>
-                        <td></td>
+                        <td><?= $form->field($money, 'money_200')->textInput(['class' => 'align-center form-control'])->label(false) ?></td>
+                        <td class="align-center">200</td>
+                        <td><?= $form->field($money, 'total_200')->textInput(['class' => 'align-right form-control', 'readonly' => true])->label(false) ?></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>100</td>
-                        <td></td>
+                        <td><?= $form->field($money, 'money_100')->textInput(['class' => 'align-center form-control'])->label(false) ?></td>
+                        <td class="align-center">100</td>
+                        <td><?= $form->field($money, 'total_100')->textInput(['class' => 'align-right form-control', 'readonly' => true])->label(false) ?></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>50</td>
-                        <td></td>
+                        <td><?= $form->field($money, 'money_50')->textInput(['class' => 'align-center form-control'])->label(false) ?></td>
+                        <td class="align-center">50</td>
+                        <td><?= $form->field($money, 'total_50')->textInput(['class' => 'align-right form-control', 'readonly' => true])->label(false) ?></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>20</td>
-                        <td></td>
+                        <td><?= $form->field($money, 'money_20')->textInput(['class' => 'align-center form-control'])->label(false) ?></td>
+                        <td class="align-center">20</td>
+                        <td><?= $form->field($money, 'total_20')->textInput(['class' => 'align-right form-control', 'readonly' => true])->label(false) ?></td>
                     </tr>
                     <tr>
-                        <th colspan="2">TOTAL COINS</th>
-                        <td></td>
+                        <th class="align-right" colspan="2">TOTAL COINS</th>
+                        <td><?= $form->field($money, 'money_coin')->textInput(['class' => 'align-right form-control'])->label(false) ?></td>
                     </tr>
                     <tr>
-                        <th colspan="2">TOTAL COLLECTION</th>
-                        <td></td>
+                        <th class="align-right" colspan="2">TOTAL COLLECTION</th>
+                        <td><?= $form->field($money, 'money_total_amount')->textInput(['class' => 'align-right form-control', 'readonly' => true])->label(false) ?></td>
                     </tr>
                 </table>
             </div>
@@ -113,7 +126,51 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     <div class="box-body">
         <div class="panel panel-primary">
             <div class="panel-body">
-
+                <?=
+                GridView::widget([
+                    'dataProvider' => $loan_provider_active,
+                    'pjax' => true,
+                    'columns' => [
+                        [
+                            'class' => 'kartik\grid\SerialColumn',
+                        ],
+                        'loan_no',
+                        'name',
+                        [
+                            'label' => 'Total Balance',
+                            'value' => function () {
+                                return 1000.00;
+                            },
+                        ],
+                        'daily',
+                        [
+                            'label' => 'Adv./ Del.',
+                            'value' => function() {
+                                return 1000.00;
+                            },
+                        ],
+                        [
+                            'label' => 'Penalty',
+                            'value' => function() {
+                                return 1000.00;
+                            },
+                        ],
+                        [
+                            'label' => 'Debit',
+                            'value' => function() {
+                                return 1000.00;
+                            },
+                        ],
+                        [
+                            'label' => 'Payment',
+                            'format' => 'raw',
+                            'value' => function() {
+                                return Html::textInput('payment', null, ['class' => 'form-control', 'id' => 'payment-amount']);
+                            },
+                        ],
+                    ]
+                ]);
+                ?>
             </div>
         </div>
     </div>
