@@ -130,45 +130,45 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 GridView::widget([
                     'dataProvider' => $loan_provider_active,
                     'pjax' => true,
-                    'columns' => [
-                        [
-                            'class' => 'kartik\grid\SerialColumn',
-                        ],
-                        'loan_no',
-                        'name',
-                        [
-                            'label' => 'Total Balance',
-                            'value' => function () {
-                                return 1000.00;
-                            },
-                        ],
-                        'daily',
-                        [
-                            'label' => 'Adv./ Del.',
-                            'value' => function() {
-                                return 1000.00;
-                            },
-                        ],
-                        [
-                            'label' => 'Penalty',
-                            'value' => function() {
-                                return 1000.00;
-                            },
-                        ],
-                        [
-                            'label' => 'Debit',
-                            'value' => function() {
-                                return 1000.00;
-                            },
-                        ],
-                        [
-                            'label' => 'Payment',
-                            'format' => 'raw',
-                            'value' => function() {
-                                return Html::textInput('payment', null, ['class' => 'form-control', 'id' => 'payment-amount']);
-                            },
-                        ],
-                    ]
+//                    'columns' => [
+//                        [
+//                            'class' => 'kartik\grid\SerialColumn',
+//                        ],
+//                        'loan_no',
+//                        'name',
+//                        [
+//                            'label' => 'Total Balance',
+//                            'value' => function () {
+//                                return 1000.00;
+//                            },
+//                        ],
+//                        'daily',
+//                        [
+//                            'label' => 'Adv./ Del.',
+//                            'value' => function() {
+//                                return 1000.00;
+//                            },
+//                        ],
+//                        [
+//                            'label' => 'Penalty',
+//                            'value' => function() {
+//                                return 1000.00;
+//                            },
+//                        ],
+//                        [
+//                            'label' => 'Debit',
+//                            'value' => function() {
+//                                return 1000.00;
+//                            },
+//                        ],
+//                        [
+//                            'label' => 'Payment',
+//                            'format' => 'raw',
+//                            'value' => function() {
+//                                return Html::textInput('payment', null, ['class' => 'form-control', 'id' => 'payment-amount']);
+//                            },
+//                        ],
+ //                   ]
                 ]);
                 ?>
             </div>

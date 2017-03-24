@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Loan;
 use app\models\Unit;
+use app\models\Payment;
 use app\models\Money;
 use app\models\BorrowerSfrSearch;
 use app\models\Borrower;
@@ -19,6 +20,7 @@ use yii\helpers\Json;
 use yii\data\SqlDataProvider;
 use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 class SiteController extends Controller {
 
@@ -105,30 +107,22 @@ class SiteController extends Controller {
      * @param int $id unit_id
      */
     public function actionEncodecollection($id) {
-        // ACTIVE 
-        $loan_count_active = Yii::$app->db->createCommand("SELECT\n" .
-                        "COUNT(*)\n" .
-                        "FROM\n" .
-                        "borrower\n" .
-                        "INNER JOIN loan ON loan.borrower = borrower.id\n" .
-                        "LEFT JOIN payment ON payment.loan_id = loan.id")->queryScalar();
-
-        $loan_provider_active = new SqlDataProvider([
-            'sql' => "SELECT\n" .
-            "CONCAT(borrower.last_name,', ',borrower.first_name,' ',borrower.middle_name,' ', borrower.suffix) as name,\n" .
-            "loan.id AS loan_id,\n" .
-            "loan.loan_no,\n" .
-            "loan.daily,\n" .
-            "loan.release_date,\n" .
-            "payment.id AS pay_id,\n" .
-            "payment.pay_amount\n" .
-            "FROM\n" .
-            "borrower\n" .
-            "INNER JOIN loan ON loan.borrower = borrower.id\n" .
-            "LEFT JOIN payment ON payment.loan_id = loan.id",
-            'totalCount' => $loan_count_active,
+        
+        $payments = [];
+        
+        $loans = Loan::find()->all();
+        
+        foreach ($loans as $ln) {
+            $pay = new Payment();
+            $pay->loan_id = $ln->id;
+            $pay->borrower_id = $ln->borrower;
+            $payments[] = $pay;
+        }
+        
+        $payment_provider = new ArrayDataProvider([
+            'allModels' => $payments,
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => 10,
             ],
         ]);
 
@@ -141,7 +135,7 @@ class SiteController extends Controller {
         return $this->render('unitcollection', [
                     'money' => $money,
                     'unit' => $unit,
-                    'loan_provider_active' => $loan_provider_active,
+                    'loan_provider_active' => $payment_provider,
         ]);
     }
 
