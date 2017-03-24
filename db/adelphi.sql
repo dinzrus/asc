@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100113
 File Encoding         : 65001
 
-Date: 2017-03-20 17:22:19
+Date: 2017-03-24 17:35:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3193,8 +3193,8 @@ CREATE TABLE `borrower` (
 -- ----------------------------
 INSERT INTO `borrower` VALUES ('6', null, 'Mary Joy', 'Asis ', 'Hinacay', '', '1990-10-10', '25', 'Guildulman, Bohol', '4', '6', '6', 'UCMA Village', 'Single', '09101737965', '2016-09-16', '', '', '', '', 'Russel Dinoy', 'Programmer', '25', '1991-06-11', '0', 'AR', '5', null, 'B', '2016-09-16 13:22:28', '2016-09-20 10:34:18', 'Female', 'Norma W. Dinoy', '36', '1980-07-22', 'Olipio T. Dinoy', '27', '1989-09-13', '2', null, null);
 INSERT INTO `borrower` VALUES ('7', null, 'Joseph', 'Baldoza', 'Loso', '', '1985-07-18', '31', 'Apas, Cebu City, Cebu', '4', '6', '6', 'Kalibat', 'Married', '0945124885', '2016-09-22', '', '', '', '', 'Marlyn Baldoza', 'Teacher', '32', '1984-06-19', '3', 'CA', '4', null, 'B', '2016-09-22 14:51:45', '2017-03-09 13:33:56', 'Male', 'Mothername', '42', '1974-06-18', 'Fathername', '316', '1700-06-08', '2', null, '10');
-INSERT INTO `borrower` VALUES ('8', null, 'MILANILA', 'NAZARENO', 'EMBODO', '', '1980-01-06', '37', 'SIBONGA CEBU', '4', '105', '1145', 'SUMAGUAN', 'Single', '09434416589', '2016-11-02', '', '', '', '', '', '', '0', null, '1', 'RN', '2', null, 'B', '2016-09-30 09:54:26', '2017-03-09 16:06:17', 'Female', 'FELICISIMA NAZARENO', '68', '1948-08-06', 'CIRILO NAZARENO', '67', '1949-07-09', '2', null, '10');
-INSERT INTO `borrower` VALUES ('9', null, 'JERAME', 'FAMUAGAN', 'BANQUIL', '', '1988-12-03', '28', 'DUB-DOB, BOGO, ARGAO, CEBU', '4', '105', '1116', 'N/A', 'Single', '09273343935', '2016-08-28', '', '', '', '', '', '', '0', null, '1', 'RN', '2', null, 'B', '2016-09-30 10:05:32', '2017-03-09 15:55:57', 'Female', 'JOVENCIA FAMULAGAN BANQUIL', '52', '1964-06-01', 'LUCAS GELBOLINGO FAMULAGAN', '54', '1962-10-18', '2', null, '10');
+INSERT INTO `borrower` VALUES ('8', null, 'MILANILA', 'NAZARENO', 'EMBODO', '', '1980-01-06', '37', 'SIBONGA CEBU', '4', '105', '1145', 'SUMAGUAN', 'Single', '09434416589', '2016-11-02', '', '', '', '', '', '', '0', null, '1', 'AR', '2', null, 'B', '2016-09-30 09:54:26', '2017-03-09 16:06:17', 'Female', 'FELICISIMA NAZARENO', '68', '1948-08-06', 'CIRILO NAZARENO', '67', '1949-07-09', '2', null, '10');
+INSERT INTO `borrower` VALUES ('9', null, 'JERAME', 'FAMUAGAN', 'BANQUIL', '', '1988-12-03', '28', 'DUB-DOB, BOGO, ARGAO, CEBU', '4', '105', '1116', 'N/A', 'Single', '09273343935', '2016-08-28', '', '', '', '', '', '', '0', null, '1', 'AR', '2', null, 'B', '2016-09-30 10:05:32', '2017-03-09 15:55:57', 'Female', 'JOVENCIA FAMULAGAN BANQUIL', '52', '1964-06-01', 'LUCAS GELBOLINGO FAMULAGAN', '54', '1962-10-18', '2', null, '10');
 INSERT INTO `borrower` VALUES ('10', null, 'MRIA TARA', 'MONDAREZ', 'CONDE', '', '2016-08-01', '0', 'Cebu City', '4', '6', '36', '576- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09267073405', '2016-08-29', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:13:12', '2017-03-06 10:32:18', 'Female', '', '0', null, 'MARY ANN M. SAQUIN', '54', '1962-10-01', '2', null, '10');
 INSERT INTO `borrower` VALUES ('11', null, 'SPUDSCOTTIE', 'SAQUIN', 'MONDARES', '', '1992-12-31', '23', 'Cebu City', '4', '6', '36', '577- P. DEL ROSARIO EXT. CEBU CITY', 'Single', '09087659315', '1992-12-31', '', '', '', '', '', '', '0', null, '1', 'AR', '4', null, 'B', '2016-09-30 10:22:57', '2016-09-30 10:22:57', 'Male', '', '0', null, '', '0', null, '2', null, null);
 INSERT INTO `borrower` VALUES ('12', null, 'SIGFRED CHRISTIAN', 'GUAREN', 'REÑA', '', '1981-05-10', '35', 'BULACAO', '4', '6', '57', '132', 'Single', '09434416589', '2016-09-30', '', '', '', '', '', '', '0', null, '1', 'CA', '4', null, 'B', '2016-09-30 10:31:31', '2017-03-06 09:28:38', 'Male', 'ASUNCION REÑA', '0', '2016-08-10', 'REYNALDO GUAREN', '52', '1964-06-10', '2', null, '10');
@@ -3590,7 +3590,7 @@ CREATE TABLE `jumpdate` (
   `jump_date` date NOT NULL,
   `jump_description` varchar(255) NOT NULL,
   PRIMARY KEY (`jump_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of jumpdate
@@ -3601,6 +3601,7 @@ INSERT INTO `jumpdate` VALUES ('3', '2017-01-02', 'Adelphi Declared Holiday');
 INSERT INTO `jumpdate` VALUES ('4', '2017-01-24', 'Wala duty');
 INSERT INTO `jumpdate` VALUES ('6', '2016-12-21', 'yyy');
 INSERT INTO `jumpdate` VALUES ('7', '2016-12-22', 'Wla me work');
+INSERT INTO `jumpdate` VALUES ('9', '2017-03-24', 'No work');
 
 -- ----------------------------
 -- Table structure for loan
@@ -3645,6 +3646,7 @@ CREATE TABLE `loan` (
   KEY `loan_type` (`loan_type`),
   KEY `loan_ibfk_2` (`unit`),
   KEY `loan_ibfk_3` (`borrower`),
+  KEY `id` (`id`),
   CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`loan_type`) REFERENCES `loan_type` (`loan_id`) ON UPDATE CASCADE,
   CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`unit`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4600 DEFAULT CHARSET=latin1;
@@ -3654,7 +3656,7 @@ CREATE TABLE `loan` (
 -- ----------------------------
 INSERT INTO `loan` VALUES ('1', '010-03062017693-M1', '1', '10', '15', null, null, '110', '52', '5170', '1034', '50', '50', '0', '285', '300', '0', '809.08', '3', '588.5', '3939.57', '15', '3', 'Totam aut aut in laudantium, reiciendis dolor tenetur sint explicabo. Est.', '1', '1978-11-22', 'NA', null, null, '2017-03-06 10:32:18', '2017-03-06 10:32:18', '10', '10');
 INSERT INTO `loan` VALUES ('2', '007-03092017571-M1', '1', '7', '15', '2017-03-20', null, '120', '52', '5640', '1128', '50', '50', '0', '295', '300', '0', '830.36', '3', '642', '4345.44', '20', '3', 'Itaque dicta sequi reprehenderit aut odit et modi laboriosam, sit, est rerum aut expedita sit, quia.', '1', '1991-02-25', 'A', null, null, '2017-03-09 13:33:56', '2017-03-20 14:50:48', '10', '10');
-INSERT INTO `loan` VALUES ('3', '009-03092017552-B1', '3', '9', '6', null, null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Veritatis voluptate est in cupiditate minus minima dolore placeat, sunt.', '2', '1996-12-12', 'IA', null, null, '2017-03-09 15:55:57', '2017-03-09 15:55:57', '10', '10');
+INSERT INTO `loan` VALUES ('3', '009-03092017552-B1', '3', '9', '6', '2017-03-21', null, '90', '52', '4230', '846', '50', '50', '0', '265', '200', '0', '666.52', '3', '481.5', '3227.83', '15', '3', 'Veritatis voluptate est in cupiditate minus minima dolore placeat, sunt.', '2', '1996-12-12', 'A', null, null, '2017-03-09 15:55:57', '2017-03-21 10:34:17', '10', '10');
 INSERT INTO `loan` VALUES ('5', '025-03102017393-B4', '1', '25', '9', '2017-03-20', '2017-05-17', '600', '50', '28200', '5640', '50', '50', '0', '775', '300', '0', '1851.8', '2', '2328', '22945.2', '90', '3', 'Enim eligendi non deserunt excepturi nesciunt, ut vitae veniam, ut irure tempor lorem perspiciatis, tempora aut nostrud harum.', '2', '2012-12-17', 'A', null, null, '2017-03-10 09:39:14', '2017-03-20 14:48:15', '19', '10');
 INSERT INTO `loan` VALUES ('4599', '008-03092017257-B1', '2', '8', '6', '2017-03-20', '2017-05-19', '100', '52', '4700', '940', '50', '50', '0', '275', '300', '0', '787.8', '3', '535', '3533.7', '15', '3', 'Sit fugit, officiis molestiae voluptatem, quia id ratione libero voluptas unde officiis commodo est qui sed consequat. Amet, beatae aspernatur.', '2', '1981-08-17', 'A', null, null, '2017-03-09 16:06:17', '2017-03-20 14:49:26', '10', '10');
 
@@ -3832,7 +3834,7 @@ CREATE TABLE `log` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `log_type` (`log_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of log
@@ -4087,6 +4089,23 @@ INSERT INTO `log` VALUES ('247', 'login', 'user login: joseph', '2017-03-17 09:1
 INSERT INTO `log` VALUES ('248', 'logout', 'user logout: joseph', '2017-03-17 09:27:19', '19', '2');
 INSERT INTO `log` VALUES ('249', 'login', 'user login: russel', '2017-03-17 09:27:26', '10', '9');
 INSERT INTO `log` VALUES ('250', 'login', 'user login: russel', '2017-03-20 09:40:43', '10', '9');
+INSERT INTO `log` VALUES ('251', 'login', 'user login: russel', '2017-03-21 08:08:17', '10', '9');
+INSERT INTO `log` VALUES ('252', 'login', 'user login: russel', '2017-03-21 09:15:29', '10', '9');
+INSERT INTO `log` VALUES ('253', 'login', 'user login: russel', '2017-03-22 09:04:41', '10', '9');
+INSERT INTO `log` VALUES ('254', 'logout', 'user logout: russel', '2017-03-22 10:37:25', '10', '9');
+INSERT INTO `log` VALUES ('255', 'login', 'user login: joseph', '2017-03-22 10:37:38', '19', '2');
+INSERT INTO `log` VALUES ('256', 'logout', 'user logout: joseph', '2017-03-22 11:17:14', '19', '2');
+INSERT INTO `log` VALUES ('257', 'login', 'user login: russel', '2017-03-22 11:17:28', '10', '9');
+INSERT INTO `log` VALUES ('258', 'logout', 'user logout: russel', '2017-03-22 11:19:13', '10', '9');
+INSERT INTO `log` VALUES ('259', 'login', 'user login: joseph', '2017-03-22 11:19:28', '19', '2');
+INSERT INTO `log` VALUES ('260', 'logout', 'user logout: joseph', '2017-03-22 11:39:37', '19', '2');
+INSERT INTO `log` VALUES ('261', 'login', 'user login: russel', '2017-03-22 11:39:45', '10', '9');
+INSERT INTO `log` VALUES ('262', 'logout', 'user logout: russel', '2017-03-22 12:39:00', '10', '9');
+INSERT INTO `log` VALUES ('263', 'login', 'user login: russel', '2017-03-22 12:39:09', '10', '9');
+INSERT INTO `log` VALUES ('264', 'logout', 'user logout: russel', '2017-03-22 12:39:18', '10', '9');
+INSERT INTO `log` VALUES ('265', 'login', 'user login: joseph', '2017-03-22 12:39:27', '19', '2');
+INSERT INTO `log` VALUES ('266', 'login', 'user login: joseph', '2017-03-23 08:37:01', '19', '2');
+INSERT INTO `log` VALUES ('267', 'login', 'user login: joseph', '2017-03-24 08:36:53', '19', '2');
 
 -- ----------------------------
 -- Table structure for migration
@@ -4312,22 +4331,26 @@ DROP TABLE IF EXISTS `payment`;
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `loan_id` int(11) NOT NULL,
+  `borrower_id` int(11) NOT NULL,
+  `money_id` int(11) NOT NULL,
   `pay_amount` float(255,2) NOT NULL,
   `pay_date` date NOT NULL,
-  `money_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `created_by` varchar(255) DEFAULT NULL,
   `updated_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `loan_no` (`loan_id`),
-  KEY `payment_ibfk_2` (`money_id`)
+  KEY `payment_ibfk_2` (`money_id`),
+  KEY `borrower_id` (`borrower_id`),
+  CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`borrower_id`) REFERENCES `borrower` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`money_id`) REFERENCES `money` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `payment_ibfk_3` FOREIGN KEY (`loan_id`) REFERENCES `loan` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of payment
 -- ----------------------------
-INSERT INTO `payment` VALUES ('1', '1', '200.00', '2017-02-03', '1', '2017-02-04 10:30:52', '2017-02-04 10:30:52', '10', '10');
 
 -- ----------------------------
 -- Table structure for position
