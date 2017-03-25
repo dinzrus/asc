@@ -10,9 +10,9 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Loan;
 use app\models\Unit;
-use app\models\Payment;
 use app\models\Money;
 use app\models\BorrowerSfrSearch;
+use app\models\CollectionActiveSearch;
 use app\models\Borrower;
 use app\models\Log;
 use yii\web\UploadedFile;
@@ -20,7 +20,6 @@ use yii\helpers\Json;
 use yii\data\SqlDataProvider;
 use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 
 class SiteController extends Controller {
 
@@ -107,24 +106,10 @@ class SiteController extends Controller {
      * @param int $id unit_id
      */
     public function actionEncodecollection($id) {
-        
-        $payments = [];
-        
-        $loans = Loan::find()->all();
-        
-        foreach ($loans as $ln) {
-            $pay = new Payment();
-            $pay->loan_id = $ln->id;
-            $pay->borrower_id = $ln->borrower;
-            $payments[] = $pay;
-        }
-        
-        $payment_provider = new ArrayDataProvider([
-            'allModels' => $payments,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
+
+        $active_borrower_search = new CollectionActiveSearch();
+
+        $payment_provider = $active_borrower_search->search(Yii::$app->request->queryParams);
 
 
         $unit = Unit::findOne(['unit_id' => $id]);
@@ -135,6 +120,7 @@ class SiteController extends Controller {
         return $this->render('unitcollection', [
                     'money' => $money,
                     'unit' => $unit,
+                    'active_borrower_search' => $active_borrower_search,
                     'loan_provider_active' => $payment_provider,
         ]);
     }
